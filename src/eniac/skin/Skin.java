@@ -1,0 +1,94 @@
+/*
+ * Created on 10.09.2003
+ *
+ * To change the template for this generated file go to
+ * Window - Preferences - Java - Code Generation - Code and Comments
+ */
+package eniac.skin;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+
+import eniac.io.Proxy;
+import eniac.io.Tags;
+import eniac.util.EProperties;
+import eniac.util.StringConverter;
+
+/**
+ * @author zoppke
+ * 
+ * To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Generation - Code and Comments
+ */
+public class Skin {
+
+    // default image and its static initialization
+    public static final Image DEFAULT_IMAGE;
+    static {
+        DEFAULT_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        Graphics g = DEFAULT_IMAGE.getGraphics();
+        g.setColor(StringConverter.toColor(EProperties.getInstance().getProperty(
+                "DEFAULT_COLOR")));
+        g.drawLine(0, 0, 0, 0);
+    }
+
+    // ////////////////////////////// fields
+    // ////////////////////////////////////
+
+    // array of lods
+    private int[] _minHeight;
+
+    private int[] _maxHeight;
+
+    // array od zoom steps
+    int[] _zoomSteps;
+
+    // proxy to the current skin
+    private Proxy _proxy;
+
+    // ////////////////////////////// lifecycle
+    // /////////////////////////////////
+
+    // private constructor for instantiating singleton object
+    public Skin(Proxy proxy) {
+        _proxy = proxy;
+
+        // init lods
+        String s = (String) _proxy.get(Tags.NUMBER_OF_LODS);
+        int numberOfLods = StringConverter.toInt(s);
+        _minHeight = new int[numberOfLods];
+        _maxHeight = new int[numberOfLods];
+
+        // init zoom steps
+        s = (String) _proxy.get(Tags.ZOOM_STEPS);
+        _zoomSteps = StringConverter.toIntArray(s);
+    }
+
+    // //////////////////////////// methods
+    // /////////////////////////////////////
+
+    public Proxy getProxy() {
+        return _proxy;
+    }
+
+    public int getLodByHeight(int height) {
+        // recurse on all levels of detail and return fitting zoom
+        for (int i = 0; i < _minHeight.length; ++i) {
+            if (_minHeight[i] <= height && height <= _maxHeight[i]) {
+                return i;
+            }
+        }
+        // no appropriate lod found.
+        return -1;
+    }
+
+    public void setLod(int lod, int minHeight, int maxHeight) {
+        _minHeight[lod] = minHeight;
+        _maxHeight[lod] = maxHeight;
+    }
+
+    public int[] getZoomSteps() {
+        return _zoomSteps;
+    }
+}
