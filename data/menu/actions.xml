@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE menu>
+<actions number_of_actions="14">
+	<action key="open_configuration" class="eniac.menu.action.OpenConfiguration">
+		<property name="SmallIcon" value="menu/open_configuration.gif"/>
+		<property name="SID_Name" value="open_configuration_name"/>
+		<property name="SID_ShortDescription" value="open_configuration_short"/>
+	</action>
+	<action key="save_configuration" class="eniac.menu.action.SaveConfiguration">
+		<property name="SmallIcon" value="menu/save_configuration.gif"/>
+		<property name="SID_Name" value="save_configuration_name"/>
+		<property name="SID_ShortDescription" value="save_configuration_short"/>
+	</action>
+	<action key="show_log" class="eniac.menu.action.ToggleAction">
+		<property name="SmallIcon" value="menu/show_log.gif"/>
+		<property name="SID_Name" value="show_log_name"/>
+		<property name="SID_ShortDescription" value="show_log_short"/>
+		<property name="status_property" value="show_log"/>
+	</action>
+	<action key="show_overview" class="eniac.menu.action.ToggleAction">
+		<property name="SmallIcon" value="menu/show_overview.gif"/>
+		<property name="SID_Name" value="show_overview_name"/>
+		<property name="SID_ShortDescription" value="show_overview_short"/>
+		<property name="status_property" value="show_overview"/>
+	</action>
+	<!--we just have one skin for now, so don't offer to change if cannot-->
+	<!--action key="open_skin" class="eniac.menu.action.OpenSkin">
+	<property name="SmallIcon" value="menu/open_skin.gif" />
+	<property name="SID_Name" value="open_skin_name"/>
+	<property name="SID_ShortDescription" value="open_skin_short"/>
+	</action-->
+	<action key="change_language" class="eniac.menu.action.ChangeLanguage">
+		<property name="SmallIcon" value="menu/change_language.gif"/>
+		<property name="SID_Name" value="change_language_name"/>
+		<property name="SID_ShortDescription" value="change_language_short"/>
+	</action>
+	<action key="highlight_pulse" class="eniac.menu.action.ToggleAction">
+		<property name="SmallIcon" value="menu/highlight_pulse.gif"/>
+		<property name="SID_Name" value="highlight_pulse_name"/>
+		<property name="SID_ShortDescription" value="highlight_pulse_short"/>
+		<property name="status_property" value="highlight_pulse"/>
+	</action>
+	<action key="zoom_in" class="eniac.menu.action.ZoomIn">
+		<property name="SmallIcon" value="menu/zoom_in.gif"/>
+		<property name="SID_Name" value="zoom_in_name"/>
+		<property name="SID_ShortDescription" value="zoom_in_short"/>
+	</action>
+	<action key="zoom_out" class="eniac.menu.action.ZoomOut">
+		<property name="SmallIcon" value="menu/zoom_out.gif"/>
+		<property name="SID_Name" value="zoom_out_name"/>
+		<property name="SID_ShortDescription" value="zoom_out_short"/>
+	</action>
+	<action key="fit_height" class="eniac.menu.action.ZoomFitHeight">
+		<property name="SmallIcon" value="menu/zoom_fit_height.gif"/>
+		<property name="SID_Name" value="fit_height_name"/>
+		<property name="SID_ShortDescription" value="fit_height_short"/>
+	</action>
+	<action key="fit_width" class="eniac.menu.action.ZoomFitWidth">
+		<property name="SmallIcon" value="menu/zoom_fit_width.gif"/>
+		<property name="SID_Name" value="fit_width_name"/>
+		<property name="SID_ShortDescription" value="fit_width_short"/>
+	</action>
+	<action key="about" class="eniac.menu.action.About">
+		<property name="SmallIcon" value="menu/about.gif"/>
+		<property name="SID_Name" value="about_name"/>
+		<property name="SID_ShortDescription" value="about_short"/>
+	</action>
+	<action key="faq" class="eniac.menu.action.Faq">
+		<property name="SmallIcon" value="menu/faq.gif"/>
+		<property name="SID_Name" value="faq_name"/>
+		<property name="SID_ShortDescription" value="faq_short"/>
+	</action>
+	<action key="settings" class="eniac.menu.action.SettingsAction">
+		<property name="SmallIcon" value="menu/settings.gif"/>
+		<property name="SID_Name" value="settings_name"/>
+		<property name="SID_ShortDescription" value="settings_short"/>
+	</action>
+</actions>

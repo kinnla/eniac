@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE eniac>
+
+<eniac>
+
+	<!--###################### proxy ######################-->
+
+	<proxy>
+		<name>Small</name>
+		<description>
+A small configuration consisting out of
+- 1 Initiating unit,
+- 1 cycling unit,
+- 2 Accumulators.
+No program is loaded.
+		</description>
+	</proxy>
+
+	<!--###################### Configuration ######################-->
+
+	<configuration_4 id="0" name="Configuration" grid="0,0,1,1" index="0">
+
+		<!--###################### Accumulator 1 ######################-->
+
+		<accumulator_unit id="2" name="Accumulator 1" grid="2,2,3,3" index="0">
+			<accu_heaters id="55" name="Heaters (Power switch)" grid="1,1,2,3" index="0" value="off"/>
+			<blend_16 id="3" name="" grid="0,4,8,5" index="0"/>
+			<blend_8 id="13" name="" grid="2,2,6,3" index="0"/>
+			<digit_connector id="54" name="Digit connector alpha (input)" grid="1,0,9,1" index="0" io="in" partner="-1"/>
+			<digit_connector id="4" name="Digit connector beta (input)" grid="9,0,10,1" index="1" io="in" partner="-1"/>
+			<digit_connector id="5" name="Digit connector gamma (input)" grid="10,0,11,1" index="2" io="in" partner="-1"/>
+			<digit_connector id="6" name="Digit connector delta (input)" grid="11,0,12,1" index="3" io="in" partner="-1"/>
+			<digit_connector id="7" name="Digit connector epsilon (input)" grid="12,0,13,1" index="4" io="in" partner="-1"/>
+			<digit_connector id="8" name="Digit connector A (output)" grid="13,0,14,1" index="5" io="out" partner="-1"/>
+			<digit_connector id="9" name="Digit connector S (output)" grid="14,0,7,1" index="6" io="out" partner="-1"/>
+			<inter_connector id="10" name="Inter-connector IL1" grid="0,0,1,1" index="0" io="out" partner="-1"/>
+			<inter_connector id="11" name="Inter-connector IL2" grid="0,1,1,3" index="1" io="in" partner="-1"/>
+			<inter_connector id="12" name="Inter-connector IR1" grid="7,0,8,1" index="2" io="in" partner="-1"/>
+			<inter_connector id="304" name="Inter-connector IR2" grid="7,1,8,3" index="3" io="out" partner="-1"/>
+			<operation_switch id="14" name="Operation switch 1" grid="2,1,3,2" index="0" value="alpha" flag="false"/>
+			<operation_switch id="15" name="Operation switch 2" grid="3,1,4,2" index="1" value="alpha" flag="false"/>
+			<operation_switch id="16" name="Operation switch 3" grid="4,1,5,2" index="2" value="alpha" flag="false"/>
+			<operation_switch id="17" name="Operation switch 4" grid="5,1,6,2" index="3" value="alpha" flag="false"/>
+			<operation_switch id="18" name="Operation switch 5" grid="0,3,1,4" index="4" value="alpha" flag="false"/>
+			<operation_switch id="19" name="Operation switch 6" grid="1,3,2,4" index="5" value="alpha" flag="false"/>
+			<operation_switch id="20" name="Operation switch 7" grid="2,3,3,4" index="6" value="alpha" flag="false"/>
+			<operation_switch id="21" name="Operation switch 8" grid="3,3,4,4" index="7" value="alpha" flag="false"/>
+			<operation_switch id="22" name="Operation switch 9" grid="4,3,5,4" index="8" value="alpha" flag="false"/>
+			<operation_switch id="23" name="Operation switch 10" grid="5,3,6,4" index="9" value="alpha" flag="false"/>
+			<operation_switch id="24" name="Operation switch 11" grid="6,3,7,4" index="10" value="alpha" flag="false"/>
+			<operation_switch id="25" name="Operation switch 12" grid="7,3,8,4" index="11" value="alpha" flag="false"/>
+			<program_connector id="34" name="Program connector 1 in" grid="2,6,3,7" index="0" io="in" partner="-1"/>
+			<program_connector id="35" name="Program connector 2 in" grid="3,6,4,7" index="1" io="in" partner="-1"/>
+			<program_connector id="36" name="Program connector 3 in" grid="4,6,5,7" index="2" io="in" partner="-1"/>
+			<program_connector id="37" name="Program connector 4 in" grid="5,6,6,7" index="3" io="in" partner="-1"/>
+			<program_connector_pair id="57" name="" grid="0,7,1,8" index="0">
+				<program_connector id="38" name="Program connector 5 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="39" name="Program connector 5 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="58" name="" grid="1,7,2,8" index="1">
+				<program_connector id="40" name="Program connector 6 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="41" name="Program connector 6 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="59" name="" grid="2,7,3,8" index="2">
+				<program_connector id="42" name="Program connector 7 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="43" name="Program connector 7 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="60" name="" grid="3,7,4,8" index="3">
+				<program_connector id="44" name="Program connector 8 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="45" name="Program connector 8 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="61" name="" grid="4,7,5,8" index="4">
+				<program_connector id="46" name="Program connector 9 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="47" name="Program connector 9 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="62" name="" grid="5,7,6,8" index="5">
+				<program_connector id="48" name="Program connector 10 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="49" name="Program connector 10 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="63" name="" grid="6,7,7,8" index="6">
+				<program_connector id="50" name="Program connector 11 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="51" name="Program connector 11 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="64" name="" grid="7,7,8,8" index="7">
+				<program_connector id="52" name="Program connector 12 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="53" name="Program connector 12 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<repeat_switch id="26" name="Repeat switch 5" grid="0,5,1,6" index="0" value="1"/>
+			<repeat_switch id="27" name="Repeat switch 6" grid="1,5,2,6" index="1" value="1"/>
+			<repeat_switch id="28" name="Repeat switch 7" grid="2,5,3,6" index="2" value="1"/>
+			<repeat_switch id="29" name="Repeat switch 8" grid="3,5,4,6" index="3" value="1"/>
+			<repeat_switch id="30" name="Repeat switch 9" grid="4,5,5,6" index="4" value="1"/>
+			<repeat_switch id="31" name="Repeat switch 10" grid="5,5,6,6" index="5" value="1"/>
+			<repeat_switch id="32" name="Repeat switch 11" grid="6,5,7,6" index="6" value="1"/>
+			<repeat_switch id="33" name="Repeat switch 12" grid="7,5,8,6" index="7" value="1"/>
+			<significiant_figures_switch id="56" name="significiant_figures_switch" grid="6,1,7,3" index="0" value="10" flag="false"/>
+		</accumulator_unit>
+
+		<!--###################### Accumulator 2 ######################-->
+
+		<accumulator_unit id="65" name="Accumulator 2" grid="3,2,4,3" index="1">
+			<accu_heaters id="66" name="Heaters (Power switch)" grid="1,1,2,3" index="0" value="off"/>
+			<blend_16 id="67" name="" grid="0,4,8,5" index="0"/>
+			<blend_8 id="68" name="" grid="2,2,6,3" index="0"/>
+			<digit_connector id="69" name="Digit connector alpha (input)" grid="1,0,9,1" index="0" io="in" partner="-1"/>
+			<digit_connector id="70" name="Digit connector beta (input)" grid="9,0,10,1" index="1" io="in" partner="-1"/>
+			<digit_connector id="71" name="Digit connector gamma (input)" grid="10,0,11,1" index="2" io="in" partner="-1"/>
+			<digit_connector id="72" name="Digit connector delta (input)" grid="11,0,12,1" index="3" io="in" partner="-1"/>
+			<digit_connector id="73" name="Digit connector epsilon (input)" grid="12,0,13,1" index="4" io="in" partner="-1"/>
+			<digit_connector id="74" name="Digit connector A (output)" grid="13,0,14,1" index="5" io="out" partner="-1"/>
+			<digit_connector id="75" name="Digit connector S (output)" grid="14,0,7,1" index="6" io="out" partner="-1"/>
+			<inter_connector id="76" name="Inter-connector IL1" grid="0,0,1,1" index="0" io="out" partner="-1"/>
+			<inter_connector id="77" name="Inter-connector IL2" grid="0,1,1,3" index="1" io="in" partner="304"/>
+			<inter_connector id="78" name="Inter-connector IR1" grid="7,0,8,1" index="2" io="in" partner="-1"/>
+			<inter_connector id="79" name="Inter-connector IR2" grid="7,1,8,3" index="3" io="out" partner="-1"/>
+			<operation_switch id="80" name="Operation switch 1" grid="2,1,3,2" index="0" value="alpha" flag="false"/>
+			<operation_switch id="81" name="Operation switch 2" grid="3,1,4,2" index="1" value="alpha" flag="false"/>
+			<operation_switch id="82" name="Operation switch 3" grid="4,1,5,2" index="2" value="alpha" flag="false"/>
+			<operation_switch id="83" name="Operation switch 4" grid="5,1,6,2" index="3" value="alpha" flag="false"/>
+			<operation_switch id="84" name="Operation switch 5" grid="0,3,1,4" index="4" value="alpha" flag="false"/>
+			<operation_switch id="85" name="Operation switch 6" grid="1,3,2,4" index="5" value="alpha" flag="false"/>
+			<operation_switch id="86" name="Operation switch 7" grid="2,3,3,4" index="6" value="alpha" flag="false"/>
+			<operation_switch id="87" name="Operation switch 8" grid="3,3,4,4" index="7" value="alpha" flag="false"/>
+			<operation_switch id="88" name="Operation switch 9" grid="4,3,5,4" index="8" value="alpha" flag="false"/>
+			<operation_switch id="89" name="Operation switch 10" grid="5,3,6,4" index="9" value="alpha" flag="false"/>
+			<operation_switch id="90" name="Operation switch 11" grid="6,3,7,4" index="10" value="alpha" flag="false"/>
+			<operation_switch id="91" name="Operation switch 12" grid="7,3,8,4" index="11" value="alpha" flag="false"/>
+			<program_connector id="92" name="Program connector 1 in" grid="2,6,3,7" index="0" io="in" partner="-1"/>
+			<program_connector id="93" name="Program connector 2 in" grid="3,6,4,7" index="1" io="in" partner="-1"/>
+			<program_connector id="94" name="Program connector 3 in" grid="4,6,5,7" index="2" io="in" partner="-1"/>
+			<program_connector id="95" name="Program connector 4 in" grid="5,6,6,7" index="3" io="in" partner="-1"/>
+			<program_connector_pair id="96" name="" grid="0,7,1,8" index="0">
+				<program_connector id="97" name="Program connector 5 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="98" name="Program connector 5 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="99" name="" grid="1,7,2,8" index="1">
+				<program_connector id="100" name="Program connector 6 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="101" name="Program connector 6 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="102" name="" grid="2,7,3,8" index="2">
+				<program_connector id="103" name="Program connector 7 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="104" name="Program connector 7 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="105" name="" grid="3,7,4,8" index="3">
+				<program_connector id="106" name="Program connector 8 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="107" name="Program connector 8 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="108" name="" grid="4,7,5,8" index="4">
+				<program_connector id="109" name="Program connector 9 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="110" name="Program connector 9 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="111" name="" grid="5,7,6,8" index="5">
+				<program_connector id="112" name="Program connector 10 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="113" name="Program connector 10 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="114" name="" grid="6,7,7,8" index="6">
+				<program_connector id="115" name="Program connector 11 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="116" name="Program connector 11 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<program_connector_pair id="117" name="" grid="7,7,8,8" index="7">
+				<program_connector id="118" name="Program connector 12 in" grid="0,0,1,1" index="0" io="in" partner="-1"/>
+				<program_connector id="119" name="Program connector 12 out" grid="1,0,2,1" index="1" io="out" partner="-1"/>
+			</program_connector_pair>
+			<repeat_switch id="120" name="Repeat switch 5" grid="0,5,1,6" index="0" value="1"/>
+			<repeat_switch id="121" name="Repeat switch 6" grid="1,5,2,6" index="1" value="1"/>
+			<repeat_switch id="122" name="Repeat switch 7" grid="2,5,3,6" index="2" value="1"/>
+			<repeat_switch id="123" name="Repeat switch 8" grid="3,5,4,6" index="3" value="1"/>
+			<repeat_switch id="124" name="Repeat switch 9" grid="4,5,5,6" index="4" value="1"/>
+			<repeat_switch id="125" name="Repeat switch 10" grid="5,5,6,6" index="5" value="1"/>
+			<repeat_switch id="126" name="Repeat switch 11" grid="6,5,7,6" index="6" value="1"/>
+			<repeat_switch id="127" name="Repeat switch 12" grid="7,5,8,6" index="7" value="1"/>
+			<significiant_figures_switch id="128" name="significiant_figures_switch" grid="6,1,7,3" index="0" value="10" flag="false"/>
+		</accumulator_unit>
+
+		<!--###################### Blinken lights 1 ######################-->
+
+		<blinken_lights id="1" name="Blinken lights 1" grid="2,0,3,1" index="0">
+			<blinken_number_switch id="129" name="" grid="1,0,2,1" index="0" value="0" flag="false"/>
+			<blinken_number_switch id="130" name="" grid="2,0,3,1" index="1" value="0" flag="false"/>
+			<blinken_number_switch id="131" name="" grid="3,0,4,1" index="2" value="0" flag="false"/>
+			<blinken_number_switch id="132" name="" grid="4,0,5,1" index="3" value="0" flag="false"/>
+			<blinken_number_switch id="133" name="" grid="5,0,6,1" index="4" value="0" flag="false"/>
+			<blinken_number_switch id="134" name="" grid="6,0,7,1" index="5" value="0" flag="false"/>
+			<blinken_number_switch id="135" name="" grid="7,0,8,1" index="6" value="0" flag="false"/>
+			<blinken_number_switch id="136" name="" grid="8,0,9,1" index="7" value="0" flag="false"/>
+			<blinken_number_switch id="137" name="" grid="9,0,10,1" index="8" value="0" flag="false"/>
+			<blinken_number_switch id="138" name="" grid="10,0,11,1" index="9" value="0" flag="false"/>
+			<blinken_sign_switch id="139" name="" grid="0,0,1,1" index="0" value="plus"/>
+		</blinken_lights>
+
+		<!--###################### Blinken lights 2 ######################-->
+
+		<blinken_lights id="140" name="Blinken lights 2" grid="3,0,4,1" index="1">
+			<blinken_number_switch id="141" name="" grid="1,0,2,1" index="0" value="0" flag="false"/>
+			<blinken_number_switch id="142" name="" grid="2,0,3,1" index="1" value="0" flag="false"/>
+			<blinken_number_switch id="143" name="" grid="3,0,4,1" index="2" value="0" flag="false"/>
+			<blinken_number_switch id="144" name="" grid="4,0,5,1" index="3" value="0" flag="false"/>
+			<blinken_number_switch id="145" name="" grid="5,0,6,1" index="4" value="0" flag="false"/>
+			<blinken_number_switch id="146" name="" grid="6,0,7,1" index="5" value="0" flag="false"/>
+			<blinken_number_switch id="147" name="" grid="7,0,8,1" index="6" value="0" flag="false"/>
+			<blinken_number_switch id="148" name="" grid="8,0,9,1" index="7" value="0" flag="false"/>
+			<blinken_number_switch id="149" name="" grid="9,0,10,1" index="8" value="0" flag="false"/>
+			<blinken_number_switch id="150" name="" grid="10,0,11,1" index="9" value="0" flag="false"/>
+			<blinken_sign_switch id="151" name="" grid="0,0,1,1" index="0" value="plus"/>
+		</blinken_lights>
+
+		<!--###################### Cycling lights ######################-->
+
+		<cycling_lights id="152" name="Cycling lights" grid="1,0,2,1" index="0"/>
+
+		<!--###################### Cycling unit ######################-->
+
+		<cycling_unit id="153" name="Cycling unit" grid="1,1,2,3" index="0">
+			<benchmark id="154" name="Benchmark" grid="0,0,6,1" index="0" size="30"/>
+			<cycle_counter id="155" name="Addition cycle counter" grid="1,3,5,4" index="0">
+				<cipher id="156" name="" grid="16,0,17,1" index="0" value="0"/>
+				<cipher id="157" name="" grid="14,0,15,1" index="1" value="0"/>
+				<cipher id="158" name="" grid="12,0,13,1" index="2" value="0"/>
+				<cipher id="159" name="" grid="10,0,11,1" index="3" value="0"/>
+				<cipher id="160" name="" grid="8,0,9,1" index="4" value="0"/>
+				<cipher id="161" name="" grid="6,0,7,1" index="5" value="0"/>
+				<cipher id="162" name="" grid="4,0,5,1" index="6" value="0"/>
+				<cipher id="163" name="" grid="2,0,3,1" index="7" value="0"/>
+				<cipher id="164" name="" grid="0,0,1,1" index="8" value="0"/>
+				<cycle_counter_clear id="165" name="" grid="18,0,19,1" index="0" value="normal"/>
+			</cycle_counter>
+			<cycling_symbol id="166" name="" grid="0,2,1,4" index="0"/>
+			<frequency_slider id="167" name="Frequency slider" grid="1,6,5,7" index="0" value="0.2"/>
+			<heaters id="168" name="Heaters (power switch)" grid="0,5,1,7" index="0" value="off"/>
+			<iteration_switch id="169" name="Iteration switch" grid="5,2,6,4" index="0" value="0"/>
+			<step_button id="170" name="Step button" grid="5,5,6,7" index="0" value="normal"/>
+		</cycling_unit>
+
+		<!--###################### Go lights ######################-->
+
+		<go_lights id="171" name="Go lights" grid="0,0,1,1" index="0" value="no"/>
+
+		<!--###################### Initiating unit ######################-->
+
+		<initiating_unit id="172" name="Initiating unit" grid="0,1,1,3" index="0">
+			<clear_button id="173" name="Clear button" grid="3,2,4,3" index="0" value="normal"/>
+			<go_button id="174" name="Go button" grid="2,2,3,3" index="0" value="normal"/>
+			<heaters id="175" name="Heaters (power switch)" grid="1,2,2,3" index="0" value="off"/>
+			<initiating_image id="176" name="" grid="0,0,4,1" index="0"/>
+			<initiating_symbol id="177" name="" grid="0,2,1,3" index="0"/>
+			<program_connector id="178" name="Program connector out" grid="2,3,3,4" index="0" io="out" partner="-1"/>
+		</initiating_unit>
+
+		<!--###################### Lower Trunk ######################-->
+
+		<lower_trunk_4 id="179" name="" grid="0,3,4,4" index="0">
+			<tray_4 id="180" name="Tray A" grid="0,0,1,1" index="0">
+				<program_connector id="181" name="Program connector 1 in/out" grid="2,0,3,1" index="0" io="both" partner="-1"/>
+				<program_connector id="182" name="Program connector 2 in/out" grid="3,0,4,1" index="1" io="both" partner="-1"/>
+				<program_connector id="183" name="Program connector 3 in/out" grid="4,0,5,1" index="2" io="both" partner="-1"/>
+				<program_connector id="184" name="Program connector 4 in/out" grid="5,0,6,1" index="3" io="both" partner="-1"/>
+				<program_connector id="185" name="Program connector 5 in/out" grid="6,0,7,1" index="4" io="both" partner="-1"/>
+				<program_connector id="186" name="Program connector 6 in/out" grid="7,0,8,1" index="5" io="both" partner="-1"/>
+				<program_connector id="187" name="Program connector 7 in/out" grid="8,0,9,1" index="6" io="both" partner="-1"/>
+				<program_connector id="302" name="Program connector 8 in/out" grid="9,0,10,1" index="7" io="both" partner="-1"/>
+				<program_connector id="188" name="Program connector 9 in/out" grid="10,0,11,1" index="8" io="both" partner="-1"/>
+				<program_connector id="189" name="Program connector 10 in/out" grid="11,0,12,1" index="9" io="both" partner="-1"/>
+				<program_connector id="190" name="Program connector 11 in/out" grid="12,0,13,1" index="10" io="both" partner="-1"/>
+				<program_connector id="191" name="Program connector 1 in/out" grid="26,0,27,1" index="11" io="both" partner="-1"/>
+				<program_connector id="192" name="Program connector 2 in/out" grid="27,0,28,1" index="12" io="both" partner="-1"/>
+				<program_connector id="193" name="Program connector 3 in/out" grid="28,0,29,1" index="13" io="both" partner="-1"/>
+				<program_connector id="194" name="Program connector 4 in/out" grid="29,0,30,1" index="14" io="both" partner="-1"/>
+				<program_connector id="195" name="Program connector 5 in/out" grid="30,0,31,1" index="15" io="both" partner="-1"/>
+				<program_connector id="196" name="Program connector 6 in/out" grid="31,0,32,1" index="16" io="both" partner="-1"/>
+				<program_connector id="303" name="Program connector 7 in/out" grid="32,0,33,1" index="17" io="both" partner="-1"/>
+				<program_connector id="197" name="Program connector 8 in/out" grid="33,0,34,1" index="18" io="both" partner="-1"/>
+				<program_connector id="198" name="Program connector 9 in/out" grid="34,0,35,1" index="19" io="both" partner="-1"/>
+				<program_connector id="199" name="Program connector 10 in/out" grid="35,0,36,1" index="20" io="both" partner="-1"/>
+				<program_connector id="200" name="Program connector 11 in/out" grid="36,0,37,1" index="21" io="both" partner="-1"/>
+				<program_connector id="201" name="Program connector 1 in/out" grid="38,0,39,1" index="22" io="both" partner="-1"/>
+				<program_connector id="202" name="Program connector 2 in/out" grid="39,0,40,1" index="23" io="both" partner="-1"/>
+				<program_connector id="203" name="Program connector 3 in/out" grid="40,0,41,1" index="24" io="both" partner="-1"/>
+				<program_connector id="204" name="Program connector 4 in/out" grid="41,0,42,1" index="25" io="both" partner="-1"/>
+				<program_connector id="205" name="Program connector 5 in/out" grid="42,0,43,1" index="26" io="both" partner="-1"/>
+				<program_connector id="206" name="Program connector 6 in/out" grid="43,0,44,1" index="27" io="both" partner="-1"/>
+				<program_connector id="207" name="Program connector 7 in/out" grid="44,0,45,1" index="28" io="both" partner="-1"/>
+				<program_connector id="208" name="Program connector 8 in/out" grid="45,0,46,1" index="29" io="both" partner="-1"/>
+				<program_connector id="209" name="Program connector 9 in/out" grid="46,0,47,1" index="30" io="both" partner="-1"/>
+				<program_connector id="210" name="Program connector 10 in/out" grid="47,0,48,1" index="31" io="both" partner="-1"/>
+				<program_connector id="211" name="Program connector 11 in/out" grid="48,0,49,1" index="32" io="both" partner="-1"/>
+			</tray_4>
+			<tray_4 id="212" name="Tray B" grid="0,1,1,2" index="1">
+				<program_connector id="213" name="Program connector 1 in/out" grid="2,0,3,1" index="0" io="both" partner="-1"/>
+				<program_connector id="214" name="Program connector 2 in/out" grid="3,0,4,1" index="1" io="both" partner="-1"/>
+				<program_connector id="215" name="Program connector 3 in/out" grid="4,0,5,1" index="2" io="both" partner="-1"/>
+				<program_connector id="216" name="Program connector 4 in/out" grid="5,0,6,1" index="3" io="both" partner="-1"/>
+				<program_connector id="217" name="Program connector 5 in/out" grid="6,0,7,1" index="4" io="both" partner="-1"/>
+				<program_connector id="218" name="Program connector 6 in/out" grid="7,0,8,1" index="5" io="both" partner="-1"/>
+				<program_connector id="219" name="Program connector 7 in/out" grid="8,0,9,1" index="6" io="both" partner="-1"/>
+				<program_connector id="220" name="Program connector 8 in/out" grid="9,0,10,1" index="7" io="both" partner="-1"/>
+				<program_connector id="221" name="Program connector 9 in/out" grid="10,0,11,1" index="8" io="both" partner="-1"/>
+				<program_connector id="222" name="Program connector 10 in/out" grid="11,0,12,1" index="9" io="both" partner="-1"/>
+				<program_connector id="223" name="Program connector 11 in/out" grid="12,0,13,1" index="10" io="both" partner="-1"/>
+				<program_connector id="224" name="Program connector 1 in/out" grid="26,0,27,1" index="11" io="both" partner="-1"/>
+				<program_connector id="225" name="Program connector 2 in/out" grid="27,0,28,1" index="12" io="both" partner="-1"/>
+				<program_connector id="226" name="Program connector 3 in/out" grid="28,0,29,1" index="13" io="both" partner="-1"/>
+				<program_connector id="227" name="Program connector 4 in/out" grid="29,0,30,1" index="14" io="both" partner="-1"/>
+				<program_connector id="228" name="Program connector 5 in/out" grid="30,0,31,1" index="15" io="both" partner="-1"/>
+				<program_connector id="229" name="Program connector 6 in/out" grid="31,0,32,1" index="16" io="both" partner="-1"/>
+				<program_connector id="230" name="Program connector 7 in/out" grid="32,0,33,1" index="17" io="both" partner="-1"/>
+				<program_connector id="231" name="Program connector 8 in/out" grid="33,0,34,1" index="18" io="both" partner="-1"/>
+				<program_connector id="232" name="Program connector 9 in/out" grid="34,0,35,1" index="19" io="both" partner="-1"/>
+				<program_connector id="233" name="Program connector 10 in/out" grid="35,0,36,1" index="20" io="both" partner="-1"/>
+				<program_connector id="234" name="Program connector 11 in/out" grid="36,0,37,1" index="21" io="both" partner="-1"/>
+				<program_connector id="235" name="Program connector 1 in/out" grid="38,0,39,1" index="22" io="both" partner="-1"/>
+				<program_connector id="236" name="Program connector 2 in/out" grid="39,0,40,1" index="23" io="both" partner="-1"/>
+				<program_connector id="237" name="Program connector 3 in/out" grid="40,0,41,1" index="24" io="both" partner="-1"/>
+				<program_connector id="238" name="Program connector 4 in/out" grid="41,0,42,1" index="25" io="both" partner="-1"/>
+				<program_connector id="239" name="Program connector 5 in/out" grid="42,0,43,1" index="26" io="both" partner="-1"/>
+				<program_connector id="240" name="Program connector 6 in/out" grid="43,0,44,1" index="27" io="both" partner="-1"/>
+				<program_connector id="241" name="Program connector 7 in/out" grid="44,0,45,1" index="28" io="both" partner="-1"/>
+				<program_connector id="242" name="Program connector 8 in/out" grid="45,0,46,1" index="29" io="both" partner="-1"/>
+				<program_connector id="243" name="Program connector 9 in/out" grid="46,0,47,1" index="30" io="both" partner="-1"/>
+				<program_connector id="244" name="Program connector 10 in/out" grid="47,0,48,1" index="31" io="both" partner="-1"/>
+				<program_connector id="245" name="Program connector 11 in/out" grid="48,0,49,1" index="32" io="both" partner="-1"/>
+			</tray_4>
+			<tray_4 id="246" name="Tray C" grid="0,2,1,3" index="2">
+				<program_connector id="247" name="Program connector 1 in/out" grid="2,0,3,1" index="0" io="both" partner="-1"/>
+				<program_connector id="248" name="Program connector 2 in/out" grid="3,0,4,1" index="1" io="both" partner="-1"/>
+				<program_connector id="249" name="Program connector 3 in/out" grid="4,0,5,1" index="2" io="both" partner="-1"/>
+				<program_connector id="250" name="Program connector 4 in/out" grid="5,0,6,1" index="3" io="both" partner="-1"/>
+				<program_connector id="251" name="Program connector 5 in/out" grid="6,0,7,1" index="4" io="both" partner="-1"/>
+				<program_connector id="252" name="Program connector 6 in/out" grid="7,0,8,1" index="5" io="both" partner="-1"/>
+				<program_connector id="253" name="Program connector 7 in/out" grid="8,0,9,1" index="6" io="both" partner="-1"/>
+				<program_connector id="254" name="Program connector 8 in/out" grid="9,0,10,1" index="7" io="both" partner="-1"/>
+				<program_connector id="255" name="Program connector 9 in/out" grid="10,0,11,1" index="8" io="both" partner="-1"/>
+				<program_connector id="256" name="Program connector 10 in/out" grid="11,0,12,1" index="9" io="both" partner="-1"/>
+				<program_connector id="257" name="Program connector 11 in/out" grid="12,0,13,1" index="10" io="both" partner="-1"/>
+				<program_connector id="258" name="Program connector 1 in/out" grid="26,0,27,1" index="11" io="both" partner="-1"/>
+				<program_connector id="259" name="Program connector 2 in/out" grid="27,0,28,1" index="12" io="both" partner="-1"/>
+				<program_connector id="260" name="Program connector 3 in/out" grid="28,0,29,1" index="13" io="both" partner="-1"/>
+				<program_connector id="261" name="Program connector 4 in/out" grid="29,0,30,1" index="14" io="both" partner="-1"/>
+				<program_connector id="262" name="Program connector 5 in/out" grid="30,0,31,1" index="15" io="both" partner="-1"/>
+				<program_connector id="263" name="Program connector 6 in/out" grid="31,0,32,1" index="16" io="both" partner="-1"/>
+				<program_connector id="264" name="Program connector 7 in/out" grid="32,0,33,1" index="17" io="both" partner="-1"/>
+				<program_connector id="265" name="Program connector 8 in/out" grid="33,0,34,1" index="18" io="both" partner="-1"/>
+				<program_connector id="266" name="Program connector 9 in/out" grid="34,0,35,1" index="19" io="both" partner="-1"/>
+				<program_connector id="267" name="Program connector 10 in/out" grid="35,0,36,1" index="20" io="both" partner="-1"/>
+				<program_connector id="268" name="Program connector 11 in/out" grid="36,0,37,1" index="21" io="both" partner="-1"/>
+				<program_connector id="269" name="Program connector 1 in/out" grid="38,0,39,1" index="22" io="both" partner="-1"/>
+				<program_connector id="270" name="Program connector 2 in/out" grid="39,0,40,1" index="23" io="both" partner="-1"/>
+				<program_connector id="271" name="Program connector 3 in/out" grid="40,0,41,1" index="24" io="both" partner="-1"/>
+				<program_connector id="272" name="Program connector 4 in/out" grid="41,0,42,1" index="25" io="both" partner="-1"/>
+				<program_connector id="273" name="Program connector 5 in/out" grid="42,0,43,1" index="26" io="both" partner="-1"/>
+				<program_connector id="274" name="Program connector 6 in/out" grid="43,0,44,1" index="27" io="both" partner="-1"/>
+				<program_connector id="275" name="Program connector 7 in/out" grid="44,0,45,1" index="28" io="both" partner="-1"/>
+				<program_connector id="276" name="Program connector 8 in/out" grid="45,0,46,1" index="29" io="both" partner="-1"/>
+				<program_connector id="277" name="Program connector 9 in/out" grid="46,0,47,1" index="30" io="both" partner="-1"/>
+				<program_connector id="278" name="Program connector 10 in/out" grid="47,0,48,1" index="31" io="both" partner="-1"/>
+				<program_connector id="279" name="Program connector 11 in/out" grid="48,0,49,1" index="32" io="both" partner="-1"/>
+			</tray_4>
+			<tray_4 id="280" name="Tray D" grid="0,3,1,4" index="3">
+				<program_connector id="281" name="Program connector 1 in/out" grid="2,0,3,1" index="0" io="both" partner="-1"/>
+				<program_connector id="282" name="Program connector 2 in/out" grid="3,0,4,1" index="1" io="both" partner="-1"/>
+				<program_connector id="283" name="Program connector 3 in/out" grid="4,0,5,1" index="2" io="both" partner="-1"/>
+				<program_connector id="284" name="Program connector 4 in/out" grid="5,0,6,1" index="3" io="both" partner="-1"/>
+				<program_connector id="285" name="Program connector 5 in/out" grid="6,0,7,1" index="4" io="both" partner="-1"/>
+				<program_connector id="286" name="Program connector 6 in/out" grid="7,0,8,1" index="5" io="both" partner="-1"/>
+				<program_connector id="287" name="Program connector 7 in/out" grid="8,0,9,1" index="6" io="both" partner="-1"/>
+				<program_connector id="288" name="Program connector 8 in/out" grid="9,0,10,1" index="7" io="both" partner="-1"/>
+				<program_connector id="289" name="Program connector 9 in/out" grid="10,0,11,1" index="8" io="both" partner="-1"/>
+				<program_connector id="290" name="Program connector 10 in/out" grid="11,0,12,1" index="9" io="both" partner="-1"/>
+				<program_connector id="291" name="Program connector 11 in/out" grid="12,0,13,1" index="10" io="both" partner="-1"/>
+				<program_connector id="292" name="Program connector 1 in/out" grid="26,0,27,1" index="11" io="both" partner="-1"/>
+				<program_connector id="293" name="Program connector 2 in/out" grid="27,0,28,1" index="12" io="both" partner="-1"/>
+				<program_connector id="294" name="Program connector 3 in/out" grid="28,0,29,1" index="13" io="both" partner="-1"/>
+				<program_connector id="295" name="Program connector 4 in/out" grid="29,0,30,1" index="14" io="both" partner="-1"/>
+				<program_connector id="296" name="Program connector 5 in/out" grid="30,0,31,1" index="15" io="both" partner="-1"/>
+				<program_connector id="297" name="Program connector 6 in/out" grid="31,0,32,1" index="16" io="both" partner="-1"/>
+				<program_connector id="298" name="Program connector 7 in/out" grid="32,0,33,1" index="17" io="both" partner="-1"/>
+				<program_connector id="299" name="Program connector 8 in/out" grid="33,0,34,1" index="18" io="both" partner="-1"/>
+				<program_connector id="300" name="Program connector 9 in/out" grid="34,0,35,1" index="19" io="both" partner="-1"/>
+				<program_connector id="301" name="Program connector 10 in/out" grid="35,0,36,1" index="20" io="both" partner="-1"/>
+				<program_connector id="305" name="Program connector 11 in/out" grid="36,0,37,1" index="21" io="both" partner="-1"/>
+				<program_connector id="306" name="Program connector 1 in/out" grid="38,0,39,1" index="22" io="both" partner="-1"/>
+				<program_connector id="307" name="Program connector 2 in/out" grid="39,0,40,1" index="23" io="both" partner="-1"/>
+				<program_connector id="308" name="Program connector 3 in/out" grid="40,0,41,1" index="24" io="both" partner="-1"/>
+				<program_connector id="309" name="Program connector 4 in/out" grid="41,0,42,1" index="25" io="both" partner="-1"/>
+				<program_connector id="310" name="Program connector 5 in/out" grid="42,0,43,1" index="26" io="both" partner="-1"/>
+				<program_connector id="311" name="Program connector 6 in/out" grid="43,0,44,1" index="27" io="both" partner="-1"/>
+				<program_connector id="312" name="Program connector 7 in/out" grid="44,0,45,1" index="28" io="both" partner="-1"/>
+				<program_connector id="313" name="Program connector 8 in/out" grid="45,0,46,1" index="29" io="both" partner="-1"/>
+				<program_connector id="314" name="Program connector 9 in/out" grid="46,0,47,1" index="30" io="both" partner="-1"/>
+				<program_connector id="315" name="Program connector 10 in/out" grid="47,0,48,1" index="31" io="both" partner="-1"/>
+				<program_connector id="316" name="Program connector 11 in/out" grid="48,0,49,1" index="32" io="both" partner="-1"/>
+			</tray_4>
+			<tray_4 id="317" name="Tray E" grid="0,4,1,5" index="4">
+				<program_connector id="318" name="Program connector 1 in/out" grid="2,0,3,1" index="0" io="both" partner="-1"/>
+				<program_connector id="319" name="Program connector 2 in/out" grid="3,0,4,1" index="1" io="both" partner="-1"/>
+				<program_connector id="320" name="Program connector 3 in/out" grid="4,0,5,1" index="2" io="both" partner="-1"/>
+				<program_connector id="321" name="Program connector 4 in/out" grid="5,0,6,1" index="3" io="both" partner="-1"/>
+				<program_connector id="322" name="Program connector 5 in/out" grid="6,0,7,1" index="4" io="both" partner="-1"/>
+				<program_connector id="323" name="Program connector 6 in/out" grid="7,0,8,1" index="5" io="both" partner="-1"/>
+				<program_connector id="324" name="Program connector 7 in/out" grid="8,0,9,1" index="6" io="both" partner="-1"/>
+				<program_connector id="325" name="Program connector 8 in/out" grid="9,0,10,1" index="7" io="both" partner="-1"/>
+				<program_connector id="326" name="Program connector 9 in/out" grid="10,0,11,1" index="8" io="both" partner="-1"/>
+				<program_connector id="327" name="Program connector 10 in/out" grid="11,0,12,1" index="9" io="both" partner="-1"/>
+				<program_connector id="328" name="Program connector 11 in/out" grid="12,0,13,1" index="10" io="both" partner="-1"/>
+				<program_connector id="329" name="Program connector 1 in/out" grid="26,0,27,1" index="11" io="both" partner="-1"/>
+				<program_connector id="330" name="Program connector 2 in/out" grid="27,0,28,1" index="12" io="both" partner="-1"/>
+				<program_connector id="331" name="Program connector 3 in/out" grid="28,0,29,1" index="13" io="both" partner="-1"/>
+				<program_connector id="332" name="Program connector 4 in/out" grid="29,0,30,1" index="14" io="both" partner="-1"/>
+				<program_connector id="333" name="Program connector 5 in/out" grid="30,0,31,1" index="15" io="both" partner="-1"/>
+				<program_connector id="334" name="Program connector 6 in/out" grid="31,0,32,1" index="16" io="both" partner="-1"/>
+				<program_connector id="335" name="Program connector 7 in/out" grid="32,0,33,1" index="17" io="both" partner="-1"/>
+				<program_connector id="336" name="Program connector 8 in/out" grid="33,0,34,1" index="18" io="both" partner="-1"/>
+				<program_connector id="337" name="Program connector 9 in/out" grid="34,0,35,1" index="19" io="both" partner="-1"/>
+				<program_connector id="338" name="Program connector 10 in/out" grid="35,0,36,1" index="20" io="both" partner="-1"/>
+				<program_connector id="339" name="Program connector 11 in/out" grid="36,0,37,1" index="21" io="both" partner="-1"/>
+				<program_connector id="340" name="Program connector 1 in/out" grid="38,0,39,1" index="22" io="both" partner="-1"/>
+				<program_connector id="341" name="Program connector 2 in/out" grid="39,0,40,1" index="23" io="both" partner="-1"/>
+				<program_connector id="342" name="Program connector 3 in/out" grid="40,0,41,1" index="24" io="both" partner="-1"/>
+				<program_connector id="343" name="Program connector 4 in/out" grid="41,0,42,1" index="25" io="both" partner="-1"/>
+				<program_connector id="344" name="Program connector 5 in/out" grid="42,0,43,1" index="26" io="both" partner="-1"/>
+				<program_connector id="345" name="Program connector 6 in/out" grid="43,0,44,1" index="27" io="both" partner="-1"/>
+				<program_connector id="346" name="Program connector 7 in/out" grid="44,0,45,1" index="28" io="both" partner="-1"/>
+				<program_connector id="347" name="Program connector 8 in/out" grid="45,0,46,1" index="29" io="both" partner="-1"/>
+				<program_connector id="348" name="Program connector 9 in/out" grid="46,0,47,1" index="30" io="both" partner="-1"/>
+				<program_connector id="349" name="Program connector 10 in/out" grid="47,0,48,1" index="31" io="both" partner="-1"/>
+				<program_connector id="350" name="Program connector 11 in/out" grid="48,0,49,1" index="32" io="both" partner="-1"/>
+			</tray_4>
+			<tray_4 id="351" name="Tray F" grid="0,5,1,6" index="5">
+			</tray_4>
+			<tray_4 id="352" name="Tray G" grid="0,6,1,7" index="6">
+			</tray_4>
+			<tray_4 id="353" name="Tray H" grid="0,7,1,8" index="7">
+			</tray_4>
+			<tray_4 id="354" name="Tray J" grid="0,8,1,9" index="8">
+			</tray_4>
+			<tray_4 id="355" name="Tray K" grid="0,9,1,10" index="9">
+			</tray_4>
+			<tray_4 id="356" name="Tray L" grid="0,10,1,11" index="10">
+			</tray_4>
+			<tray_4 id="357" name="Tray M" grid="0,11,1,12" index="11">
+			</tray_4>
+		</lower_trunk_4>
+
+		<!--###################### Upper Trunk ######################-->
+
+		<upper_trunk_2 id="361" name="" grid="2,1,4,2" index="0">
+			<tray_2 id="362" name="Tray 9" grid="0,0,1,1" index="0">
+			</tray_2>
+			<tray_2 id="363" name="Tray 8" grid="0,1,1,2" index="1">
+			</tray_2>
+			<tray_2 id="364" name="Tray 7" grid="0,2,1,3" index="2">
+			</tray_2>
+			<tray_2 id="365" name="Tray 6" grid="0,3,1,4" index="3">
+			</tray_2>
+			<tray_2 id="366" name="Tray 5" grid="0,4,1,5" index="4">
+			</tray_2>
+			<tray_2 id="367" name="Tray 4" grid="0,5,1,6" index="5">
+				<digit_connector_cross id="368" name="Digit connector in/out" grid="2,0,13,1" index="0" io="both" partner="-1"/>
+				<digit_connector_cross id="369" name="Digit connector in/out" grid="14,0,25,1" index="1" io="both" partner="-1"/>
+			</tray_2>
+			<tray_2 id="370" name="Tray 3" grid="0,6,1,7" index="6">
+				<digit_connector_cross id="371" name="Digit connector in/out" grid="2,0,13,1" index="0" io="both" partner="-1"/>
+				<digit_connector_cross id="372" name="Digit connector in/out" grid="14,0,25,1" index="1" io="both" partner="-1"/>
+			</tray_2>
+			<tray_2 id="373" name="Tray 2" grid="0,7,1,8" index="7">
+				<digit_connector_cross id="374" name="Digit connector in/out" grid="2,0,13,1" index="0" io="both" partner="-1"/>
+				<digit_connector_cross id="375" name="Digit connector in/out" grid="14,0,25,1" index="1" io="both" partner="-1"/>
+			</tray_2>
+			<tray_2 id="376" name="Tray 1" grid="0,8,1,9" index="8">
+				<digit_connector_cross id="377" name="Digit connector in/out" grid="2,0,13,1" index="0" io="both" partner="-1"/>
+				<digit_connector_cross id="378" name="Digit connector in/out" grid="14,0,25,1" index="1" io="both" partner="-1"/>
+			</tray_2>
+		</upper_trunk_2>
+	</configuration_4>
+</eniac>
