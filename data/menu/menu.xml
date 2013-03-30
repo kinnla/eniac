@@ -22,7 +22,8 @@
 		<!--we just have one skin for now, so don't offer to change if cannot-->
 		<!-- action key="open_skin"/ -->
 		<action key="change_language"/>
-		<action key="highlight_pulse"/>
+		<!-- disabled, as XOR Mode painting not supported in JDK 1.7 -->
+		<!-- action key="highlight_pulse"/> -->
 		<separator/>
 		<action key="zoom_in"/>
 		<action key="zoom_out"/>
