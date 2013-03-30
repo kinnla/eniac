@@ -111,11 +111,12 @@ public class EFrame extends JFrame implements PropertyChangeListener,
         });
 
         // init scrollPane
-        _scrollPane = new JScrollPane() {
-            protected JViewport createViewport() {
-                return new EViewPort();
-            }
-        };
+        _scrollPane = new JScrollPane(); 
+//        {
+//            protected JViewport createViewport() {
+//                return new EViewPort();
+//            }
+//        };
         Color c = StringConverter.toColor(EProperties.getInstance()
                 .getProperty("BACKGROUND_COLOR"));
         _scrollPane.getViewport().setBackground(c);
