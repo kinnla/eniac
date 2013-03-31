@@ -7,31 +7,23 @@
 	<head>
 		<title>ENIAC simulation applet</title>
 		<script src="eniac.js" type="text/javascript">@import "./eniac.js";</script>
+		<script src="http://java.com/js/deployJava.js"></script>
 		<meta name="robots" content="noindex, nofollow"/>
 	</head>
 	<body>
 		<p>ENIAC simulation applet. Don't close this window unless you want to quit the
-			applet.</p>
-		<!-- Need Java 1.7.0 (or later) Plug-in to run this applet -->
-		<!-- MS IE (Microsoft Internet Explorer) -->
-		<p>
-			<object classid="clsid:CAFEEFAC-0014-0002-0000-ABCDEFFEDCBA"
-				codebase='http://java.sun.com/update/1.5.0/jinstall-1_5_0_06-windows-i586.cab'
-				width="180" height="50">
-				<param name="archive" value="eniac.jar"/>
-				<param name="code" value="eniac.AppletStarter.class"/>
-				<param name="codebase" value="./"/>
-				<param name="type" value="application/x-java-applet;version=1.5"/>
-				<param name="scriptable" value="false"/>
-				<!--[if !IE]> Mozilla/Netscape and its brethren -->
-				<object classid="java:eniac.AppletStarter" width="180" height="50"
-					archive="eniac.jar" codebase="./">
-					<!-- no Java found -->
-					<p> SUN Java Plugin Version 1.5 (minimum) is required to start the
-						Applet, but could not be found on your computer. Please referr to <a
-							href="http://java.com/en/"/> </p>
-				</object>
-				<!-- <![endif]-->
-			</object> </p>
+			applet.
+		</p>
+		<script>
+		    var attributes = {codebase:'./',
+		                      code:'eniac.AppletStarter',
+		                      archive: 'eniac.jar',
+		                      width: '180', 
+		                      height: '50'};
+		    var parameters = {java_arguments: '-Xmx256m'};
+		    var version = '1.7' ; // JDK version
+		    deployJava.runApplet(attributes, parameters, version);
+		</script>
+
 	</body>
 </html>
