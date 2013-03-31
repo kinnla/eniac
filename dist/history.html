@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "xhtml1-strict.dtd"-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>ENIAC simulation: history</title>
+		<link rel="SHORTCUT ICON" href="eniac.ico" />
+		<link rel="stylesheet" type="text/css" href="eniac.css" />
+		<script src="eniac.js" type="text/javascript">@import "eniac.js";</script>
+		<meta name="author" content="Till Zoppke"/>
+		<meta name="description" 
+			content="A Simulation of the ENIAC, the first electronic digital computer 
+			build in 1945, as a Java Applet."/>
+		<meta name="keywords" 
+			content="ENIAC, simulation, Java, Applet, history of computing"/>
+		<meta name="robots" content="index, follow"/>
+	</head>
+	<body>
+		<h1>ENIAC simulation: <i class="date"> history </i></h1>
+		<table class="body" summary="main table">
+			<colgroup>
+				<col width="88"/>
+				<col/>
+			</colgroup>
+			<tr>
+				<td valign="top" class="navigation">
+					<p class="navigation">
+						<a href="index.html" class="navigation">index</a>
+					</p>
+					<p class="navigation">
+						<a href="simulation.html" class="navigation"> 
+							simulation</a>
+					</p>
+					<p class="highlight"> history </p>
+					<p class="navigation">
+						<a href="faq.html" class="navigation"> f.a.q.</a>
+					</p>
+					<p class="navigation">
+						<a href="links.html" class="navigation"> links</a>
+					</p>
+					<p class="navigation">
+						<a href="about.html" class="navigation"> about</a>
+					</p>
+				</td>
+				<td class="text">
+					<h2>Trajectory calculation </h2>
+					<p> At the time of World War II intelligent bombs were not 
+						yet developed, so ground based artillery was used to 
+						attack the enemy. Depending on the distance of the 
+						target and the type of artillery, the bullet has to be 
+						shoot in a certain angle. This angle also is related to 
+						the weather, especially to the wind. To know the 
+						correct angle in the specific situation, the artillery 
+						men used so-called firing tables. But those firing 
+						tables had to be computed first. </p>
+					<p> Those ballistic computations were done at the Moore 
+						School of Electrical Engineering, part of the 
+						University of Pennsylvania, too.</p>
+					<p class="cite">Calculating a trajectory could take up to 
+						40 hours using a desk-top calculator. The same problem 
+						took 30 minutes or so on the Moore School's 
+						differential analyzer. But the School had only one such 
+						machine, and since each firing table involved hundreds 
+						of trajectories it might still take the better part of 
+						a month to complete just one table. <a 
+						href="#references" class="references">[1]</a></p>
+					<p> The speed up in developing new artillery designs caused 
+						an increased need of computation power. In November 
+						1942 US forces landed in French North Africa, and 
+						entered a terrain, which was entirely different from 
+						what they had met before. The existing firing tables 
+						turned out as completely useless. That made the 
+						computation power totally to the bottleneck of the war 
+						machinery. </p>
+					<p class="img"> <img src="history1.jpeg" 
+						alt="View of the ENIAC in its U-shaped room" /> <br/> 
+						View of the ENIAC in its U-shaped room (US Army photo)</p>
+					<p> Under these circumstances John Mauchly, a member of 
+						Moore School's <i>Engineering, Science, and Management 
+						War Training</i> (ESMWT) program, wrote a first 
+						five-page memo called <i>The Use of Vacuum Tube Devices 
+						in Calculating</i>. In this paper he suggested a 
+						machine that would add 5,000 10-digit numbers per 
+						second and would be more than 100 times faster than the 
+						fastest computer at that time (the fastest computer in 
+						1942 was a mechanical relay computer operating at 
+						Harvard, Bell Laboratories with 15-50 additions per 
+						second <a href="#references" 
+						class="references">[1]</a>).</p>
+					<h2> Speed up through vacuum tubes </h2>
+					<p> The memo was followed by two proposals, which Mauchly 
+						wrote together with J. Presper Eckert, Jr., an 
+						instructor at Moore School. In June, 1942, a contract 
+						was signed and the project became funded by the United 
+						States Army. The machine to be developed was named 
+						<i>Electronic Numerical Integrator And Computer</i>, 
+						short <i>ENIAC</i>. </p>
+					<p> The ENIAC's great innovation was the usage of vacuum 
+						tubes for number representation in contrast to 
+						mechanical relays, which were commonly used at that 
+						time. The machine consists out of forty independent 
+						panels, each 0.6 m wide, 2.7 m high and 0.7 m deep plus 
+						three movable function tables. Those units were 
+						<i>arranged in U shape occupying an area of about 10m 
+						by 17m</i> <a href="#references" 
+						class="references">[2]</a>. The total number of 17,468 
+						vacuum tubes were used. The first demonstration of the 
+						ENIAC's computing power could be given two years 
+						later:</p>
+					<p class="cite"> In May of 1944, the ENIAC team was able to 
+						demonstrate ENIAC's workability in what has come to be 
+						known as the two accumulator test. In this, one 
+						accumulator was made to increment its value from one to 
+						five. The number was then transferred into the second 
+						unit one thousand times using the limited control 
+						circuitry housed in each accumulator, all in just over 
+						one fifth of a second, or about the blink of the eye. 
+						At the end of the test, the second accumulator sat 
+						idle, displaying the number 5,000 &ndash; hardly the 
+						most impressive of mathematical feats. <a 
+						href="#references" class="references">[1]</a></p>
+					<p> One problem to deal with was the reliability of the 
+						vacuum tubes. For frequently used circuits the tubes 
+						were selected by hands, and special test procedures 
+						were implemented to identify a broken tube within 
+						minutes in case of a failure. This happened about two 
+						or three times a week causing a weekly downtime of only 
+						a few hours. </p>
+					<h2>Programming the ENIAC</h2>
+					<p>The ENIAC didn't have a memory to store programs. So 
+						programming the ENIAC means physically connecting the 
+						units by cables and turning switches to the appropriate 
+						settings. This work was done by six women whose jobs 
+						were called computers. They were chosen from a group of 
+						over eighty women that were calculating ballistic 
+						trajectories by hand. </p>
+					<p class="img"> <img src="history2.jpeg" 
+						alt="View of the ENIAC in its U-shaped room" /> 
+						<br/>The first professional programmers (US Army photo)</p>
+					<p> 20 of the ENIAC's 40 units were Accumulators. An 
+						Accumulator was capable to store a 10-digit number, to 
+						add and to subtract. Other arithmetic units were the 
+						Multiplier, supported by the Function Table, and the 
+						Divider/Square-rooter. For fast number input, the 
+						Constant Transmitter was used, whereas for controlling 
+						the program flow a Master Programmer was helpful. The 
+						IO connection to stored data was done by an IBM card 
+						reader and an IBM card punch controlled by a printer 
+						panel. Finally there were the Cycling unit as pulse 
+						machine and the Initiating unit to boot the whole 
+						machine or to start a program. </p>
+					<p> In May 1945, yet before the ENIAC was formally 
+						completed, the World War II came to its end. That 
+						meant, the initial aim of computing firing tables for 
+						the artillery became obsolete. But the upcoming cold 
+						war required even more complex computations. So <i>the 
+						first real task assigned to ENIAC during its test runs 
+						in 1945 involved millions of discrete calculations 
+						associated with top-secret studies of thermonuclear 
+						chain reactions &ndash; the hydrogen bomb. <a 
+						href="#references" class="references">[1]</a></i></p>
+					<h2> <a id="references" name="references"/> References </h2>
+					<p class="references"> [1] D. Winegrad and A. Akere: <i>A 
+						Short History of the Second American Revolution</i>, 
+						In: <i>ENIAC's 50th Anniversary: The Birth of the 
+						Information Age</i>, The University of Pennsylvania 
+						Almanac N. 42, Jan. 1996. </p>
+					<p class="references"> [2] H. H. Goldstine and A. Goldstine 
+						(1946): <i>The Electronic Numerical Integrator and 
+						Computer (ENIAC)</i>. In B. Randell (Eds.): <i>The 
+						Origins of Digital Computers</i>, Springer-Verlag 
+						(1982). </p>
+				</td>
+			</tr>
+			<tr>
+				<td class="w3c">
+					<a 
+						href="javascript:onclick=openWindow('http://validator.w3.org/check?uri=referer');">
+						<img src="./valid-xhtml10" alt="Valid XHTML 1.0!" 
+							class="w3c" />
+					</a>
+				</td>
+				<td class="subscript">
+					<script type="text/javascript"> lastModified(); </script>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
