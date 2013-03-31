@@ -1,8 +1,0 @@
-*.class
-.DS_Store
-tempstore
-
-# temp directories
-bin/*
-dist/*
-build/*
