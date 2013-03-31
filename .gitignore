@@ -6,3 +6,5 @@ tempstore
 # temp directories
 bin/*
 build/*
+dist/*
+
