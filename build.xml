@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="eniac" default="dist" basedir=".">
+
+	<description>
+		requires: ant 1.6.2
+        builds the eniac simulation to the distribution directory
+    </description>
+
+	<!--############# properties #############-->
+
+	<property name="build" value="build" description="build directory" />
+	<property name="javadocs" value="javadocs" description="destination subdirectory for the javadocs" />
+	<property name="src" value="src" description="directory containing java source files" />
+	<property name="data" value="data" description="directory containing data to make jars from" />
+	<property name="html" value="html" description="html files for the website" />
+	<property name="dist" value="dist" description="distribution" />
+	<property name="jar_file" value="${dist}/eniac.jar" description="jar file" />
+	<property name="browser" value="safari" description="the test browser" />
+
+	<!--############# main target: dist ##############-->
+
+	<target name="dist" depends="sign, copy_html" description="build all" />
+
+	<!--############# common targets ##############-->
+
+	<target name="clean" description="clean up first">
+		<echo message="Deleting temporary files" />
+		<delete includeEmptyDirs="true" failonerror="false">
+			<fileset dir="${build}" />
+			<fileset dir="${dist}" />
+			<fileset file="tempstore" />
+		</delete>
+
+		<echo message="create temporary directories" />
+		<mkdir dir="${build}" />
+		<mkdir dir="${dist}" />
+	</target>
+
+	<target name="compile" depends="clean" description="compile all java classes">
+		<echo message="compile all java sources" />
+		<javac srcdir="${src}" destdir="${build}" source="1.7" debug="true" includeantruntime="false" />
+	</target>
+
+	<target name="jar" depends="compile" description="create jar file">
+		<echo message="create buildnumber file" />
+		<buildnumber />
+		<tstamp>
+			<format property="build.time" pattern="MM/dd/yyyy hh:mm aa" />
+		</tstamp>
+
+		<echo message="copy files to build directory" />
+		<copy todir="${build}" file="build.number" />
+		<copy todir="${build}" file="LICENSE.txt" />
+		<copy todir="${build}" file="README.md" />
+
+		<echo message="create jar file" />
+		<jar destfile="${jar_file}" manifest="MANIFEST">
+			<zipfileset dir="${data}" prefix="" excludes="maniac/*" />
+			<zipfileset dir="${build}" />
+		</jar>
+	</target>
+
+	<target name="sign" depends="jar" description="create certificate and sign jar files">
+		<echo message="create certificate" />
+		<genkey alias="zoppke" storepass="password" keystore="tempstore">
+			<dname>
+				<param name="CN" value="Till Zoppke" />
+				<param name="O" value="Free University of Berlin" />
+				<param name="C" value="DE" />
+			</dname>
+		</genkey>
+		<echo message="sign the jar file" />
+		<signjar alias="zoppke" storepass="password" keystore="tempstore" jar="${jar_file}" />
+	</target>
+
+	<target name="copy_html" description="copy website files to distribution directory">
+		<copy todir="${dist}">
+			<fileset dir="${html}" />
+		</copy>
+	</target>
+
+	<!--############# special targets ##############-->
+
+	<target name="create_javadoc" depends="dist" description="create javadoc information">
+		<javadoc sourcepath="${src}" packagenames="eniac.*" destdir="${dist}/doc" source="1.7" />
+	</target>
+
+	<target name="local" depends="dist" description="build all and evoke browser with index.html">
+		<echo message="kill all instances of ${browser}" />
+		<exec executable="killall">
+			<arg line="-9 ${browser}" />
+		</exec>
+		<echo message="invoke ${dist}/index.html with ${browser}" />
+		<exec executable="${browser}" spawn="true">
+			<arg line="${dist}/index.html" />
+		</exec>
+	</target>
+
+</project>
