@@ -1,8 +1,8 @@
-*.class
+#gitignore for gh-pages
+
 .DS_Store
 tempstore
 
 # temp directories
 bin/*
-dist/*
 build/*
