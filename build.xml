@@ -16,7 +16,8 @@
 	<property name="html" value="html" description="html files for the website" />
 	<property name="dist" value="dist" description="distribution" />
 	<property name="jar_file" value="${dist}/eniac.jar" description="jar file" />
-	<property name="browser" value="safari" description="the test browser" />
+	<property name="browser" value="/Applications/Safari.app/Contents/MacOS/Safari" description="the test browser" />
+	<property name="browser_proc" value="Safari" description="the test browser" />
 
 	<!--############# main target: dist ##############-->
 
@@ -87,7 +88,7 @@
 	</target>
 
 	<target name="local" depends="dist" description="build all and evoke browser with index.html">
-		<echo message="kill all instances of ${browser}" />
+		<echo message="kill all instances of ${browser_proc}" />
 		<exec executable="killall">
 			<arg line="-9 ${browser}" />
 		</exec>
