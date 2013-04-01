@@ -47,7 +47,8 @@
 		</group>
 		<group sid="view">
 			<action key="change_language"/>
-			<action key="highlight_pulse"/>
+		<!-- disabled, as XOR Mode painting not supported in JDK 1.7 -->
+		<!-- action key="highlight_pulse"/> -->
 		</group>
 		<group sid="zoom">
 			<action key="zoom_in"/>
