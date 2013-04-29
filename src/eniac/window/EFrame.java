@@ -44,228 +44,227 @@ import eniac.util.EProperties;
 import eniac.util.Status;
 import eniac.util.StringConverter;
 
-public class EFrame extends JFrame implements PropertyChangeListener,
-        LifecycleListener {
+public class EFrame extends JFrame implements PropertyChangeListener, LifecycleListener {
 
-    /*
-     * ========================== private fields ===============================
-     */
+	/*
+	 * ========================== private fields ===============================
+	 */
 
-    // scrollPane as south component of the contentPane (North component is
-    // the actionBar).
-    private JScrollPane _scrollPane;
+	// scrollPane as south component of the contentPane (North component is
+	// the actionBar).
+	private JScrollPane _scrollPane;
 
-    // configuration panel for display the current configuration of the eniac.
-    // This component is child to the scrollPane.
-    // If no current configuration, this is null.
-    private ConfigPanel _configPanel = null;
+	// configuration panel for display the current configuration of the eniac.
+	// This component is child to the scrollPane.
+	// If no current configuration, this is null.
+	private ConfigPanel _configPanel = null;
 
-    private MediaTracker _mediaTracker;
+	private MediaTracker _mediaTracker;
 
-    /*
-     * ============================ singleton stuff ===========================
-     */
+	/*
+	 * ============================ singleton stuff ===========================
+	 */
 
-    private static EFrame instance;
+	private static EFrame instance;
 
-    private EFrame() {
+	private EFrame() {
 
-        // set bounds.
-        Dimension mySize = StringConverter.toDimension(EProperties
-                .getInstance().getProperty("EFRAME_SIZE"));
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mySize.width = Math.min(mySize.width, screenSize.width);
-        mySize.height = Math.min(mySize.height, screenSize.height);
-        setSize(mySize);
-        setLocation((screenSize.width - mySize.width) / 2,
-                (screenSize.height - mySize.height) / 3);
+		// set bounds.
+		Dimension mySize = StringConverter.toDimension(EProperties.getInstance().getProperty("EFRAME_SIZE"));
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		mySize.width = Math.min(mySize.width, screenSize.width);
+		mySize.height = Math.min(mySize.height, screenSize.height);
+		setSize(mySize);
+		setLocation((screenSize.width - mySize.width) / 2, (screenSize.height - mySize.height) / 3);
 
-        // create media tracker
-        _mediaTracker = new MediaTracker(this);
+		// create media tracker
+		_mediaTracker = new MediaTracker(this);
 
-        // add as singleton to starter
-        Manager.getInstance().addMainListener(this);
-    }
+		// add as singleton to starter
+		Manager.getInstance().addMainListener(this);
+	}
 
-    public static EFrame getInstance() {
-        if (instance == null) {
-            instance = new EFrame();
-        }
-        return instance;
-    }
+	public static EFrame getInstance() {
+		if (instance == null) {
+			instance = new EFrame();
+		}
+		return instance;
+	}
 
-    /**
-     * Initializes this dvFrame. Listener registration is done, the frame is
-     * layouted and finally brought to the screen.
-     */
-    public void toScreen() {
+	/**
+	 * Initializes this dvFrame. Listener registration is done, the frame is
+	 * layouted and finally brought to the screen.
+	 */
+	public void toScreen() {
 
-        // set window title
-        setTitle(Dictionary.MAIN_FRAME_TITLE);
+		// set window title
+		setTitle(Dictionary.MAIN_FRAME_TITLE);
 
-        // window listener
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                Manager.getInstance().stop();
-                Manager.getInstance().destroy();
-                dispose();
-            }
-        });
+		// window listener
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				Manager.getInstance().stop();
+				Manager.getInstance().destroy();
+				dispose();
+			}
+		});
 
-        // init scrollPane
-        _scrollPane = new JScrollPane(); 
-        Color c = StringConverter.toColor(EProperties.getInstance()
-                .getProperty("BACKGROUND_COLOR"));
-        _scrollPane.getViewport().setBackground(c);
+		// init scrollPane
+		_scrollPane = new JScrollPane();
+		Color c = StringConverter.toColor(EProperties.getInstance().getProperty("BACKGROUND_COLOR"));
+		_scrollPane.getViewport().setBackground(c);
 
-        // add components
+		// add components
 		// create and init menu handler
 		Hashtable actionDefaults = new Hashtable();
 		MenuHandler handler = new MenuHandler(actionDefaults);
 		handler.init();
 
-        setJMenuBar(handler.getMenuBar());
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(handler.getToolBar(), BorderLayout.NORTH);
-        getContentPane().add(_scrollPane, BorderLayout.CENTER);
+		setJMenuBar(handler.getMenuBar());
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(handler.getToolBar(), BorderLayout.NORTH);
+		getContentPane().add(_scrollPane, BorderLayout.CENTER);
 
-        // update configurationPanel
-        // TODO: find new way of initializing configuration
-        updateConfigPanel();
-        // add this as propertyChangeListener
-        Status.getInstance().addListener(this);
+		// update configurationPanel
+		// TODO: find new way of initializing configuration
+		updateConfigPanel();
+		// add this as propertyChangeListener
+		Status.getInstance().addListener(this);
 
-        // init LogWindow
-        // LogWindow.getInstance();
-        setVisible(true);
-    }
+		// init LogWindow
+		// LogWindow.getInstance();
+		setVisible(true);
+	}
 
-    /*
-     * =============================== methods =================================
-     */
+	/*
+	 * =============================== methods =================================
+	 */
 
-    // update config panel. This method is called, when the current
-    // configuration changed.
-    private void updateConfigPanel() {
+	// update config panel. This method is called, when the current
+	// configuration changed.
+	private void updateConfigPanel() {
 
-        // dispose the old panel if any
-        if (_configPanel != null) {
-            _scrollPane.setViewportView(null);
-            _configPanel.dispose();
-        }
+		// dispose the old panel if any
+		if (_configPanel != null) {
+			_scrollPane.setViewportView(null);
+			_configPanel.dispose();
+		}
 
-        // get current configuration and the viewDimension
-        Configuration config = (Configuration) Status.get("configuration");
+		// get current configuration and the viewDimension
+		Configuration config = (Configuration) Status.get("configuration");
 
-        // determine which configPanel to set
-        if (config == null) {
+		// determine which configPanel to set
+		if (config == null) {
 
-            // configuration is null. Set null.
-            _configPanel = null;
-        } else {
-            // create new configurationPanel
-            _configPanel = (ConfigPanel) config.makePanel();
-            // add configPanel to scrollPane and init
-            _configPanel.init();
-            _scrollPane.setViewportView(_configPanel);
-        }
+			// configuration is null. Set null.
+			_configPanel = null;
+		}
+		else {
+			// create new configurationPanel
+			_configPanel = (ConfigPanel) config.makePanel();
+			// add configPanel to scrollPane and init
+			_configPanel.init();
+			_scrollPane.setViewportView(_configPanel);
+		}
 
-        // tell OVWindow to adjust its panel to the new configPanel
-        OVWindow.getInstance().configPanelChanged();
-    }
+		// tell OVWindow to adjust its panel to the new configPanel
+		OVWindow.getInstance().configPanelChanged();
+	}
 
-    public int showFileChooser(JFileChooser chooser, String approveButtonText) {
-        return chooser.showDialog(this, approveButtonText);
-    }
+	public int showFileChooser(JFileChooser chooser, String approveButtonText) {
+		return chooser.showDialog(this, approveButtonText);
+	}
 
-    public ConfigPanel getConfigPanel() {
-        return _configPanel;
-    }
+	public ConfigPanel getConfigPanel() {
+		return _configPanel;
+	}
 
-    /*
-     * ===================== PropertyChangeListener methods ==================
-     */
+	/*
+	 * ===================== PropertyChangeListener methods ==================
+	 */
 
-    /**
-     * This method is called when the current configuration or the viewDimension
-     * or the zoom is Changed.
-     * 
-     * @param evt
-     *            The propertyEvent indicating that the architecture changed
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
+	/**
+	 * This method is called when a status property is changed
+	 * 
+	 * @param evt
+	 *            The propertyEvent indicating that the architecture changed
+	 */
+	public void propertyChange(PropertyChangeEvent evt) {
 
-        if (evt.getPropertyName().equals("configuration")) {
-            // configuration changed. Update the configPanel.
-            updateConfigPanel();
+		if (evt.getPropertyName().equals("configuration")) {
+			// configuration changed. Update the configPanel.
+			updateConfigPanel();
 
-        } else if (evt.getPropertyName().equals("skin")) {
-            // skin changed. repaint
-            repaint();
+		}
+		else if (evt.getPropertyName().equals("skin")) {
+			// skin changed. repaint
+			repaint();
 
-        } else if (evt.getPropertyName().equals("language")) {
-            // language changed. repaint and adjust title.
-            repaint();
+		}
+		else if (evt.getPropertyName().equals("language")) {
+			// language changed. repaint and adjust title.
+			repaint();
 
-            // set default locale to JComponent.
-            // So optionPane buttons get the right language.
-            // Note: on my machine there is a strange behaviour,
-            // that I cannot change to "en" or Locale.ENGLISH nor .US nor .UK.
-            // in these three cases, still my default locale (GERMAN) is used.
-            // Changing to FRENCH or JAPANESE works fine.
-            String language = (String) evt.getNewValue();
-            JComponent.setDefaultLocale(new Locale(language));
-            setTitle(Dictionary.MAIN_FRAME_TITLE);
-        }
-    }
+			// set default locale to JComponent.
+			// So optionPane buttons get the right language.
+			// Note: on my machine there is a strange behaviour,
+			// that I cannot change to "en" or Locale.ENGLISH nor .US nor .UK.
+			// in these three cases, still my default locale (GERMAN) is used.
+			// Changing to FRENCH or JAPANESE works fine.
+			String language = (String) evt.getNewValue();
+			JComponent.setDefaultLocale(new Locale(language));
+			setTitle(Dictionary.MAIN_FRAME_TITLE);
+		}
+	}
 
-    /*
-     * ============================ changelistener ===========================
-     */
+	/*
+	 * ============================ changelistener ===========================
+	 */
 
-    public void addChangeListener(ChangeListener listener) {
-        _scrollPane.getViewport().addChangeListener(listener);
-    }
+	public void addChangeListener(ChangeListener listener) {
+		_scrollPane.getViewport().addChangeListener(listener);
+	}
 
-    public void removeChangeListener(ChangeListener listener) {
-        _scrollPane.getViewport().removeChangeListener(listener);
-    }
+	public void removeChangeListener(ChangeListener listener) {
+		_scrollPane.getViewport().removeChangeListener(listener);
+	}
 
-    /**
-     * @param oldVal
-     * @param newVal
-     * @see eniac.LifecycleListener#mainChanged(short, short)
-     */
-    public void runLevelChanged(short oldVal, short newVal) {
-        if (newVal == Manager.STATE_STOPPED) {
-            setVisible(false);
-        } else if (newVal == Manager.STATE_DESTROYED) {
-            dispose();
-            instance = null;
-        }
-    }
+	/**
+	 * @param oldVal
+	 * @param newVal
+	 * @see eniac.LifecycleListener#mainChanged(short, short)
+	 */
+	public void runLevelChanged(short oldVal, short newVal) {
+		if (newVal == Manager.STATE_STOPPED) {
+			setVisible(false);
+		}
+		else if (newVal == Manager.STATE_DESTROYED) {
+			dispose();
+			instance = null;
+		}
+	}
 
-    /**
-     * @param path
-     * @return
-     */
-    public Image getResourceAsImage(String name) {
+	/**
+	 * @param path
+	 * @return
+	 */
+	public Image getResourceAsImage(String name) {
 
-        // get url. If path cannot be resolved, return null.
-        URL url = Manager.class.getClassLoader().getResource(name);
-        if (url == null) {
-            return null;
-        }
+		// get url. If path cannot be resolved, return null.
+		URL url = Manager.class.getClassLoader().getResource(name);
+		if (url == null) {
+			return null;
+		}
 
-        Image img = Toolkit.getDefaultToolkit().createImage(url);
-        _mediaTracker.addImage(img, 1);
-        try {
-            _mediaTracker.waitForAll();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+		Image img = Toolkit.getDefaultToolkit().createImage(url);
+		_mediaTracker.addImage(img, 1);
+		try {
+			_mediaTracker.waitForAll();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
-        return img;
-    }
+		return img;
+	}
 
 }

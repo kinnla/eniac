@@ -32,10 +32,6 @@ import eniac.util.Status;
  */
 public class EViewPort extends JViewport {
 
-    // representing the location of the scrollbar according to configPanel Size.
-    private float _scrollX = 0.5F;
-
-    private float _scrollY = 0.5F;
 
 //    public EViewPort() {
 //        Status.getInstance().addListener(this);

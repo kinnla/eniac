@@ -41,11 +41,10 @@ import eniac.util.StringConverter;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
-public class ConfigPanel extends ParentPanel implements Scrollable,
-		PropertyChangeListener {
+public class ConfigPanel extends ParentPanel implements Scrollable, PropertyChangeListener {
 
 	/*
 	 * ============================== fields ===================================
@@ -56,9 +55,13 @@ public class ConfigPanel extends ParentPanel implements Scrollable,
 
 	// current lod for detaied view
 	private int _lod;
-	
+
 	// temporary Point for computation speed up
 	private Point _p = new Point();
+
+	// representing the location of the scrollbar according to configPanel Size.
+	private float _scrollX = 0.5F;
+	private float _scrollY = 0.5F;
 
 	/*
 	 * =============================== lifecycle ===============================
@@ -112,8 +115,8 @@ public class ConfigPanel extends ParentPanel implements Scrollable,
 		int height = Status.getInt("zoomed_height");
 
 		// set lod
-        Skin skin = (Skin) Status.get(("skin"));
-        _lod = skin.getLodByHeight(height);
+		Skin skin = (Skin) Status.get(("skin"));
+		_lod = skin.getLodByHeight(height);
 
 		// get descriptor for this configuration
 		EType type = _data.getType();
@@ -161,9 +164,6 @@ public class ConfigPanel extends ParentPanel implements Scrollable,
 	 * ========================== scrollable methods ===========================
 	 */
 
-	/**
-	 * 
-	 */
 	public boolean getScrollableTracksViewportHeight() {
 		return false;
 	}
@@ -176,22 +176,12 @@ public class ConfigPanel extends ParentPanel implements Scrollable,
 		return getPreferredSize();
 	}
 
-	public int getScrollableBlockIncrement(Rectangle visibleRect,
-			int orientation, int direction) {
+	public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
 		return 30;
 	}
 
-	public int getScrollableUnitIncrement(Rectangle visibleRect,
-			int orientation, int direction) {
+	public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
 		return 30;
-	}
-
-	public static float heightToPercentage() {
-		// determine zoom and lod
-		int basicHeight = StringConverter.toInt(EProperties.getInstance()
-				.getProperty("BASIC_CONFIGURATION_HEIGHT"));
-		int zoomedHeight = Status.getInt("zoomed_height");
-		return (float) zoomedHeight / (float) basicHeight;
 	}
 
 	/*
@@ -205,47 +195,66 @@ public class ConfigPanel extends ParentPanel implements Scrollable,
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals("highlight_pulse")) {
 			// highlight mode changed by user action.
-			// Because this won't happen too often don't be niggardly:
+			// Because this won't happen too often don't be cheap:
 			// just repaint.
 			update(_data, EData.REPAINT);
-		} else if (evt.getPropertyName().equals("zoomed_height")) {
+		}
+		else if (evt.getPropertyName().equals("zoomed_height")) {
+
+			// zoom changed.
+			// init with default values
+			double scrollPercentageX=0.5;
+			double scrollPercentageY=0.5;
 			
+			// get values
 			Dimension preferredSize = getPreferredSize();
 			JViewport viewPort = ((JViewport) getParent());
 			Dimension viewPortSize = viewPort.getSize();
 			Point currentPosition = viewPort.getViewPosition();
 
-			_p.x = -(currentPosition.x + viewPortSize.width / 2) * preferredSize.width / getWidth() - viewPortSize.width / 2;
-			_p.y = -(currentPosition.y + viewPortSize.height / 2) * preferredSize.height / getHeight() - viewPortSize.height / 2;
+			// check, if preferred width > viewport width
+			int widthDiff = preferredSize.width - viewPortSize.width;
+			if (widthDiff >0) {
+				// compute relative scroll position x
+				scrollPercentageX = currentPosition.x / (double) (getSize().width - viewPortSize.width);
+			}
 
-			if (viewPortSize.width > Math.min(preferredSize.width, getWidth())) {
-				_p.x = -(preferredSize.width - viewPortSize.width) / 2;
+			// check, if preferred height > viewport height
+			int heightDiff = preferredSize.height - viewPortSize.height;
+			if (heightDiff >0) {
+				// compute relative scroll position y
+				scrollPercentageY = currentPosition.y / (double) (getSize().height - viewPortSize.height);
+			}
+
+			// default _p to current position
+			_p = getLocation();
+			
+			// check, if need to update x location
+			if (widthDiff>0) {
+				// we cannot see the complete configuration in x direction
+				_p.x=(int) (widthDiff * scrollPercentageX);
 			}
 			
-			if (viewPortSize.height > Math.min(preferredSize.height, getHeight())) {
-				_p.y = -(preferredSize.height- viewPortSize.height) / 2;
+			// check, if need to update x location
+			if (heightDiff>0) {
+				// we cannot see the complete configuration in x direction
+				_p.y=(int) (heightDiff * scrollPercentageY);
 			}
 			
-			System.out.println("setLocation: "+_p.x+",  "+_p.y);
-			
-			setBounds(_p.x,_p.y, preferredSize.width, preferredSize.height);
+			setSize(preferredSize);
+			viewPort.setViewPosition(_p);
 			revalidate();
-			
-			//viewPort.setViewPosition(_p);
-			
-			/*SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					setLocation(_p.x,_p.y);
-				}
-			});*/
-
-			//viewPort.getParent().doLayout();
-			
-	        // set new bounds to the configPanel
-	        /*Dimension prefSize = view.getPreferredSize();
-	        view.setBounds((int) ((getWidth() - prefSize.width) * _scrollX),
-	                (int) ((getHeight() - prefSize.height) * _scrollY),
-	                prefSize.width, prefSize.height);*/
 		}
+	}
+
+	/*
+	 * ========================== static methods ===============================
+	 */
+
+	public static float heightToPercentage() {
+		// determine zoom and lod
+		int basicHeight = StringConverter.toInt(EProperties.getInstance().getProperty("BASIC_CONFIGURATION_HEIGHT"));
+		int zoomedHeight = Status.getInt("zoomed_height");
+		return (float) zoomedHeight / (float) basicHeight;
 	}
 }
