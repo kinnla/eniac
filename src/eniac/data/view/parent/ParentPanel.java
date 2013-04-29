@@ -46,8 +46,8 @@ public class ParentPanel extends EPanel {
 
     private int[] _heightCache;
 
-    // ///////////////////////////// lifecycle
-    // //////////////////////////////////
+    // ============================= lifecycle
+    // ==================================
 
     public ParentPanel() {
 
@@ -85,8 +85,8 @@ public class ParentPanel extends EPanel {
         removeAll();
     }
 
-    // ///////////////////////////// methods
-    // ////////////////////////////////////
+    // ============================= methods
+    // ====================================
 
     public EPanel[] getChildren() {
         return _children;

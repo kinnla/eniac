@@ -128,7 +128,7 @@ public class OpenConfigurationPanel extends DialogPanel {
      */
     public void init() {
 
-        // ///////////////////////// actions ///////////////////////////////////
+        // ========================= actions //=================================
 
         // create and add okAction
         _okAction = new AbstractAction() {
@@ -160,7 +160,7 @@ public class OpenConfigurationPanel extends DialogPanel {
         getActionMap().put(_fileChooserAction.getValue(Action.NAME),
                 _fileChooserAction);
 
-        // /////////////////////////// jpanel1 /////////////////////////////////
+        // =========================== jpanel1 //===============================
 
         // create and init _jlist and _listPane
         _jlist = new JList(_proxies);
@@ -228,7 +228,7 @@ public class OpenConfigurationPanel extends DialogPanel {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
                         0, 0, 0, 0), 0, 0));
 
-        // ///////////////////////////// jpanel2 ///////////////////////////////
+        // ============================= jpanel2 //=============================
 
         // init jpanel1
         _jpanel2 = new JPanel(new GridBagLayout());
@@ -257,7 +257,7 @@ public class OpenConfigurationPanel extends DialogPanel {
                 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(0, 0, 0, 0), 0, 0));
 
-        // //////////////////////////// buttons ////////////////////////////////
+        // ============================ buttons //==============================
 
         // create and init buttons
         JButton okButton = new JButton(_okAction);
@@ -277,7 +277,7 @@ public class OpenConfigurationPanel extends DialogPanel {
         // enable radiobutton2 according to our privileges
         _radioButton2.setEnabled(Manager.getInstance().hasIOAccess());
 
-        // //////////////////////////// add keystrokes /////////////////////////
+        // ============================ add keystrokes //=======================
 
         // fill actionMap
         getActionMap().put(Dictionary.OK, _okAction);
@@ -326,7 +326,7 @@ public class OpenConfigurationPanel extends DialogPanel {
                 "OPEN_CONFIGURATION_PANEL_SIZE"));
     }
 
-    // //////////////// methods for getting the input result ///////////////////
+    // ================ methods for getting the input result //=================
 
     public short getConfiguraionType() {
         return _configurationType;
@@ -340,7 +340,7 @@ public class OpenConfigurationPanel extends DialogPanel {
         return _canonicalPath;
     }
 
-    // //////////////////////// event processing ///////////////////////////////
+    // ======================== event processing //=============================
 
     void performUpdate() {
 

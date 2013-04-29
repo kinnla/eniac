@@ -122,8 +122,8 @@ public class SaveConfiguration extends EAction implements
         Manager.getInstance().unblock();
     }
 
-    // ////////////////////////////// enabling
-    // //////////////////////////////////
+    // ============================== enabling
+    // ==================================
 
     public void propertyChange(PropertyChangeEvent e) {
         if (e.getPropertyName().equals("configuration")) {

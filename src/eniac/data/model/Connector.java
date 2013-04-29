@@ -69,8 +69,8 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
     // in case of a digit connector, it is according to the pulse transmission.
     private long _pulseValue = 0;
 
-    ////////////////////////////// lifecycle
-    // ///////////////////////////////////
+    //============================ lifecycle
+    // ===================================
 
     public Connector() {
         // empty constructor
@@ -85,8 +85,8 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
         // the cable
     }
 
-    ////////////////////////////////// methods
-    // /////////////////////////////////
+    //================================ methods
+    // =================================
 
     public String getAttributes() {
         return super.getAttributes()
@@ -162,8 +162,8 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
         return _lastPulse;
     }
 
-    /////////////////////////// pulseInteractor methods
-    // ////////////////////////
+    //========================= pulseInteractor methods
+    // ========================
 
     /**
      * @param time
@@ -320,8 +320,8 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
         }
     }
 
-    /////////////////////////////// event listening
-    // ////////////////////////////
+    //============================= event listening
+    // ============================
 
     /**
      * @param e

@@ -31,8 +31,8 @@ import eniac.log.Log;
  */
 public class DictionaryHandler extends DefaultHandler {
 
-    ///////////////////////////////// fields
-    // ///////////////////////////////////
+    //=============================== fields
+    // ===================================
 
     // language to load
     private Hashtable _table = new Hashtable();
@@ -50,7 +50,7 @@ public class DictionaryHandler extends DefaultHandler {
         // empty
     }
 
-    /////////////////////////// defaultHandler methods ////////////////////////
+    //========================= defaultHandler methods //======================
 
     public void startDocument() {
         Progressor.getInstance().setText(Dictionary.DICTIONARY_LOADING);

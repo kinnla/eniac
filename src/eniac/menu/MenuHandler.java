@@ -49,7 +49,7 @@ public class MenuHandler extends DefaultHandler {
 	private static final int STATE_DEFAULT = 0, STATE_TOOLBAR = 1,
 			STATE_MENUBAR = 2;
 
-	///////////////////////////////// fields //////////////////////////////////
+	//=============================== fields //================================
 
 	private Hashtable _actionDefaults = null;
 
@@ -63,7 +63,7 @@ public class MenuHandler extends DefaultHandler {
 
 	private Hashtable _actions = new Hashtable();
 
-	////////////////////////////// lifecycle //////////////////////////////////
+	//============================ lifecycle //================================
 
 	public MenuHandler(Hashtable actionDefaults) {
 		_actionDefaults = actionDefaults;
@@ -81,7 +81,7 @@ public class MenuHandler extends DefaultHandler {
 		}
 	}
 
-	//////////////////////////// defaultHandler methods ///////////////////////
+	//========================== defaultHandler methods //=====================
 
 	public void startElement(String uri, String localName, String qName,
 			Attributes attrs) throws SAXException {
@@ -135,7 +135,7 @@ public class MenuHandler extends DefaultHandler {
 		}
 	}
 
-	///////////////////////////// other methods ///////////////////////////////
+	//=========================== other methods //=============================
 
 	public JToolBar getToolBar() {
 		return _toolBar;

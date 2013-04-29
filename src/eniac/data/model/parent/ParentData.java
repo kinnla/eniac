@@ -42,8 +42,8 @@ public class ParentData extends EData {
     // When initialization finished, they will moved to the garten.
     protected List _childList = new Vector();
 
-    /////////////////////////////// lifecycle
-    // //////////////////////////////////
+    //============================= lifecycle
+    // ==================================
 
     public ParentData() {
         // empty
@@ -67,8 +67,8 @@ public class ParentData extends EData {
         removeAllChildren();
     }
 
-    /////////////////////////////// methods
-    // ////////////////////////////////////
+    //============================= methods
+    // ====================================
 
     public boolean hasPower() {
         // default status for trunks, trays, configuration
@@ -131,8 +131,8 @@ public class ParentData extends EData {
         }
     }
 
-    //////////////////////////////// xml methods
-    // ///////////////////////////////
+    //============================== xml methods
+    // ===============================
 
     /**
      * Returns a list containing all Tags and child-Tags of this dataObject.

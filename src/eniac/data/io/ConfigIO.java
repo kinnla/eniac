@@ -55,8 +55,8 @@ public class ConfigIO {
         // empty constructor
     }
 
-    // /////////////////////////// public methods
-    // ///////////////////////////////
+    // =========================== public methods
+    // ===============================
 
     /**
      * Writes an xml representation of this configuration to a file. If the file
@@ -158,8 +158,8 @@ public class ConfigIO {
         }
     }
 
-    // ////////////////////////// private methods
-    // ///////////////////////////////
+    // ========================== private methods
+    // ===============================
 
     private static String getPathWithoutIndex() {
         String folder = EProperties.getInstance().getProperty("CONFIG_FOLDER");

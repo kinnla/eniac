@@ -50,7 +50,7 @@ public class Benchmark extends EData implements Observer {
 
     private long _lastSimTime = 0L;
 
-    ///////////////////////////////// lifecycle ///////////////////////////////
+    //=============================== lifecycle //=============================
 
     /**
      * @param type
@@ -80,7 +80,7 @@ public class Benchmark extends EData implements Observer {
         super.dispose();
     }
 
-    ///////////////////////////////// methods /////////////////////////////////
+    //=============================== methods //===============================
 
     public void update(Observable o, Object args) {
         if (hasPower()) {
@@ -139,7 +139,7 @@ public class Benchmark extends EData implements Observer {
                         .toString(_freqs.length));
     }
 
-    ///////////////////////// private class UpdateTask ////////////////////////
+    //======================= private class UpdateTask //======================
 
     private class UpdateTask extends TimerTask {
         public void run() {

@@ -69,8 +69,8 @@ public class SaveConfigurationPanel extends DialogPanel {
      */
     public void init() {
 
-        //////////////////////////// actions
-        // ///////////////////////////////////
+        //========================== actions
+        // ===================================
 
         // create and add okAction
         _nextAction = new AbstractAction() {
@@ -90,8 +90,8 @@ public class SaveConfigurationPanel extends DialogPanel {
         _cancelAction.putValue(Action.NAME, Dictionary.CANCEL);
         getActionMap().put(_cancelAction.getValue(Action.NAME), _cancelAction);
 
-        /////////////////////////////// jpanel
-        // /////////////////////////////////
+        //============================= jpanel
+        // =================================
 
         // create components
         _panel = new JPanel(new GridBagLayout());
@@ -122,8 +122,8 @@ public class SaveConfigurationPanel extends DialogPanel {
                 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(0, 0, 0, 0), 0, 0));
 
-        ///////////////////////////// buttons
-        // //////////////////////////////////
+        //=========================== buttons
+        // ==================================
 
         // create and init buttons
         JButton okButton = new JButton(_nextAction);
@@ -137,8 +137,8 @@ public class SaveConfigurationPanel extends DialogPanel {
                 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(0, 0, 0, 0), 0, 0));
 
-        /////////////////////////////// add keystrokes
-        // /////////////////////////
+        //============================= add keystrokes
+        // =========================
 
         // fill actionMap
         getActionMap().put(Dictionary.NEXT, _nextAction);
@@ -158,8 +158,8 @@ public class SaveConfigurationPanel extends DialogPanel {
                         Dictionary.CANCEL);
     }
 
-    /////////////////////////////////// getter
-    // /////////////////////////////////
+    //================================= getter
+    // =================================
 
     public boolean isNextPressed() {
         return _nextPressed;
@@ -173,8 +173,8 @@ public class SaveConfigurationPanel extends DialogPanel {
         return _descriptionArea.getText();
     }
 
-    //////////////////////////// action methods
-    // ////////////////////////////////
+    //========================== action methods
+    // ================================
 
     public void performCancelAction() {
         _nextPressed = false;

@@ -27,8 +27,8 @@ public class EventQueue {
 
     private int _size = 0;
 
-    ///////////////////////////// constructors
-    // /////////////////////////////////
+    //=========================== constructors
+    // =================================
 
     /**
      * Constructs an initially empty discreteEventQueue
@@ -37,8 +37,8 @@ public class EventQueue {
         // empty
     }
 
-    ////////////////////////// private methods
-    // /////////////////////////////////
+    //======================== private methods
+    // =================================
 
     // compares two elements by calling compareTo
     private boolean lessThan(int i, int j) {
@@ -91,8 +91,8 @@ public class EventQueue {
         }
     }
 
-    /////////////////////////// public methods
-    // /////////////////////////////////
+    //========================= public methods
+    // =================================
 
     /**
      * Checks whether this discreteEventQueue contains more events

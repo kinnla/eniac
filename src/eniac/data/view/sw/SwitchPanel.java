@@ -36,15 +36,15 @@ public class SwitchPanel extends EPanel {
     // This is useful to determine if one is dragging with right or left button.
     protected boolean _leftDown = false;
 
-    //////////////////////////////// lifecycle
-    // /////////////////////////////////
+    //============================== lifecycle
+    // =================================
 
     public SwitchPanel() {
         // empty
     }
 
-    ///////////////////////////////// methods
-    // //////////////////////////////////
+    //=============================== methods
+    // ==================================
 
     protected void paintComponent(Graphics g, int x, int y, int width,
             int height, int lod) {

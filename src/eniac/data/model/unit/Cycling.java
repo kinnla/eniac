@@ -38,14 +38,14 @@ import eniac.util.Status;
  */
 public class Cycling extends Unit implements Observer, EEventListener {
 
-    ///////////////////////////// constants ///////////////////////////////////
+    //=========================== constants //=================================
 
     // iteration switch values
     //private static final int ITERATION_SINGLE = 0;
     //private static final int ITERATION_ADDITION = 1;
     private static final int ITERATION_INFINITY = 3;
 
-    /////////////////////////////// lifecycle /////////////////////////////////
+    //============================= lifecycle //===============================
 
     public Cycling() {
         // empty
@@ -69,7 +69,7 @@ public class Cycling extends Unit implements Observer, EEventListener {
         updatePower();
     }
 
-    ///////////////////////////////// methods /////////////////////////////////
+    //=============================== methods //===============================
 
     private void updatePower() {
 
@@ -117,7 +117,7 @@ public class Cycling extends Unit implements Observer, EEventListener {
         return (Switch) getGarten().getKind(ProtoTypes.HEATERS, 0);
     }
 
-    //////////////////////////// event listening //////////////////////////////
+    //========================== event listening //============================
 
     /**
      * @param e

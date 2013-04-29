@@ -108,8 +108,8 @@ public class IOUtil {
         }
     }
 
-    // //////////////////////// file access methods
-    // /////////////////////////////
+    // ======================== file access methods
+    // =============================
 
     /**
      * Opens an <code>inputStream</code> to the specified file.

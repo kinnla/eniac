@@ -43,8 +43,8 @@ public class LogWindow extends JDialog implements PropertyChangeListener,
     // reference to logpanel
     private LogPanel _logPanel = null;
 
-    // ///////////////////////////// singleton stuff
-    // ////////////////////////////
+    // ============================= singleton stuff
+    // ============================
 
     // singleton self reference
     private static LogWindow instance;
@@ -88,8 +88,8 @@ public class LogWindow extends JDialog implements PropertyChangeListener,
         setVisible((Boolean)Status.get("show_log"));
     }
 
-    // /////////////////////////// listener stuff
-    // ///////////////////////////////
+    // =========================== listener stuff
+    // ===============================
 
     public void propertyChange(PropertyChangeEvent evt) {
 

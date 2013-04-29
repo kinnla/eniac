@@ -36,8 +36,8 @@ public class Status implements LifecycleListener {
     // containing all properties as key - value pairs
     private HashMap _map;
 
-    // //////////////////////////// singleton stuff
-    // /////////////////////////////
+    // ============================ singleton stuff
+    // =============================
 
     // singleton self reference
     private static Status instance;
@@ -111,8 +111,8 @@ public class Status implements LifecycleListener {
         _map.put("simulation_time", new Long(-1));
     }
 
-    // /////////////////////////// getter and setter
-    // ////////////////////////////
+    // =========================== getter and setter
+    // ============================
 
     public static void set(String key, Object value) {
 
@@ -155,8 +155,8 @@ public class Status implements LifecycleListener {
         return ((Long) get(key)).longValue();
     }
 
-    // ///////////////////////// listener stuff
-    // /////////////////////////////////
+    // ========================= listener stuff
+    // =================================
 
     public void addListener(PropertyChangeListener listener) {
         _pcs.addPropertyChangeListener(listener);

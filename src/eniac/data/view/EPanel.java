@@ -62,8 +62,8 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
     // reference to dataObject
     protected EData _data;
 
-    // /////////////////////////// lifecycle
-    // ////////////////////////////////////
+    // =========================== lifecycle
+    // ====================================
 
     public EPanel() {
         super(null);
@@ -98,7 +98,7 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
         _data.deleteObserver(this);
     }
 
-    // /////////////////////////////// methods /////////////////////////////////
+    // =============================== methods //===============================
 
     public void setData(EData data) {
         _data = data;
@@ -250,8 +250,8 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
         return new Rectangle(newX, newY, newWidth, newHeight);
     }
 
-    // /////////////////////// MouseListener methods
-    // ////////////////////////////
+    // ======================= MouseListener methods
+    // ============================
 
     public void mouseReleased(MouseEvent e) {
         if (isEnabled() && e.getButton() != MouseEvent.BUTTON3) {

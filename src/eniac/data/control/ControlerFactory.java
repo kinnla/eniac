@@ -30,8 +30,8 @@ public class ControlerFactory {
 
     private String[] _keys;
 
-    //////////////////////////////// lifecycle
-    // /////////////////////////////////
+    //============================== lifecycle
+    // =================================
 
     public ControlerFactory() {
 
@@ -47,8 +47,8 @@ public class ControlerFactory {
         }
     }
 
-    /////////////////////////////// methods
-    // ////////////////////////////////////
+    //============================= methods
+    // ====================================
 
     public Controler get(String cls) {
         for (int i = 0; i < _actionators.length; ++i) {
@@ -59,8 +59,8 @@ public class ControlerFactory {
         return null;
     }
 
-    ///////////////////////////////// Toggle
-    // ///////////////////////////////////
+    //=============================== Toggle
+    // ===================================
 
     private class Toggle extends BasicControler {
         public void mpressed(MouseEvent e) {
@@ -68,8 +68,8 @@ public class ControlerFactory {
         }
     }
 
-    ////////////////////////////// PushButton
-    // //////////////////////////////////
+    //============================ PushButton
+    // ==================================
 
     private class PushButton extends BasicControler {
         public void mpressed(MouseEvent e) {
@@ -88,8 +88,8 @@ public class ControlerFactory {
         }
     }
 
-    ///////////////////////////////// Switch
-    // ///////////////////////////////////
+    //=============================== Switch
+    // ===================================
 
     private class Switch extends BasicControler {
 
@@ -137,8 +137,8 @@ public class ControlerFactory {
         }
     }
 
-    ///////////////////////////// OperationSwitch
-    // //////////////////////////////
+    //=========================== OperationSwitch
+    // ==============================
 
     private class OperationSwitch extends BasicControler {
 

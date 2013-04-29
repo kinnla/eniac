@@ -48,8 +48,8 @@ public class CreatorFactory {
     // actionatorFactory where we get actionators from
     ControlerFactory _actionatorFactory;
 
-    ////////////////////////////////// lifecycle
-    // ///////////////////////////////
+    //================================ lifecycle
+    // ===============================
 
     public CreatorFactory(String imageBase) {
 
@@ -72,8 +72,8 @@ public class CreatorFactory {
         }
     }
 
-    ///////////////////////////////// methods
-    // //////////////////////////////////
+    //=============================== methods
+    // ==================================
 
     public Creator get(String cls) {
         for (int i = 0; i < _creators.length; ++i) {
@@ -92,8 +92,8 @@ public class CreatorFactory {
         _lodName = lodName;
     }
 
-    /////////////////////////// inner class ColorCreator
-    // ///////////////////////
+    //========================= inner class ColorCreator
+    // =======================
 
     private class Color extends Creator {
         public void endElement(String name) {

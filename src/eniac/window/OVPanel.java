@@ -281,8 +281,8 @@ public class OVPanel extends JPanel implements ChangeListener, Observer,
         g.setPaintMode();
     }
 
-    // //////////////////////////// listener stuff
-    // //////////////////////////////
+    // ============================ listener stuff
+    // ==============================
 
     /**
      * @param o

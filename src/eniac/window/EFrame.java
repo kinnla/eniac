@@ -47,8 +47,8 @@ import eniac.util.StringConverter;
 public class EFrame extends JFrame implements PropertyChangeListener,
         LifecycleListener {
 
-    // ////////////////////////// private fields
-    // ////////////////////////////////
+    // ========================== private fields
+    // ================================
 
     // scrollPane as south component of the contentPane (North component is
     // the actionBar).
@@ -61,8 +61,8 @@ public class EFrame extends JFrame implements PropertyChangeListener,
 
     private MediaTracker _mediaTracker;
 
-    // //////////////////////////// singleton stuff
-    // /////////////////////////////
+    // ============================ singleton stuff
+    // =============================
 
     private static EFrame instance;
 
@@ -112,11 +112,6 @@ public class EFrame extends JFrame implements PropertyChangeListener,
 
         // init scrollPane
         _scrollPane = new JScrollPane(); 
-//        {
-//            protected JViewport createViewport() {
-//                return new EViewPort();
-//            }
-//        };
         Color c = StringConverter.toColor(EProperties.getInstance()
                 .getProperty("BACKGROUND_COLOR"));
         _scrollPane.getViewport().setBackground(c);
@@ -143,8 +138,7 @@ public class EFrame extends JFrame implements PropertyChangeListener,
         setVisible(true);
     }
 
-    // /////////////////////////////// methods
-    // //////////////////////////////////
+    // =============================== methods =================================
 
     // update config panel. This method is called, when the current
     // configuration changed.
@@ -184,7 +178,7 @@ public class EFrame extends JFrame implements PropertyChangeListener,
         return _configPanel;
     }
 
-    // ///////////////////// PropertyChangeListener methods ////////////////////
+    // ===================== PropertyChangeListener methods //==================
 
     /**
      * This method is called when the current configuration or the viewDimension
@@ -219,7 +213,7 @@ public class EFrame extends JFrame implements PropertyChangeListener,
         }
     }
 
-    // //////////////////////////// changelistener /////////////////////////////
+    // ============================ changelistener //===========================
 
     public void addChangeListener(ChangeListener listener) {
         _scrollPane.getViewport().addChangeListener(listener);

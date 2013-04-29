@@ -30,8 +30,8 @@ import eniac.log.Log;
  */
 public class TypeHandler extends DefaultHandler {
 
-    ///////////////////////////////// fields
-    // ///////////////////////////////////
+    //=============================== fields
+    // ===================================
 
     private EType _type;
 
@@ -43,15 +43,15 @@ public class TypeHandler extends DefaultHandler {
     // flag indicating whether we are reading whitespace
     private boolean _readWhitespace = false;
 
-    /////////////////////////////// constructor
-    // ////////////////////////////////
+    //============================= constructor
+    // ================================
 
     public TypeHandler() {
         // empty
     }
 
-    //////////////////////////// defaultHandler methods
-    // ////////////////////////
+    //========================== defaultHandler methods
+    // ========================
 
     public void startElement(String uri, String localName, String qName,
             Attributes attrs) throws SAXException {

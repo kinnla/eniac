@@ -265,8 +265,8 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
         sendDigit(time, pulse, this);
     }
 
-    /////////////////////////// pulseinteractor methods
-    // ////////////////////////
+    //========================= pulseinteractor methods
+    // ========================
 
     public boolean canReceiveProgram(long time, PulseInteractor source) {
         return hasPower();

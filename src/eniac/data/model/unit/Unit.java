@@ -27,8 +27,8 @@ import eniac.data.model.sw.Switch;
 public abstract class Unit extends ParentData implements Observer,
         PulseInteractor {
 
-    //////////////////////////////// lifecycle
-    // /////////////////////////////////
+    //============================== lifecycle
+    // =================================
 
     public Unit() {
         // empty
@@ -43,8 +43,8 @@ public abstract class Unit extends ParentData implements Observer,
         getHeaters().addObserver(this);
     }
 
-    ////////////////////////////////// methods
-    // /////////////////////////////////
+    //================================ methods
+    // =================================
 
     public abstract Switch getHeaters();
 
@@ -56,8 +56,8 @@ public abstract class Unit extends ParentData implements Observer,
         return ((Configuration) getParent()).getChild(_gridNumbers[0], 0);
     }
 
-    ////////////////////////// pulseinteractor methods
-    // /////////////////////////
+    //======================== pulseinteractor methods
+    // =========================
 
     /**
      * @param time

@@ -33,8 +33,8 @@ public class Switch extends EData {
 
     private boolean _enabled = true;
 
-    //////////////////////////////// lifecycle
-    // /////////////////////////////////
+    //============================== lifecycle
+    // =================================
 
     public Switch() {
         // empty
@@ -56,8 +56,8 @@ public class Switch extends EData {
         }
     }
 
-    //////////////////////////////// methods
-    // ///////////////////////////////////
+    //============================== methods
+    // ===================================
 
     public void setValue(int value) {
         if (_value != value) {

@@ -125,7 +125,7 @@ public class EViewPort extends JViewport {
     	setViewSize(viewPrefSize);
 	getView().repaint();
     	
-    	/////////////////////////////
+    	//===========================
 
         // set new bounds to the configPanel
         /*Dimension prefSize = view.getPreferredSize();

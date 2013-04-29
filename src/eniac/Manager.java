@@ -306,7 +306,7 @@ public class Manager {
         // System.out.println("reached runlevel " + newVal);
     }
 
-    // //////////////////////////// io methods /////////////////////////////////
+    // ============================ io methods //===============================
 
     /**
      * Opens an <code>inputStream</code> to the specified resource.

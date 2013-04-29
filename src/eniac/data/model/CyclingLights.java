@@ -35,7 +35,7 @@ import eniac.util.Status;
 public class CyclingLights extends EData implements Runnable, EEventListener,
         LifecycleListener, Observer {
 
-    // ///////////////////// eeventmanager fields /////////////////////////
+    // ===================== eeventmanager fields //=======================
 
     // length of a single and an addition-cycle
     public static final int SINGLE_CYCLE = 10;
@@ -57,7 +57,7 @@ public class CyclingLights extends EData implements Runnable, EEventListener,
 
     private int[] _counters;
 
-    // ///////////////// simulator fields ////////////////
+    // ================= simulator fields //==============
 
     private static final int ITERATION_0 = 0;
 
@@ -90,8 +90,8 @@ public class CyclingLights extends EData implements Runnable, EEventListener,
     // carry clear gate
     private boolean _ccg;
 
-    // /////////////////////////////// lifecycle
-    // ////////////////////////////////
+    // =============================== lifecycle
+    // ================================
 
     /**
      * @param type
@@ -136,8 +136,8 @@ public class CyclingLights extends EData implements Runnable, EEventListener,
         }
     }
 
-    // /////////////////////////// private methods
-    // //////////////////////////////
+    // =========================== private methods
+    // ==============================
 
     private synchronized void simulate() {
 
@@ -209,7 +209,7 @@ public class CyclingLights extends EData implements Runnable, EEventListener,
         }
     }
 
-    // ////////////////////////// public methods ///////////////////////////////
+    // ========================== public methods //=============================
 
     public void initEvents() {
         // init events.
@@ -407,7 +407,7 @@ public class CyclingLights extends EData implements Runnable, EEventListener,
         return _ccg;
     }
 
-    // ////////////////////////// eevent processing ////////////////////////////
+    // ========================== eevent processing //==========================
 
     /**
      * @param e

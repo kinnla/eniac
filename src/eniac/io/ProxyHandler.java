@@ -47,8 +47,8 @@ public class ProxyHandler extends DefaultHandler {
         _cdata = null;
     }
 
-    /////////////////////////// defaultHandler methods
-    // /////////////////////////
+    //========================= defaultHandler methods
+    // =========================
 
     public void startElement(String uri, String localName, String qName,
             Attributes attr) throws SAXException {

@@ -31,8 +31,8 @@ public class DataParsingException extends RuntimeException {
 
     public static final short MISSING_ATTRIBUTE = 1;
 
-    ////////////////////////////// constructors
-    // ////////////////////////////////
+    //============================ constructors
+    // ================================
 
     public DataParsingException(Exception e) {
         super(e.getClass().getName() + ": " + e.getMessage()); //$NON-NLS-1$

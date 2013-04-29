@@ -39,8 +39,8 @@ public class KinderGarten {
     // indices of the first element in each section
     private int[] _sections;
 
-    ////////////////////////////// lifecycle
-    // ///////////////////////////////////
+    //============================ lifecycle
+    // ===================================
 
     public KinderGarten(List listOfDataObjects) {
         _kinder = new EData[listOfDataObjects.size()];
@@ -84,8 +84,8 @@ public class KinderGarten {
         System.arraycopy(sections, 0, _sections, 0, _sections.length);
     }
 
-    ///////////////////////////////// methods
-    // //////////////////////////////////
+    //=============================== methods
+    // ==================================
 
     public EData getKind(EType type, int index) {
         assert index >= 0;

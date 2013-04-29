@@ -50,8 +50,8 @@ public class SkinHandler extends DefaultHandler {
 
     private static final short CREATING = 2;
 
-    ////////////////////////////// references
-    // //////////////////////////////////
+    //============================ references
+    // ==================================
 
     // reference to the skin-object that we are serving
     private Skin _skin;
@@ -62,8 +62,8 @@ public class SkinHandler extends DefaultHandler {
     // reference to factory, where we get our creators from.
     private CreatorFactory _factory;
 
-    ///////////////////////// temporary data while parsing
-    // /////////////////////
+    //======================= temporary data while parsing
+    // =====================
 
     // name of a single or an array
     private String _name;
@@ -83,8 +83,8 @@ public class SkinHandler extends DefaultHandler {
     // current shapeVector
     private List _list;
 
-    //////////////////////////////// lifecycle
-    // /////////////////////////////////
+    //============================== lifecycle
+    // =================================
 
     public SkinHandler(Skin skin) {
 
@@ -107,8 +107,8 @@ public class SkinHandler extends DefaultHandler {
         }
     }
 
-    //////////////////////////// defaultHandler methods
-    // ////////////////////////
+    //========================== defaultHandler methods
+    // ========================
 
     public void startDocument() {
         // init progressor
@@ -126,7 +126,7 @@ public class SkinHandler extends DefaultHandler {
             // switch on current parsing state
             switch (_state) {
 
-            ////////////////////////////// default case ////////////////////
+            //============================ default case //==================
             case DEFAULT:
 
                 if (qName.equals(Tags.LOD)) {
@@ -174,7 +174,7 @@ public class SkinHandler extends DefaultHandler {
                 }
                 break;
 
-            //////////////////////// in_descriptor case ////////////////
+            //====================== in_descriptor case //==============
             case IN_DESCRIPTOR:
                 if (qName.equals(Tags.ARRAY)) {
 
@@ -199,7 +199,7 @@ public class SkinHandler extends DefaultHandler {
                 }
                 break;
 
-            //////////////////////// creating case /////////////////////
+            //====================== creating case //===================
 
             case CREATING:
                 // pass call to creator
@@ -219,11 +219,11 @@ public class SkinHandler extends DefaultHandler {
             // switch on current parsing state
             switch (_state) {
 
-            ////////////////////////////// default case ////////////////////
+            //============================ default case //==================
             case DEFAULT:
                 break;
 
-            //////////////////////// in_descriptor case ////////////////
+            //====================== in_descriptor case //==============
             case IN_DESCRIPTOR:
 
                 if (qName.equals(Tags.DESCRIPTOR)) {
@@ -254,7 +254,7 @@ public class SkinHandler extends DefaultHandler {
                 }
                 break;
 
-            /////////////////////// creating case //////////////////////
+            //===================== creating case //====================
 
             case CREATING:
                 if (qName.equals(Tags.ENTRY)) {
@@ -292,8 +292,8 @@ public class SkinHandler extends DefaultHandler {
         }
     }
 
-    ///////////////////////////// other methods
-    // ////////////////////////////////
+    //=========================== other methods
+    // ================================
 
     public void setDescriptorsToType(EType type) {
         Descriptor[] descriptors = new Descriptor[_arrayOfHashtables.length];

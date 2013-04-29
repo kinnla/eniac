@@ -43,8 +43,8 @@ public class EType {
                 .getProperty("GRID_CACHE_SIZE"))];
     }
 
-    //////////////////////////// getters and setters
-    // ///////////////////////////
+    //========================== getters and setters
+    // ===========================
 
     public void setName(String name) {
         _name = name;
@@ -84,8 +84,8 @@ public class EType {
         _descriptors = descriptors;
     }
 
-    ////////////////////////////////// methods
-    // /////////////////////////////////
+    //================================ methods
+    // =================================
 
     public String toString() {
         return _name;

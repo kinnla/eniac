@@ -40,8 +40,8 @@ public class XMLUtil {
         // empty
     }
 
-    ////////////////////////////// constants
-    // ///////////////////////////////////
+    //============================ constants
+    // ===================================
 
     // tabulators indentation levels by writing to xml
     public static final String[] TABS = {
@@ -58,8 +58,8 @@ public class XMLUtil {
 
     public static final String COMMENT_2 = " ######################-->"; //$NON-NLS-1$
 
-    /////////////////////////// tag initialization
-    // /////////////////////////////
+    //========================= tag initialization
+    // =============================
 
     // initializes a number of Strings, each string with its lowecase value.
     // Strings are given in an array of Fields representing public static
@@ -78,8 +78,8 @@ public class XMLUtil {
         }
     }
 
-    ////////////////////////////// writing xml
-    // /////////////////////////////////
+    //============================ writing xml
+    // =================================
 
     public static void appendCommentLine(List l, int indent, String name) {
         l.add(""); //$NON-NLS-1$
@@ -103,8 +103,8 @@ public class XMLUtil {
         return "</" + tag + ">"; //$NON-NLS-1$//$NON-NLS-2$
     }
 
-    //////////////////////////// reading xml
-    // ///////////////////////////////////
+    //========================== reading xml
+    // ===================================
 
     public static int parseInt(String s, String[] keys) {
         for (int i = 0; i < keys.length; ++i) {

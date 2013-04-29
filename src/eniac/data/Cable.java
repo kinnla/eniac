@@ -49,7 +49,7 @@ public class Cable extends Observable implements Observer, EEventListener {
 
     private boolean _pulseTransmittion = false;
 
-    /////////////////////////////// lifecycle /////////////////////////////////
+    //============================= lifecycle //===============================
 
     public Cable(ConnectorPanel cop) {
         _cop1 = cop;
@@ -57,7 +57,7 @@ public class Cable extends Observable implements Observer, EEventListener {
         ((Connector) _cop1.getData()).setPlugged(true);
     }
 
-    ///////////////////////////////// methods /////////////////////////////////
+    //=============================== methods //===============================
 
     public boolean isComplete() {
         return _cop1 != null && _cop2 != null;

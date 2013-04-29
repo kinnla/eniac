@@ -43,8 +43,8 @@ public class Skin {
         g.drawLine(0, 0, 0, 0);
     }
 
-    // ////////////////////////////// fields
-    // ////////////////////////////////////
+    // ============================== fields
+    // ====================================
 
     // array of lods
     private int[] _minHeight;
@@ -57,8 +57,8 @@ public class Skin {
     // proxy to the current skin
     private Proxy _proxy;
 
-    // ////////////////////////////// lifecycle
-    // /////////////////////////////////
+    // ============================== lifecycle
+    // =================================
 
     // private constructor for instantiating singleton object
     public Skin(Proxy proxy) {
@@ -75,8 +75,8 @@ public class Skin {
         _zoomSteps = StringConverter.toIntArray(s);
     }
 
-    // //////////////////////////// methods
-    // /////////////////////////////////////
+    // ============================ methods
+    // =====================================
 
     public Proxy getProxy() {
         return _proxy;

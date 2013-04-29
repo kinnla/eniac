@@ -51,13 +51,13 @@ public class ActionManager extends DefaultHandler {
 			ACTION = "action", ACTIONS = "actions", NAME = "name",
 			VALUE = "value", KEY = "key";
 
-	///////////////////////////////// fields //////////////////////////////////
+	//=============================== fields //================================
 
 	private EAction _currentAction = null;
 
 	private Hashtable _actionsTable = null;
 
-	//////////////////////////// singleton stuff //////////////////////////////
+	//========================== singleton stuff //============================
 
 	private static ActionManager instance = null;
 
@@ -84,7 +84,7 @@ public class ActionManager extends DefaultHandler {
 		}
 	}
 
-	//////////////////////////// defaultHandler methods ///////////////////////
+	//========================== defaultHandler methods //=====================
 
 	public void startElement(String uri, String localName, String qName,
 			Attributes attrs) throws SAXException {
@@ -122,7 +122,7 @@ public class ActionManager extends DefaultHandler {
 		}
 	}
 
-	///////////////////////////// other methods ///////////////////////////////
+	//=========================== other methods //=============================
 
 	public EAction getAction(String key) {
 		return (EAction) _actionsTable.get(key);

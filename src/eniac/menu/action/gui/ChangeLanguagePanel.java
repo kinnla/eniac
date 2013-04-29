@@ -70,8 +70,8 @@ public class ChangeLanguagePanel extends DialogPanel {
      */
     public void init() {
 
-        //////////////////////////// actions
-        // ///////////////////////////////////
+        //========================== actions
+        // ===================================
 
         // create and add okAction
         _okAction = new AbstractAction() {
@@ -92,8 +92,8 @@ public class ChangeLanguagePanel extends DialogPanel {
         _cancelAction.putValue(Action.NAME, Dictionary.CANCEL);
         getActionMap().put(_cancelAction.getValue(Action.NAME), _cancelAction);
 
-        ////////////////////////////// jpanel
-        // //////////////////////////////////
+        //============================ jpanel
+        // ==================================
 
         _jpanel = new JPanel(new GridBagLayout());
 
@@ -118,8 +118,8 @@ public class ChangeLanguagePanel extends DialogPanel {
             }
         });
 
-        /////////////////////////// layout components
-        // //////////////////////////
+        //========================= layout components
+        // ==========================
 
         // add components
         _jpanel.add(_listPane, new GridBagConstraints(0, 0, 1, 1, 0.5, 0.5,
@@ -131,8 +131,8 @@ public class ChangeLanguagePanel extends DialogPanel {
                 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(0, 0, 0, 0), 0, 0));
 
-        /////////////////////////////// buttons
-        // ////////////////////////////////
+        //============================= buttons
+        // ================================
 
         // create and init buttons
         JButton okButton = new JButton(_okAction);
@@ -146,8 +146,8 @@ public class ChangeLanguagePanel extends DialogPanel {
                 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(0, 0, 0, 0), 0, 0));
 
-        /////////////////////////////// add keystrokes
-        // /////////////////////////
+        //============================= add keystrokes
+        // =========================
 
         // fill actionMap
         getActionMap().put(Dictionary.OK, _okAction);
@@ -184,8 +184,8 @@ public class ChangeLanguagePanel extends DialogPanel {
         }
     }
 
-    /////////////////////////// event processing
-    // ///////////////////////////////
+    //========================= event processing
+    // ===============================
 
     void performUpdate() {
 

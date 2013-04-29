@@ -34,8 +34,8 @@ import eniac.log.Log;
  */
 public class ConfigHandler extends DefaultHandler {
 
-    ////////////////////////////////// fields
-    // //////////////////////////////////
+    //================================ fields
+    // ==================================
 
     // stack to push nested dataObject to
     private Stack _stack = new Stack();
@@ -55,8 +55,8 @@ public class ConfigHandler extends DefaultHandler {
         return _configuration;
     }
 
-    /////////////////////// overriding DefaultHandler methods
-    // //////////////////
+    //===================== overriding DefaultHandler methods
+    // ==================
 
     public void startElement(String uri, String localName, String qName,
             Attributes attrs) throws SAXException {

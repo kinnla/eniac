@@ -28,8 +28,8 @@ public class BasicControler implements Controler {
         // empty constructor
     }
 
-    /////////////////////////// mouselistener methods
-    // //////////////////////////
+    //========================= mouselistener methods
+    // ==========================
 
     public void mpressed(MouseEvent e) {
         // no action
@@ -43,8 +43,8 @@ public class BasicControler implements Controler {
         // no action
     }
 
-    //////////////////////// static helper methods
-    // /////////////////////////////
+    //====================== static helper methods
+    // =============================
 
     protected static SwitchPanel getSwitchPanel(MouseEvent e) {
         return (SwitchPanel) e.getSource();

@@ -20,8 +20,8 @@ import javax.swing.JOptionPane;
  */
 public class LogMessage {
 
-    ////////////////////////////////// fields
-    // //////////////////////////////////
+    //================================ fields
+    // ==================================
 
     private String _message;
 
@@ -31,8 +31,8 @@ public class LogMessage {
 
     private boolean _forUser;
 
-    /////////////////////////////// lifecycle
-    // //////////////////////////////////
+    //============================= lifecycle
+    // ==================================
 
     public LogMessage(String message, int type, Object[] objects,
             boolean forUser) {
@@ -55,8 +55,8 @@ public class LogMessage {
         this(message, JOptionPane.PLAIN_MESSAGE, null, false);
     }
 
-    //////////////////////////////// methods
-    // ///////////////////////////////////
+    //============================== methods
+    // ===================================
 
     public String toString() {
         String s = typeToString(_type) + ": " + _message; //$NON-NLS-1$
@@ -85,8 +85,8 @@ public class LogMessage {
         return ""; //$NON-NLS-1$
     }
 
-    ////////////////////////////////// getter
-    // //////////////////////////////////
+    //================================ getter
+    // ==================================
 
     public boolean isForUser() {
         return _forUser;

@@ -41,15 +41,15 @@ public class BlinkenLights extends ParentData {
 
     private boolean _enabled;
 
-    /////////////////////////////// lifecycle
-    // //////////////////////////////////
+    //============================= lifecycle
+    // ==================================
 
     public BlinkenLights() {
         // empty
     }
 
-    //////////////////////////////// methods
-    // ///////////////////////////////////
+    //============================== methods
+    // ===================================
 
     public boolean hasPower() {
         Configuration config = (Configuration) getParent();
@@ -101,8 +101,8 @@ public class BlinkenLights extends ParentData {
         notifyObservers(EData.REPAINT);
     }
 
-    ////////////////////////////// number methods
-    // //////////////////////////////
+    //============================ number methods
+    // ==============================
 
     public long getNumber() {
 

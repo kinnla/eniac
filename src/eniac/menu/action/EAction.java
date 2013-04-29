@@ -76,7 +76,7 @@ public abstract class EAction extends AbstractAction implements
 	 */
 	public static final String STATUS_PROPERTY = "status_property";
 
-	///////////////////////////////// lifecycle ///////////////////////////////
+	//=============================== lifecycle //=============================
 
 	public void init() {
 
@@ -96,7 +96,7 @@ public abstract class EAction extends AbstractAction implements
         updateText();
 	}
     
-    ///////////////////////////////// methods /////////////////////////////////
+    //=============================== methods //===============================
 
     protected void updateText() {
 

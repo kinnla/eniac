@@ -37,8 +37,8 @@ public class Initiating extends Unit implements EEventListener {
 
     private boolean _clearPressed = false;
 
-    /////////////////////////////// lifecycle
-    // //////////////////////////////////
+    //============================= lifecycle
+    // ==================================
 
     public Initiating() {
         // empty
@@ -59,8 +59,8 @@ public class Initiating extends Unit implements EEventListener {
         lights.addEEventListener(this, EEvent.RP);
     }
 
-    ////////////////////////////////// methods
-    // /////////////////////////////////
+    //================================ methods
+    // =================================
 
     /**
      * @return @see eniac.data.unit.Unit#getHeaters()
@@ -136,8 +136,8 @@ public class Initiating extends Unit implements EEventListener {
         }
     }
 
-    //////////////////////////// pulseInteractor methods
-    // ///////////////////////
+    //========================== pulseInteractor methods
+    // =======================
 
     public void sendProgram(long time, PulseInteractor source) {
         EData d = getGarten().getKind(ProtoTypes.PROGRAM_CONNECTOR, 0);

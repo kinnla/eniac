@@ -30,8 +30,8 @@ public class Configuration extends ParentData {
 
     private IDManager _idManager = new IDManager();
 
-    ////////////////////////////// lifecycle
-    // ///////////////////////////////////
+    //============================ lifecycle
+    // ===================================
 
     public Configuration() {
         // empty
@@ -47,8 +47,8 @@ public class Configuration extends ParentData {
         _idManager = null;
     }
 
-    //////////////////////////////// methods
-    // ///////////////////////////////////
+    //============================== methods
+    // ===================================
 
     public IDManager getIDManager() {
         return _idManager;

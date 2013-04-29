@@ -41,15 +41,15 @@ public class Descriptor extends Hashtable {
 
     private short _fill = NONE;
 
-    /////////////////////////////// lifecycle
-    // //////////////////////////////////
+    //============================= lifecycle
+    // ==================================
 
     public Descriptor() {
         // empty
     }
 
-    /////////////////////////////// getters and setters
-    // ////////////////////////
+    //============================= getters and setters
+    // ========================
 
     public void setWidth(int width) {
         _width = width;
@@ -75,8 +75,8 @@ public class Descriptor extends Hashtable {
         return _fill;
     }
 
-    ///////////////////////////////// methods
-    // //////////////////////////////////
+    //=============================== methods
+    // ==================================
 
     public Grid makeGrid(int width, int height) {
 

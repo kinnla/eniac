@@ -54,8 +54,8 @@ public class PropertyPanel extends DialogPanel {
 
     public void init() {
 
-        //////////////////////////// actions
-        // ///////////////////////////////////
+        //========================== actions
+        // ===================================
 
         // create and add okAction
         final Action okAction = new AbstractAction() {
@@ -82,8 +82,8 @@ public class PropertyPanel extends DialogPanel {
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
                 Dictionary.CANCEL);
 
-        /////////////////////////////// init panel
-        // /////////////////////////////
+        //============================= init panel
+        // =============================
 
         final JPanel panel = new JPanel(new GridBagLayout());
         Iterator it = _properties.iterator();
@@ -104,8 +104,8 @@ public class PropertyPanel extends DialogPanel {
             y++;
         }
 
-        //////////////////////////// init buttons
-        // //////////////////////////////
+        //========================== init buttons
+        // ==============================
 
         JButton okButton = new JButton(okAction);
         JButton cancelButton = new JButton(cancelAction);
@@ -114,8 +114,8 @@ public class PropertyPanel extends DialogPanel {
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
                         Dictionary.CANCEL);
 
-        /////////////////////////// add components
-        // /////////////////////////////
+        //========================= add components
+        // =============================
 
         add(panel, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
@@ -133,8 +133,8 @@ public class PropertyPanel extends DialogPanel {
         return _commitChanges;
     }
 
-    ////////////////////////// event processing
-    // ////////////////////////////////
+    //======================== event processing
+    // ================================
 
     void performOkAction() {
         _commitChanges = true;

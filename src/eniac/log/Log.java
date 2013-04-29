@@ -39,8 +39,8 @@ public class Log implements LifecycleListener {
     // reference to LogPanel
     private LogPanel _logPanel = null;
 
-    //////////////////////////// singleton stuff
-    // ///////////////////////////////
+    //========================== singleton stuff
+    // ===============================
 
     // self reference
     private static Log instance = null;
@@ -66,8 +66,8 @@ public class Log implements LifecycleListener {
         addLogListener(new DialogPrinter());
     }
 
-    ////////////////////////////// methods
-    // /////////////////////////////////////
+    //============================ methods
+    // =====================================
 
     /**
      * @return
@@ -138,8 +138,8 @@ public class Log implements LifecycleListener {
         return _logPanel;
     }
 
-    ////////////////////////// convenience methods
-    // /////////////////////////////
+    //======================== convenience methods
+    // =============================
 
     public static void log(String message) {
         getInstance().addMessage(new LogMessage(message));

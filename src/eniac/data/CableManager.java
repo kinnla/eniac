@@ -53,8 +53,8 @@ public class CableManager implements Observer, Controler {
     // flag indicating whether we are potentially creating or removing a loadbox
     private boolean _loadBox;
 
-    // //////////////////////////////// lifecycle
-    // ///////////////////////////////
+    // ================================ lifecycle
+    // ===============================
 
     public CableManager() {
         // empty constructor
@@ -71,8 +71,8 @@ public class CableManager implements Observer, Controler {
         }
     }
 
-    // ///////////////////////////////// methods
-    // ////////////////////////////////
+    // ================================= methods
+    // ================================
 
     public void paintOnConfigPanel(Graphics g, int lod) {
 
@@ -155,8 +155,8 @@ public class CableManager implements Observer, Controler {
         return p;
     }
 
-    // //////////////////////////// Observer methods
-    // ////////////////////////////
+    // ============================ Observer methods
+    // ============================
 
     /**
      * @param o
@@ -174,8 +174,8 @@ public class CableManager implements Observer, Controler {
         }
     }
 
-    // /////////////////////////// Actionator methods
-    // ///////////////////////////
+    // =========================== Actionator methods
+    // ===========================
 
     public void mpressed(MouseEvent e) {
         // only track when the left button clicked

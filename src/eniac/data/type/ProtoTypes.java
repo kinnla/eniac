@@ -62,8 +62,8 @@ public class ProtoTypes {
             CONSTANT_TRANSMITTION_CIPHER, CONSTANT_TRANSMITTION_SIGN,
             CONSTANT_TRANSMITTION_LIGHTS;
 
-    ///////////////////////////////// methods
-    // //////////////////////////////////
+    //=============================== methods
+    // ==================================
 
     public static void setType(EType type) {
         try {

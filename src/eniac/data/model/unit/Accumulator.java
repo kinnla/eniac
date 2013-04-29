@@ -66,7 +66,7 @@ public class Accumulator extends Unit implements EEventListener {
     // current transmission cycle if we are transmitting
     private int _transmissionCycle = 0;
 
-    ///////////////////////////// lifecycle ///////////////////////////////////
+    //=========================== lifecycle //=================================
 
     public Accumulator() {
         // empty
@@ -86,13 +86,13 @@ public class Accumulator extends Unit implements EEventListener {
         lights.addEEventListener(this, EEvent.RP);
     }
 
-    ///////////////////////////// unit methods ////////////////////////////////
+    //=========================== unit methods //==============================
 
     public Switch getHeaters() {
         return (Switch) getGarten().getKind(ProtoTypes.ACCU_HEATERS, 0);
     }
 
-    /////////////////////////////// methods ///////////////////////////////////
+    //============================= methods //=================================
 
     private boolean hasActiveProgram(long time) {
         return _programStartTime < time && _repeatCounter > 0;
@@ -243,8 +243,8 @@ public class Accumulator extends Unit implements EEventListener {
         _repeatCounter = repeat;
     }
 
-    ////////////////////////////// observer methods
-    // ////////////////////////////
+    //============================ observer methods
+    // ============================
 
     /**
      * @param data
@@ -261,8 +261,8 @@ public class Accumulator extends Unit implements EEventListener {
         }
     }
 
-    //////////////////////////// pulseInteractor methods
-    // ///////////////////////
+    //========================== pulseInteractor methods
+    // =======================
 
     /**
      * @param time
@@ -436,8 +436,8 @@ public class Accumulator extends Unit implements EEventListener {
         }
     }
 
-    ///////////////////////////// eeventListener methods
-    // ///////////////////////
+    //=========================== eeventListener methods
+    // =======================
 
     /**
      * @param e

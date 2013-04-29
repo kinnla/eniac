@@ -42,8 +42,8 @@ public class OVWindow extends JDialog implements PropertyChangeListener,
 
     private OVPanel _ovPanel = null;
 
-    // /////////////////////////// singleton stuff
-    // //////////////////////////////
+    // =========================== singleton stuff
+    // ==============================
 
     private static OVWindow instance;
 
@@ -93,8 +93,8 @@ public class OVWindow extends JDialog implements PropertyChangeListener,
         instance = null;
     }
 
-    // /////////////////////////////// methods
-    // //////////////////////////////////
+    // =============================== methods
+    // ==================================
 
     /**
      * initializes an overviewPane according to the actual view-dimension and

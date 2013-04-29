@@ -58,8 +58,8 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener,
     // progressbar to show progress of our
     private JProgressBar _progressBar = new JProgressBar();
 
-    ////////////////////////////// singleton stuff
-    // /////////////////////////////
+    //============================ singleton stuff
+    // =============================
 
     // singleton self reference
     private static Progressor instance;
@@ -100,8 +100,8 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener,
         return instance;
     }
 
-    ///////////////////////////////// methods
-    // //////////////////////////////////
+    //=============================== methods
+    // ==================================
 
     public void setAction(Action a) {
 

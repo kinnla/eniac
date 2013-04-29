@@ -33,13 +33,13 @@ public class Tags {
     // keys
     public static String
 
-    ///////////////////////////////// general
-    // //////////////////////////////////
+    //=============================== general
+    // ==================================
 
             PROXY, NAME, X, Y, KEY,
 
-            /////////////////////////////////// skin
-            // ///////////////////////////////////
+            //================================= skin
+            // ===================================
 
             // proxy
             AUTHOR, EMAIL, NUMBER_OF_LODS, NUMBER_OF_DESCRIPTORS, ZOOM_STEPS,
@@ -57,8 +57,8 @@ public class Tags {
             CABLE_COLOR_HIGHLIGHT, CABLE_PIXELS, UNPLUGGED, PLUGGED, LOADBOX,
             POINT, GRID_X, GRID_Y, NONE, HORIZONTAL, VERTICAL,
 
-            /////////////////////////////////// edata
-            // //////////////////////////////////
+            //================================= edata
+            // ==================================
 
             // tags
             ENIAC, PATH, DESCRIPTION,
@@ -70,24 +70,24 @@ public class Tags {
             // attribute values
             IN, OUT, BOTH,
 
-            /////////////////////////////////// menu
-            // ///////////////////////////////////
+            //================================= menu
+            // ===================================
 
             MENU, GROUP, ACTION, ICON, NUMBER_OF_ACTIONS,
 
-            ////////////////////////////////// status
-            // //////////////////////////////////
+            //================================ status
+            // ==================================
 
             CONFIGURATION, SHOW_OVERVIEW, ZOOMED_HEIGHT, SHOW_LOG, SKIN,
             LANGUAGE, HIGHLIGHT_PULSE, SIMULATION_TIME,
 
-            //////////////////////////////// language
-            // //////////////////////////////////
+            //============================== language
+            // ==================================
 
             FOLDER,
 
-            ////////////////////////////////// type
-            // ////////////////////////////////////
+            //================================ type
+            // ====================================
 
             MODEL, VIEW, CODE, CODES;
 }

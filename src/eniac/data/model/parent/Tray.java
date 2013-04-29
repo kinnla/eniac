@@ -46,8 +46,8 @@ public class Tray extends ParentData implements PulseInteractor {
         // empty
     }
 
-    /////////////////////////// PulseInteractor methods
-    // ////////////////////////
+    //========================= PulseInteractor methods
+    // ========================
 
     /**
      * @param time

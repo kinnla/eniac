@@ -41,8 +41,8 @@ public class IDManager {
 
     private int _minFree = 0;
 
-    //////////////////////////////// lifecycle
-    // /////////////////////////////////
+    //============================== lifecycle
+    // =================================
 
     public IDManager() {
         // empty constructor
@@ -55,8 +55,8 @@ public class IDManager {
         _invalids = null;
     }
 
-    /////////////////////////////// methods
-    // ////////////////////////////////////
+    //============================= methods
+    // ====================================
 
     public boolean containsID(int id) {
         return id < _data.length && _data[id] != null;
@@ -129,8 +129,8 @@ public class IDManager {
         return s;
     }
 
-    //////////////////////////// private methods
-    // ///////////////////////////////
+    //========================== private methods
+    // ===============================
 
     private void checkSize(int id) {
         int size = _data.length;

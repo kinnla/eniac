@@ -40,7 +40,7 @@ public class ConnectorPanel extends EPanel {
     // last point that we have been painted on the buffered image
     private Point _bufferedPaintPoint = new Point();
 
-    /////////////////////////////// lifecycle /////////////////////////////////
+    //============================= lifecycle //===============================
 
     public ConnectorPanel() {
         // empty
@@ -61,7 +61,7 @@ public class ConnectorPanel extends EPanel {
         }
     }
 
-    //////////////////////////////// methods //////////////////////////////////
+    //============================== methods //================================
 
     protected void paintComponent(Graphics g, int x, int y, int width,
             int height, int lod) {

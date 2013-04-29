@@ -25,7 +25,7 @@ public class Slider extends EData {
 
     private float _value;
 
-    /////////////////////////////// lifecycle /////////////////////////////////
+    //============================= lifecycle //===============================
 
     public Slider() {
         // empty
@@ -36,7 +36,7 @@ public class Slider extends EData {
         _value = XMLUtil.parseFloat(attrs, Tags.VALUE);
     }
 
-    //////////////////////////////// methods //////////////////////////////////
+    //============================== methods //================================
 
     public void setValue(float value) {
         if (_value != value) {

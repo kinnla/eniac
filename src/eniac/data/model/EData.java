@@ -49,8 +49,8 @@ public class EData extends Observable implements Comparable {
 
     public static final String PAINT_IMMEDIATELY = "paint_immediately"; //$NON-NLS-1$
 
-    /////////////////////////////// fields
-    // /////////////////////////////////////
+    //============================= fields
+    // =====================================
 
     // type of this dataObject as encoded by class DataTypes.
     // parsed from xml-tag
@@ -77,8 +77,8 @@ public class EData extends Observable implements Comparable {
     // parent dataObject. Configuration is root dataObject.
     protected ParentData _parent = null;
 
-    /////////////////////////////// lifecycle
-    // //////////////////////////////////
+    //============================= lifecycle
+    // ==================================
 
     // default Constructor
     public EData() {
@@ -107,8 +107,8 @@ public class EData extends Observable implements Comparable {
         getConfiguration().getIDManager().remove(_id);
     }
 
-    ///////////////////////////// getter and setter
-    // ////////////////////////////
+    //=========================== getter and setter
+    // ============================
 
     public int getID() {
         return _id;
@@ -154,8 +154,8 @@ public class EData extends Observable implements Comparable {
         return _index;
     }
 
-    ///////////////////////////////// methods
-    // //////////////////////////////////
+    //=============================== methods
+    // ==================================
 
     public Configuration getConfiguration() {
         return getParent().getConfiguration();
@@ -213,15 +213,15 @@ public class EData extends Observable implements Comparable {
         return panel;
     }
 
-    /////////////////////////////// observer stuff
-    // /////////////////////////////
+    //============================= observer stuff
+    // =============================
 
     public void addObserverToTree(Observer o) {
         addObserver(o);
     }
 
-    ///////////////////////////// xml methods
-    // //////////////////////////////////
+    //=========================== xml methods
+    // ==================================
 
     /**
      * Returns a String representing all Attributes and values for xml output.
