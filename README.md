@@ -1,10 +1,10 @@
 eniac
 =====
-
-A Java Simulation of the ENIAC, first universal digital electronic computer built 1944-1946.
-You can run the simulation here: http://kinnla.github.io/eniac
+<p>
+A Java Simulation of the ENIAC, first universal digital electronic computer built 1944-1946.<br>
+You can run the simulation here: http://kinnla.github.io/eniac<br>
 A stable version can be found at: http://zuse.zib.de/infos/simulations/eniac/
-
+</p>
 
 Copyright 2004-2013 Till Zoppke
 
