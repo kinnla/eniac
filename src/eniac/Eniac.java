@@ -26,12 +26,12 @@ import eniac.log.Log;
 import eniac.log.LogWords;
 import eniac.util.EProperties;
 
-public class AppletStarter extends Applet implements ResourceProvider {
+public class Eniac extends Applet {
 
-	public AppletStarter() {
+	public Eniac() {
 		// constructor to be called by the browser
 	}
-	
+
 	public void init() {
 		// check, whether a second instance still exists.
 		// if (instance != null) {
@@ -47,18 +47,15 @@ public class AppletStarter extends Applet implements ResourceProvider {
 		// // EFrame.getInstance().dispose();
 		// }
 
-		// register resource provider
-		Manager.getInstance().setResourceProvider(this);
-
 		// check, whether we should overwrite the properties file name
-//		String propertiesFile = getParameter("PROPERTIES_FILE");
-//		if (propertiesFile != null) {
-//			EProperties.fileName = propertiesFile;
-//		}
-		
+// String propertiesFile = getParameter("PROPERTIES_FILE");
+// if (propertiesFile != null) {
+// EProperties.fileName = propertiesFile;
+// }
+
 		// recurse on properties
-		EProperties properties = EProperties.getInstance();
-		Enumeration en = properties.propertyNames();
+		EProperties pts = EProperties.getInstance();
+		Enumeration en = pts.propertyNames();
 		while (en.hasMoreElements()) {
 
 			// try to find a parameter with the property's key
@@ -67,12 +64,12 @@ public class AppletStarter extends Applet implements ResourceProvider {
 			if (value != null) {
 
 				// set property
-				properties.setProperty(key, value);
+				pts.setProperty(key, value);
 			}
 		}
 
 		// check, if we are started as signed applet
-		if (properties.getProperty("RUN_TYPE").equals("APPLET_SIGNED")) {
+		if (pts.getProperty("RUN_TYPE").equals("APPLET_SIGNED")) {
 
 			// signed applet.
 			// ask user to grant io-permission by accepting our certificate.
@@ -83,8 +80,7 @@ public class AppletStarter extends Applet implements ResourceProvider {
 						// grant any permission
 					}
 
-					public void checkPermission(Permission permission,
-							Object obj) {
+					public void checkPermission(Permission permission, Object obj) {
 						// grant any permission
 					}
 				};
@@ -94,17 +90,18 @@ public class AppletStarter extends Applet implements ResourceProvider {
 			} catch (AccessControlException ace) {
 				// user didn't accept our certificate.
 				// display message and reset io access flag.
-				Log
-						.log(LogWords.NO_PRIVILEGES_GRANTED,
-								JOptionPane.INFORMATION_MESSAGE, ace
-										.getMessage(), true);
+				Log.log(LogWords.NO_PRIVILEGES_GRANTED, JOptionPane.INFORMATION_MESSAGE, ace.getMessage(), true);
 				Manager.getInstance().setIOAccess(false);
 			}
-		} else {
+		}
+		else if (pts.getProperty("RUN_TYPE").equals("APPLET_UNSIGNED")) {
 
 			// unsigned applet. reset io access flag
 			Manager.getInstance().setIOAccess(false);
-			Manager.getInstance().setResourceProvider(this);
+			Manager.getInstance().setApplet(this);
+		}
+		else {
+			System.out.println("unknown RUN_TYPE");
 		}
 
 		// init manager
@@ -124,16 +121,65 @@ public class AppletStarter extends Applet implements ResourceProvider {
 	}
 
 	public InputStream openStream(String file) {
-		System.out.println("AppletStarter.openStream()");
-		try {
-			// Return an urlstream 
-			URL url = new URL(getCodeBase(), file);
-			return url.openStream();
-		} catch (IOException e) {
-			e.printStackTrace();
+		System.out.println("Eniac.openStream()");
+
+		// check the run type
+		if (EProperties.getInstance().getProperty("RUN_TYPE").equals("APPLICATION")) {
+
+			// we are running as application. So open a file input stream.
+			try {
+				return new FileInputStream(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		
+		else {
+
+			// we are running as applet. so open URL input stream
+			try {
+				// Return an urlstream
+				URL url = new URL(getCodeBase(), file);
+				return url.openStream();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		// file not found, return null
 		return null;
+	}
+
+	/**
+	 * main method to start the simulation as application.
+	 * 
+	 * @param args
+	 *            an array of property=value pairs that are passed to the
+	 *            application. Such a property in the properties file can be
+	 *            overwritten, e.g. "SHOW_OVERVIEW=false"
+	 */
+	public static void main(String[] args) {
+
+		// init properties
+		EProperties properties = EProperties.getInstance();
+
+		// recurse on list of arguments
+		for (int i = 0; i < args.length; ++i) {
+
+			// parse key and value
+			String[] keyVal = args[i].split("=");
+
+			// if argument is not known as property name, announce to the user
+			if (!properties.containsKey(keyVal[0])) {
+				System.out.println("Warning: Property \"" + keyVal + "\" is unknown. Mistyping?");
+			}
+
+			// set property
+			properties.setProperty(keyVal[0], keyVal[1]);
+		}
+
+		// create manager, set IO access, init and start.
+		Manager.getInstance().setIOAccess(true);
+		Manager.getInstance().init();
+		Manager.getInstance().start();
 	}
 }

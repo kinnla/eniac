@@ -10,6 +10,7 @@
  ******************************************************************************/
 package eniac;
 
+import java.applet.Applet;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.InputStream;
@@ -104,15 +105,15 @@ public class Manager {
 
     // flag indicating, whether we have privileged local file access
     private boolean _ioAccess;
+    
+    // reference to the applet. Stays null, if started as application. 
+    private Applet _applet = null;
 
     // list of mainListeners to be informed when run level changes
     private List _lifecycleListeners = new Vector();
 
     // encoding the current lifecycle state
     short _lifecycleState = STATE_DEFAULT;
-
-    // resource provider
-    private ResourceProvider _resourceProvider;
 
     /*
      * ========================== singleton stuff ==============================
@@ -226,6 +227,10 @@ public class Manager {
      * ============================== methods ==================================
      */
 
+    public void setApplet(Applet applet) {
+    	_applet = applet;
+    }
+    
     public void addMainListener(LifecycleListener listener) {
         _lifecycleListeners.add(listener);
     }
@@ -327,13 +332,5 @@ public class Manager {
 
     public boolean hasIOAccess() {
         return _ioAccess;
-    }
-
-    public void setResourceProvider(ResourceProvider resourceProvider) {
-        _resourceProvider = resourceProvider;
-    }
-
-    public ResourceProvider getResourceProvider() {
-        return _resourceProvider;
     }
 }
