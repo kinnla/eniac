@@ -546,12 +546,14 @@ public class Accumulator extends Unit implements EEventListener {
             return;
         }
 
-        // if carryClear is set, clear deacde counters after sending/zero
+        // so carry clear is set.
+        // check, if the carry clear switch is set for current operation
         if (hasActiveProgram(e.time) && _currentOperation.isFlag()) {
 
-            // check, that we are sending or performing zero
-            if (_currentOperation.getValue() > EPSILON) {
-                // clear decade counters
+            // check, that we are sending or performing zero and the program just finished
+            if (_currentOperation.getValue() > EPSILON && _repeatCounter == 1) {
+
+            	// clear decade counters
                 clearSignificiant();
             }
         }
