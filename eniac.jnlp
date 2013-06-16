@@ -2,7 +2,7 @@
 <!--jnlp spec="1.0+" codebase="http://zuse.zib.de/infos/simulations/eniac/" 
 	href="http://zuse.zib.de/infos/simulations/eniac/eniac.jnlp"-->
 <jnlp spec="1.0+" codebase="http://kinnla.github.com/eniac/" 
-	href="http://kinnla.github.com/swp-2013/eniac.jnlp">
+	href="http://kinnla.github.com/eniac/eniac.jnlp">
 	<information>
 		<title>ENIAC simulation</title>
 		<vendor>Free University of Berlin</vendor>
