@@ -20,9 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
@@ -84,18 +83,17 @@ public class ConfigIO {
         Progressor.getInstance().setProgress(0, max);
 
         // collect all tags in a list
-        List l = new Vector();
-        l.add(XMLUtil.ENIAC_HEADER);
-        l.add(XMLUtil.wrapOpenTag(Tags.ENIAC));
-        proxy.appendTags(l, 1);
-        config.appendTags(l, 1);
-        l.add(XMLUtil.wrapCloseTag(Tags.ENIAC));
+        List<String> list = new LinkedList<>();
+        list.add(XMLUtil.ENIAC_HEADER);
+        list.add(XMLUtil.wrapOpenTag(Tags.ENIAC));
+        proxy.appendTags(list, 1);
+        config.appendTags(list, 1);
+        list.add(XMLUtil.wrapCloseTag(Tags.ENIAC));
 
         // convert list to stringbuffer
         StringBuffer buf = new StringBuffer();
-        Iterator it = l.iterator();
-        while (it.hasNext()) {
-            buf.append(it.next());
+        for (String s : list) {
+            buf.append(s);
             buf.append('\n');
         }
 

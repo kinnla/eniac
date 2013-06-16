@@ -22,7 +22,7 @@ import eniac.io.Tags;
 /**
  * @author zoppke
  */
-public class Descriptor extends Hashtable {
+public class Descriptor extends Hashtable<String, Object> {
 
     public final static String[] CODES = { Tags.NONE, Tags.BOTH,
             Tags.HORIZONTAL, Tags.VERTICAL };

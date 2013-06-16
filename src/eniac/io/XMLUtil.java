@@ -81,7 +81,7 @@ public class XMLUtil {
     //============================ writing xml
     // =================================
 
-    public static void appendCommentLine(List l, int indent, String name) {
+    public static void appendCommentLine(List<String> l, int indent, String name) {
         l.add(""); //$NON-NLS-1$
         l.add(TABS[indent] + COMMENT_1 + name + COMMENT_2);
         l.add(""); //$NON-NLS-1$

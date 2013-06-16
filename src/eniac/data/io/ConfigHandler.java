@@ -38,10 +38,10 @@ public class ConfigHandler extends DefaultHandler {
     // ==================================
 
     // stack to push nested dataObject to
-    private Stack _stack = new Stack();
+    private Stack<EData> _stack = new Stack<>();
 
     // reference to the configuration as the root of our dataObject tree.
-    // if parsing was not successfull, this will stay null.
+    // if parsing was not successful, this will stay null.
     private Configuration _configuration = null;
 
     /**
@@ -85,14 +85,14 @@ public class ConfigHandler extends DefaultHandler {
         try {
             if (ProtoTypes.getType(qName) != null) {
                 // pop object from stack
-                Object o = _stack.pop();
-                if (o instanceof Configuration) {
+                EData data = _stack.pop();
+                if (data instanceof Configuration) {
                     // special case: assign configuration field
-                    _configuration = (Configuration) o;
+                    _configuration = (Configuration) data;
                 } else {
                     // add object as new child to the top-of_stack-dataObject.
                     ParentData parent = (ParentData) _stack.peek();
-                    parent.addChild((EData) o);
+                    parent.addChild(data);
                 }
             }
         } catch (Exception e) {

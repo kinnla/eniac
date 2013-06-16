@@ -19,7 +19,6 @@ import javax.swing.JScrollPane;
 
 import eniac.data.type.EType;
 import eniac.data.view.parent.ConfigPanel;
-import eniac.lang.Dictionary;
 import eniac.skin.Descriptor;
 import eniac.skin.Skin;
 import eniac.util.Status;

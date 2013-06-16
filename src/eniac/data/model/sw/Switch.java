@@ -13,7 +13,6 @@
  */
 package eniac.data.model.sw;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.xml.sax.Attributes;
@@ -96,20 +95,18 @@ public class Switch extends EData {
                 + XMLUtil.wrapAttribute(_type.getCodeName(), encode());
     }
 
-    public List getProperties() {
-        List l = super.getProperties();
+    public List<Property> getProperties() {
+        List<Property> l = super.getProperties();
         String[] codes = _type.getCodes();
         l.add(new ChoiceProperty(_type.getCodeName(), codes, _value));
         return l;
     }
 
-    public void setProperties(List l) {
-        Iterator it = l.iterator();
-        while (it.hasNext()) {
-            Property p = (Property) it.next();
+    public void setProperties(List<Property> l) {
+        for (Property p : l) { 
             if (p.getName().equals(_type.getCodeName())) {
                 setValue(((ChoiceProperty) p).getSelection());
-                it.remove();
+                // it.remove(); ===> need to remove ???
             }
         }
         super.setProperties(l);

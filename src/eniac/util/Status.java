@@ -34,7 +34,7 @@ public class Status implements LifecycleListener {
     private PropertyChangeSupport _pcs = null;
 
     // containing all properties as key - value pairs
-    private HashMap _map;
+    private HashMap<String, Object> _map;
 
     // ============================ singleton stuff
     // =============================
@@ -73,7 +73,7 @@ public class Status implements LifecycleListener {
         boolean b;
 
         // init map
-        _map = new HashMap();
+        _map = new HashMap<>();
 
         // configuration
         _map.put(Tags.CONFIGURATION, null);

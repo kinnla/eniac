@@ -35,7 +35,7 @@ public class DictionaryHandler extends DefaultHandler {
     // ===================================
 
     // language to load
-    private Hashtable _table = new Hashtable();
+    private Hashtable<String, String> _table = new Hashtable<>();
 
     // current entry
     private String _entry;
@@ -64,7 +64,7 @@ public class DictionaryHandler extends DefaultHandler {
         Field[] fields = Dictionary.class.getFields();
         for (int i = 0; i < fields.length; ++i) {
             String key = fields[i].getName().toLowerCase();
-            String value = (String) _table.get(key);
+            String value = _table.get(key);
             if (value == null) {
                 value = key;
                 Log.log("missing key: " + key); //$NON-NLS-1$

@@ -29,9 +29,9 @@ public class ChoiceProperty extends Property {
 
     private Object[] _values;
 
-    private JComboBox _box;
+    private JComboBox<String> _box;
 
-    public ChoiceProperty(String name, Object[] values, int selection) {
+    public ChoiceProperty(String name, String[] values, int selection) {
         _name = name;
         _values = values;
         _box = new JComboBox(_values);

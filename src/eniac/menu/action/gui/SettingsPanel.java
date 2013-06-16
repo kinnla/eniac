@@ -18,7 +18,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.Enumeration;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
@@ -147,7 +146,7 @@ public class SettingsPanel extends DialogPanel {
         return _okPressed;
     }
 
-    public Vector getDataVector() {
+    public Vector<Vector<String>> getDataVector() {
         return ((MyTableModel) _table.getModel()).getDataVector();
     }
 
@@ -158,22 +157,20 @@ public class SettingsPanel extends DialogPanel {
     // table model that prevents the first column from being edited
     private class MyTableModel extends DefaultTableModel {
 
-        private MyTableModel() {
+        public MyTableModel() {
 
             // create data vector
-            Vector newDataVector = new Vector();
-            Enumeration propertyNames = EProperties.getInstance().propertyNames();
-            while (propertyNames.hasMoreElements()) {
-                String key = (String) propertyNames.nextElement();
+            Vector<Vector<String>> newDataVector = new Vector<>();
+            for (String key : EProperties.getInstance().stringPropertyNames()) {
                 String value = EProperties.getInstance().getProperty(key);
-                Vector row = new Vector();
+                Vector<String> row = new Vector<>();
                 row.add(key);
                 row.add(value);
                 newDataVector.add(row);
             }
 
             // create column identifiers
-            Vector newColumnIdentifiers = new Vector();
+            Vector<String> newColumnIdentifiers = new Vector<>();
             newColumnIdentifiers.add(Dictionary.NAME);
             newColumnIdentifiers.add(Dictionary.VALUE);
 

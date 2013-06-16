@@ -21,7 +21,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 
-import eniac.lang.Dictionary;
 import eniac.skin.Skin;
 import eniac.util.Status;
 

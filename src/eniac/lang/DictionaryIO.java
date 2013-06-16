@@ -52,7 +52,7 @@ public class DictionaryIO {
         // announce that we are loading a language
         Progressor.getInstance().setText(Dictionary.DICTIONARY_LOADING);
 
-        String path = (String) proxy.get(Tags.PATH_TO_THIS_FILE);
+        String path = proxy.get(Tags.PATH_TO_THIS_FILE);
         InputStream in = Manager.getInstance().getResourceAsStream(path);
         DictionaryHandler handler = new DictionaryHandler();
         try {
@@ -79,7 +79,7 @@ public class DictionaryIO {
 
             // recurse on proxies and find one that fits to the default language
             for (int i = 0; i < proxies.length; ++i) {
-                String key = (String) proxies[i].get(Tags.KEY);
+                String key = proxies[i].get(Tags.KEY);
                 if (key.equals(locale)) {
                     // load language and return.
                     loadLanguage(proxies[i]);

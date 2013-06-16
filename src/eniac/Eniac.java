@@ -11,14 +11,12 @@
 package eniac;
 
 import java.applet.Applet;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.security.AccessControlException;
 import java.security.Permission;
-import java.util.Enumeration;
 
 import javax.swing.JOptionPane;
 
@@ -33,33 +31,12 @@ public class Eniac extends Applet {
 	}
 
 	public void init() {
-		// check, whether a second instance still exists.
-		// if (instance != null) {
-		// System.out.println("another instance!");
-		// //instance.stop();
-		// //instance.destroy();
-		// // JOptionPane.showMessageDialog(this, "Another session of the
-		// ENIAC\n" //$NON-NLS-1$
-		// // +"Simulation is still alive.\n" //$NON-NLS-1$
-		// // +"You cannot run two sessions.\n" //$NON-NLS-1$
-		// // +"Please close all windows and restart."); //$NON-NLS-1$
-		// // Progressor.getInstance().setVisible(false);
-		// // EFrame.getInstance().dispose();
-		// }
-
-		// check, whether we should overwrite the properties file name
-// String propertiesFile = getParameter("PROPERTIES_FILE");
-// if (propertiesFile != null) {
-// EProperties.fileName = propertiesFile;
-// }
 
 		// recurse on properties
 		EProperties pts = EProperties.getInstance();
-		Enumeration en = pts.propertyNames();
-		while (en.hasMoreElements()) {
+		for (String key : pts.stringPropertyNames()) {
 
 			// try to find a parameter with the property's key
-			String key = (String) en.nextElement();
 			String value = getParameter(key);
 			if (value != null) {
 

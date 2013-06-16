@@ -31,7 +31,6 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JViewport;
 import javax.swing.event.ChangeListener;
 
 import eniac.LifecycleListener;
@@ -40,6 +39,7 @@ import eniac.data.model.parent.Configuration;
 import eniac.data.view.parent.ConfigPanel;
 import eniac.lang.Dictionary;
 import eniac.menu.MenuHandler;
+import eniac.menu.action.EAction;
 import eniac.util.EProperties;
 import eniac.util.Status;
 import eniac.util.StringConverter;
@@ -116,7 +116,7 @@ public class EFrame extends JFrame implements PropertyChangeListener, LifecycleL
 
 		// add components
 		// create and init menu handler
-		Hashtable actionDefaults = new Hashtable();
+		Hashtable<String, EAction> actionDefaults = new Hashtable<>();
 		MenuHandler handler = new MenuHandler(actionDefaults);
 		handler.init();
 

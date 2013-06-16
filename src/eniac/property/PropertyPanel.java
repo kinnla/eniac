@@ -21,7 +21,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -43,11 +42,11 @@ import eniac.menu.action.gui.DialogPanel;
  */
 public class PropertyPanel extends DialogPanel {
 
-    private List _properties;
+    private List<Property> _properties;
 
     private boolean _commitChanges = false;
 
-    public PropertyPanel(List properties) {
+    public PropertyPanel(List<Property> properties) {
         super(new GridBagLayout());
         _properties = properties;
     }
@@ -86,12 +85,10 @@ public class PropertyPanel extends DialogPanel {
         // =============================
 
         final JPanel panel = new JPanel(new GridBagLayout());
-        Iterator it = _properties.iterator();
 
         // recurse over all properties and create subcomponents for the panel
         int y = 0;
-        while (it.hasNext()) {
-            Property p = (Property) it.next();
+        for (Property p : _properties) {
 
             // add nameLabel and valueComponent
             panel.add(p.getNameLabel(), new GridBagConstraints(0, y, 1, 1, 1.0,

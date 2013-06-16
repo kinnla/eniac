@@ -16,10 +16,10 @@ package eniac.data.model;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Vector;
 
 import eniac.LifecycleListener;
 import eniac.Manager;
@@ -214,73 +214,73 @@ public class CyclingLights extends EData implements Runnable, EEventListener,
     public void initEvents() {
         // init events.
         // create list for easy initialization
-        List l = new Vector();
+        List<EEvent> list = new LinkedList<>();
 
         // CPP
-        l.add(new EEvent(CPP_TIME, EEvent.CPP));
+        list.add(new EEvent(CPP_TIME, EEvent.CPP));
 
         // 10P
         for (int i = 0; i < 10; ++i) {
             long time = i * SINGLE_CYCLE + OFFSET_10P;
             EEvent e = new EEvent(time, EEvent.PULSE_10P);
-            l.add(e);
+            list.add(e);
         }
 
         // 9P
         for (int i = 1; i < 10; ++i) {
             long time = i * SINGLE_CYCLE;
             EEvent e = new EEvent(time, EEvent.PULSE_9P);
-            l.add(e);
+            list.add(e);
         }
 
         // 1P
-        l.add(new EEvent(10, EEvent.PULSE_1P));
+        list.add(new EEvent(10, EEvent.PULSE_1P));
 
         // 2P
-        l.add(new EEvent(20, EEvent.PULSE_2P));
-        l.add(new EEvent(30, EEvent.PULSE_2P));
+        list.add(new EEvent(20, EEvent.PULSE_2P));
+        list.add(new EEvent(30, EEvent.PULSE_2P));
 
         // 2'P
-        l.add(new EEvent(40, EEvent.PULSE_2AP));
-        l.add(new EEvent(50, EEvent.PULSE_2AP));
+        list.add(new EEvent(40, EEvent.PULSE_2AP));
+        list.add(new EEvent(50, EEvent.PULSE_2AP));
 
         // 4P
-        l.add(new EEvent(60, EEvent.PULSE_4P));
-        l.add(new EEvent(70, EEvent.PULSE_4P));
-        l.add(new EEvent(80, EEvent.PULSE_4P));
-        l.add(new EEvent(90, EEvent.PULSE_4P));
+        list.add(new EEvent(60, EEvent.PULSE_4P));
+        list.add(new EEvent(70, EEvent.PULSE_4P));
+        list.add(new EEvent(80, EEvent.PULSE_4P));
+        list.add(new EEvent(90, EEvent.PULSE_4P));
 
         // 1*P
-        l.add(new EEvent(100, EEvent.PULSE_1AP));
+        list.add(new EEvent(100, EEvent.PULSE_1AP));
 
         // CCG
-        l.add(new EEvent(110, EEvent.CCG_UP));
-        l.add(new EEvent(180, EEvent.CCG_DOWN));
+        list.add(new EEvent(110, EEvent.CCG_UP));
+        list.add(new EEvent(180, EEvent.CCG_DOWN));
 
         // RP
-        l.add(new EEvent(130, EEvent.RP));
-        l.add(new EEvent(190, EEvent.RP));
+        list.add(new EEvent(130, EEvent.RP));
+        list.add(new EEvent(190, EEvent.RP));
 
         // GENERATE_NEW
-        l.add(new EEvent(ADDITION_CYCLE, EEvent.GENERATE_NEW));
+        list.add(new EEvent(ADDITION_CYCLE, EEvent.GENERATE_NEW));
 
         // NOP
         for (int i = 0; i < 20; ++i) {
-            l.add(new EEvent(i * 10 + 6, EEvent.NOP));
+            list.add(new EEvent(i * 10 + 6, EEvent.NOP));
         }
         for (int i = 10; i < 20; ++i) {
-            l.add(new EEvent(i * 10 + 3, EEvent.NOP));
-            l.add(new EEvent(i * 10 + 6, EEvent.NOP));
+            list.add(new EEvent(i * 10 + 3, EEvent.NOP));
+            list.add(new EEvent(i * 10 + 6, EEvent.NOP));
         }
-        l.add(new EEvent(120, EEvent.NOP));
-        l.add(new EEvent(140, EEvent.NOP));
-        l.add(new EEvent(150, EEvent.NOP));
-        l.add(new EEvent(160, EEvent.NOP));
+        list.add(new EEvent(120, EEvent.NOP));
+        list.add(new EEvent(140, EEvent.NOP));
+        list.add(new EEvent(150, EEvent.NOP));
+        list.add(new EEvent(160, EEvent.NOP));
 
         // init events array from list
-        _events = new EEvent[l.size()];
-        Collections.shuffle(l);
-        l.toArray(_events);
+        _events = new EEvent[list.size()];
+        Collections.shuffle(list);
+        list.toArray(_events);
 
         // insert events to simulator
         insertEvents(_events);

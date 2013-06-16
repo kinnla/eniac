@@ -57,7 +57,7 @@ public class SkinHandler extends DefaultHandler {
     private Skin _skin;
 
     // array of hashtables for storing lod-related objects.
-    private Hashtable[] _arrayOfHashtables;
+    private Hashtable<EType, Descriptor>[] _arrayOfHashtables;
 
     // reference to factory, where we get our creators from.
     private CreatorFactory _factory;
@@ -81,7 +81,7 @@ public class SkinHandler extends DefaultHandler {
     private Descriptor _descriptor;
 
     // current shapeVector
-    private List _list;
+    private List<Object> _list;
 
     //============================== lifecycle
     // =================================
@@ -93,17 +93,17 @@ public class SkinHandler extends DefaultHandler {
 
         // get imageBase for loading images
         Proxy proxy = _skin.getProxy();
-        String imageBase = (String) proxy.get(Tags.NAME) + "/"; //$NON-NLS-1$
+        String imageBase = proxy.get(Tags.NAME) + "/"; //$NON-NLS-1$
 
         // create new factory
         _factory = new CreatorFactory(imageBase);
 
         // create and init array of hashtables to store descriptors
-        String s = (String) proxy.get(Tags.NUMBER_OF_LODS);
+        String s = proxy.get(Tags.NUMBER_OF_LODS);
         int numberOfLods = StringConverter.toInt(s);
         _arrayOfHashtables = new Hashtable[numberOfLods];
         for (int i = 0; i < _arrayOfHashtables.length; ++i) {
-            _arrayOfHashtables[i] = new Hashtable();
+            _arrayOfHashtables[i] = new Hashtable<EType, Descriptor>();
         }
     }
 
@@ -113,8 +113,7 @@ public class SkinHandler extends DefaultHandler {
     public void startDocument() {
         // init progressor
         Proxy proxy = _skin.getProxy();
-        int max = Integer.parseInt((String) proxy
-                .get(Tags.NUMBER_OF_DESCRIPTORS));
+        int max = Integer.parseInt(proxy.get(Tags.NUMBER_OF_DESCRIPTORS));
         Progressor.getInstance().setText(Dictionary.SKIN_LOADING);
         Progressor.getInstance().setProgress(0, max);
     }
@@ -181,7 +180,7 @@ public class SkinHandler extends DefaultHandler {
                     // get Creator, init list and adjust flag
                     String cls = XMLUtil.parseString(attrs, Tags.CLASS);
                     _creator = _factory.get(cls);
-                    _list = new Vector();
+                    _list = new Vector<>();
                     _name = XMLUtil.parseString(attrs, Tags.NAME);
                 } else if (qName.equals(Tags.ENTRY)) {
 
@@ -235,7 +234,7 @@ public class SkinHandler extends DefaultHandler {
                 } else if (qName.equals(Tags.ARRAY)) {
 
                     // convert list to array and put to descriptor
-                    Class cls = _list.get(0).getClass();
+                    Class<?> cls = _list.get(0).getClass();
 
                     // if bufferedImage, there are some images missing.
                     // create array of Images in this case.
@@ -298,7 +297,7 @@ public class SkinHandler extends DefaultHandler {
     public void setDescriptorsToType(EType type) {
         Descriptor[] descriptors = new Descriptor[_arrayOfHashtables.length];
         for (int i = 0; i < _arrayOfHashtables.length; ++i) {
-            descriptors[i] = (Descriptor) _arrayOfHashtables[i].get(type);
+            descriptors[i] = _arrayOfHashtables[i].get(type);
         }
         type.setDescriptors(descriptors);
     }

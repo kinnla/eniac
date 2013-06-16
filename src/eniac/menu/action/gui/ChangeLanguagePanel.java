@@ -51,7 +51,7 @@ public class ChangeLanguagePanel extends DialogPanel {
 
     private JPanel _jpanel;
 
-    JList _jlist;
+    JList<Proxy> _jlist;
 
     private JScrollPane _listPane;
 
@@ -98,7 +98,7 @@ public class ChangeLanguagePanel extends DialogPanel {
         _jpanel = new JPanel(new GridBagLayout());
 
         // create and init _jlist and _listPane
-        _jlist = new JList(_proxies);
+        _jlist = new JList<>(_proxies);
         _jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         _listPane = new JScrollPane(_jlist);
 
@@ -190,7 +190,7 @@ public class ChangeLanguagePanel extends DialogPanel {
     void performUpdate() {
 
         // enable or disable okButton
-        _selectedProxy = (Proxy) _jlist.getSelectedValue();
+        _selectedProxy = _jlist.getSelectedValue();
         _okAction.setEnabled(_selectedProxy != null);
     }
 

@@ -16,7 +16,6 @@
  */
 package eniac.data.model.parent;
 
-import java.util.Iterator;
 import java.util.List;
 
 import eniac.data.model.EData;
@@ -57,8 +56,8 @@ public class BlinkenLights extends ParentData {
         return unit.hasPower();
     }
 
-    public List getProperties() {
-        List list = super.getProperties();
+    public List<Property> getProperties() {
+        List<Property> list = super.getProperties();
         if (hasPower()) {
             String s = Long.toString(getNumber());
             list.add(new ConditionedProperty(Tags.NUMBER, s) {
@@ -75,14 +74,12 @@ public class BlinkenLights extends ParentData {
         return list;
     }
 
-    public void setProperties(List l) {
-        Iterator it = l.iterator();
-        while (it.hasNext()) {
-            Property p = (Property) it.next();
+    public void setProperties(List<Property> l) {
+        for (Property p : l) {
             if (p.getName() == Tags.NUMBER) {
                 String s = ((ConditionedProperty) p).getValue();
                 setNumber(StringConverter.toLong(s));
-                it.remove();
+               // it.remove(); ==> need to remove from iterator (== property list) ?
             }
         }
         super.setProperties(l);

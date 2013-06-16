@@ -142,7 +142,12 @@ public class Benchmark extends EData implements Observer {
     //======================= private class UpdateTask //======================
 
     private class UpdateTask extends TimerTask {
-        public void run() {
+        
+    	public UpdateTask() {
+    		// empty constructor
+    	}
+    	
+    	public void run() {
             if (Manager.getInstance().getLifecycleState() == Manager.STATE_RUNNING) {
                 updateFrequencies();
             }

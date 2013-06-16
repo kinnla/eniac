@@ -14,7 +14,8 @@
 package eniac.io;
 
 import java.awt.event.ActionEvent;
-import java.util.Vector;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 
@@ -52,7 +53,7 @@ public class ProxyScanner extends AbstractAction {
         Progressor.getInstance().setAction(this);
 
         // get ready to scan
-        Vector v = new Vector();
+        List<Proxy> v = new LinkedList<>();
         ProxyHandler handler = new ProxyHandler();
         String[] proxyFiles = IOUtil.addIndices(_path, 0, _maxIndex);
 

@@ -96,7 +96,12 @@ public class CreatorFactory {
     // =======================
 
     private class Color extends Creator {
-        public void endElement(String name) {
+        
+    	public Color() {
+    		// empty constructor
+    	}
+    	
+    	public void endElement(String name) {
             _object = StringConverter.toColor(_cdata);
             _cdata = null;
         }
@@ -114,6 +119,11 @@ public class CreatorFactory {
     }
 
     private class IntArray extends Creator {
+        
+    	public IntArray() {
+    		// empty constructor
+    	}
+    	
         public void endElement(String name) {
             _object = StringConverter.toIntArray(_cdata);
             _cdata = null;
@@ -132,6 +142,11 @@ public class CreatorFactory {
     }
 
     private class Image extends Creator {
+        
+    	public Image() {
+    		// empty constructor
+    	}
+    	
         public void endElement(String name) {
             // load image.
             String path = _imageBase + _lodName + "/" + _cdata; //$NON-NLS-1$
@@ -166,6 +181,11 @@ public class CreatorFactory {
     }
 
     private class Rectangle extends Creator {
+        
+    	public Rectangle() {
+    		// empty constructor
+    	}
+    	
         public void endElement(String name) {
             _object = StringConverter.toRectangle(_cdata);
             _cdata = null;
@@ -184,6 +204,11 @@ public class CreatorFactory {
     }
 
     private class Integer extends Creator {
+        
+    	public Integer() {
+    		// empty constructor
+    	}
+    	
         public void endElement(String name) {
             _object = new java.lang.Integer(StringConverter.toInt(_cdata));
             _cdata = null;
@@ -202,7 +227,11 @@ public class CreatorFactory {
     }
 
     private class Polygon extends Creator {
-
+        
+    	public Polygon() {
+    		// empty constructor
+    	}
+    	
         private java.awt.Polygon _p = null;
 
         public void startElement(String name, Attributes attrs) {
@@ -223,7 +252,12 @@ public class CreatorFactory {
     }
 
     private class Actionator extends Creator {
-        public void endElement(String name) {
+        
+    	public Actionator() {
+    		// empty constructor
+    	}
+    	
+    	public void endElement(String name) {
             _object = _actionatorFactory.get(_cdata);
             _cdata = null;
         }
@@ -241,7 +275,12 @@ public class CreatorFactory {
     }
 
     private class Boolean extends Creator {
-        public void endElement(String name) {
+        
+    	public Boolean() {
+    		// empty constructor
+    	}
+    	
+    	public void endElement(String name) {
             _object = new java.lang.Boolean(_cdata);
             _cdata = null;
         }

@@ -16,9 +16,9 @@
  */
 package eniac.data.model.parent;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observer;
-import java.util.Vector;
 
 import eniac.data.KinderGarten;
 import eniac.data.model.EData;
@@ -40,7 +40,7 @@ public class ParentData extends EData {
 
     // list of children to collect them during initialization.
     // When initialization finished, they will moved to the garten.
-    protected List _childList = new Vector();
+    protected List<EData> _childList = new LinkedList<>();
 
     //============================= lifecycle
     // ==================================
@@ -139,7 +139,7 @@ public class ParentData extends EData {
      * 
      * @return a <code>List</code> containing all tags.
      */
-    public void appendTags(List l, int indent) {
+    public void appendTags(List<String> l, int indent) {
 
         // if low indentation level, write comment line and increment progressor
         if (indent <= 2) {
@@ -152,7 +152,7 @@ public class ParentData extends EData {
         l.add(getCloseTag(indent));
     }
 
-    protected void appendChildTags(List l, int indent) {
+    protected void appendChildTags(List<String> l, int indent) {
 
         // increase indentation level
         indent++;

@@ -56,7 +56,7 @@ public class OpenSkinPanel extends DialogPanel {
 
     private JPanel _jpanel;
 
-    JList _jlist;
+    JList<Proxy> _jlist;
 
     private JScrollPane _listPane;
 
@@ -106,7 +106,7 @@ public class OpenSkinPanel extends DialogPanel {
         _imagePanel = new ImagePanel();
 
         // create and init _jlist and _listPane
-        _jlist = new JList(_proxies);
+        _jlist = new JList<>(_proxies);
         _jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         _listPane = new JScrollPane(_jlist);
 
@@ -195,11 +195,11 @@ public class OpenSkinPanel extends DialogPanel {
     void performUpdate() {
 
         // set image to imagePanel
-        _selectedProxy = (Proxy) _jlist.getSelectedValue();
+        _selectedProxy = _jlist.getSelectedValue();
         if (_selectedProxy == null) {
             _imagePanel.setImage(null);
         } else {
-            String path = (String) _selectedProxy.get(Tags.PREVIEW);
+            String path = _selectedProxy.get(Tags.PREVIEW);
             Image img = EFrame.getInstance().getResourceAsImage(path);
             _imagePanel.setImage(img);
         }

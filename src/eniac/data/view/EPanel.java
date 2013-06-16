@@ -24,11 +24,10 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -46,6 +45,7 @@ import eniac.data.type.ParentGrid;
 import eniac.data.view.parent.ConfigPanel;
 import eniac.io.Tags;
 import eniac.lang.Dictionary;
+import eniac.property.Property;
 import eniac.property.PropertyPanel;
 import eniac.skin.Descriptor;
 import eniac.util.EProperties;
@@ -112,8 +112,8 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
         return new PropertyPanel(_data.getProperties());
     }
 
-    public List getActions() {
-        List l = new Vector();
+    public List<Action> getActions() {
+        List<Action> l = new LinkedList<>();
         l.add(new ShowProperties());
         return l;
     }
@@ -264,9 +264,8 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
 
             // if right button, create pop-up menu
             JPopupMenu menu = new JPopupMenu();
-            Iterator it = getActions().iterator();
-            while (it.hasNext()) {
-                menu.add((Action) it.next());
+            for (Action a : getActions()) {
+                menu.add(a);
             }
             menu.show(this, e.getX(), e.getY());
         } else {
@@ -319,7 +318,7 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
         public void actionPerformed(ActionEvent e) {
 
             // create and init new dataPropertyPanel
-            List properties = EPanel.this.getData().getProperties();
+            List<Property> properties = EPanel.this.getData().getProperties();
             PropertyPanel panel = new PropertyPanel(properties);
             panel.init();
 

@@ -38,21 +38,21 @@ public class DataParsingException extends RuntimeException {
         super(e.getClass().getName() + ": " + e.getMessage()); //$NON-NLS-1$
     }
 
-    public DataParsingException(String key, String attributeName, Class c) {
+    public DataParsingException(String key, String attributeName, Class<?> c) {
         super("Unknown key " //$NON-NLS-1$
                 + key + " for attribute " //$NON-NLS-1$
                 + attributeName + " in class " //$NON-NLS-1$
                 + c.getName());
     }
 
-    public DataParsingException(int value, String attributeName, Class c) {
+    public DataParsingException(int value, String attributeName, Class<?> c) {
         super("Illegal value " //$NON-NLS-1$
                 + Integer.toString(value) + " for attribute " //$NON-NLS-1$
                 + attributeName + " in class " //$NON-NLS-1$
                 + c.getName());
     }
 
-    public DataParsingException(String attributeName, Class c) {
+    public DataParsingException(String attributeName, Class<?> c) {
         super("Unknown attribute " + attributeName + " in class " + c.getName()); //$NON-NLS-1$ //$NON-NLS-2$
     }
 

@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.util.Hashtable;
 
 import javax.swing.Action;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -55,7 +54,7 @@ public class ActionManager extends DefaultHandler {
 
 	private EAction _currentAction = null;
 
-	private Hashtable _actionsTable = null;
+	private Hashtable<String, Action> _actionsTable = null;
 
 	//========================== singleton stuff //============================
 
@@ -92,7 +91,7 @@ public class ActionManager extends DefaultHandler {
 		try {
 			if (qName.equals(ACTIONS)) {
 				// create hashtable to store actions
-				_actionsTable = new Hashtable();
+				_actionsTable = new Hashtable<>();
 
 			} else if (qName.equals(ACTION)) {
 				// parse action class and name

@@ -23,7 +23,6 @@ import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultButtonModel;
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 

@@ -62,8 +62,12 @@ public class ControlerFactory {
     //=============================== Toggle
     // ===================================
 
-    private class Toggle extends BasicControler {
-        public void mpressed(MouseEvent e) {
+    private static class Toggle extends BasicControler {
+        public Toggle() {
+        	// empty constructor
+		}
+
+		public void mpressed(MouseEvent e) {
             toggleValue(e);
         }
     }
@@ -71,8 +75,13 @@ public class ControlerFactory {
     //============================ PushButton
     // ==================================
 
-    private class PushButton extends BasicControler {
-        public void mpressed(MouseEvent e) {
+    private static class PushButton extends BasicControler {
+        
+    	public PushButton() {
+			// empty constructor
+		}
+    	
+    	public void mpressed(MouseEvent e) {
             setValue(e, 1);
         }
 
@@ -91,8 +100,12 @@ public class ControlerFactory {
     //=============================== Switch
     // ===================================
 
-    private class Switch extends BasicControler {
+    private static class Switch extends BasicControler {
 
+    	public Switch() {
+			// empty constructor
+		}
+    	
         private int _oldValue;
 
         public void mpressed(MouseEvent e) {
@@ -140,8 +153,12 @@ public class ControlerFactory {
     //=========================== OperationSwitch
     // ==============================
 
-    private class OperationSwitch extends BasicControler {
+    private static class OperationSwitch extends BasicControler {
 
+    	public OperationSwitch() {
+			// empty constructor
+		}
+    	
         private Controler _controler = null;
 
         public void mpressed(MouseEvent e) {

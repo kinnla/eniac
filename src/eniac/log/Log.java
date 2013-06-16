@@ -16,8 +16,8 @@
  */
 package eniac.log;
 
-import java.util.Iterator;
-import java.util.Vector;
+import java.util.LinkedList;
+import java.util.List;
 
 import eniac.LifecycleListener;
 import eniac.Manager;
@@ -34,7 +34,7 @@ public class Log implements LifecycleListener {
     private StringBuffer _stringBuffer = new StringBuffer();
 
     // vector containing all registered logListeners
-    private Vector _logListeners = new Vector();
+    private List<LogListener> _logListeners = new LinkedList<>();
 
     // reference to LogPanel
     private LogPanel _logPanel = null;
@@ -87,9 +87,8 @@ public class Log implements LifecycleListener {
         _stringBuffer.append('\n');
 
         // inform listeners
-        Iterator iterator = _logListeners.iterator();
-        while (iterator.hasNext()) {
-            ((LogListener) iterator.next()).incomingMessage(message);
+        for (LogListener listener : _logListeners) {
+            listener.incomingMessage(message);
         }
     }
 
@@ -100,9 +99,8 @@ public class Log implements LifecycleListener {
         _stringBuffer = new StringBuffer();
 
         // inform listeners
-        Iterator iterator = _logListeners.iterator();
-        while (iterator.hasNext()) {
-            ((LogListener) iterator.next()).cleared();
+        for (LogListener listener : _logListeners) {
+            listener.cleared();
         }
     }
 

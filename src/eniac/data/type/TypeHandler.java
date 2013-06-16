@@ -13,8 +13,8 @@
  */
 package eniac.data.type;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -35,7 +35,7 @@ public class TypeHandler extends DefaultHandler {
 
     private EType _type;
 
-    private List _listOfCodes = new Vector();
+    private List<String> _listOfCodes = new LinkedList<>();
 
     // character data as parsed by characters()
     private String _cdata = null;

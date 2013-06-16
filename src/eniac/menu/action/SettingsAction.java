@@ -14,7 +14,6 @@
 package eniac.menu.action;
 
 import java.awt.event.ActionEvent;
-import java.util.Iterator;
 import java.util.Vector;
 
 import eniac.Manager;
@@ -41,11 +40,9 @@ public class SettingsAction extends EAction {
         // dialog closed.
         // If ok pressed, save changes
         if (panel.isOkPressed()) {
-            Iterator iter = panel.getDataVector().iterator();
-            while (iter.hasNext()) {
-                Vector row = (Vector) iter.next();
-                String key = (String) row.get(0);
-                String value = (String) row.get(1);
+            for (Vector<String> row : panel.getDataVector()) {
+                String key = row.get(0);
+                String value = row.get(1);
                 EProperties.getInstance().setProperty(key, value);
             }
         }

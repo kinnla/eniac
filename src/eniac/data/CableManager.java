@@ -18,11 +18,10 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Vector;
 
 import eniac.Manager;
 import eniac.data.control.Controler;
@@ -42,7 +41,7 @@ import eniac.window.OVWindow;
 public class CableManager implements Observer, Controler {
 
     // list of cables.
-    private List _cables = new Vector();
+    private List<Cable> _cables = new LinkedList<>();
 
     // temporary connectorPanel, when we are dragging on top of it.
     private ConnectorPanel _tempCop;
@@ -80,9 +79,7 @@ public class CableManager implements Observer, Controler {
         float zoom = ConfigPanel.heightToPercentage();
 
         // iterate on connectorPanels
-        Iterator iter = _cables.iterator();
-        while (iter.hasNext()) {
-            Cable cable = (Cable) iter.next();
+        for (Cable cable : _cables) {
             cable.paintOnConfigPanel(g, zoom, lod);
         }
     }
@@ -92,9 +89,7 @@ public class CableManager implements Observer, Controler {
         int ovHeight = OVWindow.getInstance().getOVPanel().getHeight();
         int configHeight = Status.getInt("zoomed_height");
         float zoom = (float) ovHeight / (float) configHeight;
-        Iterator iter = _cables.iterator();
-        while (iter.hasNext()) {
-            Cable cable = (Cable) iter.next();
+        for (Cable cable : _cables) {
             cable.paintOnBufferedImage(g, zoom, lod);
         }
     }
@@ -138,9 +133,7 @@ public class CableManager implements Observer, Controler {
     }
 
     private Cable findCable(Connector con) {
-        Iterator iter = _cables.iterator();
-        while (iter.hasNext()) {
-            Cable cable = (Cable) iter.next();
+        for (Cable cable : _cables) {
             if (cable.containsCon(con)) {
                 return cable;
             }

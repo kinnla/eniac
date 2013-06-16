@@ -13,7 +13,6 @@
  */
 package eniac.data.model.sw;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.xml.sax.Attributes;
@@ -84,19 +83,17 @@ public class SwitchAndFlag extends Switch {
                 + XMLUtil.wrapAttribute(Tags.FLAG, Boolean.toString(_flag));
     }
 
-    public List getProperties() {
-        List l = super.getProperties();
+    public List<Property> getProperties() {
+        List<Property> l = super.getProperties();
         l.add(new ChoiceProperty(Tags.FLAG, FALSE_TRUE, _flag ? 1 : 0));
         return l;
     }
 
-    public void setProperties(List l) {
-        Iterator it = l.iterator();
-        while (it.hasNext()) {
-            Property p = (Property) it.next();
+    public void setProperties(List<Property> l) {
+        for (Property p : l) {
             if (p.getName().equals(Tags.FLAG)) {
                 setFlag(((ChoiceProperty) p).getSelection() == 1);
-                it.remove();
+//                it.remove(); ===> need to remove from list ???
             }
         }
         super.setProperties(l);

@@ -100,7 +100,7 @@ public class OpenConfigurationPanel extends DialogPanel {
     private JPanel _jpanel2;
 
     // jpanel1 subcomponents
-    private JList _jlist;
+    private JList<Proxy> _jlist;
 
     private JScrollPane _listPane;
 
@@ -163,7 +163,7 @@ public class OpenConfigurationPanel extends DialogPanel {
         // =========================== jpanel1 //===============================
 
         // create and init _jlist and _listPane
-        _jlist = new JList(_proxies);
+        _jlist = new JList<>(_proxies);
         _jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         _listPane = new JScrollPane(_jlist);
 
@@ -351,11 +351,11 @@ public class OpenConfigurationPanel extends DialogPanel {
         _fileChooserAction.setEnabled(_radioButton2.isSelected());
 
         // set description text to textarea
-        Proxy proxy = (Proxy) _jlist.getSelectedValue();
+        Proxy proxy = _jlist.getSelectedValue();
         if (proxy == null) {
             _textArea.setText(""); //$NON-NLS-1$
         } else {
-            _textArea.setText((String) proxy.get(Tags.DESCRIPTION));
+            _textArea.setText(proxy.get(Tags.DESCRIPTION));
         }
 
         // set data according to user's selection

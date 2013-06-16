@@ -42,7 +42,7 @@ public class KinderGarten {
     //============================ lifecycle
     // ===================================
 
-    public KinderGarten(List listOfDataObjects) {
+    public KinderGarten(List<EData> listOfDataObjects) {
         _kinder = new EData[listOfDataObjects.size()];
         listOfDataObjects.toArray(_kinder);
         init();

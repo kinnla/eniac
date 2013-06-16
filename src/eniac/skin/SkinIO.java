@@ -52,7 +52,7 @@ public final class SkinIO {
 
     public static void loadSkin(Proxy proxy) {
 
-        String path = (String) proxy.get(Tags.PATH_TO_THIS_FILE);
+        String path = proxy.get(Tags.PATH_TO_THIS_FILE);
         InputStream in = Manager.getInstance().getResourceAsStream(path);
         Skin skin = new Skin(proxy);
         SkinHandler handler = new SkinHandler(skin);

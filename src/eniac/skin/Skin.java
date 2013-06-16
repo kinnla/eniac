@@ -65,13 +65,13 @@ public class Skin {
         _proxy = proxy;
 
         // init lods
-        String s = (String) _proxy.get(Tags.NUMBER_OF_LODS);
+        String s = _proxy.get(Tags.NUMBER_OF_LODS);
         int numberOfLods = StringConverter.toInt(s);
         _minHeight = new int[numberOfLods];
         _maxHeight = new int[numberOfLods];
 
         // init zoom steps
-        s = (String) _proxy.get(Tags.ZOOM_STEPS);
+        s = _proxy.get(Tags.ZOOM_STEPS);
         _zoomSteps = StringConverter.toIntArray(s);
     }
 

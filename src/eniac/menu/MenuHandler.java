@@ -15,7 +15,6 @@ package eniac.menu;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.swing.AbstractButton;
@@ -51,7 +50,7 @@ public class MenuHandler extends DefaultHandler {
 
 	//=============================== fields //================================
 
-	private Hashtable _actionDefaults = null;
+	private Hashtable<String, EAction> _actionDefaults = null;
 
 	private JMenu _currentMenu = null;
 
@@ -61,11 +60,11 @@ public class MenuHandler extends DefaultHandler {
 
 	private int _parsingState = STATE_DEFAULT;
 
-	private Hashtable _actions = new Hashtable();
+	private Hashtable<String, EAction> _actions = new Hashtable<>();
 
 	//============================ lifecycle //================================
 
-	public MenuHandler(Hashtable actionDefaults) {
+	public MenuHandler(Hashtable<String, EAction> actionDefaults) {
 		_actionDefaults = actionDefaults;
 	}
 
@@ -146,16 +145,14 @@ public class MenuHandler extends DefaultHandler {
 	}
 
 	private EAction getAction(String key) {
-		EAction action = (EAction) _actions.get(key);
+		EAction action = _actions.get(key);
 
 		// if action is not present in our table, get it from the action manager
 		if (action == null) {
 			action = ActionManager.getInstance().getAction(key);
 
 			// add action defaults
-			Enumeration keys = _actionDefaults.keys();
-			while (keys.hasMoreElements()) {
-				String s = (String) keys.nextElement();
+			for (String s : _actionDefaults.keySet()) {
 				action.putValue(s, _actionDefaults.get(s));
 			}
 			// init action and store it at our table

@@ -14,9 +14,8 @@ import java.applet.Applet;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.InputStream;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
@@ -110,7 +109,7 @@ public class Manager {
     private Applet _applet = null;
 
     // list of mainListeners to be informed when run level changes
-    private List _lifecycleListeners = new Vector();
+    private List<LifecycleListener> _lifecycleListeners = new LinkedList<>();
 
     // encoding the current lifecycle state
     short _lifecycleState = STATE_DEFAULT;
@@ -301,11 +300,9 @@ public class Manager {
             _lifecycleState = newVal;
 
             // inform lifecycle listeners
-            Iterator iter = _lifecycleListeners.iterator();
-            while (iter.hasNext()) {
-                LifecycleListener listener = (LifecycleListener) iter.next();
+            for (LifecycleListener l : _lifecycleListeners) {
                 // System.out.println(listener);
-                listener.runLevelChanged(oldVal, newVal);
+                l.runLevelChanged(oldVal, newVal);
             }
         }
         // System.out.println("reached runlevel " + newVal);

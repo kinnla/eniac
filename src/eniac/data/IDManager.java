@@ -17,9 +17,8 @@
 package eniac.data;
 
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 import eniac.data.model.EData;
 
@@ -37,7 +36,7 @@ public class IDManager {
 
     private EData[] _data = new EData[INITIAL_SIZE];
 
-    private List _invalids = new Vector();
+    private List<EData> _invalids = new LinkedList<>();
 
     private int _minFree = 0;
 
@@ -112,9 +111,7 @@ public class IDManager {
     }
 
     public void integrateInvalids() {
-        Iterator it = _invalids.iterator();
-        while (it.hasNext()) {
-            EData d = (EData) it.next();
+        for(EData d : _invalids) {
             d.setID(getFreeID());
             put(d);
         }

@@ -16,11 +16,10 @@
  */
 package eniac.data.model;
 
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Vector;
 
 import org.xml.sax.Attributes;
 
@@ -42,7 +41,7 @@ import eniac.util.StringConverter;
  * To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Generation - Code and Comments
  */
-public class EData extends Observable implements Comparable {
+public class EData extends Observable implements Comparable<EData> {
 
     // static key indicating that that a repaint is recommended.
     public static final String REPAINT = "repaint"; //$NON-NLS-1$
@@ -180,9 +179,8 @@ public class EData extends Observable implements Comparable {
         return _name;
     }
 
-    public int compareTo(Object o) {
+    public int compareTo(EData data) {
         // compare by type, then by index
-        EData data = (EData) o;
         int i = _type.compareTo(data.getType());
         if (i == 0) {
             i = _index - data.getIndex();
@@ -190,17 +188,15 @@ public class EData extends Observable implements Comparable {
         return i;
     }
 
-    public List getProperties() {
-        List l = new Vector();
+    public List<Property> getProperties() {
+        List<Property> l = new LinkedList<>();
         l.add(new ConstantProperty(Tags.NAME, _name));
         l.add(new ConstantProperty(Tags.ID, Integer.toString(_id)));
         return l;
     }
 
-    public void setProperties(List l) {
-        Iterator it = l.iterator();
-        while (it.hasNext()) {
-            Property p = (Property) it.next();
+    public void setProperties(List<Property> l) {
+        for (Property p : l) {
             if (p.getName() == Tags.NAME) {
                 _name = ((ConditionedProperty) p).getValue();
             }
@@ -247,7 +243,7 @@ public class EData extends Observable implements Comparable {
      * 
      * @return a <code>List</code> containing all tags.
      */
-    public void appendTags(List l, int indent) {
+    public void appendTags(List<String> l, int indent) {
 
         // if low indentation level, write comment line
         if (indent <= 2) {
