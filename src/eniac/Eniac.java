@@ -147,7 +147,7 @@ public class Eniac extends Applet {
 
 			// if argument is not known as property name, announce to the user
 			if (!properties.containsKey(keyVal[0])) {
-				System.out.println("Warning: Property \"" + keyVal + "\" is unknown. Mistyping?");
+				System.out.println("Warning: Property \"" + keyVal[0] + "\" is unknown. Mistyping?");
 			}
 
 			// set property

@@ -63,7 +63,7 @@ public class ActionManager extends DefaultHandler {
 	private ActionManager() {
 	}
 
-	public static ActionManager getInstance() {
+	public synchronized static ActionManager getInstance() {
 		if (instance == null) {
 			instance = new ActionManager();
 			instance.init();

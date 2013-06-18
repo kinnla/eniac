@@ -76,7 +76,7 @@ public class BlinkenLights extends ParentData {
 
     public void setProperties(List<Property> l) {
         for (Property p : l) {
-            if (p.getName() == Tags.NUMBER) {
+            if (p.getName().equals(Tags.NUMBER)) {
                 String s = ((ConditionedProperty) p).getValue();
                 setNumber(StringConverter.toLong(s));
                // it.remove(); ==> need to remove from iterator (== property list) ?

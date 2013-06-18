@@ -123,7 +123,7 @@ public class Manager {
     }
 
     // singleton self reference
-    static Manager instance = null;
+    private static Manager instance = null;
 
     public static Manager getInstance() {
         if (instance == null) {
@@ -212,7 +212,6 @@ public class Manager {
 
         // dispose Main
         _lifecycleListeners.clear();
-        instance = null;
 
         // run finalization.
         // Though it probably has no effect, the purpose provides good fortune.

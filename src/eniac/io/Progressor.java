@@ -177,10 +177,12 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener,
 
             // wait until the runlevel changes
             synchronized (this) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            	if (Manager.getInstance().getLifecycleState() == Manager.STATE_BLOCKED) {
+	                try {
+	                    wait();
+	                } catch (InterruptedException e) {
+	                    e.printStackTrace();
+	                }
                 }
             }
         }

@@ -197,7 +197,7 @@ public class EData extends Observable implements Comparable<EData> {
 
     public void setProperties(List<Property> l) {
         for (Property p : l) {
-            if (p.getName() == Tags.NAME) {
+            if (p.getName().equals(Tags.NAME)) {
                 _name = ((ConditionedProperty) p).getValue();
             }
         }

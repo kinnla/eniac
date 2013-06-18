@@ -49,7 +49,7 @@ public class Log implements LifecycleListener {
         // empty
     }
 
-    public static Log getInstance() {
+    public static synchronized Log getInstance() {
         if (instance == null) {
             instance = new Log();
             instance.init();
