@@ -210,7 +210,7 @@ public class OpenConfigurationPanel extends DialogPanel {
         // init jpanel1
         _jpanel1 = new JPanel(new GridBagLayout());
         _jpanel1.setBorder(BorderFactory
-                .createTitledBorder(Dictionary.CHOOSE_WEB_LOCATION));
+                .createTitledBorder(Dictionary.CHOOSE_WEB_LOCATION.getText()));
 
         // add components
         _jpanel1.add(_listPane, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.5,
@@ -233,7 +233,7 @@ public class OpenConfigurationPanel extends DialogPanel {
         // init jpanel1
         _jpanel2 = new JPanel(new GridBagLayout());
         _jpanel2.setBorder(BorderFactory
-                .createTitledBorder(Dictionary.LOAD_FROM_FILE));
+                .createTitledBorder(Dictionary.LOAD_FROM_FILE.getText()));
 
         // create and init jtextfield
         _jtextField = new JTextField(20);

@@ -114,7 +114,7 @@ public class SkinHandler extends DefaultHandler {
         // init progressor
         Proxy proxy = _skin.getProxy();
         int max = Integer.parseInt(proxy.get(Tag.NUMBER_OF_DESCRIPTORS));
-        Progressor.getInstance().setText(Dictionary.SKIN_LOADING);
+        Progressor.getInstance().setText(Dictionary.SKIN_LOADING.getText());
         Progressor.getInstance().setProgress(0, max);
     }
 

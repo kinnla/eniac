@@ -53,7 +53,7 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener,
     private JButton _button = new JButton();
 
     // label to display the current task, its progress we are showing
-    private JLabel _label = new JLabel(Dictionary.INITIALIZING);
+    private JLabel _label = new JLabel(Dictionary.INITIALIZING.getText());
 
     // progressbar to show progress of our
     private JProgressBar _progressBar = new JProgressBar();
@@ -67,7 +67,7 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener,
     private Progressor() {
 
         // create progressor as modal dialog with eframe as owner
-        super(EFrame.getInstance(), Dictionary.PLEASE_WAIT, true);
+        super(EFrame.getInstance(), Dictionary.PLEASE_WAIT.getText(), true);
 
         // add as main listener
         Manager.getInstance().addMainListener(this);
@@ -107,7 +107,7 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener,
 
         // if no action wanted, disable button.
         if (a == null) {
-            a = new AbstractAction(Dictionary.CANCEL) {
+            a = new AbstractAction(Dictionary.CANCEL.getText()) {
                 public void actionPerformed(ActionEvent e) {
                     // empty
                 }
@@ -145,7 +145,7 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener,
     }
 
     public void clear() {
-        setText(Dictionary.INITIALIZING);
+        setText(Dictionary.INITIALIZING.getText());
         _progressBar.setIndeterminate(true);
     }
 
@@ -213,8 +213,8 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener,
      */
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("language")) {
-            _button.setText(Dictionary.CANCEL);
-            setTitle(Dictionary.PLEASE_WAIT);
+            _button.setText(Dictionary.CANCEL.getText());
+            setTitle(Dictionary.PLEASE_WAIT.getText());
         }
     }
 }

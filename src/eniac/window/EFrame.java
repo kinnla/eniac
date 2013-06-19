@@ -99,7 +99,7 @@ public class EFrame extends JFrame implements PropertyChangeListener, LifecycleL
 	public void toScreen() {
 
 		// set window title
-		setTitle(Dictionary.MAIN_FRAME_TITLE);
+		setTitle(Dictionary.MAIN_FRAME_TITLE.getText());
 
 		// window listener
 		addWindowListener(new WindowAdapter() {
@@ -214,7 +214,7 @@ public class EFrame extends JFrame implements PropertyChangeListener, LifecycleL
 			// Changing to FRENCH or JAPANESE works fine.
 			String language = (String) evt.getNewValue();
 			JComponent.setDefaultLocale(new Locale(language));
-			setTitle(Dictionary.MAIN_FRAME_TITLE);
+			setTitle(Dictionary.MAIN_FRAME_TITLE.getText());
 		}
 	}
 

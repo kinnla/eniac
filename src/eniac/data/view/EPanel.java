@@ -323,7 +323,7 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
             panel.init();
 
             // show dialog
-            Manager.getInstance().makeDialog(panel, Dictionary.PROPERTIES);
+            Manager.getInstance().makeDialog(panel, Dictionary.PROPERTIES.getText());
 
             // if input result is null, then the dialog was canceled.
             // otherwise set new configuration

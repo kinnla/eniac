@@ -73,7 +73,7 @@ public class SaveConfiguration extends EAction implements
         SaveConfigurationPanel panel = new SaveConfigurationPanel();
         panel.init();
         Manager.getInstance().makeDialog(panel,
-                Dictionary.SAVE_CONFIGURATION_TITLE);
+                Dictionary.SAVE_CONFIGURATION_TITLE.getText());
 
         // if canceled, do nothing.
         if (!panel.isNextPressed()) {
@@ -106,7 +106,7 @@ public class SaveConfiguration extends EAction implements
         chooser.setFileFilter(IOUtil.getFileFilter());
         chooser.setSelectedFile(file);
         int returnVal = EFrame.getInstance().showFileChooser(chooser,
-                Dictionary.WRITE);
+                Dictionary.WRITE.getText());
 
         // check if user wants to write
         if (returnVal == JFileChooser.APPROVE_OPTION) {

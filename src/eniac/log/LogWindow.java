@@ -69,7 +69,7 @@ public class LogWindow extends JDialog implements PropertyChangeListener,
         Manager.getInstance().addMainListener(this);
 
         // layout
-        setTitle(Dictionary.LOG_WINDOW_TITLE);
+        setTitle(Dictionary.LOG_WINDOW_TITLE.getText());
         _logPanel = Log.getInstance().getLogPanel();
         setContentPane(_logPanel);
 
@@ -100,7 +100,7 @@ public class LogWindow extends JDialog implements PropertyChangeListener,
 
         } else if (evt.getPropertyName().equals("language")) {
             // language changed. update window title
-            setTitle(Dictionary.LOG_WINDOW_TITLE);
+            setTitle(Dictionary.LOG_WINDOW_TITLE.getText());
         }
     }
 

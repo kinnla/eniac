@@ -96,9 +96,9 @@ public class SaveConfigurationPanel extends DialogPanel {
         // create components
         _panel = new JPanel(new GridBagLayout());
         _panel.setBorder(BorderFactory
-                .createTitledBorder(Dictionary.ENTER_DETAILS));
-        _nameLabel = new JLabel(Dictionary.NAME);
-        _descriptionLabel = new JLabel(Dictionary.DESCRIPTION);
+                .createTitledBorder(Dictionary.ENTER_DETAILS.getText()));
+        _nameLabel = new JLabel(Dictionary.NAME.getText());
+        _descriptionLabel = new JLabel(Dictionary.DESCRIPTION.getText());
         _nameField = new JTextField(20);
         _descriptionArea = new JTextArea(3, 20);
         _scrollPane = new JScrollPane(_descriptionArea);

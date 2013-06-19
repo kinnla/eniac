@@ -42,7 +42,7 @@ public class ChangeLanguage extends EAction implements Runnable {
         // create dialog that user can choose a configDescriptor
         ChangeLanguagePanel panel = new ChangeLanguagePanel(proxies);
         panel.init();
-        Manager.getInstance().makeDialog(panel, Dictionary.CHANGE_LANGUAGE_NAME);
+        Manager.getInstance().makeDialog(panel, Dictionary.CHANGE_LANGUAGE_NAME.getText());
 
         // get selected proxy and load language.
         Proxy proxy = panel.getSelectedProxy();

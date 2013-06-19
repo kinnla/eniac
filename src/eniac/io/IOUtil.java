@@ -140,7 +140,7 @@ public class IOUtil {
     public static FileFilter getFileFilter() {
         return new FileFilter() {
             public String getDescription() {
-                return Dictionary.FILE_FILTER_DESCRIPTION;
+                return Dictionary.FILE_FILTER_DESCRIPTION.getText();
             }
 
             public boolean accept(File file) {

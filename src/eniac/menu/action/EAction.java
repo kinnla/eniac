@@ -103,10 +103,13 @@ public abstract class EAction extends AbstractAction implements
     protected void updateText() {
 
         // get values from dictionary and put them
-    		String name = Dictionary.get((String)getValue(Key.SID_NAME.toString()));
-        putValue(Action.NAME, name);
-        String shortDescription = Dictionary.get((String)getValue(Key.SID_SHORT_DESCRIPTION.toString()));
-        putValue(Action.SHORT_DESCRIPTION, shortDescription);
+    	String sid = (String)getValue(Key.SID_NAME.toString());
+    	Dictionary key = Enum.valueOf(Dictionary.class, sid);
+        putValue(Action.NAME, key.getText());
+        
+        sid =(String)getValue(Key.SID_SHORT_DESCRIPTION.toString());
+        key = Enum.valueOf(Dictionary.class, sid);
+        putValue(Action.SHORT_DESCRIPTION, key.getText());
 
         // hide text
         ((AbstractButton)getValue(Key.BUTTON.toString())).setText(null);

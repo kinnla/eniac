@@ -46,7 +46,7 @@ public class OpenSkin extends EAction implements Runnable {
         // create dialog that user can choose a configDescriptor
         OpenSkinPanel panel = new OpenSkinPanel(proxies);
         panel.init();
-        Manager.getInstance().makeDialog(panel, Dictionary.OPEN_SKIN_NAME);
+        Manager.getInstance().makeDialog(panel, Dictionary.OPEN_SKIN_NAME.getText());
 
         // if ok, open skin
         Proxy proxy = panel.getSelectedProxy();

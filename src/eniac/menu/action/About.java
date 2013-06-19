@@ -31,9 +31,9 @@ public class About extends EAction {
     public void actionPerformed(ActionEvent e) {
 
         // create dialog that displays information
-        TextPanel panel = new TextPanel(Dictionary.ABOUT_TEXT);
+        TextPanel panel = new TextPanel(Dictionary.ABOUT_TEXT.getText());
         panel.init();
-        Manager.getInstance().makeDialog(panel, Dictionary.ABOUT_NAME);
+        Manager.getInstance().makeDialog(panel, Dictionary.ABOUT_NAME.getText());
         // dialog closed. Nothing to do any more
     }
 }

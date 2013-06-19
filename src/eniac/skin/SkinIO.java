@@ -47,7 +47,7 @@ public final class SkinIO {
         String path = getSkinPathWithoutIndex();
         int max = StringConverter.toInt(EProperties.getInstance().getProperty(
                 "MAX_NUMBER_OF_SKINS"));
-        String text = Dictionary.SKIN_SCANNING;
+        String text = Dictionary.SKIN_SCANNING.getText();
         return IOUtil.loadProxies(path, max, text);
     }
 

@@ -50,7 +50,7 @@ public class OpenConfiguration extends EAction implements Runnable {
         panel.init();
         //Main.getInstance().setOpenConfigurationPanel(panel);
         Manager.getInstance()
-                .makeDialog(panel, Dictionary.OPEN_CONFIGURATION_NAME);
+                .makeDialog(panel, Dictionary.OPEN_CONFIGURATION_NAME.getText());
 
         // if we are already stopping, we don't need to load a configuration.
         if (Manager.getInstance() == null

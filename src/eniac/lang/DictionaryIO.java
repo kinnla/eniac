@@ -44,14 +44,14 @@ public class DictionaryIO {
         String path = getLanguagePathWithoutIndex();
         int max = StringConverter.toInt(EProperties.getInstance().getProperty(
                 "MAX_LANGUAGE_INDEX"));
-        String text = Dictionary.DICTIONARY_SCANNING;
+        String text = Dictionary.DICTIONARY_SCANNING.getText();
         return IOUtil.loadProxies(path, max, text);
     }
 
     public static void loadLanguage(Proxy proxy) {
 
         // announce that we are loading a language
-        Progressor.getInstance().setText(Dictionary.DICTIONARY_LOADING);
+        Progressor.getInstance().setText(Dictionary.DICTIONARY_LOADING.getText());
 
         String path = proxy.get(Tag.PATH_TO_THIS_FILE);
         InputStream in = Manager.getInstance().getResourceAsStream(path);

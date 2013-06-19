@@ -35,7 +35,7 @@ public class ProxyScanner extends AbstractAction {
     private boolean _running = true;
 
     public ProxyScanner(String path, int maxIndex, String text) {
-        super(Dictionary.CANCEL);
+        super(Dictionary.CANCEL.getText());
         _path = path;
         _maxIndex = maxIndex;
         _text = text;

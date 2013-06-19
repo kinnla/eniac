@@ -53,7 +53,7 @@ public class DictionaryHandler extends DefaultHandler {
     //========================= defaultHandler methods //======================
 
     public void startDocument() {
-        Progressor.getInstance().setText(Dictionary.DICTIONARY_LOADING);
+        Progressor.getInstance().setText(Dictionary.DICTIONARY_LOADING.getText());
         Progressor.getInstance().setProgress(0,
                 Dictionary.class.getFields().length);
     }

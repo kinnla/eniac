@@ -16,19 +16,20 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JMenu;
 
 import eniac.lang.Dictionary;
+import eniac.util.Status;
 import eniac.util.StatusMap;
 
 public class EMenu extends JMenu implements PropertyChangeListener {
 
-	private String _sid;
+	private Dictionary _sid;
 	
 	public EMenu(String sid) {
-		_sid = sid;
-		StatusMap.getInstance().addListener("language", this);
-		setText(Dictionary.get(_sid));
+		_sid = Enum.valueOf(Dictionary.class, sid);
+		StatusMap.getInstance().addListener(Status.LANGUAGE.toString(), this);
+		setText(_sid.getText());
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
-		setText(Dictionary.get(_sid));
+		setText(_sid.getText());
 	}
 }

@@ -69,8 +69,8 @@ public class ConfigIO {
         if (file.exists()) {
             // ask user to confirm overwrite
             int option = JOptionPane.showConfirmDialog(EFrame.getInstance(),
-                    file.getName() + Dictionary.CONFIRM_OVERWRITE_TEXT,
-                    Dictionary.CONFIRM_OVERWRITE_TITLE,
+                    file.getName() + Dictionary.CONFIRM_OVERWRITE_TEXT.getText(),
+                    Dictionary.CONFIRM_OVERWRITE_TITLE.getText(),
                     JOptionPane.OK_CANCEL_OPTION);
             if (option == JOptionPane.CANCEL_OPTION) {
                 // if writing canceled, return
@@ -79,7 +79,7 @@ public class ConfigIO {
         }
 
         // announce that we are writing the configuration
-        Progressor.getInstance().setText(Dictionary.CONFIGURATION_WRITING);
+        Progressor.getInstance().setText(Dictionary.CONFIGURATION_WRITING.getText());
         int max = config.getGarten().getAllKinder().length;
         Progressor.getInstance().setProgress(0, max);
 
@@ -125,7 +125,7 @@ public class ConfigIO {
      *            configuration to load.
      */
     public static void loadConfiguration(Proxy proxy) {
-        String path = (String) proxy.get(Tag.PATH_TO_THIS_FILE);
+        String path = proxy.get(Tag.PATH_TO_THIS_FILE);
         InputStream in = Manager.getInstance().getResourceAsStream(path);
         loadConfiguration(in);
     }
@@ -134,7 +134,7 @@ public class ConfigIO {
         String path = getPathWithoutIndex();
         int max = StringConverter.toInt(EProperties.getInstance().getProperty(
                 "MAX_NUMBER_OF_CONFIGS"));
-        String text = Dictionary.CONFIGURATION_SCANNING;
+        String text = Dictionary.CONFIGURATION_SCANNING.getText();
         return IOUtil.loadProxies(path, max, text);
     }
 

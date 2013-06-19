@@ -49,7 +49,7 @@ public class OVWindow extends JDialog implements PropertyChangeListener,
     private static OVWindow instance;
 
     private OVWindow() {
-        super(EFrame.getInstance(), Dictionary.OVERVIEW_WINDOW_TITLE, false);
+        super(EFrame.getInstance(), Dictionary.OVERVIEW_WINDOW_TITLE.getText(), false);
     }
 
     public static OVWindow getInstance() {
@@ -131,7 +131,7 @@ public class OVWindow extends JDialog implements PropertyChangeListener,
 
         } else if (evt.getPropertyName().equals("language")) {
             // language changed. update window title
-            setTitle(Dictionary.OVERVIEW_WINDOW_TITLE);
+            setTitle(Dictionary.OVERVIEW_WINDOW_TITLE.getText());
         }
     }
 

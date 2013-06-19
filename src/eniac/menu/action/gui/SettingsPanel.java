@@ -171,8 +171,8 @@ public class SettingsPanel extends DialogPanel {
 
             // create column identifiers
             Vector<String> newColumnIdentifiers = new Vector<>();
-            newColumnIdentifiers.add(Dictionary.NAME);
-            newColumnIdentifiers.add(Dictionary.VALUE);
+            newColumnIdentifiers.add(Dictionary.NAME.getText());
+            newColumnIdentifiers.add(Dictionary.VALUE.getText());
 
             // set data vector
             setDataVector(newDataVector, newColumnIdentifiers);

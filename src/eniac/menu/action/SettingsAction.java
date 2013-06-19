@@ -35,7 +35,7 @@ public class SettingsAction extends EAction {
         // create dialog that displays information
         SettingsPanel panel = new SettingsPanel();
         panel.init();
-        Manager.getInstance().makeDialog(panel, Dictionary.SETTINGS_NAME);
+        Manager.getInstance().makeDialog(panel, Dictionary.SETTINGS_NAME.getText());
 
         // dialog closed.
         // If ok pressed, save changes
