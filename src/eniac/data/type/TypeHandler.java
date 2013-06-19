@@ -21,7 +21,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.log.Log;
 
@@ -57,20 +57,20 @@ public class TypeHandler extends DefaultHandler {
             Attributes attrs) throws SAXException {
         //System.out.println(qName);
         try {
-            if (qName.equals(Tags.TYPE)) {
+            if (qName.equals(Tag.TYPE.toString())) {
                 // create new EType by name
-                String name = XMLUtil.parseString(attrs, Tags.NAME);
-                _type = new EType(name);
+                String name = XMLUtil.parseString(attrs, Tag.NAME);
+                _type = new EType(Enum.valueOf(Tag.class, name));
 
-            } else if (qName.equals(Tags.CODES)) {
+            } else if (qName.equals(Tag.CODES.toString())) {
                 // init list of codes
                 _listOfCodes.clear();
                 // set codeName
-                String codeName = XMLUtil.parseString(attrs, Tags.NAME);
-                _type.setCodeName(codeName);
+                String codeName = XMLUtil.parseString(attrs, Tag.NAME);
+                _type.setCodeName(Enum.valueOf(Tag.class, codeName));
 
-            } else if (qName.equals(Tags.MODEL) || qName.equals(Tags.VIEW)
-                    || qName.equals(Tags.CODE)) {
+            } else if (qName.equals(Tag.MODEL.toString()) || qName.equals(Tag.VIEW.toString())
+                    || qName.equals(Tag.CODE.toString())) {
                 // start reading whitespace
                 _readWhitespace = true;
             }
@@ -86,29 +86,29 @@ public class TypeHandler extends DefaultHandler {
             throws SAXException {
 
         try {
-            if (qName.equals(Tags.TYPE)) {
+            if (qName.equals(Tag.TYPE.toString())) {
                 // finished parsing this type. Set it to Prototypes.
                 ProtoTypes.setType(_type);
 
-            } else if (qName.equals(Tags.CODES)) {
+            } else if (qName.equals(Tag.CODES.toString())) {
                 // convert list of codes to an array and set it to type
-                String[] codes = new String[_listOfCodes.size()];
+                Tag[] codes = new Tag[_listOfCodes.size()];
                 _listOfCodes.toArray(codes);
                 _type.setCodes(codes);
 
-            } else if (qName.equals(Tags.MODEL)) {
+            } else if (qName.equals(Tag.MODEL.toString())) {
                 // set edata class and stop reading whitespace
                 _type.setEDataClass(_cdata);
                 _cdata = null;
                 _readWhitespace = false;
 
-            } else if (qName.equals(Tags.VIEW)) {
+            } else if (qName.equals(Tag.VIEW.toString())) {
                 // set epanel class and stop reading whitespace
                 _type.setEPanelClass(_cdata);
                 _cdata = null;
                 _readWhitespace = false;
 
-            } else if (qName.equals(Tags.CODE)) {
+            } else if (qName.equals(Tag.CODE.toString())) {
                 // add code to list of codes and stop reading whitespace
                 _listOfCodes.add(_cdata);
                 _cdata = null;

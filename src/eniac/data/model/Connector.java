@@ -21,11 +21,12 @@ import org.xml.sax.Attributes;
 import eniac.data.PulseInteractor;
 import eniac.data.model.parent.Configuration;
 import eniac.data.type.ProtoTypes;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -45,7 +46,7 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
 
     private static final short BOTH = 2;
 
-    private static final String[] DIRECTION = { Tags.IN, Tags.OUT, Tags.BOTH };
+    private static final Tag[] DIRECTION = { Tag.IN, Tag.OUT, Tag.BOTH };
 
     // pulse direction of this connector
     private short _direction;
@@ -78,8 +79,8 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
 
     public void setAttributes(Attributes attrs) {
         super.setAttributes(attrs);
-        _direction = (short) XMLUtil.parseInt(attrs, Tags.IO, DIRECTION);
-        _partner = XMLUtil.parseInt(attrs, Tags.PARTNER);
+        _direction = (short) XMLUtil.parseInt(attrs, Tag.IO, DIRECTION);
+        _partner = XMLUtil.parseInt(attrs, Tag.PARTNER);
         //_plugged = _partner >= 0;
         // note: the connector is plugged, when both partners are set to
         // the cable
@@ -90,8 +91,8 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
 
     public String getAttributes() {
         return super.getAttributes()
-                + XMLUtil.wrapAttribute(Tags.IO, DIRECTION[_direction])
-                + XMLUtil.wrapAttribute(Tags.PARTNER, Integer
+                + XMLUtil.wrapAttribute(Tag.IO, DIRECTION[_direction].toString())
+                + XMLUtil.wrapAttribute(Tag.PARTNER, Integer
                         .toString(_partner));
     }
 
@@ -143,7 +144,7 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
             _lastPulse = time;
 
             // if we are hightlighting, call for repaint
-            if ((Boolean)Status.get("highlight_pulse")) {
+            if ((Boolean)StatusMap.get(Status.HIGHLIGHT_PULSE)) {
                 setChanged();
                 notifyObservers(EData.PAINT_IMMEDIATELY);
             }
@@ -152,8 +153,8 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
             // note: maybe the highlightning-flag is not set now.
             // But if we are in stepping mode it might switched on before our
             // call-back occures. So we have to set alarm in any case.
-            Configuration config = (Configuration) Status
-                    .get("configuration");
+            Configuration config = (Configuration) StatusMap
+                    .get(Status.CONFIGURATION);
             config.getCyclingLights().setAlarmClock(time, this);
         }
     }
@@ -328,7 +329,7 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
      * @see eniac.simulation.EEventListener#process(eniac.simulation.EEvent)
      */
     public void process(EEvent e) {
-        if (e.type == EEvent.ALARM && (Boolean)Status.get("highlight_pulse")) {
+        if (e.type == EEvent.ALARM && (Boolean)StatusMap.get(Status.HIGHLIGHT_PULSE)) {
 
             // we are called for downlightning
             setChanged();

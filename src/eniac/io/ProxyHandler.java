@@ -55,7 +55,7 @@ public class ProxyHandler extends DefaultHandler {
 
         try {
             // in case of proxy tag, set flag.
-            if (!_inProxy && qName.equals(Tags.PROXY)) {
+            if (!_inProxy && qName.equals(Tag.PROXY)) {
                 _inProxy = true;
             }
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class ProxyHandler extends DefaultHandler {
         // ignore elements, if we are not in the proxy tag
         if (_inProxy) {
             try {
-                if (qName.equals(Tags.PROXY)) {
+                if (qName.equals(Tag.PROXY)) {
 
                     // end of proxy. reset flag.
                     _inProxy = false;

@@ -22,11 +22,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.annotation.Inherited;
 
 import javax.swing.JViewport;
 import javax.swing.Scrollable;
-import javax.swing.SwingUtilities;
 
 import eniac.data.CableManager;
 import eniac.data.model.EData;
@@ -36,6 +34,7 @@ import eniac.skin.Descriptor;
 import eniac.skin.Skin;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
 /**
@@ -77,13 +76,13 @@ public class ConfigPanel extends ParentPanel implements Scrollable, PropertyChan
 
 		// add as propertychangelistener to status to receive simulation time
 		// updates
-		Status.getInstance().addListener("highlight_pulse", this);
-		Status.getInstance().addListener("zoomed_height", this);
+		StatusMap.getInstance().addListener("highlight_pulse", this);
+		StatusMap.getInstance().addListener("zoomed_height", this);
 	}
 
 	public void dispose() {
 		super.dispose();
-		Status.getInstance().removeListener(this);
+		StatusMap.getInstance().removeListener(this);
 		removeAll();
 		_cableManager = null;
 	}
@@ -112,10 +111,10 @@ public class ConfigPanel extends ParentPanel implements Scrollable, PropertyChan
 	public Dimension getPreferredSize() {
 
 		// get current configuration height
-		int height = Status.getInt("zoomed_height");
+		int height = StatusMap.getInt(Status.ZOOMED_HEIGHT);
 
 		// set lod
-		Skin skin = (Skin) Status.get(("skin"));
+		Skin skin = (Skin) StatusMap.get((Status.SKIN));
 		_lod = skin.getLodByHeight(height);
 
 		// get descriptor for this configuration
@@ -254,7 +253,7 @@ public class ConfigPanel extends ParentPanel implements Scrollable, PropertyChan
 	public static float heightToPercentage() {
 		// determine zoom and lod
 		int basicHeight = StringConverter.toInt(EProperties.getInstance().getProperty("BASIC_CONFIGURATION_HEIGHT"));
-		int zoomedHeight = Status.getInt("zoomed_height");
+		int zoomedHeight = StatusMap.getInt(Status.ZOOMED_HEIGHT);
 		return (float) zoomedHeight / (float) basicHeight;
 	}
 }

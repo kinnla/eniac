@@ -32,7 +32,7 @@ import eniac.data.type.EType;
 import eniac.data.type.ProtoTypes;
 import eniac.io.Progressor;
 import eniac.io.Proxy;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.lang.Dictionary;
 import eniac.log.Log;
@@ -93,13 +93,13 @@ public class SkinHandler extends DefaultHandler {
 
         // get imageBase for loading images
         Proxy proxy = _skin.getProxy();
-        String imageBase = proxy.get(Tags.NAME) + "/"; //$NON-NLS-1$
+        String imageBase = proxy.get(Tag.NAME) + "/"; //$NON-NLS-1$
 
         // create new factory
         _factory = new CreatorFactory(imageBase);
 
         // create and init array of hashtables to store descriptors
-        String s = proxy.get(Tags.NUMBER_OF_LODS);
+        String s = proxy.get(Tag.NUMBER_OF_LODS);
         int numberOfLods = StringConverter.toInt(s);
         _arrayOfHashtables = new Hashtable[numberOfLods];
         for (int i = 0; i < _arrayOfHashtables.length; ++i) {
@@ -113,7 +113,7 @@ public class SkinHandler extends DefaultHandler {
     public void startDocument() {
         // init progressor
         Proxy proxy = _skin.getProxy();
-        int max = Integer.parseInt(proxy.get(Tags.NUMBER_OF_DESCRIPTORS));
+        int max = Integer.parseInt(proxy.get(Tag.NUMBER_OF_DESCRIPTORS));
         Progressor.getInstance().setText(Dictionary.SKIN_LOADING);
         Progressor.getInstance().setProgress(0, max);
     }
@@ -128,11 +128,11 @@ public class SkinHandler extends DefaultHandler {
             //============================ default case //==================
             case DEFAULT:
 
-                if (qName.equals(Tags.LOD)) {
+                if (qName.equals(Tag.LOD.toString())) {
                     // lod tag. Parse attributes
-                    int min = XMLUtil.parseInt(attrs, Tags.MIN_HEIGHT);
-                    int max = XMLUtil.parseInt(attrs, Tags.MAX_HEIGHT);
-                    String name = attrs.getValue(Tags.NAME);
+                    int min = XMLUtil.parseInt(attrs, Tag.MIN_HEIGHT);
+                    int max = XMLUtil.parseInt(attrs, Tag.MAX_HEIGHT);
+                    String name = attrs.getValue(Tag.NAME.toString());
 
                     // add lod to skin
                     _skin.setLod(++_lod, min, max);
@@ -140,21 +140,21 @@ public class SkinHandler extends DefaultHandler {
                     // set lod name to creatorFactory
                     _factory.setLodName(name);
 
-                } else if (qName.equals(Tags.DESCRIPTOR)) {
+                } else if (qName.equals(Tag.DESCRIPTOR.toString())) {
                     // create descriptor
                     _descriptor = new Descriptor();
 
                     // set type
-                    String s = XMLUtil.parseString(attrs, Tags.TYPE);
+                    String s = XMLUtil.parseString(attrs, Tag.TYPE);
                     EType type = ProtoTypes.getType(s);
                     if (type == null) {
                         throw new DataParsingException("No datatype: " + s); //$NON-NLS-1$
                     }
 
                     // set width, height and fill
-                    _descriptor.setWidth(XMLUtil.parseInt(attrs, Tags.WIDTH));
-                    _descriptor.setHeight(XMLUtil.parseInt(attrs, Tags.HEIGHT));
-                    int fill = XMLUtil.parseInt(attrs, Tags.FILL,
+                    _descriptor.setWidth(XMLUtil.parseInt(attrs, Tag.WIDTH));
+                    _descriptor.setHeight(XMLUtil.parseInt(attrs, Tag.HEIGHT));
+                    int fill = XMLUtil.parseInt(attrs, Tag.FILL,
                             Descriptor.CODES);
                     _descriptor.setFill((short) fill);
 
@@ -175,23 +175,23 @@ public class SkinHandler extends DefaultHandler {
 
             //====================== in_descriptor case //==============
             case IN_DESCRIPTOR:
-                if (qName.equals(Tags.ARRAY)) {
+                if (qName.equals(Tag.ARRAY.toString())) {
 
                     // get Creator, init list and adjust flag
-                    String cls = XMLUtil.parseString(attrs, Tags.CLASS);
+                    String cls = XMLUtil.parseString(attrs, Tag.CLASS);
                     _creator = _factory.get(cls);
                     _list = new Vector<>();
-                    _name = XMLUtil.parseString(attrs, Tags.NAME);
-                } else if (qName.equals(Tags.ENTRY)) {
+                    _name = XMLUtil.parseString(attrs, Tag.NAME);
+                } else if (qName.equals(Tag.ENTRY.toString())) {
 
                     // pass call to creator
                     _creator.startElement(qName, attrs);
                     _state = CREATING;
-                } else if (qName.equals(Tags.SINGLE)) {
+                } else if (qName.equals(Tag.SINGLE.toString())) {
 
                     // get creator and pass call to him
-                    _name = XMLUtil.parseString(attrs, Tags.NAME);
-                    String cls = XMLUtil.parseString(attrs, Tags.CLASS);
+                    _name = XMLUtil.parseString(attrs, Tag.NAME);
+                    String cls = XMLUtil.parseString(attrs, Tag.CLASS);
                     _creator = _factory.get(cls);
                     _creator.startElement(qName, attrs);
                     _state = CREATING;
@@ -225,13 +225,13 @@ public class SkinHandler extends DefaultHandler {
             //====================== in_descriptor case //==============
             case IN_DESCRIPTOR:
 
-                if (qName.equals(Tags.DESCRIPTOR)) {
+                if (qName.equals(Tag.DESCRIPTOR.toString())) {
 
                     // end of descriptor. Set descriptor to
 
                     //reset flag
                     _state = DEFAULT;
-                } else if (qName.equals(Tags.ARRAY)) {
+                } else if (qName.equals(Tag.ARRAY.toString())) {
 
                     // convert list to array and put to descriptor
                     Class<?> cls = _list.get(0).getClass();
@@ -256,13 +256,13 @@ public class SkinHandler extends DefaultHandler {
             //===================== creating case //====================
 
             case CREATING:
-                if (qName.equals(Tags.ENTRY)) {
+                if (qName.equals(Tag.ENTRY.toString())) {
 
                     // end of entry. add created object to list
                     _creator.endElement(qName);
                     _list.add(_creator.getObject());
                     _state = IN_DESCRIPTOR;
-                } else if (qName.equals(Tags.SINGLE)) {
+                } else if (qName.equals(Tag.SINGLE.toString())) {
 
                     // put created object to descriptor
                     _creator.endElement(qName);

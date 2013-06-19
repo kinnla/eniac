@@ -28,7 +28,7 @@ import eniac.data.model.parent.ParentData;
 import eniac.data.model.unit.Unit;
 import eniac.data.type.EType;
 import eniac.data.view.EPanel;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.property.ConditionedProperty;
 import eniac.property.ConstantProperty;
@@ -86,10 +86,10 @@ public class EData extends Observable implements Comparable<EData> {
 
     // constructor used by the parser's default handler
     public void setAttributes(Attributes attrs) {
-        _id = XMLUtil.parseInt(attrs, Tags.ID);
-        _index = XMLUtil.parseInt(attrs, Tags.INDEX);
-        _name = XMLUtil.parseString(attrs, Tags.NAME);
-        _gridNumbers = XMLUtil.parseIntArray(attrs, Tags.GRID);
+        _id = XMLUtil.parseInt(attrs, Tag.ID);
+        _index = XMLUtil.parseInt(attrs, Tag.INDEX);
+        _name = XMLUtil.parseString(attrs, Tag.NAME);
+        _gridNumbers = XMLUtil.parseIntArray(attrs, Tag.GRID);
     }
 
     /**
@@ -190,14 +190,14 @@ public class EData extends Observable implements Comparable<EData> {
 
     public List<Property> getProperties() {
         List<Property> l = new LinkedList<>();
-        l.add(new ConstantProperty(Tags.NAME, _name));
-        l.add(new ConstantProperty(Tags.ID, Integer.toString(_id)));
+        l.add(new ConstantProperty(Tag.NAME, _name));
+        l.add(new ConstantProperty(Tag.ID, Integer.toString(_id)));
         return l;
     }
 
     public void setProperties(List<Property> l) {
         for (Property p : l) {
-            if (p.getName().equals(Tags.NAME)) {
+            if (p.getName().equals(Tag.NAME)) {
                 _name = ((ConditionedProperty) p).getValue();
             }
         }
@@ -231,15 +231,15 @@ public class EData extends Observable implements Comparable<EData> {
      * @return a <code>String</code> containing all attributes and values.
      */
     protected String getAttributes() {
-        return XMLUtil.wrapAttribute(Tags.ID, Integer.toString(_id))
-                + XMLUtil.wrapAttribute(Tags.NAME, _name)
-                + XMLUtil.wrapAttribute(Tags.GRID, StringConverter
+        return XMLUtil.wrapAttribute(Tag.ID, Integer.toString(_id))
+                + XMLUtil.wrapAttribute(Tag.NAME, _name)
+                + XMLUtil.wrapAttribute(Tag.GRID, StringConverter
                         .toString(_gridNumbers))
-                + XMLUtil.wrapAttribute(Tags.INDEX, Integer.toString(_index));
+                + XMLUtil.wrapAttribute(Tag.INDEX, Integer.toString(_index));
     }
 
     /**
-     * Returns a list containing all Tags and child-Tags of this dataObject.
+     * Returns a list containing all Tag and child-Tag of this dataObject.
      * 
      * @return a <code>List</code> containing all tags.
      */
@@ -259,7 +259,7 @@ public class EData extends Observable implements Comparable<EData> {
     }
 
     protected String getCloseTag(int indent) {
-        return XMLUtil.TABS[indent] + XMLUtil.wrapCloseTag(_type.getName());
+        return XMLUtil.TABS[indent] + XMLUtil.wrapCloseTag(_type.toString());
     }
 
     protected String getOpenCloseTag(int indent) {

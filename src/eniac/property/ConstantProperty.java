@@ -19,6 +19,8 @@ package eniac.property;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
+import eniac.io.ITag;
+
 /**
  * @author zoppke
  * 
@@ -29,7 +31,7 @@ public class ConstantProperty extends Property {
 
     private String _value;
 
-    public ConstantProperty(String name, String value) {
+    public ConstantProperty(ITag name, String value) {
         _name = name;
         _value = value;
     }

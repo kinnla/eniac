@@ -21,7 +21,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import eniac.io.Proxy;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.util.EProperties;
 import eniac.util.StringConverter;
 
@@ -65,13 +65,13 @@ public class Skin {
         _proxy = proxy;
 
         // init lods
-        String s = _proxy.get(Tags.NUMBER_OF_LODS);
+        String s = _proxy.get(Tag.NUMBER_OF_LODS);
         int numberOfLods = StringConverter.toInt(s);
         _minHeight = new int[numberOfLods];
         _maxHeight = new int[numberOfLods];
 
         // init zoom steps
-        s = _proxy.get(Tags.ZOOM_STEPS);
+        s = _proxy.get(Tag.ZOOM_STEPS);
         _zoomSteps = StringConverter.toIntArray(s);
     }
 

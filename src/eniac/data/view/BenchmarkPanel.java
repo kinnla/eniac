@@ -20,7 +20,7 @@ import java.awt.Point;
 
 import eniac.data.model.Benchmark;
 import eniac.data.type.ParentGrid;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.simulation.Frequency;
 import eniac.skin.Descriptor;
 
@@ -59,7 +59,7 @@ public class BenchmarkPanel extends EPanel {
                     height, lod);
             int gridHeight = grid.yValues[1] - grid.yValues[0];
             Point previous = null;
-            Color color = (Color) descriptor.get(Tags.COLOR);
+            Color color = (Color) descriptor.get(Tag.COLOR);
             // draw benchmark curve
             g.setColor(color);
             for (int i = 0; i < freqs.length; ++i) {
@@ -87,7 +87,7 @@ public class BenchmarkPanel extends EPanel {
         }
 
         // draw foreground image
-        Image img = (Image) descriptor.get(Tags.FORE_IMAGE);
+        Image img = (Image) descriptor.get(Tag.FORE_IMAGE);
         g.drawImage(img, x, y, width, height, this);
     }
 }

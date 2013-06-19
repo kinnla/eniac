@@ -42,6 +42,7 @@ import eniac.menu.MenuHandler;
 import eniac.menu.action.EAction;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
 public class EFrame extends JFrame implements PropertyChangeListener, LifecycleListener {
@@ -129,7 +130,7 @@ public class EFrame extends JFrame implements PropertyChangeListener, LifecycleL
 		// TODO: find new way of initializing configuration
 		updateConfigPanel();
 		// add this as propertyChangeListener
-		Status.getInstance().addListener(this);
+		StatusMap.getInstance().addListener(this);
 
 		// init LogWindow
 		// LogWindow.getInstance();
@@ -151,7 +152,7 @@ public class EFrame extends JFrame implements PropertyChangeListener, LifecycleL
 		}
 
 		// get current configuration and the viewDimension
-		Configuration config = (Configuration) Status.get("configuration");
+		Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
 
 		// determine which configPanel to set
 		if (config == null) {

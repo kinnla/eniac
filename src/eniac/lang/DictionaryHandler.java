@@ -22,7 +22,7 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import eniac.io.Progressor;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.log.Log;
 
@@ -84,9 +84,9 @@ public class DictionaryHandler extends DefaultHandler {
             Attributes attrs) throws SAXException {
         //System.out.println(qName);
         try {
-            if (qName.equals(Tags.ENTRY)) {
+            if (qName.equals(Tag.ENTRY)) {
                 // set current entry
-                _entry = XMLUtil.parseString(attrs, Tags.KEY);
+                _entry = XMLUtil.parseString(attrs, Tag.KEY);
                 _readWhitespace = true;
             }
         } catch (Exception e) {
@@ -101,7 +101,7 @@ public class DictionaryHandler extends DefaultHandler {
             throws SAXException {
 
         try {
-            if (qName.equals(Tags.ENTRY)) {
+            if (qName.equals(Tag.ENTRY)) {
                 // read character data. If data is null, take i as empty string
                 if (_cdata == null) {
                     _cdata = ""; //$NON-NLS-1$

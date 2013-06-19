@@ -22,6 +22,7 @@ import javax.swing.JToggleButton;
 import javax.swing.JToggleButton.ToggleButtonModel;
 
 import eniac.util.Status;
+import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -35,9 +36,9 @@ public class ToggleAction extends EAction {
 	public void init() {
 
         // create buttonModel and init selection state
-		String key = (String) getValue(STATUS_PROPERTY);
+		Status key = (Status) getValue(Key.STATUS_PROPERTY.toString());
         ButtonModel model = new JToggleButton.ToggleButtonModel();
-        model.setSelected((Boolean)Status.get(key));
+        model.setSelected((Boolean)StatusMap.get(key));
 
         // create button
         JToggleButton button = new JToggleButton(this);
@@ -49,12 +50,12 @@ public class ToggleAction extends EAction {
         item.setModel(model);
 
 		// store objects
-        putValue(BUTTON, button);
-        putValue(MODEL, model);
-        putValue(ITEM, item);
+        putValue(Key.BUTTON.toString(), button);
+        putValue(Key.MODEL.toString(), model);
+        putValue(Key.ITEM.toString(), item);
 
         // add listener and init text
-        Status.getInstance().addListener(this);
+        StatusMap.getInstance().addListener(this);
         updateText();
     }
 
@@ -67,17 +68,17 @@ public class ToggleAction extends EAction {
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     public void actionPerformed(ActionEvent e) {
-    		String key = (String) getValue(STATUS_PROPERTY);
-        Status.set(key, ((ToggleButtonModel) getValue(MODEL)).isSelected());
+    		Status key = (Status) getValue(Key.STATUS_PROPERTY.toString());
+        StatusMap.set(key, ((ToggleButtonModel) getValue(Key.MODEL.toString())).isSelected());
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
         super.propertyChange(evt);
-		String key = (String) getValue(STATUS_PROPERTY);
-        if (evt.getPropertyName().equals(key)) {
+		Status key = (Status) getValue(Key.STATUS_PROPERTY.toString());
+        if (evt.getPropertyName().equals(key.toString())) {
             // value was toggeled by another party. update selection
-        		ToggleButtonModel model = (ToggleButtonModel) getValue(MODEL);
-        		model.setSelected((Boolean)Status.get(key));
+        		ToggleButtonModel model = (ToggleButtonModel) getValue(Key.MODEL.toString());
+        		model.setSelected((Boolean)StatusMap.get(key));
         }
     }
 }

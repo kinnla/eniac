@@ -22,6 +22,8 @@ import java.awt.event.FocusEvent;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
+import eniac.io.ITag;
+
 /**
  * @author zoppke
  * 
@@ -34,7 +36,7 @@ public abstract class ConditionedProperty extends Property {
 
     private JTextField _field;
 
-    public ConditionedProperty(String name, String value) {
+    public ConditionedProperty(ITag name, String value) {
         _name = name;
         _value = value;
     }

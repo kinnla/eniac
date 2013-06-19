@@ -29,6 +29,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import eniac.Manager;
 import eniac.io.IOUtil;
+import eniac.io.ITag;
 import eniac.io.XMLUtil;
 import eniac.menu.action.EAction;
 import eniac.util.EProperties;
@@ -39,10 +40,9 @@ import eniac.util.EProperties;
 public class MenuHandler extends DefaultHandler {
 
 	// constant tag and attribute names for parsing the menu xml file
-	private static final String MENU = "menu", GROUP = "group",
-			ACTION = "action", NAME = "name", MENUBAR = "menubar",
-			TOOLBAR = "toolbar", SEPARATOR = "separator", KEY = "key",
-			SID = "sid";
+	private enum Key implements ITag {
+		MENU, GROUP, ACTION, NAME, MENUBAR, TOOLBAR, SEPARATOR, KEY, SID;
+	}
 
 	// constant values for parsing state
 	private static final int STATE_DEFAULT = 0, STATE_TOOLBAR = 1,
@@ -86,42 +86,42 @@ public class MenuHandler extends DefaultHandler {
 			Attributes attrs) throws SAXException {
 		//System.out.println(qName);
 		try {
-			if (qName.equals(TOOLBAR)) {
+			if (qName.equals(Key.TOOLBAR.toString())) {
 				// create jtoolbar
 				_toolBar = new JToolBar();
 				// adjust parsing state
 				_parsingState = STATE_TOOLBAR;
 
-			} else if (qName.equals(ACTION) && _parsingState == STATE_TOOLBAR) {
+			} else if (qName.equals(Key.ACTION.toString()) && _parsingState == STATE_TOOLBAR) {
 				// add action to toolbar
-				String key = XMLUtil.parseString(attrs, KEY);
+				String key = XMLUtil.parseString(attrs, Key.KEY);
 				EAction action = getAction(key);
-				_toolBar.add((AbstractButton) action.getValue(EAction.BUTTON));
+				_toolBar.add((AbstractButton) action.getValue(EAction.Key.BUTTON.toString()));
 
-			} else if (qName.equals(SEPARATOR)
+			} else if (qName.equals(Key.SEPARATOR.toString())
 					&& _parsingState == STATE_TOOLBAR) {
 				// add separator to toolbar
 				_toolBar.addSeparator();
 
-			} else if (qName.equals(MENUBAR)) {
+			} else if (qName.equals(Key.MENUBAR.toString())) {
 				// create jmenubar
 				_menuBar = new JMenuBar();
 				// adjust parsing state
 				_parsingState = STATE_MENUBAR;
 
-			} else if (qName.equals(GROUP)) {
+			} else if (qName.equals(Key.GROUP.toString())) {
 				// create jmenu and add it to menubar
-				String sid = XMLUtil.parseString(attrs, SID);
+				String sid = XMLUtil.parseString(attrs, Key.SID);
 				_currentMenu = new EMenu(sid);
 				_menuBar.add(_currentMenu);
 
-			} else if (qName.equals(ACTION) && _parsingState == STATE_MENUBAR) {
+			} else if (qName.equals(Key.ACTION.toString()) && _parsingState == STATE_MENUBAR) {
 				// add action to jmenu
-				String key = XMLUtil.parseString(attrs, KEY);
+				String key = XMLUtil.parseString(attrs, Key.KEY);
 				EAction action = getAction(key);
-				_currentMenu.add((JMenuItem) action.getValue(EAction.ITEM));
+				_currentMenu.add((JMenuItem) action.getValue(EAction.Key.ITEM.toString()));
 
-			} else if (qName.equals(SEPARATOR)
+			} else if (qName.equals(Key.SEPARATOR.toString())
 					&& _parsingState == STATE_MENUBAR) {
 				// add separator to menu
 				_currentMenu.addSeparator();

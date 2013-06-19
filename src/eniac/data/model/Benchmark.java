@@ -23,10 +23,11 @@ import org.xml.sax.Attributes;
 
 import eniac.Manager;
 import eniac.data.model.unit.Unit;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.simulation.Frequency;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -70,7 +71,7 @@ public class Benchmark extends EData implements Observer {
 
     public void setAttributes(Attributes attrs) {
         super.setAttributes(attrs);
-        int size = XMLUtil.parseInt(attrs, Tags.SIZE);
+        int size = XMLUtil.parseInt(attrs, Tag.SIZE);
         _freqs = new Frequency[size];
     }
 
@@ -103,7 +104,7 @@ public class Benchmark extends EData implements Observer {
     void updateFrequencies() {
 
         // init variables
-        long simTime = Status.getLong("simulation_time");
+        long simTime = StatusMap.getLong(Status.SIMULATION_TIME);
         long realTime = System.currentTimeMillis();
         long simTimeDiff = simTime - _lastSimTime;
         long realTimeDiff = realTime - _lastRealTime;
@@ -135,7 +136,7 @@ public class Benchmark extends EData implements Observer {
 
     public String getAttributes() {
         return super.getAttributes()
-                + XMLUtil.wrapAttribute(Tags.SIZE, Integer
+                + XMLUtil.wrapAttribute(Tag.SIZE, Integer
                         .toString(_freqs.length));
     }
 

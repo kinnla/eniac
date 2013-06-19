@@ -19,6 +19,8 @@ package eniac.property;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
+import eniac.io.ITag;
+
 /**
  * @author zoppke
  * 
@@ -31,7 +33,7 @@ public class ChoiceProperty extends Property {
 
     private JComboBox<String> _box;
 
-    public ChoiceProperty(String name, String[] values, int selection) {
+    public ChoiceProperty(ITag name, ITag[] values, int selection) {
         _name = name;
         _values = values;
         _box = new JComboBox(_values);

@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import eniac.skin.Skin;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -27,14 +28,14 @@ import eniac.util.Status;
 public class ZoomOut extends EAction implements PropertyChangeListener {
 
     public ZoomOut() {
-        Status.getInstance().addListener(this);
+        StatusMap.getInstance().addListener(this);
     }
 
     private int getNewHeight() {
 
         // get current height and zoomSteps
-        int height = Status.getInt("zoomed_height");
-        Skin skin = (Skin) Status.get("skin");
+        int height = StatusMap.getInt(Status.ZOOMED_HEIGHT);
+        Skin skin = (Skin) StatusMap.get(Status.SKIN);
         int[] steps = skin.getZoomSteps();
 
         // search index of current height in zoomSteps
@@ -48,7 +49,7 @@ public class ZoomOut extends EAction implements PropertyChangeListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        Status.set("zoomed_height", getNewHeight());
+        StatusMap.set(Status.ZOOMED_HEIGHT, getNewHeight());
     }
 
     /*
@@ -58,7 +59,7 @@ public class ZoomOut extends EAction implements PropertyChangeListener {
      */
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("zoomed_height")) {
-            int height = Status.getInt("zoomed_height");
+            int height = StatusMap.getInt(Status.ZOOMED_HEIGHT);
             setEnabled(height != getNewHeight());
         } else {
             super.propertyChange(evt);

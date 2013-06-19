@@ -43,7 +43,7 @@ import eniac.data.model.EData;
 import eniac.data.type.EType;
 import eniac.data.type.ParentGrid;
 import eniac.data.view.parent.ConfigPanel;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.lang.Dictionary;
 import eniac.property.Property;
 import eniac.property.PropertyPanel;
@@ -142,7 +142,7 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
         drawBackground(g, x, y, width, height, lod, d);
 
         // paint bgimage, if defined
-        Image bgimage = (Image) d.get(Tags.BACK_IMAGE);
+        Image bgimage = (Image) d.get(Tag.BACK_IMAGE);
         if (bgimage != null) {
             g.drawImage(bgimage, x, y, width, height, this);
         }
@@ -152,7 +152,7 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
             int height, int lod, Descriptor d) {
 
         // get bgcolor. If background color is not defined, take ancestor one's.
-        Color color = (Color) d.get(Tags.COLOR);
+        Color color = (Color) d.get(Tag.COLOR);
         EPanel p = this;
         while (color == null) {
 
@@ -167,7 +167,7 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
                 d = p.getDescriptor(lod);
                 // note: the parent's descriptor is not null, because ours is
                 // not.
-                color = (Color) d.get(Tags.COLOR);
+                color = (Color) d.get(Tag.COLOR);
             }
         }
         // draw background
@@ -301,7 +301,7 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
         // get actionator by descriptor
         Descriptor descriptor = getDescriptor(getLod());
         if (descriptor != null) {
-            Object o = descriptor.get(Tags.ACTIONATOR);
+            Object o = descriptor.get(Tag.ACTIONATOR);
             if (o != null) {
                 return (BasicControler) o;
             }

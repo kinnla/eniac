@@ -135,7 +135,7 @@ public class ParentData extends EData {
     // ===============================
 
     /**
-     * Returns a list containing all Tags and child-Tags of this dataObject.
+     * Returns a list containing all Tag and child-Tag of this dataObject.
      * 
      * @return a <code>List</code> containing all tags.
      */

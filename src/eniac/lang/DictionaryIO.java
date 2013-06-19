@@ -22,10 +22,11 @@ import eniac.Manager;
 import eniac.io.IOUtil;
 import eniac.io.Progressor;
 import eniac.io.Proxy;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.log.Log;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
 /**
@@ -52,14 +53,14 @@ public class DictionaryIO {
         // announce that we are loading a language
         Progressor.getInstance().setText(Dictionary.DICTIONARY_LOADING);
 
-        String path = proxy.get(Tags.PATH_TO_THIS_FILE);
+        String path = proxy.get(Tag.PATH_TO_THIS_FILE);
         InputStream in = Manager.getInstance().getResourceAsStream(path);
         DictionaryHandler handler = new DictionaryHandler();
         try {
             IOUtil.parse(in, handler);
 
             // set new language
-            Status.set("language", proxy.get(Tags.KEY));
+            StatusMap.set(Status.LANGUAGE, proxy.get(Tag.KEY));
         } catch (IOException e) {
             Log
                     .log(
@@ -79,7 +80,7 @@ public class DictionaryIO {
 
             // recurse on proxies and find one that fits to the default language
             for (int i = 0; i < proxies.length; ++i) {
-                String key = proxies[i].get(Tags.KEY);
+                String key = proxies[i].get(Tag.KEY);
                 if (key.equals(locale)) {
                     // load language and return.
                     loadLanguage(proxies[i]);

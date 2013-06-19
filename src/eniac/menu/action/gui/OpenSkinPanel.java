@@ -38,7 +38,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import eniac.io.Proxy;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.lang.Dictionary;
 import eniac.util.EProperties;
 import eniac.util.StringConverter;
@@ -199,7 +199,7 @@ public class OpenSkinPanel extends DialogPanel {
         if (_selectedProxy == null) {
             _imagePanel.setImage(null);
         } else {
-            String path = _selectedProxy.get(Tags.PREVIEW);
+            String path = _selectedProxy.get(Tag.PREVIEW);
             Image img = EFrame.getInstance().getResourceAsImage(path);
             _imagePanel.setImage(img);
         }

@@ -29,6 +29,7 @@ import eniac.data.view.parent.ConfigPanel;
 import eniac.lang.Dictionary;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
 /**
@@ -72,12 +73,12 @@ public class OVWindow extends JDialog implements PropertyChangeListener,
         configPanelChanged();
 
         // register as propertyChangeListener
-        Status.getInstance().addListener(this);
+        StatusMap.getInstance().addListener(this);
 
         // add WindowListener
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                Status.set("show_overview", false);
+                StatusMap.set(Status.SHOW_OVERVIEW, false);
             }
         });
 
@@ -85,7 +86,7 @@ public class OVWindow extends JDialog implements PropertyChangeListener,
         pack();
         setLocation(StringConverter.toPoint(EProperties.getInstance().getProperty(
                 "OVERVIEW_WINDOW_LOCATION")));
-        setVisible((Boolean)Status.get("show_overview"));
+        setVisible((Boolean)StatusMap.get(Status.SHOW_OVERVIEW));
     }
 
     public void dispose() {
@@ -126,7 +127,7 @@ public class OVWindow extends JDialog implements PropertyChangeListener,
 
         if (evt.getPropertyName().equals("show_overview")) {
             // show overview toggeled
-            setVisible((Boolean)Status.get("show_overview"));
+            setVisible((Boolean)StatusMap.get(Status.SHOW_OVERVIEW));
 
         } else if (evt.getPropertyName().equals("language")) {
             // language changed. update window title

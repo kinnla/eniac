@@ -24,9 +24,10 @@ import java.awt.Point;
 import eniac.data.CableManager;
 import eniac.data.control.Controler;
 import eniac.data.model.Connector;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.skin.Descriptor;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.window.EFrame;
 
 /**
@@ -78,20 +79,20 @@ public class ConnectorPanel extends EPanel {
         Connector con = (Connector) _data;
         boolean loadbox = con.getID() == con.getPartner();
         boolean plugged = con.isPlugged();
-        String key;
+        Tag key;
         if (loadbox) {
-            key = Tags.LOADBOX;
+            key = Tag.LOADBOX;
         } else if (plugged) {
-            key = Tags.PLUGGED;
+            key = Tag.PLUGGED;
         } else {
-            key = Tags.UNPLUGGED;
+            key = Tag.UNPLUGGED;
         }
         Image img = (Image) d.get(key);
 
         // init helper variables
         long lastPulse = con.getLastPulse();
-        long simTime = Status.getLong("simulation_time");
-        boolean highlightPulse = (Boolean)Status.get("highlight_pulse");
+        long simTime = StatusMap.getLong(Status.SIMULATION_TIME);
+        boolean highlightPulse = (Boolean)StatusMap.get(Status.HIGHLIGHT_PULSE);
 
         // if highlight and we have a current pulse, mark connector
         if (highlightPulse && lastPulse == simTime) {

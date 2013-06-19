@@ -67,7 +67,7 @@ public class ProtoTypes {
 
     public static void setType(EType type) {
         try {
-            String name = type.getName().toUpperCase();
+            String name = type.toString().toUpperCase();
             Field f = ProtoTypes.class.getField(name);
             f.set(null, type);
         } catch (Exception e) {

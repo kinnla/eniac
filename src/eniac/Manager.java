@@ -28,6 +28,7 @@ import eniac.log.LogWindow;
 import eniac.menu.action.gui.DialogPanel;
 import eniac.skin.SkinIO;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.window.EFrame;
 
 /**
@@ -193,11 +194,11 @@ public class Manager {
         // TODO: check, if we need to block first
 
         // dispose configuration
-        Configuration config = (Configuration) Status.get("configuration");
+        Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
         if (config != null) {
             config.dispose();
         }
-        Status.set("configuration", null);
+        StatusMap.set(Status.CONFIGURATION, null);
 
         // announce that applet is shutting down
         setLifecycleState(STATE_STOPPED);

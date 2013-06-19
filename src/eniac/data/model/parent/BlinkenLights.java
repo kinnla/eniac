@@ -23,7 +23,7 @@ import eniac.data.model.sw.Switch;
 import eniac.data.model.sw.SwitchAndFlag;
 import eniac.data.model.unit.Unit;
 import eniac.data.type.ProtoTypes;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.property.ConditionedProperty;
 import eniac.property.Property;
 import eniac.util.StringConverter;
@@ -60,7 +60,7 @@ public class BlinkenLights extends ParentData {
         List<Property> list = super.getProperties();
         if (hasPower()) {
             String s = Long.toString(getNumber());
-            list.add(new ConditionedProperty(Tags.NUMBER, s) {
+            list.add(new ConditionedProperty(Tag.NUMBER, s) {
                 protected boolean checkValue(String value) {
                     try {
                         long l = Long.parseLong(value);
@@ -76,7 +76,7 @@ public class BlinkenLights extends ParentData {
 
     public void setProperties(List<Property> l) {
         for (Property p : l) {
-            if (p.getName().equals(Tags.NUMBER)) {
+            if (p.getName().equals(Tag.NUMBER)) {
                 String s = ((ConditionedProperty) p).getValue();
                 setNumber(StringConverter.toLong(s));
                // it.remove(); ==> need to remove from iterator (== property list) ?

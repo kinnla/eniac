@@ -25,12 +25,13 @@ import eniac.data.type.EType;
 import eniac.data.type.ProtoTypes;
 import eniac.io.IOUtil;
 import eniac.io.Proxy;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.lang.Dictionary;
 import eniac.log.Log;
 import eniac.log.LogWords;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
 /**
@@ -52,7 +53,7 @@ public final class SkinIO {
 
     public static void loadSkin(Proxy proxy) {
 
-        String path = proxy.get(Tags.PATH_TO_THIS_FILE);
+        String path = proxy.get(Tag.PATH_TO_THIS_FILE);
         InputStream in = Manager.getInstance().getResourceAsStream(path);
         Skin skin = new Skin(proxy);
         SkinHandler handler = new SkinHandler(skin);
@@ -74,7 +75,7 @@ public final class SkinIO {
                 handler.setDescriptorsToType(types[i]);
             }
             // set new skin
-            Status.set("skin", skin);
+            StatusMap.set(Status.SKIN, skin);
         } catch (IOException e) {
             Log.log(LogWords.LOADING_OF_SKIN_FAILED, JOptionPane.ERROR_MESSAGE,
                     true);

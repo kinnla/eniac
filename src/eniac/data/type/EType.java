@@ -17,27 +17,28 @@ import java.util.Arrays;
 
 import eniac.data.model.EData;
 import eniac.data.view.EPanel;
+import eniac.io.ITag;
 import eniac.skin.Descriptor;
 import eniac.util.EProperties;
 import eniac.util.StringConverter;
 
 public class EType {
 
-    private String _name;
+    private ITag _name;
 
     private String _edataClass;
 
     private String _epanelClass;
 
-    private String _codeName;
+    private ITag _codeName;
 
-    private String[] _codes;
+    private ITag[] _codes;
 
     private Descriptor[] _descriptors;
 
     private Grid[] _gridCache;
 
-    public EType(String name) {
+    public EType(ITag name) {
         _name = name;
         _gridCache = new Grid[StringConverter.toInt(EProperties.getInstance()
                 .getProperty("GRID_CACHE_SIZE"))];
@@ -46,27 +47,27 @@ public class EType {
     //========================== getters and setters
     // ===========================
 
-    public void setName(String name) {
+    public void setName(ITag name) {
         _name = name;
     }
 
-    public String getName() {
+    public ITag getName() {
         return _name;
     }
 
-    public void setCodes(String[] codes) {
+    public void setCodes(ITag[] codes) {
         _codes = codes;
     }
 
-    public String[] getCodes() {
+    public ITag[] getCodes() {
         return _codes;
     }
 
-    public void setCodeName(String codeName) {
+    public void setCodeName(ITag codeName) {
         _codeName = codeName;
     }
 
-    public String getCodeName() {
+    public ITag getCodeName() {
         return _codeName;
     }
 
@@ -88,7 +89,7 @@ public class EType {
     // =================================
 
     public String toString() {
-        return _name;
+        return _name.toString();
     }
 
     public EData makeEData() throws InstantiationException,
@@ -110,7 +111,7 @@ public class EType {
     }
 
     public int compareTo(EType type) {
-        return _name.compareTo(type.getName());
+        return _name.toString().compareTo(type.toString());
     }
 
     public Descriptor getDescriptor(int lod) {

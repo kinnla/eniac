@@ -30,6 +30,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import eniac.Manager;
 import eniac.io.IOUtil;
+import eniac.io.ITag;
 import eniac.io.Progressor;
 import eniac.io.XMLUtil;
 import eniac.log.Log;
@@ -46,9 +47,9 @@ import eniac.window.EFrame;
 public class ActionManager extends DefaultHandler {
 
 	// constant tag and attribute names for parsing the menu xml file
-	private static final String PROPERTY = "property", CLASS = "class",
-			ACTION = "action", ACTIONS = "actions", NAME = "name",
-			VALUE = "value", KEY = "key";
+	private enum Key implements ITag {
+		PROPERTY, CLASS, ACTION, ACTIONS, NAME, VALUE, KEY;
+	}
 
 	//=============================== fields //================================
 
@@ -89,25 +90,25 @@ public class ActionManager extends DefaultHandler {
 			Attributes attrs) throws SAXException {
 		//System.out.println(qName);
 		try {
-			if (qName.equals(ACTIONS)) {
+			if (qName.equals(Key.ACTIONS.toString())) {
 				// create hashtable to store actions
 				_actionsTable = new Hashtable<>();
 
-			} else if (qName.equals(ACTION)) {
+			} else if (qName.equals(Key.ACTION.toString())) {
 				// parse action class and name
-				String key = XMLUtil.parseString(attrs, KEY);
-				String className = XMLUtil.parseString(attrs, CLASS);
+				String key = XMLUtil.parseString(attrs, Key.KEY);
+				String className = XMLUtil.parseString(attrs, Key.CLASS);
 				// create action and put its key as property
 				_currentAction = (EAction) Class.forName(className)
 						.newInstance();
-				_currentAction.putValue(EAction.KEY, key);
+				_currentAction.putValue(EAction.Key.KEY.toString(), key);
 				// add to action hashtable
 				_actionsTable.put(key, _currentAction);
 
-			} else if (qName.equals(PROPERTY)) {
+			} else if (qName.equals(Key.PROPERTY.toString())) {
 				// parse property name and value
-				String name = XMLUtil.parseString(attrs, NAME);
-				String value = XMLUtil.parseString(attrs, VALUE);
+				String name = XMLUtil.parseString(attrs, Key.NAME);
+				String value = XMLUtil.parseString(attrs, Key.VALUE);
 				// set property at current action
 				Object convertedValue = convertProperty(name, value);
 				_currentAction.putValue(name, convertedValue);

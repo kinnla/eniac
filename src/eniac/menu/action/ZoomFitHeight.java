@@ -22,6 +22,7 @@ import eniac.data.view.parent.ConfigPanel;
 import eniac.skin.Descriptor;
 import eniac.skin.Skin;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.window.EFrame;
 
 /**
@@ -42,7 +43,7 @@ public class ZoomFitHeight extends EAction {
 
         // check, if new height affords scrollbars
         EType configType = cp.getData().getType();
-        Skin skin = (Skin) Status.get("skin");
+        Skin skin = (Skin) StatusMap.get(Status.SKIN);
         int lod = skin.getLodByHeight(newHeight);
         Descriptor d = configType.getDescriptor(lod);
         int newWidth = d.getWidth() * newHeight / d.getHeight();
@@ -54,6 +55,6 @@ public class ZoomFitHeight extends EAction {
         newHeight -= 4;
 
         // set new height.
-        Status.set("zoomed_height", newHeight);
+        StatusMap.set(Status.ZOOMED_HEIGHT, newHeight);
     }
 }

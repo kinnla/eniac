@@ -28,6 +28,7 @@ import eniac.Manager;
 import eniac.lang.Dictionary;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 import eniac.window.EFrame;
 
@@ -73,19 +74,19 @@ public class LogWindow extends JDialog implements PropertyChangeListener,
         setContentPane(_logPanel);
 
         // add propertyChangeListener
-        Status.getInstance().addListener(this);
+        StatusMap.getInstance().addListener(this);
 
         // add windowListener
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                Status.set("show_log", false);
+                StatusMap.set(Status.SHOW_LOG, false);
             }
         });
 
         // to the screen
         setBounds(StringConverter.toRectangle(EProperties.getInstance()
                 .getProperty("LOG_WINDOW_BOUNDS")));
-        setVisible((Boolean)Status.get("show_log"));
+        setVisible((Boolean)StatusMap.get(Status.SHOW_LOG));
     }
 
     // =========================== listener stuff
@@ -93,9 +94,9 @@ public class LogWindow extends JDialog implements PropertyChangeListener,
 
     public void propertyChange(PropertyChangeEvent evt) {
 
-        if (evt.getPropertyName().equals("show_log")) {
+        if (evt.getPropertyName().equals(Status.SHOW_LOG.toString())) {
             // show_log changed. Show or hide log window
-            setVisible((Boolean)Status.get("show_log"));
+            setVisible((Boolean)StatusMap.get(Status.SHOW_LOG));
 
         } else if (evt.getPropertyName().equals("language")) {
             // language changed. update window title

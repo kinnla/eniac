@@ -30,7 +30,7 @@ import eniac.data.model.parent.Configuration;
 import eniac.io.IOUtil;
 import eniac.io.Progressor;
 import eniac.io.Proxy;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.lang.Dictionary;
 import eniac.log.Log;
@@ -38,6 +38,7 @@ import eniac.log.LogWords;
 import eniac.menu.action.OpenConfiguration;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 import eniac.window.EFrame;
 
@@ -85,10 +86,10 @@ public class ConfigIO {
         // collect all tags in a list
         List<String> list = new LinkedList<>();
         list.add(XMLUtil.ENIAC_HEADER);
-        list.add(XMLUtil.wrapOpenTag(Tags.ENIAC));
+        list.add(XMLUtil.wrapOpenTag(Tag.ENIAC.toString()));
         proxy.appendTags(list, 1);
         config.appendTags(list, 1);
-        list.add(XMLUtil.wrapCloseTag(Tags.ENIAC));
+        list.add(XMLUtil.wrapCloseTag(Tag.ENIAC.toString()));
 
         // convert list to stringbuffer
         StringBuffer buf = new StringBuffer();
@@ -124,7 +125,7 @@ public class ConfigIO {
      *            configuration to load.
      */
     public static void loadConfiguration(Proxy proxy) {
-        String path = (String) proxy.get(Tags.PATH_TO_THIS_FILE);
+        String path = (String) proxy.get(Tag.PATH_TO_THIS_FILE);
         InputStream in = Manager.getInstance().getResourceAsStream(path);
         loadConfiguration(in);
     }
@@ -176,8 +177,8 @@ public class ConfigIO {
 
         // dispose old configuration object, if there is any
         // EFrame.getInstance().disposeConfigPanel();
-        Object oldConfig = Status.get("configuration");
-        Status.set("configuration", null);
+        Object oldConfig = StatusMap.get(Status.CONFIGURATION);
+        StatusMap.set(Status.CONFIGURATION, null);
         if (oldConfig != null) {
             ((Configuration) oldConfig).dispose();
         }
@@ -193,7 +194,7 @@ public class ConfigIO {
         }
 
         // set new configuration Object as current Configuration
-        Status.set("configuration", newConfig);
+        StatusMap.set(Status.CONFIGURATION, newConfig);
     }
 
     // loads a configuration from the given inputStream.

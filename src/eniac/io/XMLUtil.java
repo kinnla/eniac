@@ -87,8 +87,8 @@ public class XMLUtil {
         l.add(""); //$NON-NLS-1$
     }
 
-    public static String wrapAttribute(String name, String value) {
-        return " " + name + "=\"" + value + "\""; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+    public static String wrapAttribute(ITag tag, String value) {
+        return " " + tag + "=\"" + value + "\""; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
     }
 
     public static String wrapOpenCloseTag(String tag) {
@@ -106,27 +106,26 @@ public class XMLUtil {
     //========================== reading xml
     // ===================================
 
-    public static int parseInt(String s, String[] keys) {
-        for (int i = 0; i < keys.length; ++i) {
-            if (s.equals(keys[i])) {
+    public static int parseInt(String s, ITag[] tags) {
+        for (int i = 0; i < tags.length; ++i) {
+            if (s.equals(tags[i].toString())) {
                 return i;
             }
         }
         return -1;
     }
 
-    public static String parseString(Attributes attrs, String name) {
-
-        String s = attrs.getValue(name);
+    public static String parseString(Attributes attrs, ITag tag) {
+        String s = attrs.getValue(tag.toString());
         if (s == null) {
-            throw new DataParsingException(name,
+            throw new DataParsingException(tag,
                     DataParsingException.MISSING_ATTRIBUTE);
         }
         return s;
     }
 
-    public static int parseInt(Attributes attrs, String name) {
-        String s = parseString(attrs, name);
+    public static int parseInt(Attributes attrs, ITag tag) {
+        String s = parseString(attrs, tag);
         return StringConverter.toInt(s);
     }
 
@@ -135,43 +134,43 @@ public class XMLUtil {
      * @param string
      * @return
      */
-    public static Color parseColor(Attributes attrs, String name) {
-        String s = parseString(attrs, name);
+    public static Color parseColor(Attributes attrs, ITag tag) {
+        String s = parseString(attrs, tag);
         return StringConverter.toColor(s);
     }
 
-    public static int parseInt(Attributes attrs, String name, String[] codes) {
+    public static int parseInt(Attributes attrs, ITag tag, ITag[] tags) {
 
-        String s = parseString(attrs, name);
-        int i = parseInt(s, codes);
+        String s = parseString(attrs, tag);
+        int i = parseInt(s, tags);
         if (i == -1) {
-            throw new DataParsingException(s, name);
+            throw new DataParsingException(s, tag);
         }
         return i;
     }
 
-    public static long parseLong(Attributes attrs, String name) {
-        String s = parseString(attrs, name);
+    public static long parseLong(Attributes attrs, ITag tag) {
+        String s = parseString(attrs, tag);
         return StringConverter.toLong(s);
     }
 
-    public static Dimension parseDimension(Attributes attrs, String name) {
-        String s = parseString(attrs, name);
+    public static Dimension parseDimension(Attributes attrs, ITag tag) {
+        String s = parseString(attrs, tag);
         return StringConverter.toDimension(s);
     }
 
-    public static boolean parseBoolean(Attributes attrs, String name) {
-        String s = parseString(attrs, name);
+    public static boolean parseBoolean(Attributes attrs, ITag tag) {
+        String s = parseString(attrs, tag);
         return StringConverter.toBoolean(s);
     }
 
-    public static float parseFloat(Attributes attrs, String name) {
-        String s = parseString(attrs, name);
+    public static float parseFloat(Attributes attrs, ITag tag) {
+        String s = parseString(attrs, tag);
         return StringConverter.toFloat(s);
     }
 
-    public static int[] parseIntArray(Attributes attrs, String name) {
-        String s = parseString(attrs, name);
+    public static int[] parseIntArray(Attributes attrs, ITag tag) {
+        String s = parseString(attrs, tag);
         return StringConverter.toIntArray(s);
     }
 }

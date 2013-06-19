@@ -50,7 +50,7 @@ import javax.swing.event.ListSelectionListener;
 import eniac.Manager;
 import eniac.io.IOUtil;
 import eniac.io.Proxy;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.lang.Dictionary;
 import eniac.util.EProperties;
 import eniac.util.StringConverter;
@@ -355,7 +355,7 @@ public class OpenConfigurationPanel extends DialogPanel {
         if (proxy == null) {
             _textArea.setText(""); //$NON-NLS-1$
         } else {
-            _textArea.setText(proxy.get(Tags.DESCRIPTION));
+            _textArea.setText(proxy.get(Tag.DESCRIPTION));
         }
 
         // set data according to user's selection

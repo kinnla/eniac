@@ -15,7 +15,8 @@ package eniac.data.model;
 
 import org.xml.sax.Attributes;
 
-import eniac.io.Tags;
+import eniac.io.ITag;
+import eniac.io.Tag;
 import eniac.io.XMLUtil;
 
 /**
@@ -33,7 +34,7 @@ public class Slider extends EData {
 
     public void setAttributes(Attributes attrs) {
         super.setAttributes(attrs);
-        _value = XMLUtil.parseFloat(attrs, Tags.VALUE);
+        _value = XMLUtil.parseFloat(attrs, Tag.VALUE);
     }
 
     //============================== methods //================================
@@ -50,8 +51,8 @@ public class Slider extends EData {
         return _value;
     }
 
-    protected String getAttributeName() {
-        return Tags.VALUE;
+    protected ITag getAttributeName() {
+        return Tag.VALUE;
     }
 
     /**

@@ -18,7 +18,8 @@ import java.util.List;
 import org.xml.sax.Attributes;
 
 import eniac.data.model.EData;
-import eniac.io.Tags;
+import eniac.io.ITag;
+import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.property.ChoiceProperty;
 import eniac.property.Property;
@@ -28,8 +29,7 @@ import eniac.property.Property;
  */
 public class SwitchAndFlag extends Switch {
 
-    private static String[] FALSE_TRUE = new String[] {
-            Boolean.FALSE.toString(), Boolean.TRUE.toString() };
+    private static ITag[] FALSE_TRUE = new ITag[] { Tag.FALSE, Tag.TRUE };
 
     private boolean _flag;
 
@@ -45,7 +45,7 @@ public class SwitchAndFlag extends Switch {
 
         // parse clearCorrect from attributes
         //TODO: maybe include name of flag to etype
-        _flag = XMLUtil.parseBoolean(attrs, Tags.FLAG);
+        _flag = XMLUtil.parseBoolean(attrs, Tag.FLAG);
     }
 
     public void rotateValue() {
@@ -80,18 +80,18 @@ public class SwitchAndFlag extends Switch {
 
     public String getAttributes() {
         return super.getAttributes()
-                + XMLUtil.wrapAttribute(Tags.FLAG, Boolean.toString(_flag));
+                + XMLUtil.wrapAttribute(Tag.FLAG, Boolean.toString(_flag));
     }
 
     public List<Property> getProperties() {
         List<Property> l = super.getProperties();
-        l.add(new ChoiceProperty(Tags.FLAG, FALSE_TRUE, _flag ? 1 : 0));
+        l.add(new ChoiceProperty(Tag.FLAG, FALSE_TRUE, _flag ? 1 : 0));
         return l;
     }
 
     public void setProperties(List<Property> l) {
         for (Property p : l) {
-            if (p.getName().equals(Tags.FLAG)) {
+            if (p.getName().equals(Tag.FLAG)) {
                 setFlag(((ChoiceProperty) p).getSelection() == 1);
 //                it.remove(); ===> need to remove from list ???
             }

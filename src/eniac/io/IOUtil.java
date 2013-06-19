@@ -52,7 +52,7 @@ public class IOUtil {
         try {
             IOUtil.parse(in, handler);
             Proxy proxy = handler.getProxy();
-            proxy.put(Tags.PATH_TO_THIS_FILE, path);
+            proxy.put(Tag.PATH_TO_THIS_FILE.toString(), path);
             return proxy;
         } catch (IOException e) {
             e.printStackTrace();

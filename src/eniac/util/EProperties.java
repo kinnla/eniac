@@ -39,9 +39,13 @@ public class EProperties extends Properties {
         }
     }
 
+    public String getProperty(Status status) {
+    	return super.getProperty(status.toString());
+    }
+    
     // note: this method has to be synchronized, because during loading a skin
     // or scanning for proxies there are separate threads started.
-    // So we have to make sure, that the new Status object is created AND
+    // So we have to make sure, that the new StatusMap object is created AND
     // it is initialized, befor another thread can enter this method and
     // can find a non-null reference.
     public synchronized static EProperties getInstance() {

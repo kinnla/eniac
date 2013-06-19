@@ -35,9 +35,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import eniac.io.Proxy;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.lang.Dictionary;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -175,9 +176,9 @@ public class ChangeLanguagePanel extends DialogPanel {
         super.setWindow(window);
 
         // preselect current language.
-        String key = (String) Status.get("language");
+        String key = (String) StatusMap.get(Status.LANGUAGE);
         for (int i = 0; i < _proxies.length; ++i) {
-            if (key.equals(_proxies[i].get(Tags.KEY))) {
+            if (key.equals(_proxies[i].get(Tag.KEY))) {
                 _jlist.setSelectedIndex(i);
                 return;
             }

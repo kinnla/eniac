@@ -17,15 +17,15 @@ import java.util.Hashtable;
 
 import eniac.data.type.Grid;
 import eniac.data.type.ParentGrid;
-import eniac.io.Tags;
+import eniac.io.Tag;
 
 /**
  * @author zoppke
  */
 public class Descriptor extends Hashtable<String, Object> {
 
-    public final static String[] CODES = { Tags.NONE, Tags.BOTH,
-            Tags.HORIZONTAL, Tags.VERTICAL };
+    public final static Tag[] CODES = { Tag.NONE, Tag.BOTH,
+            Tag.HORIZONTAL, Tag.VERTICAL };
 
     public static final short NONE = 0;
 
@@ -81,13 +81,13 @@ public class Descriptor extends Hashtable<String, Object> {
     public Grid makeGrid(int width, int height) {
 
         // get gridx. if gridx is null, return a simple grid.
-        int[] _gridX = (int[]) get(Tags.GRID_X);
+        int[] _gridX = (int[]) get(Tag.GRID_X);
         if (_gridX == null) {
             return new Grid(width, height);
         }
 
         //otherwise get gridy, too. Create ParentGrid
-        int[] _gridY = (int[]) get(Tags.GRID_Y);
+        int[] _gridY = (int[]) get(Tag.GRID_Y);
         ParentGrid grid = new ParentGrid(width, height);
 
         // compute zoom

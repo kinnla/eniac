@@ -27,7 +27,7 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 
 import eniac.lang.Dictionary;
-import eniac.util.Status;
+import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -39,41 +39,44 @@ public abstract class EAction extends AbstractAction implements
 	 * ======================== keys to store objects =====================
 	 */
 
-	/**
-	 * unique key identifying this action
-	 */
-	public static final String KEY = "key";
-    
-	/**
-	 * the button produced from this action.
-	 */
-	public static final String BUTTON = "button";
+	public enum Key {
 
-	/**
-	 * The menu item
-	 */
-	public static final String ITEM = "item";
+		/**
+		 * unique key identifying this action
+		 */
+		KEY,
 
-	/**
-	 * The model for the button and the menu item
-	 */
-	public static final String MODEL = "model";
+		/**
+		 * the button produced from this action.
+		 */
+		BUTTON,
 
-	/**
-	 * The SID for the name
-	 */
-	public static final String SID_NAME = "SID_Name";
-	
-	/**
-	 * The SID for the short description
-	 */
-	public static final String SID_SHORT_DESCRIPTION = "SID_ShortDescription";
+		/**
+		 * The menu item
+		 */
+		ITEM,
 
-	/**
-	 * in case the action modifies a property registered at the Status, this is
-	 * the properties name
-	 */
-	public static final String STATUS_PROPERTY = "status_property";
+		/**
+		 * The model for the button and the menu item
+		 */
+		MODEL,
+
+		/**
+		 * The SID for the name
+		 */
+		SID_NAME,
+
+		/**
+		 * The SID for the short description
+		 */
+		SID_SHORT_DESCRIPTION,
+
+		/**
+		 * in case the action modifies a property registered at the StatusMap,
+		 * this is the properties name
+		 */
+		STATUS_PROPERTY;
+	}
 
 	//=============================== lifecycle //=============================
 
@@ -86,12 +89,12 @@ public abstract class EAction extends AbstractAction implements
 		button.setText(null);
 
 		// store objects
-		putValue(BUTTON, button);
-		putValue(MODEL, model);
-		putValue(ITEM, new JMenuItem(this));
+		putValue(Key.BUTTON.toString(), button);
+		putValue(Key.MODEL.toString(), model);
+		putValue(Key.ITEM.toString(), new JMenuItem(this));
 
 		// add listener and init text
-        Status.getInstance().addListener(this);
+        StatusMap.getInstance().addListener(this);
         updateText();
 	}
     
@@ -100,13 +103,13 @@ public abstract class EAction extends AbstractAction implements
     protected void updateText() {
 
         // get values from dictionary and put them
-    		String name = Dictionary.get((String)getValue(SID_NAME));
+    		String name = Dictionary.get((String)getValue(Key.SID_NAME.toString()));
         putValue(Action.NAME, name);
-        String shortDescription = Dictionary.get((String)getValue(SID_SHORT_DESCRIPTION));
+        String shortDescription = Dictionary.get((String)getValue(Key.SID_SHORT_DESCRIPTION.toString()));
         putValue(Action.SHORT_DESCRIPTION, shortDescription);
 
         // hide text
-        ((AbstractButton)getValue(BUTTON)).setText(null);
+        ((AbstractButton)getValue(Key.BUTTON.toString())).setText(null);
     }
 
     public void propertyChange(PropertyChangeEvent evt) {

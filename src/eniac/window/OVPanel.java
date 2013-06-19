@@ -40,11 +40,12 @@ import javax.swing.event.ChangeListener;
 import eniac.data.model.parent.Configuration;
 import eniac.data.type.ProtoTypes;
 import eniac.data.view.parent.ConfigPanel;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.skin.Descriptor;
 import eniac.skin.Skin;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
 /**
@@ -88,25 +89,25 @@ public class OVPanel extends JPanel implements ChangeListener, Observer,
         enableEvents(AWTEvent.MOUSE_MOTION_EVENT_MASK);
 
         // observe configuration
-        Configuration config = (Configuration) Status.get("configuration");
+        Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
         if (config != null) {
             config.addObserverToTree(this);
         }
 
         // add as propertychanglistener to status for get notified
         // when skin changes or configuration changes
-        Status.getInstance().addListener(this);
+        StatusMap.getInstance().addListener(this);
 
         // add as componentlistener to get notified when we are resized.
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                update((Configuration) Status.get("configuration"), null);
+                update((Configuration) StatusMap.get(Status.CONFIGURATION), null);
             }
         });
     }
 
     public void dispose() {
-        Status.getInstance().removeListener(this);
+        StatusMap.getInstance().removeListener(this);
         // TODO: do we need to unregister as observer?
     }
 
@@ -170,9 +171,9 @@ public class OVPanel extends JPanel implements ChangeListener, Observer,
         // multiply the DV preferred size by the initial ov zoom
         int height = StringConverter.toInt(EProperties.getInstance().getProperty(
                 "INITIAL_OV_HEIGHT"));
-        Skin skin = (Skin) Status.get("skin");
+        Skin skin = (Skin) StatusMap.get(Status.SKIN);
         int lod = skin.getLodByHeight(height);
-        Configuration config = (Configuration) Status.get("configuration");
+        Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
 
         // if no configuration, return empty dimension
         if (config == null) {
@@ -196,7 +197,7 @@ public class OVPanel extends JPanel implements ChangeListener, Observer,
     public void paintComponent(Graphics g) {
 
         // if configuration is null, just paint background
-        if (Status.get("configuration") == null) {
+        if (StatusMap.get(Status.CONFIGURATION) == null) {
             g.setColor(StringConverter.toColor(EProperties.getInstance().getProperty(
                     "BACKGROUND_COLOR")));
             g.fillRect(0, 0, getWidth(), getHeight());
@@ -204,7 +205,7 @@ public class OVPanel extends JPanel implements ChangeListener, Observer,
         }
 
         // compute zoom and appropriate lod
-        Skin skin = (Skin) Status.get("skin");
+        Skin skin = (Skin) StatusMap.get(Status.SKIN);
         int lod = skin.getLodByHeight(getHeight());
 
         // check that we have a valid lod
@@ -269,8 +270,8 @@ public class OVPanel extends JPanel implements ChangeListener, Observer,
 
         // get xor image and color
         Descriptor d = ProtoTypes.XOR_IMAGE.getDescriptor(lod);
-        Image img = (Image) d.get(Tags.BACK_IMAGE);
-        Color color = (Color) d.get(Tags.COLOR);
+        Image img = (Image) d.get(Tag.BACK_IMAGE);
+        Color color = (Color) d.get(Tag.COLOR);
 
         // set xore mode and paint xor image
         g.setXORMode(color);
@@ -302,9 +303,9 @@ public class OVPanel extends JPanel implements ChangeListener, Observer,
         if (evt.getPropertyName().equals("skin")) {
 
             // new skin loaded. Repaint.
-            update((Configuration) Status.get("configuration"), null);
+            update((Configuration) StatusMap.get(Status.CONFIGURATION), null);
         }
-        // else if (evt.getPropertyName() == Status.CONFIGURATION) {
+        // else if (evt.getPropertyName() == StatusMap.CONFIGURATION) {
         //
         // // new Configuration. Repaint.
         // initAsObserver();

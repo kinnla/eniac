@@ -30,13 +30,14 @@ import eniac.data.io.ConfigIO;
 import eniac.data.model.parent.Configuration;
 import eniac.io.IOUtil;
 import eniac.io.Proxy;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.lang.Dictionary;
 import eniac.log.Log;
 import eniac.log.LogWords;
 import eniac.menu.action.gui.SaveConfigurationPanel;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.window.EFrame;
 
 /**
@@ -82,8 +83,8 @@ public class SaveConfiguration extends EAction implements
 
         // otherwise create proxy
         Proxy proxy = new Proxy();
-        proxy.put(Tags.NAME, panel.getName());
-        proxy.put(Tags.DESCRIPTION, panel.getDescription());
+        proxy.put(Tag.NAME.toString(), panel.getName());
+        proxy.put(Tag.DESCRIPTION.toString(), panel.getDescription());
 
         // create filechooser
         JFileChooser chooser = new JFileChooser();
@@ -112,8 +113,8 @@ public class SaveConfiguration extends EAction implements
 
             // try to write to the file specified by filechooser
             try {
-                Configuration config = (Configuration) Status
-                        .get("configuration");
+                Configuration config = (Configuration) StatusMap
+                        .get(Status.CONFIGURATION);
                 ConfigIO.write(chooser.getSelectedFile(), config, proxy);
             } catch (IOException exc) {
                 exc.printStackTrace();

@@ -16,6 +16,8 @@
  */
 package eniac.data.io;
 
+import eniac.io.ITag;
+
 /**
  * @author zoppke
  * 
@@ -38,14 +40,14 @@ public class DataParsingException extends RuntimeException {
         super(e.getClass().getName() + ": " + e.getMessage()); //$NON-NLS-1$
     }
 
-    public DataParsingException(String key, String attributeName, Class<?> c) {
+    public DataParsingException(String key, ITag attributeName, Class<?> c) {
         super("Unknown key " //$NON-NLS-1$
                 + key + " for attribute " //$NON-NLS-1$
                 + attributeName + " in class " //$NON-NLS-1$
                 + c.getName());
     }
 
-    public DataParsingException(int value, String attributeName, Class<?> c) {
+    public DataParsingException(int value, ITag attributeName, Class<?> c) {
         super("Illegal value " //$NON-NLS-1$
                 + Integer.toString(value) + " for attribute " //$NON-NLS-1$
                 + attributeName + " in class " //$NON-NLS-1$
@@ -56,12 +58,12 @@ public class DataParsingException extends RuntimeException {
         super("Unknown attribute " + attributeName + " in class " + c.getName()); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
-    public DataParsingException(String xml, short messageType) {
-        super(MESSAGES[messageType] + xml);
+    public DataParsingException(ITag tag, short messageType) {
+        super(MESSAGES[messageType] + tag);
     }
 
-    public DataParsingException(String value, String attributeName) {
-        super("Illegal value " + value + " for attribute " + attributeName); //$NON-NLS-1$ //$NON-NLS-2$
+    public DataParsingException(String value, ITag tag) {
+        super("Illegal value " + value + " for attribute " + tag); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     public DataParsingException(String message) {

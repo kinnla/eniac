@@ -26,14 +26,14 @@ public class Proxy extends Hashtable<String, String> {
     }
 
     public String toString() {
-        return get(Tags.NAME);
+        return get(Tag.NAME);
     }
 
     public void appendTags(List<String> l, int indent) {
 
         // append comment line and open tag
-        XMLUtil.appendCommentLine(l, indent, Tags.PROXY);
-        l.add(XMLUtil.TABS[indent] + XMLUtil.wrapOpenTag(Tags.PROXY));
+        XMLUtil.appendCommentLine(l, indent, Tag.PROXY.toString());
+        l.add(XMLUtil.TABS[indent] + XMLUtil.wrapOpenTag(Tag.PROXY.toString()));
 
         // append child tags
         String tabs = XMLUtil.TABS[indent + 1];
@@ -45,6 +45,6 @@ public class Proxy extends Hashtable<String, String> {
         }
 
         // append close tags
-        l.add(XMLUtil.TABS[indent] + XMLUtil.wrapCloseTag(Tags.PROXY));
+        l.add(XMLUtil.TABS[indent] + XMLUtil.wrapCloseTag(Tag.PROXY.toString()));
     }
 }

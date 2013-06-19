@@ -27,11 +27,12 @@ import eniac.data.type.EType;
 import eniac.data.type.ProtoTypes;
 import eniac.data.view.ConnectorPanel;
 import eniac.data.view.parent.ConfigPanel;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 import eniac.skin.Descriptor;
 import eniac.util.Status;
+import eniac.util.StatusMap;
 import eniac.window.EFrame;
 import eniac.window.OVWindow;
 
@@ -148,14 +149,14 @@ public class Cable extends Observable implements Observer, EEventListener {
         }
 
         // set color for drawing
-        if (_pulseTransmittion && (Boolean)Status.get("highlight_pulse")) {
-            g.setColor((Color) descriptor.get(Tags.CABLE_COLOR_HIGHLIGHT));
+        if (_pulseTransmittion && (Boolean)StatusMap.get(Status.HIGHLIGHT_PULSE)) {
+            g.setColor((Color) descriptor.get(Tag.CABLE_COLOR_HIGHLIGHT));
         } else {
-            g.setColor((Color) descriptor.get(Tags.CABLE_COLOR));
+            g.setColor((Color) descriptor.get(Tag.CABLE_COLOR));
         }
 
         // compute helper variables
-        float pixels = ((Integer) descriptor.get(Tags.CABLE_PIXELS))
+        float pixels = ((Integer) descriptor.get(Tag.CABLE_PIXELS))
                 .floatValue()
                 * zoom;
         int dx = p2.x - p1.x;
@@ -304,13 +305,13 @@ public class Cable extends Observable implements Observer, EEventListener {
             _pulseTransmittion = true;
 
             // set alarm clock for downlightning
-            long time = Status.getLong("simulation_time");
-            Configuration config = (Configuration) Status
-                    .get("configuration");
+            long time = StatusMap.getLong(Status.SIMULATION_TIME);
+            Configuration config = (Configuration) StatusMap
+                    .get(Status.CONFIGURATION);
             config.getCyclingLights().setAlarmClock(time, this);
 
             // if we are highlightning, repaint.
-            if ((Boolean)Status.get("highlight_pulse")) {
+            if ((Boolean)StatusMap.get(Status.HIGHLIGHT_PULSE)) {
                 paintImmediately();
             }
         }

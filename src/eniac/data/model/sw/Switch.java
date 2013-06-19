@@ -19,6 +19,7 @@ import org.xml.sax.Attributes;
 
 import eniac.data.io.DataParsingException;
 import eniac.data.model.EData;
+import eniac.io.ITag;
 import eniac.io.XMLUtil;
 import eniac.property.ChoiceProperty;
 import eniac.property.Property;
@@ -43,7 +44,7 @@ public class Switch extends EData {
         super.setAttributes(attrs);
 
         // parse value from attributes
-        String[] codes = _type.getCodes();
+        ITag[] codes = _type.getCodes();
         int value = XMLUtil.parseInt(attrs, _type.getCodeName(), codes);
 
         // If value is in bounds, set it. Otherwise throw exception.
@@ -80,24 +81,24 @@ public class Switch extends EData {
         return _value == 1;
     }
 
-    public String encode() {
-        String[] codes = _type.getCodes();
+    public ITag encode() {
+        ITag[] codes = _type.getCodes();
         return codes[_value];
     }
 
     protected boolean isInbound(int value) {
-        String[] codes = _type.getCodes();
+        ITag[] codes = _type.getCodes();
         return value >= 0 && value < codes.length;
     }
 
     public String getAttributes() {
         return super.getAttributes()
-                + XMLUtil.wrapAttribute(_type.getCodeName(), encode());
+                + XMLUtil.wrapAttribute(_type.getCodeName(), encode().toString());
     }
 
     public List<Property> getProperties() {
         List<Property> l = super.getProperties();
-        String[] codes = _type.getCodes();
+        ITag[] codes = _type.getCodes();
         l.add(new ChoiceProperty(_type.getCodeName(), codes, _value));
         return l;
     }

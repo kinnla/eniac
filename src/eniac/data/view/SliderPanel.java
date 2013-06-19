@@ -21,7 +21,7 @@ import java.awt.event.MouseEvent;
 
 import eniac.data.control.Controler;
 import eniac.data.model.Slider;
-import eniac.io.Tags;
+import eniac.io.Tag;
 import eniac.skin.Descriptor;
 
 /**
@@ -43,28 +43,28 @@ public class SliderPanel extends EPanel implements Controler {
         }
 
         // paint bgcolor, if defined
-        Color color = (Color) descriptor.get(Tags.COLOR);
+        Color color = (Color) descriptor.get(Tag.COLOR);
         if (color != null) {
             g.setColor(color);
             g.fillRect(x, y, width, height);
         }
 
         // paint background image
-        Image img = (Image) descriptor.get(Tags.BACK_IMAGE);
+        Image img = (Image) descriptor.get(Tag.BACK_IMAGE);
         g.drawImage(img, x, y, width, height, this);
 
         // get variables
-        Rectangle rect = (Rectangle) descriptor.get(Tags.RECTANGLE);
+        Rectangle rect = (Rectangle) descriptor.get(Tag.RECTANGLE);
         float value = ((Slider) _data).getValue();
         float xFactor = width / (float) descriptor.getWidth();
         float yFactor = height / (float) descriptor.getHeight();
 
         // check whether horizontal or vertical sliding
-        Object o = descriptor.get(Tags.X);
+        Object o = descriptor.get(Tag.X);
         if (o == null) {
 
             // vertical sliding. Adjust point
-            int y2 = ((Integer) descriptor.get(Tags.X)).intValue();
+            int y2 = ((Integer) descriptor.get(Tag.X)).intValue();
             x += rect.x * xFactor;
             y += (rect.y + (y2 - rect.y) * value) * yFactor;
         } else {
@@ -79,7 +79,7 @@ public class SliderPanel extends EPanel implements Controler {
         height = (int) (rect.height * yFactor);
 
         // paint foreground image
-        img = (Image) descriptor.get(Tags.FORE_IMAGE);
+        img = (Image) descriptor.get(Tag.FORE_IMAGE);
         g.drawImage(img, x, y, width, height, this);
     }
 
@@ -103,17 +103,17 @@ public class SliderPanel extends EPanel implements Controler {
 
         // get variables
         Descriptor d = getDescriptor(getLod());
-        Rectangle rect = (Rectangle) d.get(Tags.RECTANGLE);
+        Rectangle rect = (Rectangle) d.get(Tag.RECTANGLE);
         Slider slider = (Slider) _data;
         float value;
 
         // check whether horizontal or vertical sliding
-        Object o = d.get(Tags.X);
+        Object o = d.get(Tag.X);
         if (o == null) {
 
             // vertical sliding. Adjust point
             // compute value by y coordinate of click-point
-            int y2 = ((Integer) d.get(Tags.X)).intValue();
+            int y2 = ((Integer) d.get(Tag.X)).intValue();
             float y = e.getY() * d.getHeight() / (float) getHeight();
             y -= rect.height >> 1;
             value = (y - rect.y) / (y2 - rect.y);
