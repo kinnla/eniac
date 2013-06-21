@@ -59,7 +59,7 @@ public class TypeHandler extends DefaultHandler {
             if (qName.equals(EType.Tag.TYPE.toString())) {
                 // create new EType by name
                 String name = XMLUtil.parseString(attrs, EType.Tag.NAME);
-                _type = new EType(Enum.valueOf(EType.Tag.class, name));
+                _type = Enum.valueOf(EType.class, name.toUpperCase());
 
             } else if (qName.equals(EType.Tag.CODES.toString())) {
                 // init list of codes

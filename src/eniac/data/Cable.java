@@ -24,7 +24,7 @@ import eniac.data.model.Connector;
 import eniac.data.model.EData;
 import eniac.data.model.parent.Configuration;
 import eniac.data.type.EType;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 import eniac.data.view.ConnectorPanel;
 import eniac.data.view.parent.ConfigPanel;
 import eniac.simulation.EEvent;
@@ -275,18 +275,18 @@ public class Cable extends Observable implements Observer, EEventListener {
         EType type2 = cop2.getData().getType();
 
         // check for program connectors
-        if (type1 == ProtoTypes.PROGRAM_CONNECTOR
-                && type2 == ProtoTypes.PROGRAM_CONNECTOR) {
+        if (type1 == EType.PROGRAM_CONNECTOR
+                && type2 == EType.PROGRAM_CONNECTOR) {
             return true;
         }
         // check for digitConnectors
-        if ((type1 == ProtoTypes.DIGIT_CONNECTOR || type1 == ProtoTypes.DIGIT_CONNECTOR_CROSS)
-                && (type2 == ProtoTypes.DIGIT_CONNECTOR || type2 == ProtoTypes.DIGIT_CONNECTOR_CROSS)) {
+        if ((type1 == EType.DIGIT_CONNECTOR || type1 == EType.DIGIT_CONNECTOR_CROSS)
+                && (type2 == EType.DIGIT_CONNECTOR || type2 == EType.DIGIT_CONNECTOR_CROSS)) {
             return true;
         }
         // check for (unit-)interconnectors
-        if (type1 == ProtoTypes.INTER_CONNECTOR
-                && type2 == ProtoTypes.INTER_CONNECTOR) {
+        if (type1 == EType.INTER_CONNECTOR
+                && type2 == EType.INTER_CONNECTOR) {
             return true;
         }
         // otherwise return false.

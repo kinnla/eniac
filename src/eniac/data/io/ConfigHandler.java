@@ -26,7 +26,7 @@ import eniac.data.model.EData;
 import eniac.data.model.parent.Configuration;
 import eniac.data.model.parent.ParentData;
 import eniac.data.type.EType;
-import eniac.data.type.ProtoTypes;
+import eniac.io.Proxy;
 import eniac.log.Log;
 
 /**
@@ -37,7 +37,7 @@ public class ConfigHandler extends DefaultHandler {
     //================================ fields
     // ==================================
 
-    // stack to push nested dataObject to
+    // stack for the data objects to be parsed
     private Stack<EData> _stack = new Stack<>();
 
     // reference to the configuration as the root of our dataObject tree.
@@ -62,13 +62,13 @@ public class ConfigHandler extends DefaultHandler {
             Attributes attrs) throws SAXException {
 
         try {
-            //System.out.println(qName);
-            // create dataObject and push it to the stack.
-            EType type = ProtoTypes.getType(qName);
+            // read type from string
+        	EType type = convertToType(qName);
             if (type == null) {
-                //Log.log("this is not an etype: "+qName); //$NON-NLS-1$
                 return;
             }
+
+            // create dataObject and push it to the stack.
             EData data = type.makeEData();
             data.setAttributes(attrs);
             _stack.push(data);
@@ -83,17 +83,21 @@ public class ConfigHandler extends DefaultHandler {
             throws SAXException {
 
         try {
-            if (ProtoTypes.getType(qName) != null) {
-                // pop object from stack
-                EData data = _stack.pop();
-                if (data instanceof Configuration) {
-                    // special case: assign configuration field
-                    _configuration = (Configuration) data;
-                } else {
-                    // add object as new child to the top-of_stack-dataObject.
-                    ParentData parent = (ParentData) _stack.peek();
-                    parent.addChild(data);
-                }
+            // read type from string
+        	EType type = convertToType(qName);
+            if (type == null) {
+                return;
+            }
+
+            // pop object from stack
+            EData data = _stack.pop();
+            if (data instanceof Configuration) {
+                // special case: assign configuration field
+                _configuration = (Configuration) data;
+            } else {
+                // add object as new child to the top-of_stack-dataObject.
+                ParentData parent = (ParentData) _stack.peek();
+                parent.addChild(data);
             }
         } catch (Exception e) {
             // in case of exception, print stack trace and rethrow as sax
@@ -108,6 +112,24 @@ public class ConfigHandler extends DefaultHandler {
 
     public void error(SAXParseException e) throws SAXException {
         Log.log(e.toString());
+    }
+
+    private EType convertToType(String name){
+        try {
+        	return Enum.valueOf(EType.class, name.toUpperCase());
+        }catch (IllegalArgumentException exc) {
+        	
+        	// check, if this is a proxy tag
+            try {
+            	Enum.valueOf(Proxy.Tag.class, name.toUpperCase());
+            }
+        	catch(IllegalArgumentException exc2) {
+        		
+        		// completely unknown tag.
+        		System.out.println("Ignoring unknown type: "+name);
+        	}
+        	return null;
+        }
     }
 
 }

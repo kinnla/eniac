@@ -27,9 +27,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import eniac.data.io.DataParsingException;
 import eniac.data.type.EType;
-import eniac.data.type.ProtoTypes;
 import eniac.io.Progressor;
 import eniac.io.Proxy;
 import eniac.io.XMLUtil;
@@ -120,13 +118,10 @@ public class SkinHandler extends DefaultHandler {
             Attributes attrs) throws SAXException {
     	
     	// try to read TAG
-    	Skin.Tag tag = null;
-        try {
-        	tag = Enum.valueOf(Skin.Tag.class, qName.toUpperCase());
-        }catch (IllegalArgumentException exc) {
-        	System.out.println("Ignoring unknown tag: "+tag);
-        	return;
-        }
+    	Skin.Tag tag = convertToTag(qName);
+    	if (tag == null) {
+    		return;
+    	}
         
         try {
         	// switch on current parsing state
@@ -155,11 +150,7 @@ public class SkinHandler extends DefaultHandler {
                     _descriptor = new Descriptor();
 
                     // set type
-                    String s = XMLUtil.parseString(attrs, Skin.Tag.TYPE);
-                    EType type = ProtoTypes.getType(s);
-                    if (type == null) {
-                        throw new DataParsingException("No datatype: " + s); //$NON-NLS-1$
-                    }
+                    EType type = getType(XMLUtil.parseString(attrs, Skin.Tag.TYPE));
 
                     // set width, height and fill
                     _descriptor.setWidth(XMLUtil.parseInt(attrs, Skin.Tag.WIDTH));
@@ -224,8 +215,13 @@ public class SkinHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
 
+    	// try to read TAG
+    	Skin.Tag tag = convertToTag(qName);
+    	if (tag == null) {
+    		return;
+    	}
+
         try {
-            Skin.Tag tag = Enum.valueOf(Skin.Tag.class, qName.toUpperCase());
         	
             // switch on current parsing state
             switch (_state) {
@@ -312,5 +308,27 @@ public class SkinHandler extends DefaultHandler {
 
     public boolean hasMissingImages() {
         return _factory.hasMissingImages();
+    }
+    
+    private Skin.Tag convertToTag(String name){
+        try {
+        	return Enum.valueOf(Skin.Tag.class, name.toUpperCase());
+        }catch (IllegalArgumentException exc) {
+        	
+        	// check, if this is a proxy tag
+            try {
+            	Enum.valueOf(Proxy.Tag.class, name.toUpperCase());
+            }
+        	catch(IllegalArgumentException exc2) {
+        		
+        		// completely unknown tag.
+        		System.out.println("Ignoring unknown tag: "+name);
+        	}
+        	return null;
+        }
+    }
+    
+    private EType getType(String name) {
+    		return Enum.valueOf(EType.class, name.toUpperCase());
     }
 }

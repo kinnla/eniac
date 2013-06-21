@@ -19,7 +19,7 @@ package eniac.data.model.parent;
 import eniac.data.PulseInteractor;
 import eniac.data.model.Connector;
 import eniac.data.model.EData;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 
 /**
  * @author zoppke
@@ -117,7 +117,7 @@ public class Tray extends ParentData implements PulseInteractor {
      */
     public void sendDigit(long time, long value, PulseInteractor source) {
         EData[] children = getGarten().getKinder(
-                ProtoTypes.DIGIT_CONNECTOR_CROSS);
+                EType.DIGIT_CONNECTOR_CROSS);
         for (int i = 0; i < children.length; ++i) {
             Connector c = (Connector) children[i];
             c.sendDigit(time, value, this);
@@ -156,10 +156,10 @@ public class Tray extends ParentData implements PulseInteractor {
      *      eniac.data.PulseInteractor)
      */
     public void sendProgram(long time, PulseInteractor source) {
-        int number = getGarten().getNumber(ProtoTypes.PROGRAM_CONNECTOR);
+        int number = getGarten().getNumber(EType.PROGRAM_CONNECTOR);
         for (int i = _activeIndex; i < number; i += NUMBER_OF_CHANNELS) {
             Connector c = (Connector) getGarten().getKind(
-                    ProtoTypes.PROGRAM_CONNECTOR, i);
+                    EType.PROGRAM_CONNECTOR, i);
             c.sendProgram(time, this);
         }
     }

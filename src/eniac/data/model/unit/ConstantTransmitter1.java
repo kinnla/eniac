@@ -23,7 +23,7 @@ import eniac.data.model.parent.ConstantTransmittionLights;
 import eniac.data.model.parent.ProgramConnectorPair;
 import eniac.data.model.sw.Switch;
 import eniac.data.model.sw.SwitchAndFlag;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 
@@ -62,7 +62,7 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
         // observe our switches and toggles in order to notify the lights
         EData[] kinder = getGarten().getAllKinder();
         for (int i = 0; i < kinder.length; ++i) {
-            if (kinder[i].getType() != ProtoTypes.PROGRAM_CONNECTOR_PAIR) {
+            if (kinder[i].getType() != EType.PROGRAM_CONNECTOR_PAIR) {
                 kinder[i].addObserver(this);
             }
         }
@@ -72,7 +72,7 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
      * @return @see eniac.data.model.unit.Unit#getHeaters()
      */
     public Switch getHeaters() {
-        return (Switch) getGarten().getKind(ProtoTypes.HEATERS_01, 0);
+        return (Switch) getGarten().getKind(EType.HEATERS_01, 0);
     }
 
     public boolean isTransmitting() {
@@ -87,7 +87,7 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
     public void update(Observable o, Object args) {
         if (o instanceof Switch) {
             Switch sw = (Switch) o;
-            if (sw.getType() == ProtoTypes.HEATERS_01) {
+            if (sw.getType() == EType.HEATERS_01) {
                 boolean power = sw.isValue();
                 if (!power) {
                     // power switched of. delete program transmittion data
@@ -110,14 +110,14 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
         }
 
         // if number is reiceived from ibm card reader, return 0
-        if (_program.getType() != ProtoTypes.CONSTANT_SELECTOR_SWITCH_JK) {
+        if (_program.getType() != EType.CONSTANT_SELECTOR_SWITCH_JK) {
             //TODO: implement ibm card reader.
             return 0;
         }
 
         // constant transmitter panel 2
         ConstantTransmitter2 trans2 = (ConstantTransmitter2) getConfiguration()
-                .getGarten().getKind(ProtoTypes.CONSTANT_TRANSMITTER_2_UNIT, 0);
+                .getGarten().getKind(EType.CONSTANT_TRANSMITTER_2_UNIT, 0);
 
         // if trans2 has no power, we cannot get a number and return 0
         if (!trans2.hasPower()) {
@@ -131,7 +131,7 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
             // left
             for (int i = 0; i < 5; ++i) {
                 Switch sw = (Switch) trans2.getGarten().getKind(
-                        ProtoTypes.CONSTANT_SWITCH, index + i);
+                        EType.CONSTANT_SWITCH, index + i);
                 number *= 10;
                 number += sw.getValue();
             }
@@ -140,7 +140,7 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
             // right
             for (int i = 5; i < 10; ++i) {
                 Switch sw = (Switch) trans2.getGarten().getKind(
-                        ProtoTypes.CONSTANT_SWITCH, index + i);
+                        EType.CONSTANT_SWITCH, index + i);
                 number *= 10;
                 number += sw.getValue();
             }
@@ -157,13 +157,13 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
 
         // if constant selector doesn't point to the transmittor 2,
         // return as nonegative in order to not send the complement of 0.
-        if (!(_program.getType() == ProtoTypes.CONSTANT_SELECTOR_SWITCH_JK)) {
+        if (!(_program.getType() == EType.CONSTANT_SELECTOR_SWITCH_JK)) {
             return false;
         }
         // get transition partner
         Switch sw;
         ConstantTransmitter2 trans2 = (ConstantTransmitter2) getConfiguration()
-                .getGarten().getKind(ProtoTypes.CONSTANT_TRANSMITTER_2_UNIT, 0);
+                .getGarten().getKind(EType.CONSTANT_TRANSMITTER_2_UNIT, 0);
 
         // no power means not negative
         if (!trans2.hasPower()) {
@@ -174,18 +174,18 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
         if (_program.getValue() <= 1) {
             if (!_program.isFlag()) {
                 sw = (Switch) trans2.getGarten().getKind(
-                        ProtoTypes.CONSTANT_SIGN_TOGGLE_JL, 0);
+                        EType.CONSTANT_SIGN_TOGGLE_JL, 0);
             } else {
                 sw = (Switch) trans2.getGarten().getKind(
-                        ProtoTypes.CONSTANT_SIGN_TOGGLE_KL, 0);
+                        EType.CONSTANT_SIGN_TOGGLE_KL, 0);
             }
         } else {
             if (!_program.isFlag()) {
                 sw = (Switch) trans2.getGarten().getKind(
-                        ProtoTypes.CONSTANT_SIGN_TOGGLE_JR, 0);
+                        EType.CONSTANT_SIGN_TOGGLE_JR, 0);
             } else {
                 sw = (Switch) trans2.getGarten().getKind(
-                        ProtoTypes.CONSTANT_SIGN_TOGGLE_KR, 0);
+                        EType.CONSTANT_SIGN_TOGGLE_KR, 0);
             }
         }
         return !sw.isValue();
@@ -285,22 +285,22 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
         int row = index / 10;
         if (modIndex < 2) {
             _program = (SwitchAndFlag) getGarten().getKind(
-                    ProtoTypes.CONSTANT_SELECTOR_SWITCH_AB, row * 2 + modIndex);
+                    EType.CONSTANT_SELECTOR_SWITCH_AB, row * 2 + modIndex);
         } else if (modIndex < 4) {
             _program = (SwitchAndFlag) getGarten().getKind(
-                    ProtoTypes.CONSTANT_SELECTOR_SWITCH_CD,
+                    EType.CONSTANT_SELECTOR_SWITCH_CD,
                     row * 2 + modIndex - 2);
         } else if (modIndex < 6) {
             _program = (SwitchAndFlag) getGarten().getKind(
-                    ProtoTypes.CONSTANT_SELECTOR_SWITCH_EF,
+                    EType.CONSTANT_SELECTOR_SWITCH_EF,
                     row * 2 + modIndex - 4);
         } else if (modIndex < 8) {
             _program = (SwitchAndFlag) getGarten().getKind(
-                    ProtoTypes.CONSTANT_SELECTOR_SWITCH_GH,
+                    EType.CONSTANT_SELECTOR_SWITCH_GH,
                     row * 2 + modIndex - 6);
         } else {
             _program = (SwitchAndFlag) getGarten().getKind(
-                    ProtoTypes.CONSTANT_SELECTOR_SWITCH_JK,
+                    EType.CONSTANT_SELECTOR_SWITCH_JK,
                     row * 2 + modIndex - 8);
         }
         setChanged();
@@ -314,17 +314,17 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
         } else if (index > 4) {
             index += 16;
         }
-        if (_program.getType() == ProtoTypes.CONSTANT_SELECTOR_SWITCH_CD) {
+        if (_program.getType() == EType.CONSTANT_SELECTOR_SWITCH_CD) {
             index += 2;
-        } else if (_program.getType() == ProtoTypes.CONSTANT_SELECTOR_SWITCH_EF) {
+        } else if (_program.getType() == EType.CONSTANT_SELECTOR_SWITCH_EF) {
             index += 4;
-        } else if (_program.getType() == ProtoTypes.CONSTANT_SELECTOR_SWITCH_GH) {
+        } else if (_program.getType() == EType.CONSTANT_SELECTOR_SWITCH_GH) {
             index += 6;
-        } else if (_program.getType() == ProtoTypes.CONSTANT_SELECTOR_SWITCH_JK) {
+        } else if (_program.getType() == EType.CONSTANT_SELECTOR_SWITCH_JK) {
             index += 8;
         }
         ProgramConnectorPair pair = (ProgramConnectorPair) getGarten().getKind(
-                ProtoTypes.PROGRAM_CONNECTOR_PAIR, index);
+                EType.PROGRAM_CONNECTOR_PAIR, index);
         pair.sendProgram(time, this);
     }
 
@@ -344,7 +344,7 @@ public class ConstantTransmitter1 extends Unit implements EEventListener,
 
     public void sendDigit(long time, long value, PulseInteractor source) {
         Connector con = (Connector) getGarten().getKind(
-                ProtoTypes.DIGIT_CONNECTOR_CROSS, 0);
+                EType.DIGIT_CONNECTOR_CROSS, 0);
         con.sendDigit(time, value, this);
     }
 

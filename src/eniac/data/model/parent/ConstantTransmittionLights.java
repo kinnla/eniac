@@ -19,7 +19,7 @@ import java.util.Observer;
 import eniac.data.model.EData;
 import eniac.data.model.sw.Switch;
 import eniac.data.model.unit.ConstantTransmitter1;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 
 /**
  * @author zoppke
@@ -33,7 +33,7 @@ public class ConstantTransmittionLights extends ParentData implements Observer {
 
         // add as observer to corresponding unit and to our neighbour lights
         getUnit().addObserver(this);
-        getConfiguration().getGarten().getKind(ProtoTypes.CONSTANT_2_LIGHTS, 0)
+        getConfiguration().getGarten().getKind(EType.CONSTANT_2_LIGHTS, 0)
                 .addObserver(this);
     }
 
@@ -44,7 +44,7 @@ public class ConstantTransmittionLights extends ParentData implements Observer {
 
     private ConstantTransmitter1 getUnit() {
         EData unit = getConfiguration().getGarten().getKind(
-                ProtoTypes.CONSTANT_TRANSMITTER_1_UNIT, 0);
+                EType.CONSTANT_TRANSMITTER_1_UNIT, 0);
         return (ConstantTransmitter1) unit;
     }
 
@@ -58,7 +58,7 @@ public class ConstantTransmittionLights extends ParentData implements Observer {
         if (arg == PAINT_LIGHTS) {
             // set number to our ciphers
             EData[] ciphers = getGarten().getKinder(
-                    ProtoTypes.CONSTANT_TRANSMITTION_CIPHER);
+                    EType.CONSTANT_TRANSMITTION_CIPHER);
             ConstantTransmitter1 unit = getUnit();
             long number = unit.getNumber();
             for (int i = ciphers.length - 1; i >= 0; --i) {
@@ -67,7 +67,7 @@ public class ConstantTransmittionLights extends ParentData implements Observer {
             }
             // set sign
             EData sign = getGarten().getKind(
-                    ProtoTypes.CONSTANT_TRANSMITTION_SIGN, 0);
+                    EType.CONSTANT_TRANSMITTION_SIGN, 0);
             ((Switch) sign).setValue(unit.isNegative() ? 0 : 1);
 
             // notify for repaint

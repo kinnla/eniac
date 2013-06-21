@@ -19,7 +19,7 @@ import java.util.Observer;
 import eniac.data.model.EData;
 import eniac.data.model.parent.Configuration;
 import eniac.data.model.unit.Unit;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 import eniac.data.view.EPanel;
 
 /**
@@ -45,7 +45,7 @@ public class GoLights extends Switch implements Observer {
         unit.getHeaters().addObserver(goLightsPanel);
 
         // register this as observer at gobutton
-        EData goButton = unit.getGarten().getKind(ProtoTypes.GO_BUTTON, 0);
+        EData goButton = unit.getGarten().getKind(EType.GO_BUTTON, 0);
         goButton.addObserver(this);
 
         // return goLightspanel

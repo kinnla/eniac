@@ -265,15 +265,15 @@ public class EData extends Observable implements Comparable<EData> {
 
     protected String getOpenTag(int indent) {
         return XMLUtil.TABS[indent]
-                + XMLUtil.wrapOpenTag(_type.getName() + getAttributes());
+                + XMLUtil.wrapOpenTag(_type.name().toLowerCase() + getAttributes());
     }
 
     protected String getCloseTag(int indent) {
-        return XMLUtil.TABS[indent] + XMLUtil.wrapCloseTag(_type.toString());
+        return XMLUtil.TABS[indent] + XMLUtil.wrapCloseTag(_type.name().toLowerCase());
     }
 
     protected String getOpenCloseTag(int indent) {
         return XMLUtil.TABS[indent]
-                + XMLUtil.wrapOpenCloseTag(_type.getName() + getAttributes());
+                + XMLUtil.wrapOpenCloseTag(_type.name().toLowerCase() + getAttributes());
     }
 }

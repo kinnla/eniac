@@ -23,7 +23,6 @@ import javax.swing.JOptionPane;
 
 import eniac.Manager;
 import eniac.data.type.EType;
-import eniac.data.type.ProtoTypes;
 import eniac.io.IOUtil;
 import eniac.io.Proxy;
 import eniac.lang.Dictionary;
@@ -69,10 +68,9 @@ public final class SkinIO {
 
             // TODO: this should be done at another place
             // iterate on types
-            EType[] types = ProtoTypes.getTypes();
-            for (int i = 0; i < types.length; ++i) {
+            for (EType type : EType.values()) {
                 // set descriptors to etypes
-                handler.setDescriptorsToType(types[i]);
+                handler.setDescriptorsToType(type);
             }
             // set new skin
             StatusMap.set(Status.SKIN, skin);

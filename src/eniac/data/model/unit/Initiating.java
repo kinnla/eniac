@@ -24,7 +24,7 @@ import eniac.data.model.parent.Configuration;
 import eniac.data.model.sw.Switch;
 import eniac.data.model.sw.SwitchAndFlag;
 import eniac.data.type.EType;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 
@@ -50,8 +50,8 @@ public class Initiating extends Unit implements EEventListener {
         super.init();
 
         // add listeners to buttons
-        getGarten().getKind(ProtoTypes.GO_BUTTON, 0).addObserver(this);
-        getGarten().getKind(ProtoTypes.CLEAR_BUTTON, 0).addObserver(this);
+        getGarten().getKind(EType.GO_BUTTON, 0).addObserver(this);
+        getGarten().getKind(EType.CLEAR_BUTTON, 0).addObserver(this);
 
         // add as listener to eevent manager
         CyclingLights lights = getConfiguration().getCyclingLights();
@@ -66,19 +66,19 @@ public class Initiating extends Unit implements EEventListener {
      * @return @see eniac.data.unit.Unit#getHeaters()
      */
     public Switch getHeaters() {
-        return (Switch) getGarten().getKind(ProtoTypes.HEATERS, 0);
+        return (Switch) getGarten().getKind(EType.HEATERS, 0);
     }
 
     public void update(Observable o, Object args) {
         Switch sw = (Switch) o;
         EType type = sw.getType();
-        if (type == ProtoTypes.GO_BUTTON && hasPower()) {
+        if (type == EType.GO_BUTTON && hasPower()) {
 
             // go button pressed
             if (sw.isValue()) {
                 _goPressed = true;
             }
-        } else if (type == ProtoTypes.CLEAR_BUTTON && hasPower()) {
+        } else if (type == EType.CLEAR_BUTTON && hasPower()) {
 
             // clear button pressed
             if (sw.isValue()) {
@@ -121,12 +121,12 @@ public class Initiating extends Unit implements EEventListener {
                 // clear accumulators, if their selective clear is set.
                 _clearPressed = false;
                 EData[] accus = config.getGarten().getKinder(
-                        ProtoTypes.ACCUMULATOR_UNIT);
+                        EType.ACCUMULATOR_UNIT);
                 for (int i = 0; i < accus.length; ++i) {
                     Accumulator accu = (Accumulator) accus[i];
                     KinderGarten og = accu.getGarten();
                     EData d = og.getKind(
-                            ProtoTypes.SIGNIFICIANT_FIGURES_SWITCH, 0);
+                            EType.SIGNIFICIANT_FIGURES_SWITCH, 0);
                     if (((SwitchAndFlag) d).isFlag()) {
                         accu.clear();
                     }
@@ -140,7 +140,7 @@ public class Initiating extends Unit implements EEventListener {
     // =======================
 
     public void sendProgram(long time, PulseInteractor source) {
-        EData d = getGarten().getKind(ProtoTypes.PROGRAM_CONNECTOR, 0);
+        EData d = getGarten().getKind(EType.PROGRAM_CONNECTOR, 0);
         Connector con = (Connector) d;
         con.sendProgram(time, this);
     }

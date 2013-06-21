@@ -24,7 +24,7 @@ import eniac.data.model.Slider;
 import eniac.data.model.parent.CycleCounter;
 import eniac.data.model.sw.Switch;
 import eniac.data.type.EType;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 import eniac.simulation.Frequency;
@@ -57,9 +57,9 @@ public class Cycling extends Unit implements Observer, EEventListener {
         super.init();
 
         // add this as dataListener to components
-        getGarten().getKind(ProtoTypes.STEP_BUTTON, 0).addObserver(this);
-        getGarten().getKind(ProtoTypes.ITERATION_SWITCH, 0).addObserver(this);
-        getGarten().getKind(ProtoTypes.FREQUENCY_SLIDER, 0).addObserver(this);
+        getGarten().getKind(EType.STEP_BUTTON, 0).addObserver(this);
+        getGarten().getKind(EType.ITERATION_SWITCH, 0).addObserver(this);
+        getGarten().getKind(EType.FREQUENCY_SLIDER, 0).addObserver(this);
 
         // add this as eevent listener to eevent manager
         getConfiguration().getCyclingLights().addEEventListener(this,
@@ -90,7 +90,7 @@ public class Cycling extends Unit implements Observer, EEventListener {
         if (hasPower()) {
             // get value of iteration switch
             Switch iteration = (Switch) getGarten().getKind(
-                    ProtoTypes.ITERATION_SWITCH, 0);
+                    EType.ITERATION_SWITCH, 0);
             int value = iteration.getValue();
 
             // update simulator's stoptime according to iteration switch
@@ -105,7 +105,7 @@ public class Cycling extends Unit implements Observer, EEventListener {
     }
 
     private void updateFrequency() {
-        Slider s = (Slider) getGarten().getKind(ProtoTypes.FREQUENCY_SLIDER, 0);
+        Slider s = (Slider) getGarten().getKind(EType.FREQUENCY_SLIDER, 0);
         Frequency freq = Frequency.getNew();
         freq.setLogarithmic(s.getValue());
         getConfiguration().getCyclingLights().setWantedFrequency(freq);
@@ -115,7 +115,7 @@ public class Cycling extends Unit implements Observer, EEventListener {
      * @return @see eniac.data.unit.Unit#getHeaters()
      */
     public Switch getHeaters() {
-        return (Switch) getGarten().getKind(ProtoTypes.HEATERS, 0);
+        return (Switch) getGarten().getKind(EType.HEATERS, 0);
     }
 
     //========================== event listening //============================
@@ -128,19 +128,19 @@ public class Cycling extends Unit implements Observer, EEventListener {
 
         // we are listening to GENERATE_NEW.
         // increment cyclecounter
-        EData data = getGarten().getKind(ProtoTypes.CYCLE_COUNTER, 0);
+        EData data = getGarten().getKind(EType.CYCLE_COUNTER, 0);
         ((CycleCounter) data).incrementValue();
     }
 
     public void update(Observable o, Object args) {
         EType type = ((EData) o).getType();
-        if (type == ProtoTypes.HEATERS) {
+        if (type == EType.HEATERS) {
             updatePower();
-        } else if (type == ProtoTypes.ITERATION_SWITCH) {
+        } else if (type == EType.ITERATION_SWITCH) {
             updateIteration();
-        } else if (type == ProtoTypes.FREQUENCY_SLIDER) {
+        } else if (type == EType.FREQUENCY_SLIDER) {
             updateFrequency();
-        } else if (type == ProtoTypes.STEP_BUTTON) {
+        } else if (type == EType.STEP_BUTTON) {
             // button has been changed.
             // Check that button was pressed (not released)
             // and that cyclingunit has power
@@ -148,7 +148,7 @@ public class Cycling extends Unit implements Observer, EEventListener {
 
                 // get mode of iteration, as set by iteration switch.
                 Switch iterationSwitch = (Switch) getGarten().getKind(
-                        ProtoTypes.ITERATION_SWITCH, 0);
+                        EType.ITERATION_SWITCH, 0);
                 int mode = iterationSwitch.getValue();
 
                 // increase simulators stop-time according to mode.

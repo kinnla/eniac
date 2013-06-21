@@ -20,7 +20,7 @@ import org.xml.sax.Attributes;
 
 import eniac.data.PulseInteractor;
 import eniac.data.model.parent.Configuration;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.simulation.EEvent;
@@ -129,13 +129,13 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
     }
 
     private boolean isDigit() {
-        return _type == ProtoTypes.DIGIT_CONNECTOR
-                || _type == ProtoTypes.DIGIT_CONNECTOR_CROSS
-                || _type == ProtoTypes.INTER_CONNECTOR;
+        return _type == EType.DIGIT_CONNECTOR
+                || _type == EType.DIGIT_CONNECTOR_CROSS
+                || _type == EType.INTER_CONNECTOR;
     }
 
     private boolean isProgram() {
-        return _type == ProtoTypes.PROGRAM_CONNECTOR;
+        return _type == EType.PROGRAM_CONNECTOR;
     }
 
     public void setLastPulse(long time) {
@@ -228,7 +228,7 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
      */
     public void sendDigit(long time, long value, PulseInteractor source) {
 
-        //if (getType() == ProtoTypes.INTER_CONNECTOR) {
+        //if (getType() == EType.INTER_CONNECTOR) {
         //    System.out.println("jkjkj"); //$NON-NLS-1$
         //}
 

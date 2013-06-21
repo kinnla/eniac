@@ -106,7 +106,7 @@ public class CyclingLights extends EData implements Runnable, EEventListener,
 
         // add as listener to heaters of cycling unit
         // EData unit =
-        // getConfiguration().getGarten().getKind(ProtoTypes.CYCLING_UNIT, 0);
+        // getConfiguration().getGarten().getKind(EType.CYCLING_UNIT, 0);
         // Switch heaters = ((Unit) unit).getHeaters();
         // heaters.addObserver(this);
 

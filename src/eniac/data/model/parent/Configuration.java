@@ -18,7 +18,7 @@ package eniac.data.model.parent;
 
 import eniac.data.IDManager;
 import eniac.data.model.CyclingLights;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 
 /**
  * @author zoppke
@@ -60,6 +60,6 @@ public class Configuration extends ParentData {
 
     public CyclingLights getCyclingLights() {
         return (CyclingLights) getGarten()
-                .getKind(ProtoTypes.CYCLING_LIGHTS, 0);
+                .getKind(EType.CYCLING_LIGHTS, 0);
     }
 }

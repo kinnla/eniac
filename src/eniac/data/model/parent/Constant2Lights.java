@@ -20,7 +20,7 @@ import eniac.data.model.EData;
 import eniac.data.model.sw.Switch;
 import eniac.data.model.unit.ConstantTransmitter2;
 import eniac.data.type.EType;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 
 /**
  * @author zoppke
@@ -32,22 +32,22 @@ public class Constant2Lights extends ParentData implements Observer {
         ConstantTransmitter2 unit = getTransmitter();
 
         // observe sign switchs
-        unit.getGarten().getKind(ProtoTypes.CONSTANT_SIGN_TOGGLE_JL, 0)
+        unit.getGarten().getKind(EType.CONSTANT_SIGN_TOGGLE_JL, 0)
                 .addObserver(this);
-        unit.getGarten().getKind(ProtoTypes.CONSTANT_SIGN_TOGGLE_JR, 0)
+        unit.getGarten().getKind(EType.CONSTANT_SIGN_TOGGLE_JR, 0)
                 .addObserver(this);
-        unit.getGarten().getKind(ProtoTypes.CONSTANT_SIGN_TOGGLE_KL, 0)
+        unit.getGarten().getKind(EType.CONSTANT_SIGN_TOGGLE_KL, 0)
                 .addObserver(this);
-        unit.getGarten().getKind(ProtoTypes.CONSTANT_SIGN_TOGGLE_KR, 0)
+        unit.getGarten().getKind(EType.CONSTANT_SIGN_TOGGLE_KR, 0)
                 .addObserver(this);
 
         // observe constant switchs
         EData[] switchs = unit.getGarten()
-                .getKinder(ProtoTypes.CONSTANT_SWITCH);
+                .getKinder(EType.CONSTANT_SWITCH);
         for (int i = 0; i < switchs.length; ++i) {
             switchs[i].addObserver(this);
         }
-        EData heaters = unit.getGarten().getKind(ProtoTypes.HEATERS, 0);
+        EData heaters = unit.getGarten().getKind(EType.HEATERS, 0);
         heaters.addObserver(this);
     }
 
@@ -57,7 +57,7 @@ public class Constant2Lights extends ParentData implements Observer {
 
     private ConstantTransmitter2 getTransmitter() {
         return (ConstantTransmitter2) getConfiguration().getGarten().getKind(
-                ProtoTypes.CONSTANT_TRANSMITTER_2_UNIT, 0);
+                EType.CONSTANT_TRANSMITTER_2_UNIT, 0);
     }
 
     /**
@@ -68,27 +68,27 @@ public class Constant2Lights extends ParentData implements Observer {
     public void update(Observable o, Object arg) {
         EData d = (EData) o;
         EType t = d.getType();
-        if (t == ProtoTypes.CONSTANT_SIGN_TOGGLE_JL) {
+        if (t == EType.CONSTANT_SIGN_TOGGLE_JL) {
             Switch sign = (Switch) getGarten().getKind(
-                    ProtoTypes.CONSTANT_BLINKEN_SIGN, 0);
+                    EType.CONSTANT_BLINKEN_SIGN, 0);
             sign.setValue(((Switch) d).getValue());
-        } else if (t == ProtoTypes.CONSTANT_SIGN_TOGGLE_JR) {
+        } else if (t == EType.CONSTANT_SIGN_TOGGLE_JR) {
             Switch sign = (Switch) getGarten().getKind(
-                    ProtoTypes.CONSTANT_BLINKEN_SIGN, 1);
+                    EType.CONSTANT_BLINKEN_SIGN, 1);
             sign.setValue(((Switch) d).getValue());
-        } else if (t == ProtoTypes.CONSTANT_SIGN_TOGGLE_KL) {
+        } else if (t == EType.CONSTANT_SIGN_TOGGLE_KL) {
             Switch sign = (Switch) getGarten().getKind(
-                    ProtoTypes.CONSTANT_BLINKEN_SIGN, 2);
+                    EType.CONSTANT_BLINKEN_SIGN, 2);
             sign.setValue(((Switch) d).getValue());
-        } else if (t == ProtoTypes.CONSTANT_SIGN_TOGGLE_KR) {
+        } else if (t == EType.CONSTANT_SIGN_TOGGLE_KR) {
             Switch sign = (Switch) getGarten().getKind(
-                    ProtoTypes.CONSTANT_BLINKEN_SIGN, 3);
+                    EType.CONSTANT_BLINKEN_SIGN, 3);
             sign.setValue(((Switch) d).getValue());
-        } else if (t == ProtoTypes.CONSTANT_SWITCH) {
+        } else if (t == EType.CONSTANT_SWITCH) {
             Switch sw = (Switch) getGarten().getKind(
-                    ProtoTypes.CONSTANT_BLINKEN_CIPHER, d.getIndex());
+                    EType.CONSTANT_BLINKEN_CIPHER, d.getIndex());
             sw.setValue(((Switch) d).getValue());
-        } else if (t == ProtoTypes.HEATERS) {
+        } else if (t == EType.HEATERS) {
             setChanged();
             notifyObservers(EData.REPAINT);
         }

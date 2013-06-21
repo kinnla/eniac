@@ -17,19 +17,39 @@ import java.util.Arrays;
 
 import eniac.data.model.EData;
 import eniac.data.view.EPanel;
-import eniac.io.ITag;
 import eniac.skin.Descriptor;
 import eniac.util.EProperties;
 import eniac.util.StringConverter;
 
-public class EType {
+public enum EType {
 
+    CONFIGURATION_3, CONFIGURATION_4, CONFIGURATION_8,
+    CONFIGURATION_12, CONFIGURATION_16, CONFIGURATION_20,
+    ACCUMULATOR_UNIT, CYCLING_UNIT, INITIATING_UNIT,
+    CONSTANT_TRANSMITTER_1_UNIT, CONSTANT_TRANSMITTER_2_UNIT,
+    UPPER_TRUNK_2, UPPER_TRUNK_4, LOWER_TRUNK_3, LOWER_TRUNK_4, TRAY_2,
+    TRAY_3, TRAY_4, BLINKEN_LIGHTS, ACCU_HEATERS, HEATERS, HEATERS_01,
+    STEP_BUTTON, GO_BUTTON, CLEAR_BUTTON, CYCLE_COUNTER_CLEAR,
+    ITERATION_SWITCH, SIGNIFICIANT_FIGURES_SWITCH, OPERATION_SWITCH,
+    REPEAT_SWITCH, CIPHER, BLINKEN_NUMBER_SWITCH, BLINKEN_SIGN_SWITCH,
+    CYCLING_LIGHTS, GO_LIGHTS, DIGIT_CONNECTOR, PROGRAM_CONNECTOR,
+    INTER_CONNECTOR, DIGIT_CONNECTOR_CROSS, PROGRAM_CONNECTOR_PAIR,
+    BLEND_8, BLEND_16, BLEND_A_10, CYCLING_SYMBOL, INITIATING_SYMBOL,
+    CONSTANT_TRANSMITTER_1_SYMBOL, CONSTANT_TRANSMITTER_2_SYMBOL,
+    CONSTANT_SELECTOR_SWITCH_AB, CONSTANT_SELECTOR_SWITCH_CD,
+    CONSTANT_SELECTOR_SWITCH_EF, CONSTANT_SELECTOR_SWITCH_GH,
+    CONSTANT_SELECTOR_SWITCH_JK, CONSTANT_SWITCH, INITIATING_IMAGE,
+    FREQUENCY_SLIDER, BENCHMARK, CYCLE_COUNTER, XOR_IMAGE,
+    CONSTANT_SIGN_TOGGLE_JL, CONSTANT_SIGN_TOGGLE_JR,
+    CONSTANT_SIGN_TOGGLE_KL, CONSTANT_SIGN_TOGGLE_KR,
+    CONSTANT_2_LIGHTS, CONSTANT_BLINKEN_CIPHER, CONSTANT_BLINKEN_SIGN,
+    CONSTANT_TRANSMITTION_CIPHER, CONSTANT_TRANSMITTION_SIGN,
+    CONSTANT_TRANSMITTION_LIGHTS;
+	
 	public enum Tag{
 		NAME, TYPE, MODEL, VIEW, CODE, CODES;
 	}
 	
-    private EType.Tag _name;
-
     private String _edataClass;
 
     private String _epanelClass;
@@ -42,22 +62,13 @@ public class EType {
 
     private Grid[] _gridCache;
 
-    public EType(EType.Tag name) {
-        _name = name;
+    private EType() {
         _gridCache = new Grid[StringConverter.toInt(EProperties.getInstance()
                 .getProperty("GRID_CACHE_SIZE"))];
     }
 
     //========================== getters and setters
     // ===========================
-
-    public void setName(EType.Tag name) {
-        _name = name;
-    }
-
-    public EType.Tag getName() {
-        return _name;
-    }
 
     public void setCodes(EType.Tag[] codes) {
         _codes = codes;
@@ -92,10 +103,6 @@ public class EType {
     //================================ methods
     // =================================
 
-    public String toString() {
-        return _name.toString();
-    }
-
     public EData makeEData() throws InstantiationException,
             ClassNotFoundException, IllegalAccessException {
 
@@ -112,10 +119,6 @@ public class EType {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public int compareTo(EType type) {
-        return _name.toString().compareTo(type.toString());
     }
 
     public Descriptor getDescriptor(int lod) {

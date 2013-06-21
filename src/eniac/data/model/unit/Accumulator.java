@@ -26,7 +26,7 @@ import eniac.data.model.EData;
 import eniac.data.model.parent.BlinkenLights;
 import eniac.data.model.sw.Switch;
 import eniac.data.model.sw.SwitchAndFlag;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 
@@ -89,7 +89,7 @@ public class Accumulator extends Unit implements EEventListener {
     //=========================== unit methods //==============================
 
     public Switch getHeaters() {
-        return (Switch) getGarten().getKind(ProtoTypes.ACCU_HEATERS, 0);
+        return (Switch) getGarten().getKind(EType.ACCU_HEATERS, 0);
     }
 
     //============================= methods //=================================
@@ -145,7 +145,7 @@ public class Accumulator extends Unit implements EEventListener {
 
     private void clearSignificiant() {
         // reset blinkenlights according to significiant figures switch
-        EData sw = getGarten().getKind(ProtoTypes.SIGNIFICIANT_FIGURES_SWITCH,
+        EData sw = getGarten().getKind(EType.SIGNIFICIANT_FIGURES_SWITCH,
                 0);
         int significiant = ((Switch) sw).getValue();
         long l = 5 * (long) Math.pow(10, 9 - significiant);
@@ -156,7 +156,7 @@ public class Accumulator extends Unit implements EEventListener {
 
     private boolean hasLoadBox(long time) {
         Connector con = (Connector) getGarten().getKind(
-                ProtoTypes.INTER_CONNECTOR, 2);
+                EType.INTER_CONNECTOR, 2);
         boolean loadBox = con.getPartner() == con.getID();
         if (loadBox) {
             con.setLastPulse(time);
@@ -168,9 +168,9 @@ public class Accumulator extends Unit implements EEventListener {
 
         // determine partners of our left interconnectors
         Connector c1 = (Connector) getGarten().getKind(
-                ProtoTypes.INTER_CONNECTOR, 0);
+                EType.INTER_CONNECTOR, 0);
         Connector c2 = (Connector) getGarten().getKind(
-                ProtoTypes.INTER_CONNECTOR, 1);
+                EType.INTER_CONNECTOR, 1);
         boolean leftEnd = c1.getPartner() == c2.getID()
                 && c2.getPartner() == c1.getID();
 
@@ -185,9 +185,9 @@ public class Accumulator extends Unit implements EEventListener {
 
         // determine partners of the specified interconnectors
         Connector c1 = (Connector) getGarten().getKind(
-                ProtoTypes.INTER_CONNECTOR, partner);
+                EType.INTER_CONNECTOR, partner);
         Connector c2 = (Connector) getGarten().getKind(
-                ProtoTypes.INTER_CONNECTOR, partner + 1);
+                EType.INTER_CONNECTOR, partner + 1);
         int id1 = c1.getPartner();
         int id2 = c2.getPartner();
 
@@ -253,7 +253,7 @@ public class Accumulator extends Unit implements EEventListener {
     public void update(Observable o, Object args) {
         //TODO: map blinkenlights directly to heaters.
         // unit should not be an observer any more.
-        if (((EData) o).getType() == ProtoTypes.ACCU_HEATERS) {
+        if (((EData) o).getType() == EType.ACCU_HEATERS) {
 
             // power changed. clear accumulator and en- or disable blinkenlights
             clear();
@@ -297,19 +297,19 @@ public class Accumulator extends Unit implements EEventListener {
         // so program will be executed only once.
         _repeatCounter = 1;
         _currentOperation = (SwitchAndFlag) getGarten().getKind(
-                ProtoTypes.OPERATION_SWITCH, index);
+                EType.OPERATION_SWITCH, index);
         //TODO: rewrite determination of currentOperation
 
         // check assumption.
-        if (d.getType() == ProtoTypes.PROGRAM_CONNECTOR_PAIR) {
+        if (d.getType() == EType.PROGRAM_CONNECTOR_PAIR) {
 
             // so assumption was wrong and we have to correct the settings.
             // program might be repeated multiple times.
-            EData sw = getGarten().getKind(ProtoTypes.REPEAT_SWITCH, index);
+            EData sw = getGarten().getKind(EType.REPEAT_SWITCH, index);
             int repeat = ((Switch) sw).getValue();
             _repeatCounter += repeat;
             _currentOperation = (SwitchAndFlag) getGarten().getKind(
-                    ProtoTypes.OPERATION_SWITCH, index + 4);
+                    EType.OPERATION_SWITCH, index + 4);
         }
         // if we have a partner, we must set its operation
         Accumulator partner = getInterconnectionPartner(PARTNER_LEFT, time);
@@ -353,7 +353,7 @@ public class Accumulator extends Unit implements EEventListener {
         }
         // sending program pulse through connector pairs
         int index = _currentOperation.getIndex() - 4;
-        EData d = getGarten().getKind(ProtoTypes.PROGRAM_CONNECTOR_PAIR, index);
+        EData d = getGarten().getKind(EType.PROGRAM_CONNECTOR_PAIR, index);
         ((PulseInteractor) d).sendProgram(time, this);
     }
 
@@ -372,7 +372,7 @@ public class Accumulator extends Unit implements EEventListener {
 
         // if this is a pulse coming through a interconnector,
         // then we can receive.
-        if (((EData) source).getType() == ProtoTypes.INTER_CONNECTOR) {
+        if (((EData) source).getType() == EType.INTER_CONNECTOR) {
             return true;
         }
 
@@ -398,7 +398,7 @@ public class Accumulator extends Unit implements EEventListener {
         if (rotate) {
             //System.out.println("receiving code 11");
             EData number = blinkens.getGarten().getKind(
-                    ProtoTypes.BLINKEN_NUMBER_SWITCH, 9);
+                    EType.BLINKEN_NUMBER_SWITCH, 9);
             ((SwitchAndFlag) number).rotateValue();
         }
 
@@ -408,7 +408,7 @@ public class Accumulator extends Unit implements EEventListener {
         if (carry) {
             // toggle the sign
             EData sign = blinkens.getGarten().getKind(
-                    ProtoTypes.BLINKEN_SIGN_SWITCH, 0);
+                    EType.BLINKEN_SIGN_SWITCH, 0);
             ((Switch) sign).toggleValue();
         }
         // clear carryover flags
@@ -426,12 +426,12 @@ public class Accumulator extends Unit implements EEventListener {
         int operation = _currentOperation.getValue();
         if (operation == A || operation == AS) {
             // send positive
-            EData con = getGarten().getKind(ProtoTypes.DIGIT_CONNECTOR, 5);
+            EData con = getGarten().getKind(EType.DIGIT_CONNECTOR, 5);
             ((PulseInteractor) con).sendDigit(time, value, this);
         }
         if (operation == AS || operation == S) {
             // send negative
-            EData con = getGarten().getKind(ProtoTypes.DIGIT_CONNECTOR, 6);
+            EData con = getGarten().getKind(EType.DIGIT_CONNECTOR, 6);
             ((PulseInteractor) con).sendDigit(time, 11111111111L - value, this);
         }
     }
@@ -509,7 +509,7 @@ public class Accumulator extends Unit implements EEventListener {
 
             // determine setting of significiant figures switch
             EData d = getGarten().getKind(
-                    ProtoTypes.SIGNIFICIANT_FIGURES_SWITCH, 0);
+                    EType.SIGNIFICIANT_FIGURES_SWITCH, 0);
             int figure = ((Switch) d).getValue();
 
             // if fugure is 0, then we don't need to send
@@ -521,7 +521,7 @@ public class Accumulator extends Unit implements EEventListener {
             long pulse = (long) Math.pow(10, 10 - figure);
 
             // send correcting pulse through S output
-            EData con = getGarten().getKind(ProtoTypes.DIGIT_CONNECTOR, 6);
+            EData con = getGarten().getKind(EType.DIGIT_CONNECTOR, 6);
             ((Connector) con).sendDigit(e.time, pulse, this);
 
             // check, if we are receiving, if clear-correct-switch is set
@@ -534,7 +534,7 @@ public class Accumulator extends Unit implements EEventListener {
             // number and get a pulse at PULSE_1AP anyway.
             // but this would be blocked by the commector.
             int v = _currentOperation.getValue();
-            EData con = getGarten().getKind(ProtoTypes.DIGIT_CONNECTOR, v);
+            EData con = getGarten().getKind(EType.DIGIT_CONNECTOR, v);
             ((Connector) con).receiveDigit(e.time, 1, this);
         }
     }
@@ -576,7 +576,7 @@ public class Accumulator extends Unit implements EEventListener {
                 if (isLeftEnd(e.time) && carry) {
                     // if we are single, toggle the sign
                     EData sign = blinkens.getGarten().getKind(
-                            ProtoTypes.BLINKEN_SIGN_SWITCH, 0);
+                            EType.BLINKEN_SIGN_SWITCH, 0);
                     ((Switch) sign).toggleValue();
                 }
             }
@@ -606,7 +606,7 @@ public class Accumulator extends Unit implements EEventListener {
                 //						System.out.println("poupou"); //$NON-NLS-1$
                 //					}
                 //					EData con =
-                //						getGarten().getKind(ProtoTypes.INTER_CONNECTOR, 0);
+                //						getGarten().getKind(EType.INTER_CONNECTOR, 0);
                 //					((Connector) con).sendDigit(e.time, value, this);
             }
             blinkens.clearCarry();

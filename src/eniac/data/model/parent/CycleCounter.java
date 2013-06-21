@@ -18,7 +18,7 @@ import java.util.Observer;
 
 import eniac.data.model.EData;
 import eniac.data.model.sw.Switch;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 
 /**
  * @author zoppke
@@ -31,12 +31,12 @@ public class CycleCounter extends ParentData implements Observer {
 
     public void init() {
         super.init();
-        EData clear = getGarten().getKind(ProtoTypes.CYCLE_COUNTER_CLEAR, 0);
+        EData clear = getGarten().getKind(EType.CYCLE_COUNTER_CLEAR, 0);
         clear.addObserver(this);
     }
 
     public void setValue(int value) {
-        EData[] ciphers = getGarten().getKinder(ProtoTypes.CIPHER);
+        EData[] ciphers = getGarten().getKinder(EType.CIPHER);
         for (int i = 0; i < ciphers.length; ++i) {
             Switch c = (Switch) ciphers[i];
             c.setValue(value % 10);
@@ -50,7 +50,7 @@ public class CycleCounter extends ParentData implements Observer {
 
     public int getValue() {
         int value = 0;
-        EData[] ciphers = getGarten().getKinder(ProtoTypes.CIPHER);
+        EData[] ciphers = getGarten().getKinder(EType.CIPHER);
         for (int i = ciphers.length - 1; i >= 0; --i) {
             Switch c = (Switch) ciphers[i];
             value *= 10;

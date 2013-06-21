@@ -27,7 +27,7 @@ import eniac.Manager;
 import eniac.data.control.Controler;
 import eniac.data.model.Connector;
 import eniac.data.model.EData;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 import eniac.data.view.ConnectorPanel;
 import eniac.data.view.EPanel;
 import eniac.data.view.parent.ConfigPanel;
@@ -196,7 +196,7 @@ public class CableManager implements Observer, Controler {
                 addCable(_tempCable);
 
                 // if this is an interconnector, set component as tempCop
-                if (con.getType() == ProtoTypes.INTER_CONNECTOR) {
+                if (con.getType() == EType.INTER_CONNECTOR) {
                     _tempCop = cop;
                     _loadBox = true;
                 }

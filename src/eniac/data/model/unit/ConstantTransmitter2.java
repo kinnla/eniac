@@ -16,7 +16,7 @@ package eniac.data.model.unit;
 import java.util.Observable;
 
 import eniac.data.model.sw.Switch;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 
 /**
  * @author zoppke
@@ -27,7 +27,7 @@ public class ConstantTransmitter2 extends Unit {
      * @return @see eniac.data.model.unit.Unit#getHeaters()
      */
     public Switch getHeaters() {
-        return (Switch) getGarten().getKind(ProtoTypes.HEATERS, 0);
+        return (Switch) getGarten().getKind(EType.HEATERS, 0);
     }
 
     /**

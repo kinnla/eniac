@@ -22,7 +22,7 @@ import eniac.data.model.EData;
 import eniac.data.model.sw.Switch;
 import eniac.data.model.sw.SwitchAndFlag;
 import eniac.data.model.unit.Unit;
-import eniac.data.type.ProtoTypes;
+import eniac.data.type.EType;
 import eniac.property.ConditionedProperty;
 import eniac.property.Property;
 import eniac.util.StringConverter;
@@ -104,12 +104,12 @@ public class BlinkenLights extends ParentData {
 
         // initialize start value for number according to sign
         Switch sign = (Switch) getGarten().getKind(
-                ProtoTypes.BLINKEN_SIGN_SWITCH, 0);
+                EType.BLINKEN_SIGN_SWITCH, 0);
         long number = sign.getValue();
 
         // add digit by digit
         EData[] digits = getGarten()
-                .getKinder(ProtoTypes.BLINKEN_NUMBER_SWITCH);
+                .getKinder(EType.BLINKEN_NUMBER_SWITCH);
         for (int i = 0; i < 10; ++i) {
             number *= 10;
             number += ((Switch) digits[i]).getValue();
@@ -130,14 +130,14 @@ public class BlinkenLights extends ParentData {
 
         // set digits
         EData[] digits = getGarten()
-                .getKinder(ProtoTypes.BLINKEN_NUMBER_SWITCH);
+                .getKinder(EType.BLINKEN_NUMBER_SWITCH);
         for (int i = 9; i >= 0; --i) {
             ((Switch) digits[i]).setValue((int) (l % 10));
             l = l / 10;
         }
         // set sign
         Switch sign = (Switch) getGarten().getKind(
-                ProtoTypes.BLINKEN_SIGN_SWITCH, 0);
+                EType.BLINKEN_SIGN_SWITCH, 0);
         sign.setValue((int) l);
     }
 
@@ -145,7 +145,7 @@ public class BlinkenLights extends ParentData {
 
         // rotate digits
         EData[] digits = getGarten()
-                .getKinder(ProtoTypes.BLINKEN_NUMBER_SWITCH);
+                .getKinder(EType.BLINKEN_NUMBER_SWITCH);
         for (int i = digits.length - 1; i >= 0; --i) {
             if (pulse % 10 > 0) {
                 ((SwitchAndFlag) digits[i]).rotateValue();
@@ -155,7 +155,7 @@ public class BlinkenLights extends ParentData {
         // rotate sign
         if (pulse % 10 > 0) {
             Switch sign = (Switch) getGarten().getKind(
-                    ProtoTypes.BLINKEN_SIGN_SWITCH, 0);
+                    EType.BLINKEN_SIGN_SWITCH, 0);
             sign.toggleValue();
         }
     }
@@ -163,7 +163,7 @@ public class BlinkenLights extends ParentData {
     public boolean carryOver() {
         // perform carryOver at number switches
         EData[] digits = getGarten()
-                .getKinder(ProtoTypes.BLINKEN_NUMBER_SWITCH);
+                .getKinder(EType.BLINKEN_NUMBER_SWITCH);
         for (int i = digits.length - 1; i > 0; --i) {
             if (((SwitchAndFlag) digits[i]).isFlag()) {
                 ((SwitchAndFlag) digits[i - 1]).rotateValue();
@@ -176,7 +176,7 @@ public class BlinkenLights extends ParentData {
     public void clearCarry() {
         // clear carryOver-flags for all number switches
         EData[] digits = getGarten()
-                .getKinder(ProtoTypes.BLINKEN_NUMBER_SWITCH);
+                .getKinder(EType.BLINKEN_NUMBER_SWITCH);
         for (int i = 0; i < digits.length; ++i) {
             ((SwitchAndFlag) digits[i]).setFlag(false);
         }
@@ -185,12 +185,12 @@ public class BlinkenLights extends ParentData {
     public long computePulse(int transmittionCycle) {
 
         // set sign
-        EData sign = getGarten().getKind(ProtoTypes.BLINKEN_SIGN_SWITCH, 0);
+        EData sign = getGarten().getKind(EType.BLINKEN_SIGN_SWITCH, 0);
         long pulse = ((Switch) sign).getValue();
 
         // set digits
         EData[] digits = getGarten()
-                .getKinder(ProtoTypes.BLINKEN_NUMBER_SWITCH);
+                .getKinder(EType.BLINKEN_NUMBER_SWITCH);
         for (int i = 0; i < digits.length; ++i) {
             pulse = pulse * 10;
             if (((Switch) digits[i]).getValue() < transmittionCycle) {
