@@ -17,6 +17,7 @@
 package eniac.menu.action;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import eniac.Manager;
 import eniac.data.io.ConfigIO;
@@ -43,7 +44,7 @@ public class OpenConfiguration extends EAction implements Runnable {
         Manager.getInstance().block();
 
         // scan for proxies
-        Proxy[] proxies = ConfigIO.loadProxies();
+        List<Proxy> proxies = ConfigIO.loadProxies();
 
         // create dialog that user can choose a configDescriptor
         OpenConfigurationPanel panel = new OpenConfigurationPanel(proxies);

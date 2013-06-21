@@ -24,8 +24,8 @@ import java.awt.Point;
 import eniac.data.CableManager;
 import eniac.data.control.Controler;
 import eniac.data.model.Connector;
-import eniac.io.Tag;
 import eniac.skin.Descriptor;
+import eniac.skin.Skin;
 import eniac.util.Status;
 import eniac.util.StatusMap;
 import eniac.window.EFrame;
@@ -79,13 +79,13 @@ public class ConnectorPanel extends EPanel {
         Connector con = (Connector) _data;
         boolean loadbox = con.getID() == con.getPartner();
         boolean plugged = con.isPlugged();
-        Tag key;
+        Skin.Tag key;
         if (loadbox) {
-            key = Tag.LOADBOX;
+            key = Skin.Tag.LOADBOX;
         } else if (plugged) {
-            key = Tag.PLUGGED;
+            key = Skin.Tag.PLUGGED;
         } else {
-            key = Tag.UNPLUGGED;
+            key = Skin.Tag.UNPLUGGED;
         }
         Image img = (Image) d.get(key);
 

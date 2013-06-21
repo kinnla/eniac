@@ -15,8 +15,6 @@ package eniac.data.model;
 
 import org.xml.sax.Attributes;
 
-import eniac.io.ITag;
-import eniac.io.Tag;
 import eniac.io.XMLUtil;
 
 /**
@@ -51,8 +49,8 @@ public class Slider extends EData {
         return _value;
     }
 
-    protected ITag getAttributeName() {
-        return Tag.VALUE;
+    protected EData.Tag getAttributeName() {
+        return EData.Tag.VALUE;
     }
 
     /**

@@ -16,10 +16,10 @@
  */
 package eniac.property;
 
+import java.util.Arrays;
+
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-
-import eniac.io.ITag;
 
 /**
  * @author zoppke
@@ -29,17 +29,21 @@ import eniac.io.ITag;
  */
 public class ChoiceProperty extends Property {
 
-    private Object[] _values;
+    private String[] _values;
 
     private JComboBox<String> _box;
 
-    public ChoiceProperty(ITag name, ITag[] values, int selection) {
+    public ChoiceProperty(String name, String[] values, int selection) {
         _name = name;
         _values = values;
-        _box = new JComboBox(_values);
+        _box = new JComboBox<>(_values);
         _box.setSelectedIndex(selection);
     }
 
+    public ChoiceProperty(Enum<?> name, Enum<?>[] values, int selection) {
+    	this(name.name(), Arrays.copyOf(values, values.length, String[].class), selection);
+    }
+    
     /*
      * (non-Javadoc)
      * 

@@ -27,10 +27,10 @@ import eniac.data.type.EType;
 import eniac.data.type.ProtoTypes;
 import eniac.data.view.ConnectorPanel;
 import eniac.data.view.parent.ConfigPanel;
-import eniac.io.Tag;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 import eniac.skin.Descriptor;
+import eniac.skin.Skin;
 import eniac.util.Status;
 import eniac.util.StatusMap;
 import eniac.window.EFrame;
@@ -150,13 +150,13 @@ public class Cable extends Observable implements Observer, EEventListener {
 
         // set color for drawing
         if (_pulseTransmittion && (Boolean)StatusMap.get(Status.HIGHLIGHT_PULSE)) {
-            g.setColor((Color) descriptor.get(Tag.CABLE_COLOR_HIGHLIGHT));
+            g.setColor((Color) descriptor.get(Skin.Tag.CABLE_COLOR_HIGHLIGHT));
         } else {
-            g.setColor((Color) descriptor.get(Tag.CABLE_COLOR));
+            g.setColor((Color) descriptor.get(Skin.Tag.CABLE_COLOR));
         }
 
         // compute helper variables
-        float pixels = ((Integer) descriptor.get(Tag.CABLE_PIXELS))
+        float pixels = ((Integer) descriptor.get(Skin.Tag.CABLE_PIXELS))
                 .floatValue()
                 * zoom;
         int dx = p2.x - p1.x;

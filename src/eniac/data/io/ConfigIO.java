@@ -26,11 +26,11 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import eniac.Manager;
+import eniac.data.model.EData;
 import eniac.data.model.parent.Configuration;
 import eniac.io.IOUtil;
 import eniac.io.Progressor;
 import eniac.io.Proxy;
-import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.lang.Dictionary;
 import eniac.log.Log;
@@ -50,6 +50,7 @@ import eniac.window.EFrame;
  */
 public class ConfigIO {
 
+	
     // private constructor to prevent from initializing this class
     private ConfigIO() {
         // empty constructor
@@ -86,10 +87,10 @@ public class ConfigIO {
         // collect all tags in a list
         List<String> list = new LinkedList<>();
         list.add(XMLUtil.ENIAC_HEADER);
-        list.add(XMLUtil.wrapOpenTag(Tag.ENIAC.toString()));
+        list.add(XMLUtil.wrapOpenTag(EData.Tag.ENIAC.name().toLowerCase()));
         proxy.appendTags(list, 1);
         config.appendTags(list, 1);
-        list.add(XMLUtil.wrapCloseTag(Tag.ENIAC.toString()));
+        list.add(XMLUtil.wrapCloseTag(EData.Tag.ENIAC.name().toLowerCase()));
 
         // convert list to stringbuffer
         StringBuffer buf = new StringBuffer();
@@ -125,12 +126,12 @@ public class ConfigIO {
      *            configuration to load.
      */
     public static void loadConfiguration(Proxy proxy) {
-        String path = proxy.get(Tag.PATH_TO_THIS_FILE);
+        String path = proxy.getPath();
         InputStream in = Manager.getInstance().getResourceAsStream(path);
         loadConfiguration(in);
     }
 
-    public static Proxy[] loadProxies() {
+    public static List<Proxy> loadProxies() {
         String path = getPathWithoutIndex();
         int max = StringConverter.toInt(EProperties.getInstance().getProperty(
                 "MAX_NUMBER_OF_CONFIGS"));

@@ -14,6 +14,7 @@
 package eniac.menu.action;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import eniac.Manager;
 import eniac.io.Proxy;
@@ -37,7 +38,7 @@ public class ChangeLanguage extends EAction implements Runnable {
         Manager.getInstance().block();
 
         // scan for proxies
-        Proxy[] proxies = DictionaryIO.loadProxies();
+        List<Proxy> proxies = DictionaryIO.loadProxies();
 
         // create dialog that user can choose a configDescriptor
         ChangeLanguagePanel panel = new ChangeLanguagePanel(proxies);

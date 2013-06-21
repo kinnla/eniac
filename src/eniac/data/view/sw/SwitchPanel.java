@@ -19,8 +19,8 @@ import java.awt.Rectangle;
 
 import eniac.data.model.sw.Switch;
 import eniac.data.view.EPanel;
-import eniac.io.Tag;
 import eniac.skin.Descriptor;
+import eniac.skin.Skin;
 
 /**
  * @author zoppke
@@ -62,10 +62,10 @@ public class SwitchPanel extends EPanel {
         int value = sw.getValue();
 
         // get array of background images, if defined
-        images = (Image[]) descriptor.get(Tag.BACK_IMAGE_ARRAY);
+        images = (Image[]) descriptor.get(Skin.Tag.BACK_IMAGE_ARRAY);
         if (images == null) {
             // if no array defined, look for a single background image
-            img = (Image) descriptor.get(Tag.BACK_IMAGE);
+            img = (Image) descriptor.get(Skin.Tag.BACK_IMAGE);
         } else {
             // otherwise take image according to value
             img = images[value];
@@ -83,10 +83,10 @@ public class SwitchPanel extends EPanel {
         if (sw.hasPower()) {
 
             // get array of foreground images, if defined
-            images = (Image[]) descriptor.get(Tag.FORE_IMAGE_ARRAY);
+            images = (Image[]) descriptor.get(Skin.Tag.FORE_IMAGE_ARRAY);
             if (images == null) {
                 // if no array defined, look for a single foreground image
-                img = (Image) descriptor.get(Tag.FORE_IMAGE);
+                img = (Image) descriptor.get(Skin.Tag.FORE_IMAGE);
             } else {
                 // otherwise take image according to value
                 img = images[value];
@@ -100,10 +100,10 @@ public class SwitchPanel extends EPanel {
                 Rectangle[] rectangles;
 
                 // get array of rectangles, if defined
-                rectangles = (Rectangle[]) descriptor.get(Tag.RECTANGLE_ARRAY);
+                rectangles = (Rectangle[]) descriptor.get(Skin.Tag.RECTANGLE_ARRAY);
                 if (rectangles == null) {
                     // if no array defined, look for a single rectangle
-                    rect = (Rectangle) descriptor.get(Tag.RECTANGLE);
+                    rect = (Rectangle) descriptor.get(Skin.Tag.RECTANGLE);
                 } else {
                     // otherwise take image according to value
                     rect = rectangles[value];

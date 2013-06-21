@@ -87,7 +87,7 @@ public class XMLUtil {
         l.add(""); //$NON-NLS-1$
     }
 
-    public static String wrapAttribute(ITag tag, String value) {
+    public static String wrapAttribute(Enum<?> tag, String value) {
         return " " + tag + "=\"" + value + "\""; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
     }
 
@@ -106,7 +106,7 @@ public class XMLUtil {
     //========================== reading xml
     // ===================================
 
-    public static int parseInt(String s, ITag[] tags) {
+    public static int parseInt(String s, Enum<?>[] tags) {
         for (int i = 0; i < tags.length; ++i) {
             if (s.equals(tags[i].toString())) {
                 return i;
@@ -115,8 +115,8 @@ public class XMLUtil {
         return -1;
     }
 
-    public static String parseString(Attributes attrs, ITag tag) {
-        String s = attrs.getValue(tag.toString());
+    public static String parseString(Attributes attrs, Enum<?> tag) {
+        String s = attrs.getValue(tag.name().toLowerCase());
         if (s == null) {
             throw new DataParsingException(tag,
                     DataParsingException.MISSING_ATTRIBUTE);
@@ -124,7 +124,7 @@ public class XMLUtil {
         return s;
     }
 
-    public static int parseInt(Attributes attrs, ITag tag) {
+    public static int parseInt(Attributes attrs, Enum<?> tag) {
         String s = parseString(attrs, tag);
         return StringConverter.toInt(s);
     }
@@ -134,12 +134,12 @@ public class XMLUtil {
      * @param string
      * @return
      */
-    public static Color parseColor(Attributes attrs, ITag tag) {
+    public static Color parseColor(Attributes attrs, Enum<?> tag) {
         String s = parseString(attrs, tag);
         return StringConverter.toColor(s);
     }
 
-    public static int parseInt(Attributes attrs, ITag tag, ITag[] tags) {
+    public static int parseInt(Attributes attrs, Enum<?> tag, Enum<?>[] tags) {
 
         String s = parseString(attrs, tag);
         int i = parseInt(s, tags);
@@ -149,27 +149,27 @@ public class XMLUtil {
         return i;
     }
 
-    public static long parseLong(Attributes attrs, ITag tag) {
+    public static long parseLong(Attributes attrs, Enum<?> tag) {
         String s = parseString(attrs, tag);
         return StringConverter.toLong(s);
     }
 
-    public static Dimension parseDimension(Attributes attrs, ITag tag) {
+    public static Dimension parseDimension(Attributes attrs, Enum<?> tag) {
         String s = parseString(attrs, tag);
         return StringConverter.toDimension(s);
     }
 
-    public static boolean parseBoolean(Attributes attrs, ITag tag) {
+    public static boolean parseBoolean(Attributes attrs, Enum<?> tag) {
         String s = parseString(attrs, tag);
         return StringConverter.toBoolean(s);
     }
 
-    public static float parseFloat(Attributes attrs, ITag tag) {
+    public static float parseFloat(Attributes attrs, Enum<?> tag) {
         String s = parseString(attrs, tag);
         return StringConverter.toFloat(s);
     }
 
-    public static int[] parseIntArray(Attributes attrs, ITag tag) {
+    public static int[] parseIntArray(Attributes attrs, Enum<?> tag) {
         String s = parseString(attrs, tag);
         return StringConverter.toIntArray(s);
     }

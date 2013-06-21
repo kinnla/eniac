@@ -23,7 +23,6 @@ import eniac.data.model.sw.Switch;
 import eniac.data.model.sw.SwitchAndFlag;
 import eniac.data.model.unit.Unit;
 import eniac.data.type.ProtoTypes;
-import eniac.io.Tag;
 import eniac.property.ConditionedProperty;
 import eniac.property.Property;
 import eniac.util.StringConverter;
@@ -60,7 +59,7 @@ public class BlinkenLights extends ParentData {
         List<Property> list = super.getProperties();
         if (hasPower()) {
             String s = Long.toString(getNumber());
-            list.add(new ConditionedProperty(Tag.NUMBER, s) {
+            list.add(new ConditionedProperty(Tag.NUMBER.toString(), s) {
                 protected boolean checkValue(String value) {
                     try {
                         long l = Long.parseLong(value);

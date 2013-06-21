@@ -36,7 +36,6 @@ import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.lang.Dictionary;
 import eniac.log.Log;
-import eniac.util.StringConverter;
 
 /**
  * @author zoppke
@@ -56,8 +55,9 @@ public class SkinHandler extends DefaultHandler {
     // reference to the skin-object that we are serving
     private Skin _skin;
 
-    // array of hashtables for storing lod-related objects.
-    private Hashtable<EType, Descriptor>[] _arrayOfHashtables;
+    // hashtables for storing lod-related objects.
+    private Hashtable<EType, Descriptor> _overviewDescriptors;
+    private Hashtable<EType, Descriptor> _detailDescriptors;
 
     // reference to factory, where we get our creators from.
     private CreatorFactory _factory;
@@ -83,6 +83,9 @@ public class SkinHandler extends DefaultHandler {
     // current shapeVector
     private List<Object> _list;
 
+    // current hashtable for descriptors
+    private Hashtable<EType, Descriptor> _descriptorsTable;
+    
     //============================== lifecycle
     // =================================
 
@@ -93,18 +96,14 @@ public class SkinHandler extends DefaultHandler {
 
         // get imageBase for loading images
         Proxy proxy = _skin.getProxy();
-        String imageBase = proxy.get(Tag.NAME) + "/"; //$NON-NLS-1$
+        String imageBase = proxy.get(Proxy.Tag.NAME) + "/"; //$NON-NLS-1$
 
         // create new factory
         _factory = new CreatorFactory(imageBase);
 
-        // create and init array of hashtables to store descriptors
-        String s = proxy.get(Tag.NUMBER_OF_LODS);
-        int numberOfLods = StringConverter.toInt(s);
-        _arrayOfHashtables = new Hashtable[numberOfLods];
-        for (int i = 0; i < _arrayOfHashtables.length; ++i) {
-            _arrayOfHashtables[i] = new Hashtable<EType, Descriptor>();
-        }
+        // create and init hashtables to store descriptors
+        _overviewDescriptors = new Hashtable<>();
+        _detailDescriptors = new Hashtable<>();
     }
 
     //========================== defaultHandler methods
@@ -113,53 +112,59 @@ public class SkinHandler extends DefaultHandler {
     public void startDocument() {
         // init progressor
         Proxy proxy = _skin.getProxy();
-        int max = Integer.parseInt(proxy.get(Tag.NUMBER_OF_DESCRIPTORS));
+        int max = Integer.parseInt(proxy.get(Proxy.Tag.NUMBER_OF_DESCRIPTORS));
         Progressor.getInstance().setText(Dictionary.SKIN_LOADING.getText());
         Progressor.getInstance().setProgress(0, max);
     }
 
     public void startElement(String uri, String localName, String qName,
-            Attributes attrs) throws SAXException {
-        //System.out.println(qName);
+            Attributes attrs) throws SAXException {        
         try {
-            // switch on current parsing state
+
+        	System.out.println(qName);
+        	Skin.Tag tag = Enum.valueOf(Skin.Tag.class, qName.toUpperCase());
+
+        	// switch on current parsing state
             switch (_state) {
 
             //============================ default case //==================
             case DEFAULT:
 
-                if (qName.equals(Tag.LOD.toString())) {
+                if (tag == Skin.Tag.LOD) {
                     // lod tag. Parse attributes
-                    int min = XMLUtil.parseInt(attrs, Tag.MIN_HEIGHT);
-                    int max = XMLUtil.parseInt(attrs, Tag.MAX_HEIGHT);
-                    String name = attrs.getValue(Tag.NAME.toString());
+                    int min = XMLUtil.parseInt(attrs, Skin.Tag.MIN_HEIGHT);
+                    int max = XMLUtil.parseInt(attrs, Skin.Tag.MAX_HEIGHT);
+                    String name = attrs.getValue(Proxy.Tag.NAME.name().toLowerCase());
 
                     // add lod to skin
                     _skin.setLod(++_lod, min, max);
 
                     // set lod name to creatorFactory
                     _factory.setLodName(name);
+                    
+                    // set current descriptors hashtable
+                    _descriptorsTable = _lod == 0 ? _overviewDescriptors : _detailDescriptors;
 
-                } else if (qName.equals(Tag.DESCRIPTOR.toString())) {
+                } else if (tag == Skin.Tag.DESCRIPTOR) {
                     // create descriptor
                     _descriptor = new Descriptor();
 
                     // set type
-                    String s = XMLUtil.parseString(attrs, Tag.TYPE);
+                    String s = XMLUtil.parseString(attrs, Skin.Tag.TYPE);
                     EType type = ProtoTypes.getType(s);
                     if (type == null) {
                         throw new DataParsingException("No datatype: " + s); //$NON-NLS-1$
                     }
 
                     // set width, height and fill
-                    _descriptor.setWidth(XMLUtil.parseInt(attrs, Tag.WIDTH));
-                    _descriptor.setHeight(XMLUtil.parseInt(attrs, Tag.HEIGHT));
-                    int fill = XMLUtil.parseInt(attrs, Tag.FILL,
+                    _descriptor.setWidth(XMLUtil.parseInt(attrs, Skin.Tag.WIDTH));
+                    _descriptor.setHeight(XMLUtil.parseInt(attrs, Skin.Tag.HEIGHT));
+                    int fill = XMLUtil.parseInt(attrs, Skin.Tag.FILL,
                             Descriptor.CODES);
                     _descriptor.setFill((short) fill);
 
                     // add descriptor to hashtable array
-                    _arrayOfHashtables[_lod].put(type, _descriptor);
+                    _descriptorsTable.put(type, _descriptor);
 
                     // Set flag and tell progressor
                     _state = IN_DESCRIPTOR;
@@ -175,23 +180,23 @@ public class SkinHandler extends DefaultHandler {
 
             //====================== in_descriptor case //==============
             case IN_DESCRIPTOR:
-                if (qName.equals(Tag.ARRAY.toString())) {
+                if (tag == Skin.Tag.ARRAY) {
 
                     // get Creator, init list and adjust flag
-                    String cls = XMLUtil.parseString(attrs, Tag.CLASS);
+                    String cls = XMLUtil.parseString(attrs, Skin.Tag.CLASS);
                     _creator = _factory.get(cls);
                     _list = new Vector<>();
-                    _name = XMLUtil.parseString(attrs, Tag.NAME);
-                } else if (qName.equals(Tag.ENTRY.toString())) {
+                    _name = XMLUtil.parseString(attrs, Skin.Tag.NAME);
+                } else if (tag == Skin.Tag.ENTRY) {
 
                     // pass call to creator
                     _creator.startElement(qName, attrs);
                     _state = CREATING;
-                } else if (qName.equals(Tag.SINGLE.toString())) {
+                } else if (tag == Skin.Tag.SINGLE) {
 
                     // get creator and pass call to him
-                    _name = XMLUtil.parseString(attrs, Tag.NAME);
-                    String cls = XMLUtil.parseString(attrs, Tag.CLASS);
+                    _name = XMLUtil.parseString(attrs, Skin.Tag.NAME);
+                    String cls = XMLUtil.parseString(attrs, Skin.Tag.CLASS);
                     _creator = _factory.get(cls);
                     _creator.startElement(qName, attrs);
                     _state = CREATING;
@@ -215,6 +220,8 @@ public class SkinHandler extends DefaultHandler {
             throws SAXException {
 
         try {
+            Skin.Tag tag = Enum.valueOf(Skin.Tag.class, qName.toUpperCase());
+        	
             // switch on current parsing state
             switch (_state) {
 
@@ -225,13 +232,13 @@ public class SkinHandler extends DefaultHandler {
             //====================== in_descriptor case //==============
             case IN_DESCRIPTOR:
 
-                if (qName.equals(Tag.DESCRIPTOR.toString())) {
+                if (tag == Skin.Tag.DESCRIPTOR) {
 
                     // end of descriptor. Set descriptor to
 
                     //reset flag
                     _state = DEFAULT;
-                } else if (qName.equals(Tag.ARRAY.toString())) {
+                } else if (tag == Skin.Tag.ARRAY) {
 
                     // convert list to array and put to descriptor
                     Class<?> cls = _list.get(0).getClass();
@@ -256,13 +263,13 @@ public class SkinHandler extends DefaultHandler {
             //===================== creating case //====================
 
             case CREATING:
-                if (qName.equals(Tag.ENTRY.toString())) {
+                if (tag == Skin.Tag.ENTRY) {
 
                     // end of entry. add created object to list
                     _creator.endElement(qName);
                     _list.add(_creator.getObject());
                     _state = IN_DESCRIPTOR;
-                } else if (qName.equals(Tag.SINGLE.toString())) {
+                } else if (tag == Skin.Tag.SINGLE) {
 
                     // put created object to descriptor
                     _creator.endElement(qName);
@@ -295,11 +302,7 @@ public class SkinHandler extends DefaultHandler {
     // ================================
 
     public void setDescriptorsToType(EType type) {
-        Descriptor[] descriptors = new Descriptor[_arrayOfHashtables.length];
-        for (int i = 0; i < _arrayOfHashtables.length; ++i) {
-            descriptors[i] = _arrayOfHashtables[i].get(type);
-        }
-        type.setDescriptors(descriptors);
+		type.setDescriptors(new Descriptor[]{_overviewDescriptors.get(type), _detailDescriptors.get(type)});
     }
 
     public boolean hasMissingImages() {

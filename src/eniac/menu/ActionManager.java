@@ -49,6 +49,11 @@ public class ActionManager extends DefaultHandler {
 	// constant tag and attribute names for parsing the menu xml file
 	private enum Key implements ITag {
 		PROPERTY, CLASS, ACTION, ACTIONS, NAME, VALUE, KEY;
+		
+		@Override
+		public String toLowerCase() {
+			return name().toLowerCase();
+		}
 	}
 
 	//=============================== fields //================================

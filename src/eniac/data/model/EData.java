@@ -28,7 +28,6 @@ import eniac.data.model.parent.ParentData;
 import eniac.data.model.unit.Unit;
 import eniac.data.type.EType;
 import eniac.data.view.EPanel;
-import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.property.ConditionedProperty;
 import eniac.property.ConstantProperty;
@@ -48,6 +47,17 @@ public class EData extends Observable implements Comparable<EData> {
 
     public static final String PAINT_IMMEDIATELY = "paint_immediately"; //$NON-NLS-1$
 
+    public enum Tag{
+    	// tags
+    	ENIAC, PATH, NAME,
+
+    	// attributes
+    	ID, VALUE, NUMBER, POWER, PARTNER, LOCATION, IO, GRID, SIZE, INDEX, FLAG,
+
+    	// attribute values
+    	IN, OUT, BOTH, FALSE, TRUE,
+    }
+    
     //============================= fields
     // =====================================
 
@@ -190,14 +200,14 @@ public class EData extends Observable implements Comparable<EData> {
 
     public List<Property> getProperties() {
         List<Property> l = new LinkedList<>();
-        l.add(new ConstantProperty(Tag.NAME, _name));
-        l.add(new ConstantProperty(Tag.ID, Integer.toString(_id)));
+        l.add(new ConstantProperty(Tag.NAME.toString(), _name));
+        l.add(new ConstantProperty(Tag.ID.toString(), Integer.toString(_id)));
         return l;
     }
 
     public void setProperties(List<Property> l) {
         for (Property p : l) {
-            if (p.getName().equals(Tag.NAME)) {
+            if (p.getName().equals(Tag.NAME.name().toLowerCase())) {
                 _name = ((ConditionedProperty) p).getValue();
             }
         }

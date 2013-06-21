@@ -235,7 +235,7 @@ public class CreatorFactory {
         private java.awt.Polygon _p = null;
 
         public void startElement(String name, Attributes attrs) {
-            if (name.equals(Tag.POINT)) {
+            if (name.equals(Skin.Tag.POINT.name().toLowerCase())) {
                 if (_p == null) {
                     _p = new java.awt.Polygon();
                 }

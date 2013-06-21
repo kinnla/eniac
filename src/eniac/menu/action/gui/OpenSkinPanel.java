@@ -24,6 +24,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -38,7 +40,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import eniac.io.Proxy;
-import eniac.io.Tag;
 import eniac.lang.Dictionary;
 import eniac.util.EProperties;
 import eniac.util.StringConverter;
@@ -50,7 +51,7 @@ import eniac.window.EFrame;
 public class OpenSkinPanel extends DialogPanel {
 
     // configurationProxies the user can choose from
-    private Proxy[] _proxies;
+    private List<Proxy> _proxies;
 
     private Proxy _selectedProxy = null;
 
@@ -67,7 +68,7 @@ public class OpenSkinPanel extends DialogPanel {
 
     private Action _okAction;
 
-    public OpenSkinPanel(Proxy[] proxies) {
+    public OpenSkinPanel(List<Proxy> proxies) {
         super(new GridBagLayout());
         _proxies = proxies;
     }
@@ -106,7 +107,7 @@ public class OpenSkinPanel extends DialogPanel {
         _imagePanel = new ImagePanel();
 
         // create and init _jlist and _listPane
-        _jlist = new JList<>(_proxies);
+        _jlist = new JList<>(new Vector<>( _proxies));
         _jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         _listPane = new JScrollPane(_jlist);
 
@@ -199,7 +200,7 @@ public class OpenSkinPanel extends DialogPanel {
         if (_selectedProxy == null) {
             _imagePanel.setImage(null);
         } else {
-            String path = _selectedProxy.get(Tag.PREVIEW);
+            String path = _selectedProxy.get(Proxy.Tag.PREVIEW);
             Image img = EFrame.getInstance().getResourceAsImage(path);
             _imagePanel.setImage(img);
         }

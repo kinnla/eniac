@@ -21,6 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
+import java.util.List;
 
 import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
@@ -52,7 +53,7 @@ public class IOUtil {
         try {
             IOUtil.parse(in, handler);
             Proxy proxy = handler.getProxy();
-            proxy.put(Tag.PATH_TO_THIS_FILE.toString(), path);
+            proxy.setPath(path);
             return proxy;
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,7 +66,8 @@ public class IOUtil {
         return loadProxy(path, handler);
     }
 
-    public static Proxy[] loadProxies(String path, int maxIndex, String text) {
+    public static List<Proxy> 
+    		loadProxies(String path, int maxIndex, String text) {
         ProxyScanner scanner = new ProxyScanner(path, maxIndex, text);
         return scanner.getProxies();
     }

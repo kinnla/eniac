@@ -13,22 +13,88 @@
  */
 package eniac.io;
 
-import java.util.Hashtable;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zoppke
  */
-public class Proxy extends Hashtable<String, String> {
+public class Proxy extends EnumMap<Proxy.Tag, String>  {
 
+	/**
+	 * Enumeration of all tags that are understood by the proxy handler
+	 * @author till
+	 *
+	 * TODO
+	 */
+	public enum Tag{
+		
+		/**
+		 * the proxy tag. data outside this section will be ignored. Any tag 
+		 * inside this section shall be registered as enum constant in Proxy.Tag
+		 */
+		PROXY, 
+		
+		/**
+		 * the author of a skin
+		 */
+		AUTHOR, 
+		
+		/**
+		 * the email address of the author of a skin
+		 */
+		EMAIL, 
+		
+		/**
+		 * number of LODs in a skin (should be 2) TODO: refactor, we don't need it
+		 */
+		NUMBER_OF_LODS, 
+		
+		/**
+		 * the number of descriptors in a skin TODO: do we need this any more?
+		 */
+		NUMBER_OF_DESCRIPTORS, 
+		
+		/**
+		 * zoom steps for the user to zoom in & out
+		 */
+		ZOOM_STEPS, 
+		
+		/**
+		 * path to a preview image of the skin
+		 */
+		PREVIEW, 
+		
+		/**
+		 * name of a configuration
+		 */
+		NAME,
+		
+		/**
+		 * description of the configuration
+		 */
+		DESCRIPTION,
+	}
+	
+	private String _path;
+	
     public Proxy() {
-        // empty
+		super(Proxy.Tag.class);
+	}
+
+//	public String toString() {
+//        return get(Tag.NAME);
+//    }
+    
+    public void setPath(String path) {
+    	_path=path;
     }
 
-    public String toString() {
-        return get(Tag.NAME);
+    public String getPath() {
+    	return _path;
     }
-
+    
     public void appendTags(List<String> l, int indent) {
 
         // append comment line and open tag
@@ -37,11 +103,10 @@ public class Proxy extends Hashtable<String, String> {
 
         // append child tags
         String tabs = XMLUtil.TABS[indent + 1];
-        for (String key : keySet()) {
-            String open = XMLUtil.wrapOpenTag(key);
-            String value = get(key);
-            String close = XMLUtil.wrapCloseTag(key);
-            l.add(tabs + open + value + close);
+        for (Map.Entry<Proxy.Tag, String> entry : entrySet()) {
+            String open = XMLUtil.wrapOpenTag(entry.getKey().toString().toLowerCase());
+            String close = XMLUtil.wrapCloseTag(entry.getKey().toString().toLowerCase());
+            l.add(tabs + open + entry.getValue() + close);
         }
 
         // append close tags

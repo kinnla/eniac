@@ -30,7 +30,6 @@ import eniac.data.io.ConfigIO;
 import eniac.data.model.parent.Configuration;
 import eniac.io.IOUtil;
 import eniac.io.Proxy;
-import eniac.io.Tag;
 import eniac.lang.Dictionary;
 import eniac.log.Log;
 import eniac.log.LogWords;
@@ -83,8 +82,8 @@ public class SaveConfiguration extends EAction implements
 
         // otherwise create proxy
         Proxy proxy = new Proxy();
-        proxy.put(Tag.NAME.toString(), panel.getName());
-        proxy.put(Tag.DESCRIPTION.toString(), panel.getDescription());
+        proxy.put(Proxy.Tag.NAME, panel.getName());
+        proxy.put(Proxy.Tag.DESCRIPTION, panel.getDescription());
 
         // create filechooser
         JFileChooser chooser = new JFileChooser();

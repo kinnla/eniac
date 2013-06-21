@@ -45,7 +45,7 @@ public class ProxyScanner extends AbstractAction {
      * 
      * @see java.lang.Runnable#run()
      */
-    public Proxy[] getProxies() {
+    public List<Proxy> getProxies() {
 
         // register cancel action at progressor
         Progressor.getInstance().setText(_text);
@@ -72,13 +72,9 @@ public class ProxyScanner extends AbstractAction {
             // reset handler
             handler.reset();
         }
-        // unregister cancel action
+        // unregister cancel action and return
         Progressor.getInstance().setAction(this);
-
-        // convert to array and return
-        Proxy[] proxies = new Proxy[v.size()];
-        v.toArray(proxies);
-        return proxies;
+        return v;
     }
 
     /**

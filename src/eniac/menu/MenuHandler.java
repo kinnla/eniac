@@ -42,6 +42,11 @@ public class MenuHandler extends DefaultHandler {
 	// constant tag and attribute names for parsing the menu xml file
 	private enum Key implements ITag {
 		MENU, GROUP, ACTION, NAME, MENUBAR, TOOLBAR, SEPARATOR, KEY, SID;
+		
+		@Override
+		public String toLowerCase() {
+			return name().toLowerCase();
+		}
 	}
 
 	// constant values for parsing state

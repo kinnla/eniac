@@ -28,6 +28,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -50,7 +52,6 @@ import javax.swing.event.ListSelectionListener;
 import eniac.Manager;
 import eniac.io.IOUtil;
 import eniac.io.Proxy;
-import eniac.io.Tag;
 import eniac.lang.Dictionary;
 import eniac.util.EProperties;
 import eniac.util.StringConverter;
@@ -79,7 +80,7 @@ public class OpenConfigurationPanel extends DialogPanel {
     public static final short LOCAL = 2;
 
     // configurationProxies the user can choose from
-    private Proxy[] _proxies;
+    private List<Proxy> _proxies;
 
     // data for the users input-result.
     private short _configurationType = NO_CONFIGURATION;
@@ -118,7 +119,7 @@ public class OpenConfigurationPanel extends DialogPanel {
 
     private Action _fileChooserAction;
 
-    public OpenConfigurationPanel(Proxy[] proxies) {
+    public OpenConfigurationPanel(List<Proxy> proxies) {
         super(new GridBagLayout());
         _proxies = proxies;
     }
@@ -163,7 +164,7 @@ public class OpenConfigurationPanel extends DialogPanel {
         // =========================== jpanel1 //===============================
 
         // create and init _jlist and _listPane
-        _jlist = new JList<>(_proxies);
+        _jlist = new JList<>(new Vector<>( _proxies));
         _jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         _listPane = new JScrollPane(_jlist);
 
@@ -311,7 +312,7 @@ public class OpenConfigurationPanel extends DialogPanel {
         super.setWindow(window);
 
         // preselect first configuration
-        if (_proxies.length > 0) {
+        if (_proxies.size() > 0) {
             _jlist.setSelectedIndex(0);
         }
     }
@@ -355,7 +356,7 @@ public class OpenConfigurationPanel extends DialogPanel {
         if (proxy == null) {
             _textArea.setText(""); //$NON-NLS-1$
         } else {
-            _textArea.setText(proxy.get(Tag.DESCRIPTION));
+            _textArea.setText(proxy.get(Proxy.Tag.DESCRIPTION));
         }
 
         // set data according to user's selection

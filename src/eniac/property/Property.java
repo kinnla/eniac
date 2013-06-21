@@ -19,8 +19,6 @@ package eniac.property;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-import eniac.io.ITag;
-
 /**
  * @author zoppke
  * 
@@ -29,9 +27,9 @@ import eniac.io.ITag;
  */
 public abstract class Property {
 
-    protected ITag _name;
+    protected String _name;
 
-    public ITag getName() {
+    public String getName() {
         return _name;
     }
 

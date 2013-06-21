@@ -19,7 +19,6 @@ import org.xml.sax.Attributes;
 
 import eniac.data.model.EData;
 import eniac.io.ITag;
-import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.property.ChoiceProperty;
 import eniac.property.Property;
@@ -29,7 +28,7 @@ import eniac.property.Property;
  */
 public class SwitchAndFlag extends Switch {
 
-    private static ITag[] FALSE_TRUE = new ITag[] { Tag.FALSE, Tag.TRUE };
+	private static String[] FALSE_TRUE = {EData.Tag.FALSE.name().toLowerCase(), EData.Tag.TRUE.name().toLowerCase()};
 
     private boolean _flag;
 
@@ -85,7 +84,7 @@ public class SwitchAndFlag extends Switch {
 
     public List<Property> getProperties() {
         List<Property> l = super.getProperties();
-        l.add(new ChoiceProperty(Tag.FLAG, FALSE_TRUE, _flag ? 1 : 0));
+        l.add(new ChoiceProperty(Tag.FLAG.name(), FALSE_TRUE, _flag ? 1 : 0));
         return l;
     }
 

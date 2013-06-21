@@ -18,8 +18,8 @@ import java.awt.Shape;
 import java.awt.event.MouseEvent;
 
 import eniac.data.view.sw.SwitchPanel;
-import eniac.io.Tag;
 import eniac.skin.Descriptor;
+import eniac.skin.Skin;
 
 /**
  * @author zoppke
@@ -132,9 +132,9 @@ public class ControlerFactory {
             double y = ((double) e.getY()) * d.getHeight() / sp.getHeight();
 
             // get shapes from descriptor
-            Object[] shapes = (Object[]) d.get(Tag.AREAS);
+            Object[] shapes = (Object[]) d.get(Skin.Tag.AREAS);
             if (shapes == null) {
-                shapes = (Object[]) d.get(Tag.RECTANGLE_ARRAY);
+                shapes = (Object[]) d.get(Skin.Tag.RECTANGLE_ARRAY);
             }
 
             // search for a shape that containes the point.
@@ -170,7 +170,7 @@ public class ControlerFactory {
             double y = ((double) e.getY()) * d.getHeight() / sp.getHeight();
 
             // get clearCorrect rectangle from descriptor
-            Rectangle r = (Rectangle) d.get(Tag.RECTANGLE);
+            Rectangle r = (Rectangle) d.get(Skin.Tag.RECTANGLE);
 
             // select controler according to inside or outside the rectangle
             if (r.contains(x, y)) {

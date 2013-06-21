@@ -21,6 +21,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -46,7 +48,7 @@ import eniac.util.StatusMap;
 public class ChangeLanguagePanel extends DialogPanel {
 
     // configurationProxies the user can choose from
-    private Proxy[] _proxies;
+    private List<Proxy> _proxies;
 
     private Proxy _selectedProxy = null;
 
@@ -61,7 +63,7 @@ public class ChangeLanguagePanel extends DialogPanel {
 
     private Action _okAction;
 
-    public ChangeLanguagePanel(Proxy[] proxies) {
+    public ChangeLanguagePanel(List<Proxy> proxies) {
         super(new GridBagLayout());
         _proxies = proxies;
     }
@@ -99,7 +101,7 @@ public class ChangeLanguagePanel extends DialogPanel {
         _jpanel = new JPanel(new GridBagLayout());
 
         // create and init _jlist and _listPane
-        _jlist = new JList<>(_proxies);
+        _jlist = new JList<>(new Vector<>( _proxies));
         _jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         _listPane = new JScrollPane(_jlist);
 
@@ -177,8 +179,10 @@ public class ChangeLanguagePanel extends DialogPanel {
 
         // preselect current language.
         String key = (String) StatusMap.get(Status.LANGUAGE);
-        for (int i = 0; i < _proxies.length; ++i) {
-            if (key.equals(_proxies[i].get(Tag.KEY))) {
+        int i=-1;
+        for (Proxy p :  _proxies) {
+        	++i;
+            if (key.equals(p.get(Tag.KEY))) {
                 _jlist.setSelectedIndex(i);
                 return;
             }

@@ -17,6 +17,7 @@ package eniac.skin;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -25,7 +26,6 @@ import eniac.data.type.EType;
 import eniac.data.type.ProtoTypes;
 import eniac.io.IOUtil;
 import eniac.io.Proxy;
-import eniac.io.Tag;
 import eniac.lang.Dictionary;
 import eniac.log.Log;
 import eniac.log.LogWords;
@@ -43,7 +43,7 @@ public final class SkinIO {
         // empty
     }
 
-    public static Proxy[] loadProxies() {
+    public static List<Proxy> loadProxies() {
         String path = getSkinPathWithoutIndex();
         int max = StringConverter.toInt(EProperties.getInstance().getProperty(
                 "MAX_NUMBER_OF_SKINS"));
@@ -53,7 +53,7 @@ public final class SkinIO {
 
     public static void loadSkin(Proxy proxy) {
 
-        String path = proxy.get(Tag.PATH_TO_THIS_FILE);
+        String path = proxy.getPath();
         InputStream in = Manager.getInstance().getResourceAsStream(path);
         Skin skin = new Skin(proxy);
         SkinHandler handler = new SkinHandler(skin);

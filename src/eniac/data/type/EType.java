@@ -24,21 +24,25 @@ import eniac.util.StringConverter;
 
 public class EType {
 
-    private ITag _name;
+	public enum Tag{
+		NAME, TYPE, MODEL, VIEW, CODE, CODES;
+	}
+	
+    private EType.Tag _name;
 
     private String _edataClass;
 
     private String _epanelClass;
 
-    private ITag _codeName;
+    private EType.Tag _codeName;
 
-    private ITag[] _codes;
+    private EType.Tag[] _codes;
 
     private Descriptor[] _descriptors;
 
     private Grid[] _gridCache;
 
-    public EType(ITag name) {
+    public EType(EType.Tag name) {
         _name = name;
         _gridCache = new Grid[StringConverter.toInt(EProperties.getInstance()
                 .getProperty("GRID_CACHE_SIZE"))];
@@ -47,27 +51,27 @@ public class EType {
     //========================== getters and setters
     // ===========================
 
-    public void setName(ITag name) {
+    public void setName(EType.Tag name) {
         _name = name;
     }
 
-    public ITag getName() {
+    public EType.Tag getName() {
         return _name;
     }
 
-    public void setCodes(ITag[] codes) {
+    public void setCodes(EType.Tag[] codes) {
         _codes = codes;
     }
 
-    public ITag[] getCodes() {
+    public EType.Tag[] getCodes() {
         return _codes;
     }
 
-    public void setCodeName(ITag codeName) {
+    public void setCodeName(EType.Tag codeName) {
         _codeName = codeName;
     }
 
-    public ITag getCodeName() {
+    public EType.Tag getCodeName() {
         return _codeName;
     }
 

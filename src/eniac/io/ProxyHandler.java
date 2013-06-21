@@ -24,79 +24,85 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class ProxyHandler extends DefaultHandler {
 
-    // temporary variable for storing parsed character data
-    private String _cdata;
+	// temporary variable for storing parsed character data
+	private String _cdata;
 
-    // hashtable to store parsed attribute-value-pairs
-    private Proxy _proxy = new Proxy();
+	// hashtable to store parsed attribute-value-pairs
+	private Proxy _proxy;
 
-    // flag indicating if we are inside the proxy tag
-    private boolean _inProxy = false;
+	// flag indicating if we are inside the proxy tag
+	private boolean _inProxy = false;
 
-    public ProxyHandler() {
-        // empty
-    }
+	public ProxyHandler() {
+		_proxy = new Proxy();
+	}
 
-    public Proxy getProxy() {
-        return _proxy;
-    }
+	public Proxy getProxy() {
+		return _proxy;
+	}
 
-    public void reset() {
-        _proxy = new Proxy();
-        _inProxy = false;
-        _cdata = null;
-    }
+	public void reset() {
+		_proxy = new Proxy();
+		_inProxy = false;
+		_cdata = null;
+	}
 
-    //========================= defaultHandler methods
-    // =========================
+	// ========================= defaultHandler methods
+	// =========================
 
-    public void startElement(String uri, String localName, String qName,
-            Attributes attr) throws SAXException {
+	public void startElement(String uri, String localName, String qName, Attributes attr) throws SAXException {
 
-        try {
-            // in case of proxy tag, set flag.
-            if (!_inProxy && qName.equals(Tag.PROXY)) {
-                _inProxy = true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new SAXException(e);
-        }
-    }
+		try {
+			// in case of proxy tag, set flag.
+			if (!_inProxy && qName.equalsIgnoreCase(Proxy.Tag.PROXY.toString())) {
+				_inProxy = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new SAXException(e);
+		}
+	}
 
-    public void endElement(String uri, String localName, String qName)
-            throws SAXException {
+	public void endElement(String uri, String localName, String qName) throws SAXException {
 
-        // ignore elements, if we are not in the proxy tag
-        if (_inProxy) {
-            try {
-                if (qName.equals(Tag.PROXY)) {
+		// ignore elements, if we are not in the proxy tag
+		if (!_inProxy) {
+			return;
+		}
 
-                    // end of proxy. reset flag.
-                    _inProxy = false;
-                } else {
+		// read tag from string
+		Proxy.Tag tag;
+		try {
+			tag = Enum.valueOf(Proxy.Tag.class, qName);
+		} catch (IllegalArgumentException e) {
+			System.out.println("unknown tag " + qName + "in proxy. Ignoring.");
+			return;
+		}
+		// switch on the tag
+		switch (tag) {
 
-                    // otherwise store attribute value pair in the hashtable
-                    _proxy.put(qName, _cdata.trim());
-                    _cdata = null;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new SAXException(e);
-            }
-        }
-    }
+		// end of proxy. reset flag.
+			case PROXY :
+				_inProxy = false;
+				break;
 
-    public void characters(char[] ch, int start, int length) {
-        // if we are in the proxy-tag, parse character data into temp variable.
-        if (_inProxy) {
-            String s = new String(ch, start, length);
-            if (_cdata == null) {
-                _cdata = s;
-            } else {
-                _cdata += s;
-            }
-        }
-    }
+			// store tag & value to the proxy and prepare for next element
+			default :
+				_proxy.put(tag, _cdata.trim());
+				_cdata = null;
+		}
+	}
 
+	public void characters(char[] ch, int start, int length) {
+		// if we are in the proxy-tag, parse character data into temp variable.
+		if (_inProxy) {
+			String s = new String(ch, start, length);
+			if (_cdata == null) {
+				_cdata = s;
+			}
+			else {
+				_cdata += s;
+			}
+		}
+	}
 }

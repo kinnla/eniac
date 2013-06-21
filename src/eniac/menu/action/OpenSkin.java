@@ -14,6 +14,7 @@
 package eniac.menu.action;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import eniac.Manager;
 import eniac.io.Proxy;
@@ -41,7 +42,7 @@ public class OpenSkin extends EAction implements Runnable {
         Manager.getInstance().block();
 
         // scan for proxies
-        Proxy[] proxies = SkinIO.loadProxies();
+        List<Proxy> proxies = SkinIO.loadProxies();
 
         // create dialog that user can choose a configDescriptor
         OpenSkinPanel panel = new OpenSkinPanel(proxies);

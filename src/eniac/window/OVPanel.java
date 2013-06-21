@@ -40,7 +40,6 @@ import javax.swing.event.ChangeListener;
 import eniac.data.model.parent.Configuration;
 import eniac.data.type.ProtoTypes;
 import eniac.data.view.parent.ConfigPanel;
-import eniac.io.Tag;
 import eniac.skin.Descriptor;
 import eniac.skin.Skin;
 import eniac.util.EProperties;
@@ -270,8 +269,8 @@ public class OVPanel extends JPanel implements ChangeListener, Observer,
 
         // get xor image and color
         Descriptor d = ProtoTypes.XOR_IMAGE.getDescriptor(lod);
-        Image img = (Image) d.get(Tag.BACK_IMAGE);
-        Color color = (Color) d.get(Tag.COLOR);
+        Image img = (Image) d.get(Skin.Tag.BACK_IMAGE);
+        Color color = (Color) d.get(Skin.Tag.COLOR);
 
         // set xore mode and paint xor image
         g.setXORMode(color);

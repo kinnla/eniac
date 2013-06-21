@@ -13,9 +13,6 @@
  */
 package eniac.lang;
 
-import java.lang.reflect.Field;
-import java.util.Hashtable;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -31,14 +28,13 @@ import eniac.log.Log;
  */
 public class DictionaryHandler extends DefaultHandler {
 
+	private static final String ENTRY = "entry";
+	
     //=============================== fields
     // ===================================
 
-    // language to load
-    private Hashtable<String, String> _table = new Hashtable<>();
-
     // current entry
-    private String _entry;
+    private String _key;
 
     // character data as parsed by characters()
     private String _cdata = null;
@@ -58,35 +54,13 @@ public class DictionaryHandler extends DefaultHandler {
                 Dictionary.class.getFields().length);
     }
 
-    public void endDocument() {
-
-        // init words
-        Field[] fields = Dictionary.class.getFields();
-        for (int i = 0; i < fields.length; ++i) {
-            String key = fields[i].getName().toLowerCase();
-            String value = _table.get(key);
-            if (value == null) {
-                value = key;
-                Log.log("missing key: " + key); //$NON-NLS-1$
-            }
-            try {
-                fields[i].set(null, value);
-            } catch (Exception e) {
-                // this should never occure, because only static strings
-                // in class Words.
-                e.printStackTrace();
-            }
-        }
-        _table = null;
-    }
-
     public void startElement(String uri, String localName, String qName,
             Attributes attrs) throws SAXException {
         //System.out.println(qName);
         try {
-            if (qName.equals(Tag.ENTRY)) {
+            if (qName.equals(ENTRY)) {
                 // set current entry
-                _entry = XMLUtil.parseString(attrs, Tag.KEY);
+                _key = XMLUtil.parseString(attrs, Tag.KEY);
                 _readWhitespace = true;
             }
         } catch (Exception e) {
@@ -101,14 +75,15 @@ public class DictionaryHandler extends DefaultHandler {
             throws SAXException {
 
         try {
-            if (qName.equals(Tag.ENTRY)) {
+            if (qName.equals(ENTRY)) {
                 // read character data. If data is null, take i as empty string
                 if (_cdata == null) {
                     _cdata = ""; //$NON-NLS-1$
                 }
                 // trim data from whitespace and add to language
                 _cdata = _cdata.trim();
-                _table.put(_entry, _cdata);
+                Enum.valueOf(Dictionary.class, _key).setText(_cdata);
+         
                 // finish reading: reset string and reset flag.
                 _cdata = null;
                 _readWhitespace = false;
