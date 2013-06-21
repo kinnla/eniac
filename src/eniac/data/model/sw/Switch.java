@@ -44,7 +44,7 @@ public class Switch extends EData {
         super.setAttributes(attrs);
 
         // parse value from attributes
-        Enum<?>[] codes = _type.getCodes();
+        String[] codes = _type.getCodes();
         int value = XMLUtil.parseInt(attrs, _type.getCodeName(), codes);
 
         // If value is in bounds, set it. Otherwise throw exception.
@@ -81,13 +81,13 @@ public class Switch extends EData {
         return _value == 1;
     }
 
-    public EType.Tag encode() {
-    	EType.Tag[] codes = _type.getCodes();
+    public String encode() {
+    	String[] codes = _type.getCodes();
         return codes[_value];
     }
 
     protected boolean isInbound(int value) {
-    	EType.Tag[] codes = _type.getCodes();
+    	String[] codes = _type.getCodes();
         return value >= 0 && value < codes.length;
     }
 
@@ -98,7 +98,7 @@ public class Switch extends EData {
 
     public List<Property> getProperties() {
         List<Property> l = super.getProperties();
-        EType.Tag[] codes = _type.getCodes();
+        String[] codes = _type.getCodes();
         l.add(new ChoiceProperty(_type.getCodeName(), codes, _value));
         return l;
     }

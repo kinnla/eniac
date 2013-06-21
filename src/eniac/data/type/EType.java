@@ -56,7 +56,7 @@ public enum EType {
 
     private EType.Tag _codeName;
 
-    private EType.Tag[] _codes;
+    private String[] _codes;
 
     private Descriptor[] _descriptors;
 
@@ -70,11 +70,11 @@ public enum EType {
     //========================== getters and setters
     // ===========================
 
-    public void setCodes(EType.Tag[] codes) {
+    public void setCodes(String[] codes) {
         _codes = codes;
     }
 
-    public EType.Tag[] getCodes() {
+    public String[] getCodes() {
         return _codes;
     }
 

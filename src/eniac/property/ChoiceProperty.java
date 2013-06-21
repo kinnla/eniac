@@ -40,7 +40,7 @@ public class ChoiceProperty extends Property {
         _box.setSelectedIndex(selection);
     }
 
-    public ChoiceProperty(Enum<?> name, Enum<?>[] values, int selection) {
+    public ChoiceProperty(Enum<?> name, String[] values, int selection) {
     	this(name.name(), Arrays.copyOf(values, values.length, String[].class), selection);
     }
     

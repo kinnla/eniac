@@ -13,6 +13,7 @@
  */
 package eniac.skin;
 
+import java.util.EnumSet;
 import java.util.Hashtable;
 
 import eniac.data.type.Grid;
@@ -23,21 +24,13 @@ import eniac.data.type.ParentGrid;
  */
 public class Descriptor extends Hashtable<String, Object> {
 
-	public final static Skin.Tag[] CODES = {Skin.Tag.NONE, Skin.Tag.BOTH, Skin.Tag.HORIZONTAL, Skin.Tag.VERTICAL };
-
-    public static final short NONE = 0;
-
-    public static final short BOTH = 1;
-
-    public static final short HORIZONTAL = 2;
-
-    public static final short VERTICAL = 3;
+	public static EnumSet<Skin.Tag> CODES =EnumSet.of(Skin.Tag.NONE, Skin.Tag.BOTH, Skin.Tag.HORIZONTAL, Skin.Tag.VERTICAL );
 
     private int _width;
 
     private int _height;
 
-    private short _fill = NONE;
+    private Skin.Tag _fill = Skin.Tag.NONE;
 
     //============================= lifecycle
     // ==================================
@@ -65,11 +58,12 @@ public class Descriptor extends Hashtable<String, Object> {
         return _height;
     }
 
-    public void setFill(short fill) {
+    public void setFill(Skin.Tag fill) {
+    	//TODO: check whether the Skin.Tag is allowed (in CODES)
         _fill = fill;
     }
 
-    public short getFill() {
+    public Skin.Tag getFill() {
         return _fill;
     }
 

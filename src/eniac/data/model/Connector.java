@@ -16,12 +16,13 @@
  */
 package eniac.data.model;
 
+import java.util.EnumSet;
+
 import org.xml.sax.Attributes;
 
 import eniac.data.PulseInteractor;
 import eniac.data.model.parent.Configuration;
 import eniac.data.type.EType;
-import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
@@ -40,16 +41,10 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
     public static final String CABLE_TRANSMITTION = "cable_transmittion"; //$NON-NLS-1$
 
     // static keys for pulse direction
-    private static final short INPUT = 0;
-
-    private static final short OUTPUT = 1;
-
-    private static final short BOTH = 2;
-
-    private static final Tag[] DIRECTION = { Tag.IN, Tag.OUT, Tag.BOTH };
+    private static final EnumSet<Tag> DIRECTION = EnumSet.of( Tag.IN, Tag.OUT, Tag.BOTH );
 
     // pulse direction of this connector
-    private short _direction;
+    private Tag _direction;
 
     // id of the connector, that we are connected with by a cable.
     // if no cable, then this is -1.
@@ -79,7 +74,7 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
 
     public void setAttributes(Attributes attrs) {
         super.setAttributes(attrs);
-        _direction = (short) XMLUtil.parseInt(attrs, Tag.IO, DIRECTION);
+        _direction = XMLUtil.parseEnum(attrs, Tag.IO, Tag.class);
         _partner = XMLUtil.parseInt(attrs, Tag.PARTNER);
         //_plugged = _partner >= 0;
         // note: the connector is plugged, when both partners are set to
@@ -91,7 +86,7 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
 
     public String getAttributes() {
         return super.getAttributes()
-                + XMLUtil.wrapAttribute(Tag.IO, DIRECTION[_direction].toString())
+                + XMLUtil.wrapAttribute(Tag.IO, _direction.toString())
                 + XMLUtil.wrapAttribute(Tag.PARTNER, Integer
                         .toString(_partner));
     }
@@ -116,16 +111,16 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
         }
     }
 
-    public short getDirection() {
+    public Tag getDirection() {
         return _direction;
     }
 
     private boolean isSender() {
-        return (_direction == OUTPUT || _direction == BOTH);
+        return (_direction == Tag.OUT || _direction == Tag.BOTH);
     }
 
     private boolean isReceiver() {
-        return (_direction == INPUT || _direction == BOTH);
+        return (_direction == Tag.IN || _direction == Tag.BOTH);
     }
 
     private boolean isDigit() {

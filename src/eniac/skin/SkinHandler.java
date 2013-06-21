@@ -155,9 +155,8 @@ public class SkinHandler extends DefaultHandler {
                     // set width, height and fill
                     _descriptor.setWidth(XMLUtil.parseInt(attrs, Skin.Tag.WIDTH));
                     _descriptor.setHeight(XMLUtil.parseInt(attrs, Skin.Tag.HEIGHT));
-                    int fill = XMLUtil.parseInt(attrs, Skin.Tag.FILL,
-                            Descriptor.CODES);
-                    _descriptor.setFill((short) fill);
+                    _descriptor.setFill(XMLUtil.parseEnum(attrs, Skin.Tag.FILL,
+                            Skin.Tag.class));
 
                     // add descriptor to hashtable array
                     _descriptorsTable.put(type, _descriptor);

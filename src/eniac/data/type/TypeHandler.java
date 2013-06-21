@@ -91,7 +91,7 @@ public class TypeHandler extends DefaultHandler {
 
             } else if (qName.equals(EType.Tag.CODES.toString())) {
                 // convert list of codes to an array and set it to type
-            	EType.Tag[] codes = new EType.Tag[_listOfCodes.size()];
+            	String[] codes = new String[_listOfCodes.size()];
                 _listOfCodes.toArray(codes);
                 _type.setCodes(codes);
 

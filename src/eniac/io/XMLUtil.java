@@ -106,9 +106,9 @@ public class XMLUtil {
     //========================== reading xml
     // ===================================
 
-    public static int parseInt(String s, Enum<?>[] tags) {
-        for (int i = 0; i < tags.length; ++i) {
-            if (s.equals(tags[i].toString())) {
+    public static int parseInt(String s, String[] codes) {
+        for (int i = 0; i < codes.length; ++i) {
+            if (s.equals(codes[i].toString())) {
                 return i;
             }
         }
@@ -139,16 +139,29 @@ public class XMLUtil {
         return StringConverter.toColor(s);
     }
 
-    public static int parseInt(Attributes attrs, Enum<?> tag, Enum<?>[] tags) {
+    /**
+     * Parse the value for a tag
+     * @param attrs: the attributes containing the key-value pair
+     * @param tag: the key given as an enum element
+     * @param values: an enumSet defining the eligible values 
+     * @return the parsed value as an enum element
+     */
+	public static <S extends Enum<S>, T extends Enum<T>> T parseEnum(Attributes attrs, Enum<S> tag,
+			Class<T> valueEnumClass) {
+		String s = parseString(attrs, tag);
+		return Enum.valueOf(valueEnumClass, s);
+	}
 
-        String s = parseString(attrs, tag);
-        int i = parseInt(s, tags);
+	public static <S extends Enum<S>> int parseInt(Attributes attrs, Enum<S> codeName, String[] codes) {
+        String s = parseString(attrs, codeName);
+        int i = parseInt(s, codes);
         if (i == -1) {
-            throw new DataParsingException(s, tag);
+            throw new DataParsingException(s, codeName);
         }
         return i;
     }
 
+	
     public static long parseLong(Attributes attrs, Enum<?> tag) {
         String s = parseString(attrs, tag);
         return StringConverter.toLong(s);

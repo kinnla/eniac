@@ -236,13 +236,13 @@ public class EPanel extends JPanel implements Observer, MouseInputListener {
         // if (descriptor == null) {
         // System.out.println(type);
         // }
-        short fill = descriptor.getFill();
-        if (fill == Descriptor.HORIZONTAL || fill == Descriptor.NONE) {
+        Skin.Tag fill = descriptor.getFill();
+        if (fill == Skin.Tag.HORIZONTAL || fill == Skin.Tag.NONE) {
             int h = (int) (descriptor.getHeight() * pg.zoomY);
             newY = newY + ((newHeight - h) >> 1);
             newHeight = h;
         }
-        if (fill == Descriptor.VERTICAL || fill == Descriptor.NONE) {
+        if (fill == Skin.Tag.VERTICAL || fill == Skin.Tag.NONE) {
             int w = (int) (descriptor.getWidth() * pg.zoomX);
             newX = newX + ((newWidth - w) >> 1);
             newWidth = w;
