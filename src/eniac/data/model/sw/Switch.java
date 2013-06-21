@@ -20,7 +20,6 @@ import org.xml.sax.Attributes;
 import eniac.data.io.DataParsingException;
 import eniac.data.model.EData;
 import eniac.data.type.EType;
-import eniac.io.ITag;
 import eniac.io.XMLUtil;
 import eniac.property.ChoiceProperty;
 import eniac.property.Property;
@@ -106,7 +105,7 @@ public class Switch extends EData {
 
     public void setProperties(List<Property> l) {
         for (Property p : l) { 
-            if (p.getName().equals(_type.getCodeName())) {
+            if (p.getName().equals(_type.getCodeName().name().toLowerCase())) {
                 setValue(((ChoiceProperty) p).getSelection());
                 // it.remove(); ===> need to remove ???
             }
