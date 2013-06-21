@@ -24,7 +24,7 @@ public enum Tag implements ITag{
 	 * ========================= general =======================
 	 */
 
-	X, Y, KEY, FALSE, TRUE,
+	X, Y, FALSE, TRUE,
 
 	/*
 	 * ========================= menu =======================

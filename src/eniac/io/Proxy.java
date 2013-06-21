@@ -67,14 +67,19 @@ public class Proxy extends EnumMap<Proxy.Tag, String>  {
 		PREVIEW, 
 		
 		/**
-		 * name of a configuration
+		 * name of a configuration or language
 		 */
 		NAME,
 		
 		/**
-		 * description of the configuration
+		 * description of the configuration or language
 		 */
 		DESCRIPTION,
+		
+		/**
+		 * string-key of the language, as the 2-letter locale
+		 */
+		KEY,
 	}
 	
 	private String _path;

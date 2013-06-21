@@ -73,9 +73,9 @@ public class ProxyHandler extends DefaultHandler {
 		// read tag from string
 		Proxy.Tag tag;
 		try {
-			tag = Enum.valueOf(Proxy.Tag.class, qName);
+			tag = Enum.valueOf(Proxy.Tag.class, qName.toUpperCase());
 		} catch (IllegalArgumentException e) {
-			System.out.println("unknown tag " + qName + "in proxy. Ignoring.");
+			System.out.println("unknown tag " + qName + " in proxy. Ignoring.");
 			return;
 		}
 		// switch on the tag

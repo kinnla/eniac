@@ -26,7 +26,7 @@ package eniac.data.io;
 public class DataParsingException extends RuntimeException {
 
     private static final String[] MESSAGES = {
-            "Unknown tag: ", "missing attribute: " }; //$NON-NLS-1$ //$NON-NLS-2$
+            "Unknown tag: ", " missing attribute: " }; //$NON-NLS-1$ //$NON-NLS-2$
 
     public static final short UNKNOWN_TAG = 0;
 

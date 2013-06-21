@@ -19,7 +19,6 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import eniac.io.Progressor;
-import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.log.Log;
 
@@ -28,8 +27,6 @@ import eniac.log.Log;
  */
 public class DictionaryHandler extends DefaultHandler {
 
-	private static final String ENTRY = "entry";
-	
     //=============================== fields
     // ===================================
 
@@ -58,9 +55,9 @@ public class DictionaryHandler extends DefaultHandler {
             Attributes attrs) throws SAXException {
         //System.out.println(qName);
         try {
-            if (qName.equals(ENTRY)) {
+            if (qName.equals(Dictionary.Tag.ENTRY.name().toLowerCase())) {
                 // set current entry
-                _key = XMLUtil.parseString(attrs, Tag.KEY);
+                _key = XMLUtil.parseString(attrs, Dictionary.Tag.KEY);
                 _readWhitespace = true;
             }
         } catch (Exception e) {
@@ -75,14 +72,14 @@ public class DictionaryHandler extends DefaultHandler {
             throws SAXException {
 
         try {
-            if (qName.equals(ENTRY)) {
+            if (qName.equals(Dictionary.Tag.ENTRY.name().toLowerCase())) {
                 // read character data. If data is null, take i as empty string
                 if (_cdata == null) {
                     _cdata = ""; //$NON-NLS-1$
                 }
                 // trim data from whitespace and add to language
                 _cdata = _cdata.trim();
-                Enum.valueOf(Dictionary.class, _key).setText(_cdata);
+                Enum.valueOf(Dictionary.class, _key.toUpperCase()).setText(_cdata);
          
                 // finish reading: reset string and reset flag.
                 _cdata = null;
