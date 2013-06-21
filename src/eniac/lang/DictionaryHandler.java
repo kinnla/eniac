@@ -27,87 +27,90 @@ import eniac.log.Log;
  */
 public class DictionaryHandler extends DefaultHandler {
 
-    //=============================== fields
-    // ===================================
+	// =============================== fields
+	// ===================================
 
-    // current entry
-    private String _key;
+	// current entry
+	private String _key;
 
-    // character data as parsed by characters()
-    private String _cdata = null;
+	// character data as parsed by characters()
+	private String _cdata = null;
 
-    // flag indicating whether we are reading whitespace
-    private boolean _readWhitespace = false;
+	// flag indicating whether we are reading whitespace
+	private boolean _readWhitespace = false;
 
-    public DictionaryHandler() {
-        // empty
-    }
+	public DictionaryHandler() {
+		// empty
+	}
 
-    //========================= defaultHandler methods //======================
+	// ========================= defaultHandler methods //======================
 
-    public void startDocument() {
-        Progressor.getInstance().setText(Dictionary.DICTIONARY_LOADING.getText());
-        Progressor.getInstance().setProgress(0,
-                Dictionary.class.getFields().length);
-    }
+	public void startDocument() {
+		Progressor.getInstance().setText(Dictionary.DICTIONARY_LOADING.getText());
+		Progressor.getInstance().setProgress(0, Dictionary.class.getFields().length);
+	}
 
-    public void startElement(String uri, String localName, String qName,
-            Attributes attrs) throws SAXException {
-        //System.out.println(qName);
-        try {
-            if (qName.equals(Dictionary.Tag.ENTRY.name().toLowerCase())) {
-                // set current entry
-                _key = XMLUtil.parseString(attrs, Dictionary.Tag.KEY);
-                _readWhitespace = true;
-            }
-        } catch (Exception e) {
-            // important: catch any exception and print its tree.
-            // otherwise you won't get the error's source.
-            e.printStackTrace();
-            throw new SAXException(e);
-        }
-    }
+	public void startElement(String uri, String localName, String qName, Attributes attrs) throws SAXException {
+		// System.out.println(qName);
+		try {
+			if (qName.equals(Dictionary.Tag.ENTRY.name().toLowerCase())) {
+				// set current entry
+				_key = XMLUtil.parseString(attrs, Dictionary.Tag.KEY);
+				_readWhitespace = true;
+			}
+		} catch (Exception e) {
+			// important: catch any exception and print its tree.
+			// otherwise you won't get the error's source.
+			e.printStackTrace();
+			throw new SAXException(e);
+		}
+	}
 
-    public void endElement(String uri, String localName, String qName)
-            throws SAXException {
+	public void endElement(String uri, String localName, String qName) throws SAXException {
 
-        try {
-            if (qName.equals(Dictionary.Tag.ENTRY.name().toLowerCase())) {
-                // read character data. If data is null, take i as empty string
-                if (_cdata == null) {
-                    _cdata = ""; //$NON-NLS-1$
-                }
-                // trim data from whitespace and add to language
-                _cdata = _cdata.trim();
-                Enum.valueOf(Dictionary.class, _key.toUpperCase()).setText(_cdata);
-         
-                // finish reading: reset string and reset flag.
-                _cdata = null;
-                _readWhitespace = false;
-            }
-        } catch (Exception e) {
-            // in case of exception, print stack trace and rethrow as sax
-            e.printStackTrace();
-            throw new SAXException(e);
-        }
-        Progressor.getInstance().incrementValue();
-    }
+		try {
+			if (qName.equals(Dictionary.Tag.ENTRY.name().toLowerCase())) {
+				// read character data. If data is null, take it as empty string
+				if (_cdata == null) {
+					_cdata = ""; //$NON-NLS-1$
+				}
 
-    public void warning(SAXParseException e) throws SAXException {
-        Log.log(e.toString());
-    }
+				// trim data from whitespace and add to language
+				try {
+					Dictionary dic = Enum.valueOf(Dictionary.class, _key.toUpperCase());
+					dic.setText(_cdata.trim());
+				} catch (IllegalArgumentException exc) {
+					System.out.println("Ignoring unknown dictionary key: " + _key);
+				}
 
-    public void error(SAXParseException e) throws SAXException {
-        Log.log(e.toString());
-    }
+				// finish reading: reset string and reset flag.
+				_cdata = null;
+				_readWhitespace = false;
+			}
+		} catch (Exception e) {
+			// in case of exception, print stack trace and rethrow as sax
+			e.printStackTrace();
+			throw new SAXException(e);
+		}
+		Progressor.getInstance().incrementValue();
+	}
 
-    public void characters(char[] ch, int start, int length) {
-        if (_readWhitespace) {
-            if (_cdata == null) {
-                _cdata = new String(ch, start, length);
-            } else {
-                _cdata += new String(ch, start, length);
-            }
-        }
-    }
+	public void warning(SAXParseException e) throws SAXException {
+		Log.log(e.toString());
+	}
+
+	public void error(SAXParseException e) throws SAXException {
+		Log.log(e.toString());
+	}
+
+	public void characters(char[] ch, int start, int length) {
+		if (_readWhitespace) {
+			if (_cdata == null) {
+				_cdata = new String(ch, start, length);
+			}
+			else {
+				_cdata += new String(ch, start, length);
+			}
+		}
+	}
 }

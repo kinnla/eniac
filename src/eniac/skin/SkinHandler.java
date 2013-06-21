@@ -32,7 +32,6 @@ import eniac.data.type.EType;
 import eniac.data.type.ProtoTypes;
 import eniac.io.Progressor;
 import eniac.io.Proxy;
-import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.lang.Dictionary;
 import eniac.log.Log;
@@ -118,12 +117,18 @@ public class SkinHandler extends DefaultHandler {
     }
 
     public void startElement(String uri, String localName, String qName,
-            Attributes attrs) throws SAXException {        
+            Attributes attrs) throws SAXException {
+    	
+    	// try to read TAG
+    	Skin.Tag tag = null;
         try {
-
-        	System.out.println(qName);
-        	Skin.Tag tag = Enum.valueOf(Skin.Tag.class, qName.toUpperCase());
-
+        	tag = Enum.valueOf(Skin.Tag.class, qName.toUpperCase());
+        }catch (IllegalArgumentException exc) {
+        	System.out.println("Ignoring unknown tag: "+tag);
+        	return;
+        }
+        
+        try {
         	// switch on current parsing state
             switch (_state) {
 
