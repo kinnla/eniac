@@ -90,7 +90,6 @@ public enum EType {
 
     public void setEDataClass(String edataClass) {
         _edataClass = edataClass;
-        System.out.println(edataClass);
     }
 
     public void setEPanelClass(String epanelClass) {

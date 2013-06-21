@@ -38,7 +38,7 @@ public class TypeHandler extends DefaultHandler {
 
     private EType _type;
 
-    private List<EType.Tag> _listOfCodes = new LinkedList<>();
+    private List<String> _listOfCodes = new LinkedList<>();
 
     // character data as parsed by characters()
     private String _cdata = null;
@@ -113,7 +113,7 @@ public class TypeHandler extends DefaultHandler {
 
             } else if (qName.equalsIgnoreCase(EType.Tag.CODE.toString())) {
                 // add code to list of codes and stop reading whitespace
-                _listOfCodes.add(Enum.valueOf(EType.Tag.class, _cdata));
+                _listOfCodes.add(_cdata);
                 _cdata = null;
                 _readWhitespace = false;
             }
