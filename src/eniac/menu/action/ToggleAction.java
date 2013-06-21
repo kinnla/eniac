@@ -14,7 +14,6 @@
 package eniac.menu.action;
 
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
 
 import javax.swing.ButtonModel;
 import javax.swing.JCheckBoxMenuItem;
@@ -22,6 +21,7 @@ import javax.swing.JToggleButton;
 import javax.swing.JToggleButton.ToggleButtonModel;
 
 import eniac.util.Status;
+import eniac.util.StatusListener;
 import eniac.util.StatusMap;
 
 /**
@@ -54,8 +54,25 @@ public class ToggleAction extends EAction {
         putValue(Key.MODEL.toString(), model);
         putValue(Key.ITEM.toString(), item);
 
-        // add listener and init text
-        StatusMap.getInstance().addListener(this);
+        // add listener for status of boolean property bound to this action
+        StatusMap.getInstance().addListener(key, new StatusListener() {
+			
+			@Override
+			public void statusChanged(Status status, Object newValue) {
+	            // value was toggeled by another party. update selection
+				((ToggleButtonModel) getValue(Key.MODEL.toString())).setSelected((boolean) newValue);
+			}
+		});
+        
+		// add listener and init text
+        StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
+			
+			@Override
+			public void statusChanged(Status status, Object newValue) {
+		        // language changed. update action values and hide text
+		        updateText();
+			}
+		});
         updateText();
     }
 
@@ -70,15 +87,5 @@ public class ToggleAction extends EAction {
     public void actionPerformed(ActionEvent e) {
     		Status key = (Status) getValue(Key.STATUS_PROPERTY.toString());
         StatusMap.set(key, ((ToggleButtonModel) getValue(Key.MODEL.toString())).isSelected());
-    }
-
-    public void propertyChange(PropertyChangeEvent evt) {
-        super.propertyChange(evt);
-		Status key = (Status) getValue(Key.STATUS_PROPERTY.toString());
-        if (evt.getPropertyName().equals(key.toString())) {
-            // value was toggeled by another party. update selection
-        		ToggleButtonModel model = (ToggleButtonModel) getValue(Key.MODEL.toString());
-        		model.setSelected((Boolean)StatusMap.get(key));
-        }
     }
 }

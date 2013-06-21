@@ -20,8 +20,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JViewport;
 import javax.swing.Scrollable;
@@ -34,6 +32,7 @@ import eniac.skin.Descriptor;
 import eniac.skin.Skin;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusListener;
 import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
@@ -43,7 +42,7 @@ import eniac.util.StringConverter;
  *         To change the template for this generated type comment go to Window -
  *         Preferences - Java - Code Generation - Code and Comments
  */
-public class ConfigPanel extends ParentPanel implements Scrollable, PropertyChangeListener {
+public class ConfigPanel extends ParentPanel implements Scrollable, StatusListener {
 
 	/*
 	 * ============================== fields ===================================
@@ -76,13 +75,14 @@ public class ConfigPanel extends ParentPanel implements Scrollable, PropertyChan
 
 		// add as propertychangelistener to status to receive simulation time
 		// updates
-		StatusMap.getInstance().addListener("highlight_pulse", this);
-		StatusMap.getInstance().addListener("zoomed_height", this);
+		StatusMap.getInstance().addListener(Status.HIGHLIGHT_PULSE, this);
+		StatusMap.getInstance().addListener(Status.ZOOMED_HEIGHT, this);
 	}
 
 	public void dispose() {
 		super.dispose();
-		StatusMap.getInstance().removeListener(this);
+		StatusMap.getInstance().removeListener(Status.HIGHLIGHT_PULSE, this);
+		StatusMap.getInstance().removeListener(Status.ZOOMED_HEIGHT, this);
 		removeAll();
 		_cableManager = null;
 	}
@@ -187,18 +187,15 @@ public class ConfigPanel extends ParentPanel implements Scrollable, PropertyChan
 	 * ============================ event listening ============================
 	 */
 
-	/**
-	 * @param evt
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-	 */
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals("highlight_pulse")) {
+	@Override
+	public void statusChanged(Status status, Object newValue) {
+		if (status == Status.HIGHLIGHT_PULSE) {
 			// highlight mode changed by user action.
 			// Because this won't happen too often don't be cheap:
 			// just repaint.
 			update(_data, EData.REPAINT);
 		}
-		else if (evt.getPropertyName().equals("zoomed_height")) {
+		else if (status == Status.ZOOMED_HEIGHT) {
 
 			// zoom changed.
 			// init with default values

@@ -18,8 +18,6 @@ package eniac.window;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JDialog;
 
@@ -29,6 +27,7 @@ import eniac.data.view.parent.ConfigPanel;
 import eniac.lang.Dictionary;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusListener;
 import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
@@ -38,8 +37,7 @@ import eniac.util.StringConverter;
  * To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Generation - Code and Comments
  */
-public class OVWindow extends JDialog implements PropertyChangeListener,
-        LifecycleListener {
+public class OVWindow extends JDialog implements LifecycleListener {
 
     private OVPanel _ovPanel = null;
 
@@ -69,12 +67,27 @@ public class OVWindow extends JDialog implements PropertyChangeListener,
         Manager.getInstance().addMainListener(this);
 
         // init configPanel first
-        // DVFrame.getInstance().getConfigPanel();
         configPanelChanged();
 
         // register as propertyChangeListener
-        StatusMap.getInstance().addListener(this);
+        StatusMap.getInstance().addListener(Status.SHOW_OVERVIEW, new StatusListener() {
+			
+			@Override
+			public void statusChanged(Status status, Object newValue) {
+	            // show overview toggeled
+	            setVisible((Boolean)newValue);
+			}
+		});
 
+		StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
+
+			@Override
+			public void statusChanged(Status status, Object newValue) {
+				// language changed. update window title
+				setTitle(Dictionary.OVERVIEW_WINDOW_TITLE.getText());
+			}
+		});
+        
         // add WindowListener
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -117,22 +130,6 @@ public class OVWindow extends JDialog implements PropertyChangeListener,
         }
         // layout
         pack();
-    }
-
-    /**
-     * processes PropertyChangeEvents. window must be hidden/shown or a new
-     * configurationPanel created.
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
-
-        if (evt.getPropertyName().equals("show_overview")) {
-            // show overview toggeled
-            setVisible((Boolean)StatusMap.get(Status.SHOW_OVERVIEW));
-
-        } else if (evt.getPropertyName().equals("language")) {
-            // language changed. update window title
-            setTitle(Dictionary.OVERVIEW_WINDOW_TITLE.getText());
-        }
     }
 
     public OVPanel getOVPanel() {

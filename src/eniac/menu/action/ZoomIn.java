@@ -17,12 +17,11 @@
 package eniac.menu.action;
 
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 
 import eniac.skin.Skin;
 import eniac.util.Status;
+import eniac.util.StatusListener;
 import eniac.util.StatusMap;
 
 /**
@@ -31,13 +30,19 @@ import eniac.util.StatusMap;
  * To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Generation - Code and Comments
  */
-public class ZoomIn extends EAction implements PropertyChangeListener {
+public class ZoomIn extends EAction {
 
     public ZoomIn() {
-        StatusMap.getInstance().addListener(this);
+        StatusMap.getInstance().addListener(Status.ZOOMED_HEIGHT, new StatusListener() {
+			
+			@Override
+			public void statusChanged(Status status, Object newValue) {
+	            setEnabled(getNewHeight() != (int) newValue);
+			}
+		});
     }
 
-    private int getNewHeight() {
+    int getNewHeight() {
 
         // get current height and zoomSteps
         int height = StatusMap.getInt(Status.ZOOMED_HEIGHT);
@@ -50,20 +55,11 @@ public class ZoomIn extends EAction implements PropertyChangeListener {
             // we are between 2 steps. Choose the lower one.
             index = -index - 2;
         }
-        // increse step, but check that we stay inside array bounds
+        // increase step, but check that we stay inside array bounds
         return steps[Math.min(index + 1, steps.length - 1)];
     }
 
     public void actionPerformed(ActionEvent e) {
         StatusMap.set(Status.ZOOMED_HEIGHT, getNewHeight());
-    }
-
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("zoomed_height")) {
-            int height = StatusMap.getInt(Status.ZOOMED_HEIGHT);
-            setEnabled(getNewHeight() != height);
-        } else {
-            super.propertyChange(evt);
-        }
     }
 }

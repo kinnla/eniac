@@ -18,8 +18,6 @@ package eniac.log;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JDialog;
 
@@ -28,6 +26,7 @@ import eniac.Manager;
 import eniac.lang.Dictionary;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusListener;
 import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 import eniac.window.EFrame;
@@ -38,8 +37,7 @@ import eniac.window.EFrame;
  * To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Generation - Code and Comments
  */
-public class LogWindow extends JDialog implements PropertyChangeListener,
-        LifecycleListener {
+public class LogWindow extends JDialog implements LifecycleListener {
 
     // reference to logpanel
     private LogPanel _logPanel = null;
@@ -73,8 +71,25 @@ public class LogWindow extends JDialog implements PropertyChangeListener,
         _logPanel = Log.getInstance().getLogPanel();
         setContentPane(_logPanel);
 
-        // add propertyChangeListener
-        StatusMap.getInstance().addListener(this);
+        // add status Listener for visibility
+        StatusMap.getInstance().addListener(Status.SHOW_LOG, new StatusListener() {
+			
+			@Override
+			public void statusChanged(Status status, Object newValue) {
+	            // show_log changed. Show or hide log window
+	            setVisible((boolean)newValue);
+			}
+		});
+
+        // add status listener for language
+        StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
+			
+			@Override
+			public void statusChanged(Status status, Object newValue) {
+	            // language changed. update window title
+	            setTitle(Dictionary.LOG_WINDOW_TITLE.getText());
+			}
+		});
 
         // add windowListener
         addWindowListener(new WindowAdapter() {
@@ -91,18 +106,6 @@ public class LogWindow extends JDialog implements PropertyChangeListener,
 
     // =========================== listener stuff
     // ===============================
-
-    public void propertyChange(PropertyChangeEvent evt) {
-
-        if (evt.getPropertyName().equals(Status.SHOW_LOG.toString())) {
-            // show_log changed. Show or hide log window
-            setVisible((Boolean)StatusMap.get(Status.SHOW_LOG));
-
-        } else if (evt.getPropertyName().equals("language")) {
-            // language changed. update window title
-            setTitle(Dictionary.LOG_WINDOW_TITLE.getText());
-        }
-    }
 
     /**
      * @param oldVal

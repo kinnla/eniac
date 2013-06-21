@@ -13,9 +13,10 @@
  */
 package eniac.util;
 
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.EnumMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import eniac.LifecycleListener;
 import eniac.Manager;
@@ -35,6 +36,8 @@ public class StatusMap implements LifecycleListener {
     // containing all properties as key - value pairs
     private EnumMap<Status, Object> _map;
 
+    private EnumMap<Status, List<StatusListener>> _listenerMap;
+    
     /*
 	 * ========================= singleton stuff =======================
 	 */
@@ -44,7 +47,8 @@ public class StatusMap implements LifecycleListener {
 
     // singleton private constructor
     private StatusMap() {
-        // empty
+        _map = new EnumMap<>(Status.class);
+        _listenerMap = new EnumMap<>(Status.class);
     }
 
     // note: this method has to be synchronized, because during loading a skin
@@ -71,9 +75,6 @@ public class StatusMap implements LifecycleListener {
         // helper variables
         int i;
         boolean b;
-
-        // init map
-        _map = new EnumMap<>(Status.class);
 
         // configuration
         _map.put(Status.CONFIGURATION, null);
@@ -159,16 +160,17 @@ public class StatusMap implements LifecycleListener {
 	 * ========================= listener stuff =======================
 	 */
 
-    public void addListener(PropertyChangeListener listener) {
-        _pcs.addPropertyChangeListener(listener);
+    public void addListener(Status status, StatusListener listener) {
+    	List<StatusListener> listenerList = _listenerMap.get(status);
+    	if (listenerList == null) {
+    		listenerList = new LinkedList<>();
+    		_listenerMap.put(status, listenerList);
+    	}
+        listenerList.add(listener);
     }
 
-    public void addListener(String key, PropertyChangeListener listener) {
-        _pcs.addPropertyChangeListener(key, listener);
-    }
-
-    public void removeListener(PropertyChangeListener listener) {
-        _pcs.removePropertyChangeListener(listener);
+    public void removeListener(Status status, StatusListener listener) {
+    	_listenerMap.get(status).remove(listener);
     }
 
     /**

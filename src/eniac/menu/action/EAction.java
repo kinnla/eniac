@@ -15,9 +15,6 @@
  */
 package eniac.menu.action;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.Action;
@@ -27,13 +24,14 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 
 import eniac.lang.Dictionary;
+import eniac.util.Status;
+import eniac.util.StatusListener;
 import eniac.util.StatusMap;
 
 /**
  * @author zoppke
  */
-public abstract class EAction extends AbstractAction implements
-        PropertyChangeListener {
+public abstract class EAction extends AbstractAction {
 
 	/*
 	 * ======================== keys to store objects =====================
@@ -94,7 +92,14 @@ public abstract class EAction extends AbstractAction implements
 		putValue(Key.ITEM.toString(), new JMenuItem(this));
 
 		// add listener and init text
-        StatusMap.getInstance().addListener(this);
+        StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
+			
+			@Override
+			public void statusChanged(Status status, Object newValue) {
+		        // language changed. update action values and hide text
+		        updateText();
+			}
+		});
         updateText();
 	}
     
@@ -113,12 +118,5 @@ public abstract class EAction extends AbstractAction implements
 
         // hide text
         ((AbstractButton)getValue(Key.BUTTON.toString())).setText(null);
-    }
-
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("language")) {
-            // language changed. update action values and hide text
-            updateText();
-        }
     }
 }

@@ -16,8 +16,6 @@ package eniac.io;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -33,6 +31,8 @@ import javax.swing.WindowConstants;
 import eniac.LifecycleListener;
 import eniac.Manager;
 import eniac.lang.Dictionary;
+import eniac.util.Status;
+import eniac.util.StatusListener;
 import eniac.util.StatusMap;
 import eniac.window.EFrame;
 
@@ -40,7 +40,7 @@ import eniac.window.EFrame;
  * @author zoppke
  */
 public class Progressor extends JDialog implements Runnable, LifecycleListener,
-        PropertyChangeListener {
+        StatusListener {
 
     // jpanel as contentpane
     private JPanel _panel = new JPanel(new BorderLayout());
@@ -73,7 +73,7 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener,
         Manager.getInstance().addMainListener(this);
 
         // add as status listener to be notified when language changes
-        StatusMap.getInstance().addListener(this);
+        StatusMap.getInstance().addListener(Status.LANGUAGE, this);
 
         // init components
         //_progressBar.setIndeterminate(true);
@@ -207,14 +207,8 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener,
         }
     }
 
-    /**
-     * @param evt
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("language")) {
-            _button.setText(Dictionary.CANCEL.getText());
-            setTitle(Dictionary.PLEASE_WAIT.getText());
-        }
+    public void statusChanged(Status status, Object newValue) {
+        _button.setText(Dictionary.CANCEL.getText());
+        setTitle(Dictionary.PLEASE_WAIT.getText());
     }
 }

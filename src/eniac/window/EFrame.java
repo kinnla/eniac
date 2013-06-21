@@ -21,8 +21,6 @@ import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Locale;
@@ -42,10 +40,11 @@ import eniac.menu.MenuHandler;
 import eniac.menu.action.EAction;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusListener;
 import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
-public class EFrame extends JFrame implements PropertyChangeListener, LifecycleListener {
+public class EFrame extends JFrame implements StatusListener, LifecycleListener {
 
 	/*
 	 * ========================== private fields ===============================
@@ -129,8 +128,11 @@ public class EFrame extends JFrame implements PropertyChangeListener, LifecycleL
 		// update configurationPanel
 		// TODO: find new way of initializing configuration
 		updateConfigPanel();
+
 		// add this as propertyChangeListener
-		StatusMap.getInstance().addListener(this);
+		StatusMap.getInstance().addListener(Status.CONFIGURATION, this);
+		StatusMap.getInstance().addListener(Status.SKIN, this);
+		StatusMap.getInstance().addListener(Status.LANGUAGE, this);
 
 		// init LogWindow
 		// LogWindow.getInstance();
@@ -190,19 +192,17 @@ public class EFrame extends JFrame implements PropertyChangeListener, LifecycleL
 	 * @param evt
 	 *            The propertyEvent indicating that the architecture changed
 	 */
-	public void propertyChange(PropertyChangeEvent evt) {
+	public void statusChanged(Status status, Object newValue) {
 
-		if (evt.getPropertyName().equals("configuration")) {
+		if (status == Status.CONFIGURATION) {
 			// configuration changed. Update the configPanel.
 			updateConfigPanel();
-
 		}
-		else if (evt.getPropertyName().equals("skin")) {
+		else if (status == Status.SKIN) {
 			// skin changed. repaint
 			repaint();
-
 		}
-		else if (evt.getPropertyName().equals("language")) {
+		else if (status == Status.LANGUAGE) {
 			// language changed. repaint and adjust title.
 			repaint();
 
@@ -212,8 +212,7 @@ public class EFrame extends JFrame implements PropertyChangeListener, LifecycleL
 			// that I cannot change to "en" or Locale.ENGLISH nor .US nor .UK.
 			// in these three cases, still my default locale (GERMAN) is used.
 			// Changing to FRENCH or JAPANESE works fine.
-			String language = (String) evt.getNewValue();
-			JComponent.setDefaultLocale(new Locale(language));
+			JComponent.setDefaultLocale(new Locale((String) newValue));
 			setTitle(Dictionary.MAIN_FRAME_TITLE.getText());
 		}
 	}

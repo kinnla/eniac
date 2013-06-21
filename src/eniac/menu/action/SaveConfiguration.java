@@ -17,8 +17,6 @@
 package eniac.menu.action;
 
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -36,6 +34,7 @@ import eniac.log.LogWords;
 import eniac.menu.action.gui.SaveConfigurationPanel;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusListener;
 import eniac.util.StatusMap;
 import eniac.window.EFrame;
 
@@ -45,9 +44,20 @@ import eniac.window.EFrame;
  * To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Generation - Code and Comments
  */
-public class SaveConfiguration extends EAction implements
-        PropertyChangeListener, Runnable {
+public class SaveConfiguration extends EAction implements Runnable {
 
+	@Override
+	public void init() {
+		super.init();
+		StatusMap.getInstance().addListener(Status.CONFIGURATION, new StatusListener() {
+			
+			@Override
+			public void statusChanged(Status status, Object newValue) {
+	            setEnabled(newValue != null);
+			}
+		});
+	}
+	
 	public void actionPerformed(ActionEvent e) {
         // check for privileges
         if (Manager.getInstance().hasIOAccess()) {
@@ -120,16 +130,5 @@ public class SaveConfiguration extends EAction implements
             }
         }
         Manager.getInstance().unblock();
-    }
-
-    // ============================== enabling
-    // ==================================
-
-    public void propertyChange(PropertyChangeEvent e) {
-        if (e.getPropertyName().equals("configuration")) {
-            setEnabled(e.getNewValue() != null);
-        } else {
-            super.propertyChange(e);
-        }
     }
 }

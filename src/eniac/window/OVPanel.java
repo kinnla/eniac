@@ -27,8 +27,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -44,6 +42,7 @@ import eniac.skin.Descriptor;
 import eniac.skin.Skin;
 import eniac.util.EProperties;
 import eniac.util.Status;
+import eniac.util.StatusListener;
 import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
@@ -53,8 +52,7 @@ import eniac.util.StringConverter;
  * To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Generation - Code and Comments
  */
-public class OVPanel extends JPanel implements ChangeListener, Observer,
-        PropertyChangeListener {
+public class OVPanel extends JPanel implements ChangeListener, Observer, StatusListener {
 
     // rectangle to store the bounds of the xored area
     private Rectangle _xorBounds = new Rectangle();
@@ -95,7 +93,7 @@ public class OVPanel extends JPanel implements ChangeListener, Observer,
 
         // add as propertychanglistener to status for get notified
         // when skin changes or configuration changes
-        StatusMap.getInstance().addListener(this);
+        StatusMap.getInstance().addListener(Status.SKIN, this);
 
         // add as componentlistener to get notified when we are resized.
         addComponentListener(new ComponentAdapter() {
@@ -106,7 +104,7 @@ public class OVPanel extends JPanel implements ChangeListener, Observer,
     }
 
     public void dispose() {
-        StatusMap.getInstance().removeListener(this);
+        StatusMap.getInstance().removeListener(Status.SKIN, this);
         // TODO: do we need to unregister as observer?
     }
 
@@ -293,22 +291,11 @@ public class OVPanel extends JPanel implements ChangeListener, Observer,
         _dirty = true;
         repaint();
     }
+    
+	@Override
+	public void statusChanged(Status status, Object newValue) {
+        // new skin loaded. Repaint.
+        update((Configuration) StatusMap.get(Status.CONFIGURATION), null);
+	}
 
-    /**
-     * @param evt
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("skin")) {
-
-            // new skin loaded. Repaint.
-            update((Configuration) StatusMap.get(Status.CONFIGURATION), null);
-        }
-        // else if (evt.getPropertyName() == StatusMap.CONFIGURATION) {
-        //
-        // // new Configuration. Repaint.
-        // initAsObserver();
-        // update((Configuration) evt.getNewValue(), null);
-        // }
-    }
 }

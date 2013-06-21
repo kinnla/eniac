@@ -16,8 +16,6 @@ package eniac.data.view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import eniac.data.model.CyclingLights;
 import eniac.data.model.parent.Configuration;
@@ -25,14 +23,14 @@ import eniac.data.model.sw.Switch;
 import eniac.data.type.ParentGrid;
 import eniac.skin.Descriptor;
 import eniac.skin.Skin;
+import eniac.util.StatusListener;
 import eniac.util.Status;
 import eniac.util.StatusMap;
 
 /**
  * @author zoppke
  */
-public class CyclingLightsPanel extends EPanel implements
-        PropertyChangeListener {
+public class CyclingLightsPanel extends EPanel implements StatusListener {
 
     private Switch _heaters;
 
@@ -51,14 +49,13 @@ public class CyclingLightsPanel extends EPanel implements
         _heaters = config.getUnit(_data.getGridNumbers()[0]).getHeaters();
         _heaters.addObserver(this);
 
-        // add this as propertychangelistener to status for receiving
-        // simulation-time updates
-        StatusMap.getInstance().addListener(this);
+        // add this as status listener to receive simulation-time updates
+        StatusMap.getInstance().addListener(Status.SIMULATION_TIME, this);
     }
 
     public void dispose() {
         super.dispose();
-        StatusMap.getInstance().removeListener(this);
+        StatusMap.getInstance().removeListener(Status.SIMULATION_TIME, this);
         _heaters.deleteObserver(this);
     }
 
@@ -94,20 +91,14 @@ public class CyclingLightsPanel extends EPanel implements
         }
     }
 
-    /**
-     * @param evt
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void statusChanged(Status status, Object newValue) {
         // track simulation time for updating cycle
-        if (evt.getPropertyName().equals("simulation_time")) {
-            // if we are highlightning, paint immediately.
-            //			if (StatusMap.getBoolean(StatusMap.HIGHLIGHT_PULSE)) {
-            //				paintComponent(getGraphics());
-            //			} else {
-            // Otherwise call for repaint.
-            repaint();
-            //			}
-        }
+        // if we are highlightning, paint immediately.
+        //			if (StatusMap.getBoolean(StatusMap.HIGHLIGHT_PULSE)) {
+        //				paintComponent(getGraphics());
+        //			} else {
+        // Otherwise call for repaint.
+        repaint();
+        //			}
     }
 }
