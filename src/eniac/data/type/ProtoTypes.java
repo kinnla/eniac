@@ -18,7 +18,6 @@ import java.lang.reflect.Field;
 
 import eniac.Manager;
 import eniac.io.IOUtil;
-import eniac.log.Log;
 import eniac.util.EProperties;
 
 /**

@@ -29,7 +29,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import eniac.Manager;
 import eniac.io.IOUtil;
-import eniac.io.ITag;
 import eniac.io.XMLUtil;
 import eniac.menu.action.EAction;
 import eniac.util.EProperties;
@@ -40,13 +39,8 @@ import eniac.util.EProperties;
 public class MenuHandler extends DefaultHandler {
 
 	// constant tag and attribute names for parsing the menu xml file
-	private enum Key implements ITag {
+	private enum Key  {
 		MENU, GROUP, ACTION, NAME, MENUBAR, TOOLBAR, SEPARATOR, KEY, SID;
-		
-		@Override
-		public String toLowerCase() {
-			return name().toLowerCase();
-		}
 	}
 
 	// constant values for parsing state

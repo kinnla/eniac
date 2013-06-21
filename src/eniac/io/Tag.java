@@ -18,7 +18,7 @@ package eniac.io;
 /**
  * @author zoppke
  */
-public enum Tag implements ITag{
+public enum Tag {
 
 	/*
 	 * ========================= general =======================
@@ -42,9 +42,6 @@ public enum Tag implements ITag{
 	 * ========================= type =======================
 	 */
 
-	
-
-	@Override
 	public String toLowerCase() {
 		return name().toLowerCase();
 	}

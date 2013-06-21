@@ -18,7 +18,6 @@ import java.util.List;
 import org.xml.sax.Attributes;
 
 import eniac.data.model.EData;
-import eniac.io.ITag;
 import eniac.io.XMLUtil;
 import eniac.property.ChoiceProperty;
 import eniac.property.Property;
@@ -90,7 +89,7 @@ public class SwitchAndFlag extends Switch {
 
     public void setProperties(List<Property> l) {
         for (Property p : l) {
-            if (p.getName().equals(Tag.FLAG)) {
+            if (p.getName().equalsIgnoreCase(Tag.FLAG.name())) {
                 setFlag(((ChoiceProperty) p).getSelection() == 1);
 //                it.remove(); ===> need to remove from list ???
             }

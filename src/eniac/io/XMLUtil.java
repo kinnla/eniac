@@ -149,7 +149,7 @@ public class XMLUtil {
 	public static <S extends Enum<S>, T extends Enum<T>> T parseEnum(Attributes attrs, Enum<S> tag,
 			Class<T> valueEnumClass) {
 		String s = parseString(attrs, tag);
-		return Enum.valueOf(valueEnumClass, s);
+		return Enum.valueOf(valueEnumClass, s.toUpperCase());
 	}
 
 	public static <S extends Enum<S>> int parseInt(Attributes attrs, Enum<S> codeName, String[] codes) {

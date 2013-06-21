@@ -88,9 +88,10 @@ public class Proxy extends EnumMap<Proxy.Tag, String>  {
 		super(Proxy.Tag.class);
 	}
 
-//	public String toString() {
-//        return get(Tag.NAME);
-//    }
+    @Override
+	public String toString() {
+        return get(Tag.NAME); // need this to be displayed in a jlist
+    }
     
     public void setPath(String path) {
     	_path=path;

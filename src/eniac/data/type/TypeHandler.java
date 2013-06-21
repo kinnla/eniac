@@ -13,6 +13,7 @@
  */
 package eniac.data.type;
 
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,8 +22,11 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import eniac.Manager;
+import eniac.io.IOUtil;
 import eniac.io.XMLUtil;
 import eniac.log.Log;
+import eniac.util.EProperties;
 
 /**
  * @author zoppke
@@ -54,22 +58,22 @@ public class TypeHandler extends DefaultHandler {
 
     public void startElement(String uri, String localName, String qName,
             Attributes attrs) throws SAXException {
-        //System.out.println(qName);
+//        System.out.println(qName);
         try {
-            if (qName.equals(EType.Tag.TYPE.toString())) {
+            if (qName.equalsIgnoreCase(EType.Tag.TYPE.toString())) {
                 // create new EType by name
                 String name = XMLUtil.parseString(attrs, EType.Tag.NAME);
                 _type = Enum.valueOf(EType.class, name.toUpperCase());
 
-            } else if (qName.equals(EType.Tag.CODES.toString())) {
+            } else if (qName.equalsIgnoreCase(EType.Tag.CODES.toString())) {
                 // init list of codes
                 _listOfCodes.clear();
                 // set codeName
-                String codeName = XMLUtil.parseString(attrs, EType.Tag.NAME);
+                String codeName = XMLUtil.parseString(attrs, EType.Tag.NAME).toUpperCase();
                 _type.setCodeName(Enum.valueOf(EType.Tag.class, codeName));
 
-            } else if (qName.equals(EType.Tag.MODEL.toString()) || qName.equals(EType.Tag.VIEW.toString())
-                    || qName.equals(EType.Tag.CODE.toString())) {
+            } else if (qName.equalsIgnoreCase(EType.Tag.MODEL.toString()) || qName.equalsIgnoreCase(EType.Tag.VIEW.toString())
+                    || qName.equalsIgnoreCase(EType.Tag.CODE.toString())) {
                 // start reading whitespace
                 _readWhitespace = true;
             }
@@ -85,29 +89,29 @@ public class TypeHandler extends DefaultHandler {
             throws SAXException {
 
         try {
-            if (qName.equals(EType.Tag.TYPE.toString())) {
+            if (qName.equalsIgnoreCase(EType.Tag.TYPE.toString())) {
                 // finished parsing this type. Set it to Prototypes.
-                ProtoTypes.setType(_type);
+             //   ProtoTypes.setType(_type);
 
-            } else if (qName.equals(EType.Tag.CODES.toString())) {
+            } else if (qName.equalsIgnoreCase(EType.Tag.CODES.toString())) {
                 // convert list of codes to an array and set it to type
             	String[] codes = new String[_listOfCodes.size()];
                 _listOfCodes.toArray(codes);
                 _type.setCodes(codes);
 
-            } else if (qName.equals(EType.Tag.MODEL.toString())) {
+            } else if (qName.equalsIgnoreCase(EType.Tag.MODEL.toString())) {
                 // set edata class and stop reading whitespace
                 _type.setEDataClass(_cdata);
                 _cdata = null;
                 _readWhitespace = false;
 
-            } else if (qName.equals(EType.Tag.VIEW.toString())) {
+            } else if (qName.equalsIgnoreCase(EType.Tag.VIEW.toString())) {
                 // set epanel class and stop reading whitespace
                 _type.setEPanelClass(_cdata);
                 _cdata = null;
                 _readWhitespace = false;
 
-            } else if (qName.equals(EType.Tag.CODE.toString())) {
+            } else if (qName.equalsIgnoreCase(EType.Tag.CODE.toString())) {
                 // add code to list of codes and stop reading whitespace
                 _listOfCodes.add(Enum.valueOf(EType.Tag.class, _cdata));
                 _cdata = null;
@@ -137,4 +141,17 @@ public class TypeHandler extends DefaultHandler {
             }
         }
     }
+    
+    public static void loadTypes(){
+    	String file = EProperties.getInstance().getProperty("PROTOTYPES_FILE");
+        InputStream in = Manager.class.getClassLoader().getResourceAsStream(file);
+        TypeHandler handler = new TypeHandler();
+        try {
+            IOUtil.parse(in, handler);
+        } catch (Exception e) {
+            System.out.println("Error in initializing types"); //$NON-NLS-1$
+        }
+    }
+
+    
 }

@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 
 import eniac.data.io.ConfigIO;
 import eniac.data.model.parent.Configuration;
+import eniac.data.type.TypeHandler;
 import eniac.io.Progressor;
 import eniac.lang.DictionaryIO;
 import eniac.log.LogWindow;
@@ -167,6 +168,9 @@ public class Manager {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 
+            	// load types
+            	TypeHandler.loadTypes();
+            	
                 // load default configuration
                 ConfigIO.loadDefaultConfiguration();
 

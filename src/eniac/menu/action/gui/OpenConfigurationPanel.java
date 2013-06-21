@@ -137,7 +137,7 @@ public class OpenConfigurationPanel extends DialogPanel {
                 performOkAction();
             }
         };
-        _okAction.putValue(Action.NAME, Dictionary.OK);
+        _okAction.putValue(Action.NAME, Dictionary.OK.getText());
         getActionMap().put(_okAction.getValue(Action.NAME), _okAction);
 
         // create and add cancelAction
@@ -146,7 +146,7 @@ public class OpenConfigurationPanel extends DialogPanel {
                 performCancelAction();
             }
         };
-        _cancelAction.putValue(Action.NAME, Dictionary.CANCEL);
+        _cancelAction.putValue(Action.NAME, Dictionary.CANCEL.getText());
         getActionMap().put(_cancelAction.getValue(Action.NAME), _cancelAction);
 
         // create and add filechooserAction
@@ -157,7 +157,7 @@ public class OpenConfigurationPanel extends DialogPanel {
         };
         _fileChooserAction.putValue(Action.NAME, "..."); //$NON-NLS-1$
         _fileChooserAction.putValue(Action.SHORT_DESCRIPTION,
-                Dictionary.CHOOSE_FILE);
+                Dictionary.CHOOSE_FILE.getText());
         getActionMap().put(_fileChooserAction.getValue(Action.NAME),
                 _fileChooserAction);
 

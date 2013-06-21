@@ -46,8 +46,10 @@ public enum EType {
     CONSTANT_TRANSMITTION_CIPHER, CONSTANT_TRANSMITTION_SIGN,
     CONSTANT_TRANSMITTION_LIGHTS;
 	
+
+    
 	public enum Tag{
-		NAME, TYPE, MODEL, VIEW, CODE, CODES;
+		NAME, TYPE, MODEL, VIEW, CODE, CODES, VALUE;
 	}
 	
     private String _edataClass;
@@ -88,6 +90,7 @@ public enum EType {
 
     public void setEDataClass(String edataClass) {
         _edataClass = edataClass;
+        System.out.println(edataClass);
     }
 
     public void setEPanelClass(String epanelClass) {
