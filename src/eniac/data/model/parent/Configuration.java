@@ -37,10 +37,6 @@ public class Configuration extends ParentData {
         // empty
     }
 
-    public void init() {
-        super.init();
-    }
-
     public void dispose() {
         super.dispose();
         _idManager.dispose();

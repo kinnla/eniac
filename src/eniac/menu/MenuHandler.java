@@ -39,13 +39,14 @@ import eniac.util.EProperties;
 public class MenuHandler extends DefaultHandler {
 
 	// constant tag and attribute names for parsing the menu xml file
-	private enum Key  {
+	private enum Tag  {
 		MENU, GROUP, ACTION, NAME, MENUBAR, TOOLBAR, SEPARATOR, KEY, SID;
 	}
 
-	// constant values for parsing state
-	private static final int STATE_DEFAULT = 0, STATE_TOOLBAR = 1,
-			STATE_MENUBAR = 2;
+	// Enum representing the parsing state (FSM)
+	private enum ParsingState {
+		DEFAULT, TOOLBAR, MENUBAR;
+	}
 
 	//=============================== fields //================================
 
@@ -57,7 +58,7 @@ public class MenuHandler extends DefaultHandler {
 
 	private JMenuBar _menuBar = null;
 
-	private int _parsingState = STATE_DEFAULT;
+	private ParsingState _parsingState = ParsingState.DEFAULT;
 
 	private Hashtable<String, EAction> _actions = new Hashtable<>();
 
@@ -84,46 +85,63 @@ public class MenuHandler extends DefaultHandler {
 	public void startElement(String uri, String localName, String qName,
 			Attributes attrs) throws SAXException {
 		//System.out.println(qName);
+		
 		try {
-			if (qName.equals(Key.TOOLBAR.toString())) {
-				// create jtoolbar
+			Tag tag = Enum.valueOf(Tag.class, qName.toUpperCase());
+			
+			switch(tag) {
+				
+				case TOOLBAR:
+				// create jtoolbar and adjust parsing state
 				_toolBar = new JToolBar();
-				// adjust parsing state
-				_parsingState = STATE_TOOLBAR;
+				_parsingState = ParsingState.TOOLBAR;
+				break;
 
-			} else if (qName.equals(Key.ACTION.toString()) && _parsingState == STATE_TOOLBAR) {
-				// add action to toolbar
-				String key = XMLUtil.parseString(attrs, Key.KEY);
-				EAction action = getAction(key);
-				_toolBar.add((AbstractButton) action.getValue(EAction.Key.BUTTON.toString()));
+				case ACTION:
+					if (_parsingState == ParsingState.MENUBAR) {
 
-			} else if (qName.equals(Key.SEPARATOR.toString())
-					&& _parsingState == STATE_TOOLBAR) {
-				// add separator to toolbar
-				_toolBar.addSeparator();
+						// add action to jmenu
+						String key = XMLUtil.parseString(attrs, Tag.KEY);
+						EAction action = getAction(key);
+						_currentMenu.add((JMenuItem) action.getValue(EAction.Key.ITEM.toString()));
+					} else if (_parsingState == ParsingState.TOOLBAR) {
+						
+						// add action to toolbar
+						String key = XMLUtil.parseString(attrs, Tag.KEY);
+						EAction action = getAction(key);
+						_toolBar.add((AbstractButton) action.getValue(EAction.Key.BUTTON.toString()));
+					}
+					break;
+					
+				case SEPARATOR:
+					if (_parsingState == ParsingState.TOOLBAR) {
 
-			} else if (qName.equals(Key.MENUBAR.toString())) {
-				// create jmenubar
-				_menuBar = new JMenuBar();
-				// adjust parsing state
-				_parsingState = STATE_MENUBAR;
+						// add separator to toolbar
+						_toolBar.addSeparator();
+					} else if (_parsingState == ParsingState.MENUBAR) {
 
-			} else if (qName.equals(Key.GROUP.toString())) {
-				// create jmenu and add it to menubar
-				String sid = XMLUtil.parseString(attrs, Key.SID);
-				_currentMenu = new EMenu(sid);
-				_menuBar.add(_currentMenu);
+						// add separator to menu
+						_currentMenu.addSeparator();
+					}
+					break;
+				
+				case MENUBAR:
 
-			} else if (qName.equals(Key.ACTION.toString()) && _parsingState == STATE_MENUBAR) {
-				// add action to jmenu
-				String key = XMLUtil.parseString(attrs, Key.KEY);
-				EAction action = getAction(key);
-				_currentMenu.add((JMenuItem) action.getValue(EAction.Key.ITEM.toString()));
-
-			} else if (qName.equals(Key.SEPARATOR.toString())
-					&& _parsingState == STATE_MENUBAR) {
-				// add separator to menu
-				_currentMenu.addSeparator();
+					// create jmenubar and adjust parsing state
+					_menuBar = new JMenuBar();
+					_parsingState = ParsingState.MENUBAR;
+					break;
+				
+				case GROUP:
+					
+					// create jmenu and add it to menubar
+					String sid = XMLUtil.parseString(attrs, Tag.SID);
+					_currentMenu = new EMenu(sid);
+					_menuBar.add(_currentMenu);
+					break;
+					
+				default :
+					break;
 			}
 		} catch (Exception e) {
 			// important: catch any exception and print its tree.

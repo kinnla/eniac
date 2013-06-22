@@ -89,11 +89,11 @@ public class ActionManager extends DefaultHandler {
 			Attributes attrs) throws SAXException {
 		//System.out.println(qName);
 		try {
-			if (qName.equals(Key.ACTIONS.toString())) {
+			if (qName.equalsIgnoreCase(Key.ACTIONS.toString())) {
 				// create hashtable to store actions
 				_actionsTable = new Hashtable<>();
 
-			} else if (qName.equals(Key.ACTION.toString())) {
+			} else if (qName.equalsIgnoreCase(Key.ACTION.toString())) {
 				// parse action class and name
 				String key = XMLUtil.parseString(attrs, Key.KEY);
 				String className = XMLUtil.parseString(attrs, Key.CLASS);
@@ -104,7 +104,7 @@ public class ActionManager extends DefaultHandler {
 				// add to action hashtable
 				_actionsTable.put(key, _currentAction);
 
-			} else if (qName.equals(Key.PROPERTY.toString())) {
+			} else if (qName.equalsIgnoreCase(Key.PROPERTY.toString())) {
 				// parse property name and value
 				String name = XMLUtil.parseString(attrs, Key.NAME);
 				String value = XMLUtil.parseString(attrs, Key.VALUE);

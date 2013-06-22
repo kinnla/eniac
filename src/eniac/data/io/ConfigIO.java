@@ -144,8 +144,7 @@ public class ConfigIO {
                 .startsWith("-")) {
 
             // if no default configuration is given, let user choose one
-            OpenConfiguration oc = new OpenConfiguration();
-            oc.run();
+            (new OpenConfiguration()).run();
         } else {
 
             // otherwise load configuration as given by default index

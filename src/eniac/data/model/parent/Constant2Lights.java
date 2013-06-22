@@ -20,7 +20,6 @@ import eniac.data.model.EData;
 import eniac.data.model.sw.Switch;
 import eniac.data.model.unit.ConstantTransmitter2;
 import eniac.data.type.EType;
-import eniac.data.type.EType;
 
 /**
  * @author zoppke
@@ -29,8 +28,11 @@ public class Constant2Lights extends ParentData implements Observer {
 
     public void init() {
         super.init();
+        
+        // assert, that constant transmitter already initialized
         ConstantTransmitter2 unit = getTransmitter();
-
+        assertInit(unit);
+        
         // observe sign switchs
         unit.getGarten().getKind(EType.CONSTANT_SIGN_TOGGLE_JL, 0)
                 .addObserver(this);

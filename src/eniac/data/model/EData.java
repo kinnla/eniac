@@ -23,6 +23,7 @@ import java.util.Observer;
 
 import org.xml.sax.Attributes;
 
+import eniac.data.IDManager;
 import eniac.data.model.parent.Configuration;
 import eniac.data.model.parent.ParentData;
 import eniac.data.model.unit.Unit;
@@ -218,6 +219,14 @@ public class EData extends Observable implements Comparable<EData> {
         panel.setData(this);
         return panel;
     }
+    
+    protected void assertInit(EData data) {
+        IDManager idManager = getConfiguration().getIDManager();
+        if (!idManager.containsID(data)) {
+        	data.init();
+        }
+    }
+    
 
     //============================= observer stuff
     // =============================

@@ -16,6 +16,7 @@ package eniac.data.model.parent;
 import java.util.Observable;
 import java.util.Observer;
 
+import eniac.data.IDManager;
 import eniac.data.model.EData;
 import eniac.data.model.sw.Switch;
 import eniac.data.model.unit.ConstantTransmitter1;
@@ -31,10 +32,15 @@ public class ConstantTransmittionLights extends ParentData implements Observer {
     public void init() {
         super.init();
 
-        // add as observer to corresponding unit and to our neighbour lights
-        getUnit().addObserver(this);
-        getConfiguration().getGarten().getKind(EType.CONSTANT_2_LIGHTS, 0)
-                .addObserver(this);
+        // observe the constant transmitter unit
+        EData data = getUnit();
+        assertInit(data);
+        data.addObserver(this);
+        
+        // observe the constant lights
+        data = getConfiguration().getGarten().getKind(EType.CONSTANT_2_LIGHTS, 0);
+        assertInit(data);
+        data.addObserver(this);
     }
 
     public boolean hasPower() {

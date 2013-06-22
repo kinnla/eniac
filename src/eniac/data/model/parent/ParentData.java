@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observer;
 
+import eniac.data.IDManager;
 import eniac.data.KinderGarten;
 import eniac.data.model.EData;
 import eniac.data.model.unit.Unit;
@@ -86,13 +87,14 @@ public class ParentData extends EData {
 
     public KinderGarten getGarten() {
         if (_garten == null) {
-            // convert list to garten
+
+        	// convert list to garten
             _garten = new KinderGarten(_childList);
             _childList = null;
-            // recursively call children's init
-            EData[] children = _garten.getAllKinder();
-            for (int i = 0; i < children.length; ++i) {
-                children[i].init();
+
+            // recurse on children and init
+            for (EData child : _garten.getAllKinder()) {
+            	assertInit(child);
             }
         }
         return _garten;

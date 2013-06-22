@@ -19,11 +19,11 @@ package eniac.data.model.unit;
 import java.util.Observable;
 import java.util.Observer;
 
+import eniac.data.model.CyclingLights;
 import eniac.data.model.EData;
 import eniac.data.model.Slider;
 import eniac.data.model.parent.CycleCounter;
 import eniac.data.model.sw.Switch;
-import eniac.data.type.EType;
 import eniac.data.type.EType;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
@@ -61,9 +61,10 @@ public class Cycling extends Unit implements Observer, EEventListener {
         getGarten().getKind(EType.ITERATION_SWITCH, 0).addObserver(this);
         getGarten().getKind(EType.FREQUENCY_SLIDER, 0).addObserver(this);
 
-        // add this as eevent listener to eevent manager
-        getConfiguration().getCyclingLights().addEEventListener(this,
-                EEvent.GENERATE_NEW);
+        // add this as eevent listener cycling lights
+        CyclingLights cyclingLights = getConfiguration().getCyclingLights();
+        assertInit(cyclingLights);
+		cyclingLights.addEEventListener(this, EEvent.GENERATE_NEW);
 
         // init simulator's wanted frequency, power and simulator's stoptime
         updateFrequency();

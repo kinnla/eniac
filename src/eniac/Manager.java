@@ -60,6 +60,7 @@ public class Manager {
      * ========================= applet lifecycle states =======================
      */
 
+	
     /**
      * Default lifecycle state on startup
      */
