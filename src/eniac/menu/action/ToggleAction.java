@@ -36,7 +36,7 @@ public class ToggleAction extends EAction {
 	public void init() {
 
         // create buttonModel and init selection state
-		Status key = (Status) getValue(Key.STATUS_PROPERTY.toString());
+		Status key = (Status) getValue(STATUS_PROPERTY);
         ButtonModel model = new JToggleButton.ToggleButtonModel();
         model.setSelected((Boolean)StatusMap.get(key));
 
@@ -50,9 +50,9 @@ public class ToggleAction extends EAction {
         item.setModel(model);
 
 		// store objects
-        putValue(Key.BUTTON.toString(), button);
-        putValue(Key.MODEL.toString(), model);
-        putValue(Key.ITEM.toString(), item);
+        putValue(BUTTON, button);
+        putValue(MODEL, model);
+        putValue(ITEM, item);
 
         // add listener for status of boolean property bound to this action
         StatusMap.getInstance().addListener(key, new StatusListener() {
@@ -60,7 +60,7 @@ public class ToggleAction extends EAction {
 			@Override
 			public void statusChanged(Status status, Object newValue) {
 	            // value was toggeled by another party. update selection
-				((ToggleButtonModel) getValue(Key.MODEL.toString())).setSelected((boolean) newValue);
+				((ToggleButtonModel) getValue(MODEL)).setSelected((boolean) newValue);
 			}
 		});
         
@@ -85,7 +85,7 @@ public class ToggleAction extends EAction {
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     public void actionPerformed(ActionEvent e) {
-    		Status key = (Status) getValue(Key.STATUS_PROPERTY.toString());
-        StatusMap.set(key, ((ToggleButtonModel) getValue(Key.MODEL.toString())).isSelected());
+    		Status key = (Status) getValue(STATUS_PROPERTY);
+        StatusMap.set(key, ((ToggleButtonModel) getValue(MODEL)).isSelected());
     }
 }

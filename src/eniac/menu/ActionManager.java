@@ -46,7 +46,7 @@ import eniac.window.EFrame;
 public class ActionManager extends DefaultHandler {
 
 	// constant tag and attribute names for parsing the menu xml file
-	private enum Key {
+	private enum Tag {
 		PROPERTY, CLASS, ACTION, ACTIONS, NAME, VALUE, KEY;
 	}
 
@@ -89,25 +89,25 @@ public class ActionManager extends DefaultHandler {
 			Attributes attrs) throws SAXException {
 		//System.out.println(qName);
 		try {
-			if (qName.equalsIgnoreCase(Key.ACTIONS.toString())) {
+			if (qName.equalsIgnoreCase(Tag.ACTIONS.toString())) {
 				// create hashtable to store actions
 				_actionsTable = new Hashtable<>();
 
-			} else if (qName.equalsIgnoreCase(Key.ACTION.toString())) {
+			} else if (qName.equalsIgnoreCase(Tag.ACTION.toString())) {
 				// parse action class and name
-				String key = XMLUtil.parseString(attrs, Key.KEY);
-				String className = XMLUtil.parseString(attrs, Key.CLASS);
+				String key = XMLUtil.parseString(attrs, Tag.KEY);
+				String className = XMLUtil.parseString(attrs, Tag.CLASS);
 				// create action and put its key as property
 				_currentAction = (EAction) Class.forName(className)
 						.newInstance();
-				_currentAction.putValue(EAction.Key.KEY.toString(), key);
+				_currentAction.putValue(EAction.KEY, key);
 				// add to action hashtable
 				_actionsTable.put(key, _currentAction);
 
-			} else if (qName.equalsIgnoreCase(Key.PROPERTY.toString())) {
+			} else if (qName.equalsIgnoreCase(Tag.PROPERTY.toString())) {
 				// parse property name and value
-				String name = XMLUtil.parseString(attrs, Key.NAME);
-				String value = XMLUtil.parseString(attrs, Key.VALUE);
+				String name = XMLUtil.parseString(attrs, Tag.NAME);
+				String value = XMLUtil.parseString(attrs, Tag.VALUE);
 				// set property at current action
 				Object convertedValue = convertProperty(name, value);
 				_currentAction.putValue(name, convertedValue);

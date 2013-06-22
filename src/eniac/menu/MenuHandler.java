@@ -103,13 +103,13 @@ public class MenuHandler extends DefaultHandler {
 						// add action to jmenu
 						String key = XMLUtil.parseString(attrs, Tag.KEY);
 						EAction action = getAction(key);
-						_currentMenu.add((JMenuItem) action.getValue(EAction.Key.ITEM.toString()));
+						_currentMenu.add((JMenuItem) action.getValue(EAction.ITEM));
 					} else if (_parsingState == ParsingState.TOOLBAR) {
 						
 						// add action to toolbar
 						String key = XMLUtil.parseString(attrs, Tag.KEY);
 						EAction action = getAction(key);
-						_toolBar.add((AbstractButton) action.getValue(EAction.Key.BUTTON.toString()));
+						_toolBar.add((AbstractButton) action.getValue(EAction.BUTTON));
 					}
 					break;
 					

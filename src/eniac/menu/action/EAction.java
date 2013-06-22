@@ -37,44 +37,44 @@ public abstract class EAction extends AbstractAction {
 	 * ======================== keys to store objects =====================
 	 */
 
-	public enum Key {
+	public static final String
 
 		/**
 		 * unique key identifying this action
 		 */
-		KEY,
+		KEY = "key",
 
 		/**
 		 * the button produced from this action.
 		 */
-		BUTTON,
+		BUTTON = "button",
 
 		/**
 		 * The menu item
 		 */
-		ITEM,
+		ITEM = "item",
 
 		/**
 		 * The model for the button and the menu item
 		 */
-		MODEL,
+		MODEL = "model",
 
 		/**
 		 * The SID for the name
 		 */
-		SID_NAME,
+		SID_NAME = "SID_Name",
 
 		/**
 		 * The SID for the short description
 		 */
-		SID_SHORT_DESCRIPTION,
+		SID_SHORT_DESCRIPTION = "SID_ShortDescription",
 
 		/**
 		 * in case the action modifies a property registered at the StatusMap,
 		 * this is the properties name
 		 */
-		STATUS_PROPERTY;
-	}
+		STATUS_PROPERTY = "status_property";
+	
 
 	//=============================== lifecycle //=============================
 
@@ -87,9 +87,9 @@ public abstract class EAction extends AbstractAction {
 		button.setText(null);
 
 		// store objects
-		putValue(Key.BUTTON.toString(), button);
-		putValue(Key.MODEL.toString(), model);
-		putValue(Key.ITEM.toString(), new JMenuItem(this));
+		putValue(BUTTON, button);
+		putValue(MODEL, model);
+		putValue(ITEM, new JMenuItem(this));
 
 		// add listener and init text
         StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
@@ -108,15 +108,15 @@ public abstract class EAction extends AbstractAction {
     protected void updateText() {
 
         // get values from dictionary and put them
-    	String sid = (String)getValue(Key.SID_NAME.toString());
+    	String sid = (String)getValue(SID_NAME);
     	Dictionary key = Enum.valueOf(Dictionary.class, sid);
         putValue(Action.NAME, key.getText());
         
-        sid =(String)getValue(Key.SID_SHORT_DESCRIPTION.toString());
+        sid =(String)getValue(SID_SHORT_DESCRIPTION);
         key = Enum.valueOf(Dictionary.class, sid);
         putValue(Action.SHORT_DESCRIPTION, key.getText());
 
         // hide text
-        ((AbstractButton)getValue(Key.BUTTON.toString())).setText(null);
+        ((AbstractButton)getValue(BUTTON)).setText(null);
     }
 }
