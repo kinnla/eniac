@@ -37,6 +37,7 @@ import eniac.log.LogWords;
 import eniac.menu.action.EAction;
 import eniac.skin.Skin;
 import eniac.util.EProperties;
+import eniac.util.Status;
 import eniac.util.StringConverter;
 import eniac.window.EFrame;
 
@@ -150,6 +151,13 @@ public class ActionManager extends DefaultHandler {
 
 	        // return icon
 	        return new ImageIcon(img);
+		} else if(name.equals(EAction.STATUS_PROPERTY)) {
+			try {
+				return Enum.valueOf(Status.class, value);
+			}catch (IllegalArgumentException exc) {
+				System.out.println("unknown status property: "+value);
+				return null; //TODO: this will cause a nullpointer exception later. any better handling?
+			}
 		}
 		// property doesn't need to be converted
 		return value;

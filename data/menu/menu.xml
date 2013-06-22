@@ -37,26 +37,26 @@
 	
 	<!-- the menubar -->
 	<menubar>
-		<group sid="file">
+		<group sid="FILE">
 			<action key="open_configuration"/>
 			<action key="save_configuration"/>
 		</group>
-		<group sid="window">
+		<group sid="WINDOW">
 			<action key="show_log"/>
 			<action key="show_overview"/>
 		</group>
-		<group sid="view">
+		<group sid="VIEW">
 			<action key="change_language"/>
 		<!-- disabled, as XOR Mode painting not supported in JDK 1.7 -->
 		<!-- action key="highlight_pulse"/> -->
 		</group>
-		<group sid="zoom">
+		<group sid="ZOOM">
 			<action key="zoom_in"/>
 			<action key="zoom_out"/>
 			<action key="fit_height"/>
 			<action key="fit_width"/>
 		</group>
-		<group sid="help">
+		<group sid="HELP">
 			<action key="about"/>
 			<action key="faq"/>
 			<action key="settings"/>

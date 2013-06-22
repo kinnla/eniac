@@ -13,25 +13,25 @@
 <actions number_of_actions="14">
 	<action key="open_configuration" class="eniac.menu.action.OpenConfiguration">
 		<property name="SmallIcon" value="menu/open_configuration.gif"/>
-		<property name="SID_Name" value="open_configuration_name"/>
-		<property name="SID_ShortDescription" value="open_configuration_short"/>
+		<property name="SID_Name" value="OPEN_CONFIGURATION_NAME"/>
+		<property name="SID_ShortDescription" value="OPEN_CONFIGURATION_SHORT"/>
 	</action>
 	<action key="save_configuration" class="eniac.menu.action.SaveConfiguration">
 		<property name="SmallIcon" value="menu/save_configuration.gif"/>
-		<property name="SID_Name" value="save_configuration_name"/>
-		<property name="SID_ShortDescription" value="save_configuration_short"/>
+		<property name="SID_Name" value="SAVE_CONFIGURATION_NAME"/>
+		<property name="SID_ShortDescription" value="SAVE_CONFIGURATION_SHORT"/>
 	</action>
 	<action key="show_log" class="eniac.menu.action.ToggleAction">
 		<property name="SmallIcon" value="menu/show_log.gif"/>
-		<property name="SID_Name" value="show_log_name"/>
-		<property name="SID_ShortDescription" value="show_log_short"/>
-		<property name="status_property" value="show_log"/>
+		<property name="SID_Name" value="SHOW_LOG_NAME"/>
+		<property name="SID_ShortDescription" value="SHOW_LOG_SHORT"/>
+		<property name="status_property" value="SHOW_LOG"/>
 	</action>
 	<action key="show_overview" class="eniac.menu.action.ToggleAction">
 		<property name="SmallIcon" value="menu/show_overview.gif"/>
-		<property name="SID_Name" value="show_overview_name"/>
-		<property name="SID_ShortDescription" value="show_overview_short"/>
-		<property name="status_property" value="show_overview"/>
+		<property name="SID_Name" value="SHOW_OVERVIEW_NAME"/>
+		<property name="SID_ShortDescription" value="SHOW_OVERVIEW_SHORT"/>
+		<property name="status_property" value="SHOW_OVERVIEW"/>
 	</action>
 	<!--we just have one skin for now, so don't offer to change if cannot-->
 	<!--action key="open_skin" class="eniac.menu.action.OpenSkin">
@@ -41,48 +41,48 @@
 	</action-->
 	<action key="change_language" class="eniac.menu.action.ChangeLanguage">
 		<property name="SmallIcon" value="menu/change_language.gif"/>
-		<property name="SID_Name" value="change_language_name"/>
-		<property name="SID_ShortDescription" value="change_language_short"/>
+		<property name="SID_Name" value="CHANGE_LANGUAGE_NAME"/>
+		<property name="SID_ShortDescription" value="CHANGE_LANGUAGE_SHORT"/>
 	</action>
 	<action key="highlight_pulse" class="eniac.menu.action.ToggleAction">
 		<property name="SmallIcon" value="menu/highlight_pulse.gif"/>
-		<property name="SID_Name" value="highlight_pulse_name"/>
-		<property name="SID_ShortDescription" value="highlight_pulse_short"/>
-		<property name="status_property" value="highlight_pulse"/>
+		<property name="SID_Name" value="HIGHLIGHT_PULSE_NAME"/>
+		<property name="SID_ShortDescription" value="HIGHLIGHT_PULSE_SHORT"/>
+		<property name="status_property" value="HIGHLIGHT_PULSE"/>
 	</action>
 	<action key="zoom_in" class="eniac.menu.action.ZoomIn">
 		<property name="SmallIcon" value="menu/zoom_in.gif"/>
-		<property name="SID_Name" value="zoom_in_name"/>
-		<property name="SID_ShortDescription" value="zoom_in_short"/>
+		<property name="SID_Name" value="ZOOM_IN_NAME"/>
+		<property name="SID_ShortDescription" value="ZOOM_IN_SHORT"/>
 	</action>
 	<action key="zoom_out" class="eniac.menu.action.ZoomOut">
 		<property name="SmallIcon" value="menu/zoom_out.gif"/>
-		<property name="SID_Name" value="zoom_out_name"/>
-		<property name="SID_ShortDescription" value="zoom_out_short"/>
+		<property name="SID_Name" value="ZOOM_OUT_NAME"/>
+		<property name="SID_ShortDescription" value="ZOOM_OUT_SHORT"/>
 	</action>
 	<action key="fit_height" class="eniac.menu.action.ZoomFitHeight">
 		<property name="SmallIcon" value="menu/zoom_fit_height.gif"/>
-		<property name="SID_Name" value="fit_height_name"/>
-		<property name="SID_ShortDescription" value="fit_height_short"/>
+		<property name="SID_Name" value="ZOOM_FIT_HEIGHT_NAME"/>
+		<property name="SID_ShortDescription" value="ZOOM_FIT_HEIGHT_SHORT"/>
 	</action>
 	<action key="fit_width" class="eniac.menu.action.ZoomFitWidth">
 		<property name="SmallIcon" value="menu/zoom_fit_width.gif"/>
-		<property name="SID_Name" value="fit_width_name"/>
-		<property name="SID_ShortDescription" value="fit_width_short"/>
+		<property name="SID_Name" value="ZOOM_FIT_WIDTH_NAME"/>
+		<property name="SID_ShortDescription" value="ZOOM_FIT_WIDTH_SHORT"/>
 	</action>
 	<action key="about" class="eniac.menu.action.About">
 		<property name="SmallIcon" value="menu/about.gif"/>
-		<property name="SID_Name" value="about_name"/>
-		<property name="SID_ShortDescription" value="about_short"/>
+		<property name="SID_Name" value="ABOUT_NAME"/>
+		<property name="SID_ShortDescription" value="ABOUT_SHORT"/>
 	</action>
 	<action key="faq" class="eniac.menu.action.Faq">
 		<property name="SmallIcon" value="menu/faq.gif"/>
-		<property name="SID_Name" value="faq_name"/>
-		<property name="SID_ShortDescription" value="faq_short"/>
+		<property name="SID_Name" value="FAQ_NAME"/>
+		<property name="SID_ShortDescription" value="FAQ_SHORT"/>
 	</action>
 	<action key="settings" class="eniac.menu.action.SettingsAction">
 		<property name="SmallIcon" value="menu/settings.gif"/>
-		<property name="SID_Name" value="settings_name"/>
-		<property name="SID_ShortDescription" value="settings_short"/>
+		<property name="SID_Name" value="SETTINGS_NAME"/>
+		<property name="SID_ShortDescription" value="SETTINGS_SHORT"/>
 	</action>
 </actions>

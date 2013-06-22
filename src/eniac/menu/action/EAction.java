@@ -107,14 +107,22 @@ public abstract class EAction extends AbstractAction {
 
     protected void updateText() {
 
-        // get values from dictionary and put them
-    	String sid = (String)getValue(SID_NAME);
-    	Dictionary key = Enum.valueOf(Dictionary.class, sid);
-        putValue(Action.NAME, key.getText());
-        
-        sid =(String)getValue(SID_SHORT_DESCRIPTION);
-        key = Enum.valueOf(Dictionary.class, sid);
-        putValue(Action.SHORT_DESCRIPTION, key.getText());
+		// get values from dictionary and put them
+		String sid = (String) getValue(SID_NAME);
+		try {
+			sid = Enum.valueOf(Dictionary.class, sid).getText();
+		} catch (IllegalArgumentException exc) {
+			System.out.println("missing SID: " + sid);
+		}
+		putValue(Action.NAME, sid);
+
+		sid = (String) getValue(SID_SHORT_DESCRIPTION);
+		try {
+			sid = Enum.valueOf(Dictionary.class, sid).getText();
+		} catch (IllegalArgumentException exc) {
+			System.out.println("missing SID: " + sid);
+		}
+		putValue(Action.SHORT_DESCRIPTION, sid);
 
         // hide text
         ((AbstractButton)getValue(BUTTON)).setText(null);

@@ -77,8 +77,7 @@ public class DictionaryHandler extends DefaultHandler {
 
 				// trim data from whitespace and add to language
 				try {
-					Dictionary dic = Enum.valueOf(Dictionary.class, _key.toUpperCase());
-					dic.setText(_cdata.trim());
+					(Enum.valueOf(Dictionary.class, _key)).setText(_cdata.trim());
 				} catch (IllegalArgumentException exc) {
 					System.out.println("Ignoring unknown dictionary key: " + _key);
 				}
