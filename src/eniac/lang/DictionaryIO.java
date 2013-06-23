@@ -26,7 +26,6 @@ import eniac.io.Proxy;
 import eniac.log.Log;
 import eniac.util.EProperties;
 import eniac.util.Status;
-import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
 /**
@@ -59,7 +58,7 @@ public class DictionaryIO {
 			IOUtil.parse(in, handler);
 
 			// set new language
-			StatusMap.set(Status.LANGUAGE, proxy.get(Dictionary.Tag.KEY));
+			Status.LANGUAGE.setValue(proxy.get(Dictionary.Tag.KEY));
 		} catch (IOException e) {
 			Log.log("Loading of language failed. Cannot change to new language", //$NON-NLS-1$
 					JOptionPane.ERROR_MESSAGE, true);

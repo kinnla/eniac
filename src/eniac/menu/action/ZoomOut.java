@@ -19,7 +19,6 @@ import java.util.Arrays;
 import eniac.skin.Skin;
 import eniac.util.Status;
 import eniac.util.StatusListener;
-import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -27,7 +26,7 @@ import eniac.util.StatusMap;
 public class ZoomOut extends EAction {
 
 	public ZoomOut() {
-		StatusMap.getInstance().addListener(Status.ZOOMED_HEIGHT, new StatusListener() {
+		Status.ZOOMED_HEIGHT.addListener(new StatusListener() {
 
 			@Override
 			public void statusChanged(Status status, Object newValue) {
@@ -39,8 +38,8 @@ public class ZoomOut extends EAction {
 	int getNewHeight() {
 
 		// get current height and zoomSteps
-		int height = StatusMap.getInt(Status.ZOOMED_HEIGHT);
-		Skin skin = (Skin) StatusMap.get(Status.SKIN);
+		int height = (int) Status.ZOOMED_HEIGHT.getValue();
+		Skin skin = (Skin) Status.SKIN.getValue();
 		int[] steps = skin.getZoomSteps();
 
 		// search index of current height in zoomSteps
@@ -54,6 +53,6 @@ public class ZoomOut extends EAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		StatusMap.set(Status.ZOOMED_HEIGHT, getNewHeight());
+		Status.ZOOMED_HEIGHT.setValue(getNewHeight());
 	}
 }

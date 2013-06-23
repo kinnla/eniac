@@ -35,7 +35,6 @@ import eniac.menu.action.gui.SaveConfigurationPanel;
 import eniac.util.EProperties;
 import eniac.util.Status;
 import eniac.util.StatusListener;
-import eniac.util.StatusMap;
 import eniac.window.EFrame;
 
 /**
@@ -49,7 +48,7 @@ public class SaveConfiguration extends EAction implements Runnable {
 	@Override
 	public void init() {
 		super.init();
-		StatusMap.getInstance().addListener(Status.CONFIGURATION, new StatusListener() {
+		Status.CONFIGURATION.addListener(new StatusListener() {
 
 			@Override
 			public void statusChanged(Status status, Object newValue) {
@@ -119,7 +118,7 @@ public class SaveConfiguration extends EAction implements Runnable {
 
 			// try to write to the file specified by filechooser
 			try {
-				Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+				Configuration config = (Configuration) Status.CONFIGURATION.getValue();
 				ConfigIO.write(chooser.getSelectedFile(), config, proxy);
 			} catch (IOException exc) {
 				exc.printStackTrace();

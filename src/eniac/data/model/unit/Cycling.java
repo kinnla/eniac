@@ -29,7 +29,6 @@ import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 import eniac.simulation.Frequency;
 import eniac.util.Status;
-import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -100,7 +99,7 @@ public class Cycling extends Unit implements Observer, EEventListener {
 				stopTime = Long.MAX_VALUE;
 			}
 			else {
-				stopTime = StatusMap.getLong(Status.SIMULATION_TIME);
+				stopTime = (long) Status.SIMULATION_TIME.getValue();
 			}
 			getConfiguration().getCyclingLights().setStopTime(stopTime);
 		}

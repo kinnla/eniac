@@ -26,7 +26,6 @@ import javax.swing.JMenuItem;
 import eniac.lang.Dictionary;
 import eniac.util.Status;
 import eniac.util.StatusListener;
-import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -91,7 +90,7 @@ public abstract class EAction extends AbstractAction {
 		putValue(ITEM, new JMenuItem(this));
 
 		// add listener and init text
-		StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
+		Status.LANGUAGE.addListener(new StatusListener() {
 
 			@Override
 			public void statusChanged(Status status, Object newValue) {

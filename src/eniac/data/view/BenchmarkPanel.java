@@ -22,7 +22,6 @@ import eniac.data.model.Benchmark;
 import eniac.data.type.ParentGrid;
 import eniac.simulation.Frequency;
 import eniac.skin.Descriptor;
-import eniac.skin.Skin;
 
 /**
  * @author zoppke

@@ -22,7 +22,6 @@ import javax.swing.JToggleButton.ToggleButtonModel;
 
 import eniac.util.Status;
 import eniac.util.StatusListener;
-import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -38,7 +37,7 @@ public class ToggleAction extends EAction {
 		// create buttonModel and init selection state
 		Status key = (Status) getValue(STATUS_PROPERTY);
 		ButtonModel model = new JToggleButton.ToggleButtonModel();
-		model.setSelected((Boolean) StatusMap.get(key));
+		model.setSelected((boolean) key.getValue());
 
 		// create button
 		JToggleButton button = new JToggleButton(this);
@@ -55,7 +54,7 @@ public class ToggleAction extends EAction {
 		putValue(ITEM, item);
 
 		// add listener for status of boolean property bound to this action
-		StatusMap.getInstance().addListener(key, new StatusListener() {
+		key.addListener(new StatusListener() {
 
 			@Override
 			public void statusChanged(Status status, Object newValue) {
@@ -65,7 +64,7 @@ public class ToggleAction extends EAction {
 		});
 
 		// add listener and init text
-		StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
+		Status.LANGUAGE.addListener(new StatusListener() {
 
 			@Override
 			public void statusChanged(Status status, Object newValue) {
@@ -86,6 +85,6 @@ public class ToggleAction extends EAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		Status key = (Status) getValue(STATUS_PROPERTY);
-		StatusMap.set(key, ((ToggleButtonModel) getValue(MODEL)).isSelected());
+		key.setValue(((ToggleButtonModel) getValue(MODEL)).isSelected());
 	}
 }

@@ -26,7 +26,6 @@ import eniac.data.control.Controler;
 import eniac.data.model.Connector;
 import eniac.skin.Descriptor;
 import eniac.util.Status;
-import eniac.util.StatusMap;
 import eniac.window.EFrame;
 
 /**
@@ -91,8 +90,8 @@ public class ConnectorPanel extends EPanel {
 
 		// init helper variables
 		long lastPulse = con.getLastPulse();
-		long simTime = StatusMap.getLong(Status.SIMULATION_TIME);
-		boolean highlightPulse = (Boolean) StatusMap.get(Status.HIGHLIGHT_PULSE);
+		long simTime = (long) Status.SIMULATION_TIME.getValue();
+		boolean highlightPulse = (Boolean) Status.HIGHLIGHT_PULSE.getValue();
 
 		// if highlight and we have a current pulse, mark connector
 		if (highlightPulse && lastPulse == simTime) {

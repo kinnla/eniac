@@ -15,7 +15,6 @@ import javax.swing.JMenu;
 import eniac.lang.Dictionary;
 import eniac.util.Status;
 import eniac.util.StatusListener;
-import eniac.util.StatusMap;
 
 public class EMenu extends JMenu implements StatusListener {
 
@@ -23,7 +22,7 @@ public class EMenu extends JMenu implements StatusListener {
 
 	public EMenu(String sid) {
 		_sid = Enum.valueOf(Dictionary.class, sid);
-		StatusMap.getInstance().addListener(Status.LANGUAGE, this);
+		Status.LANGUAGE.addListener(this);
 		setText(_sid.getText());
 	}
 

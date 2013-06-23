@@ -38,7 +38,6 @@ import eniac.log.LogWords;
 import eniac.menu.action.OpenConfiguration;
 import eniac.util.EProperties;
 import eniac.util.Status;
-import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 import eniac.window.EFrame;
 
@@ -170,8 +169,8 @@ public class ConfigIO {
 
 		// dispose old configuration object, if there is any
 		// EFrame.getInstance().disposeConfigPanel();
-		Object oldConfig = StatusMap.get(Status.CONFIGURATION);
-		StatusMap.set(Status.CONFIGURATION, null);
+		Object oldConfig = Status.CONFIGURATION.getValue();
+		Status.CONFIGURATION.setValue(null);
 		if (oldConfig != null) {
 			((Configuration) oldConfig).dispose();
 		}
@@ -186,7 +185,7 @@ public class ConfigIO {
 		}
 
 		// set new configuration Object as current Configuration
-		StatusMap.set(Status.CONFIGURATION, newConfig);
+		Status.CONFIGURATION.setValue(newConfig);
 	}
 
 	// loads a configuration from the given inputStream.

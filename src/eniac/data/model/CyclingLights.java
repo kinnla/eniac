@@ -28,7 +28,6 @@ import eniac.simulation.EEventListener;
 import eniac.simulation.EventQueue;
 import eniac.simulation.Frequency;
 import eniac.util.Status;
-import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -161,7 +160,7 @@ public class CyclingLights extends EData implements Runnable, EEventListener, Li
 		EEvent ev = _queue.removeFirst();
 
 		// update time
-		StatusMap.set(Status.SIMULATION_TIME, ev.time);
+		Status.SIMULATION_TIME.setValue(ev.time);
 
 		// process event
 		// check, if we have a listener specified
@@ -338,7 +337,7 @@ public class CyclingLights extends EData implements Runnable, EEventListener, Li
 		// TODO: this is a hack, because there was a NuPoExc when changing
 		// configuration. Find a proper way to init and dispose.
 		if (Manager.getInstance().getLifecycleState() == Manager.STATE_RUNNING) {
-			StatusMap.set(Status.SIMULATION_TIME, 0L);
+			Status.SIMULATION_TIME.setValue(0L);
 		}
 		notifyAll();
 	}

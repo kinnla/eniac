@@ -39,7 +39,6 @@ import javax.swing.event.ListSelectionListener;
 import eniac.io.Proxy;
 import eniac.lang.Dictionary;
 import eniac.util.Status;
-import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -170,7 +169,7 @@ public class ChangeLanguagePanel extends DialogPanel {
 		super.setWindow(window);
 
 		// preselect current language.
-		String key = (String) StatusMap.get(Status.LANGUAGE);
+		String key = (String) Status.LANGUAGE.getValue();
 		int i = -1;
 		for (Proxy p : _proxies) {
 			++i;

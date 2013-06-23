@@ -28,7 +28,6 @@ import eniac.lang.Dictionary;
 import eniac.util.EProperties;
 import eniac.util.Status;
 import eniac.util.StatusListener;
-import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
 /**
@@ -70,7 +69,7 @@ public class OVWindow extends JDialog implements LifecycleListener {
 		configPanelChanged();
 
 		// register as propertyChangeListener
-		StatusMap.getInstance().addListener(Status.SHOW_OVERVIEW, new StatusListener() {
+		Status.SHOW_OVERVIEW.addListener(new StatusListener() {
 
 			@Override
 			public void statusChanged(Status status, Object newValue) {
@@ -79,7 +78,7 @@ public class OVWindow extends JDialog implements LifecycleListener {
 			}
 		});
 
-		StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
+		Status.LANGUAGE.addListener(new StatusListener() {
 
 			@Override
 			public void statusChanged(Status status, Object newValue) {
@@ -91,14 +90,14 @@ public class OVWindow extends JDialog implements LifecycleListener {
 		// add WindowListener
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				StatusMap.set(Status.SHOW_OVERVIEW, false);
+				Status.SHOW_OVERVIEW.setValue(false);
 			}
 		});
 
 		// to the screen
 		pack();
 		setLocation(StringConverter.toPoint(EProperties.getInstance().getProperty("OVERVIEW_WINDOW_LOCATION")));
-		setVisible((Boolean) StatusMap.get(Status.SHOW_OVERVIEW));
+		setVisible((boolean) Status.SHOW_OVERVIEW.getValue());
 	}
 
 	public void dispose() {

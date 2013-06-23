@@ -16,7 +16,6 @@ package eniac.data.model.parent;
 import java.util.Observable;
 import java.util.Observer;
 
-import eniac.data.IDManager;
 import eniac.data.model.EData;
 import eniac.data.model.sw.Switch;
 import eniac.data.model.unit.ConstantTransmitter1;

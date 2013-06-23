@@ -24,7 +24,6 @@ import eniac.data.model.parent.Configuration;
 import eniac.data.model.sw.Switch;
 import eniac.data.model.sw.SwitchAndFlag;
 import eniac.data.type.EType;
-import eniac.data.type.EType;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 

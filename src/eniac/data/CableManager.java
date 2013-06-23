@@ -32,7 +32,6 @@ import eniac.data.view.ConnectorPanel;
 import eniac.data.view.EPanel;
 import eniac.data.view.parent.ConfigPanel;
 import eniac.util.Status;
-import eniac.util.StatusMap;
 import eniac.window.EFrame;
 import eniac.window.OVWindow;
 
@@ -88,7 +87,7 @@ public class CableManager implements Observer, Controler {
 	public void paintOnBufferedImage(Graphics g, int lod) {
 		// paint cables
 		int ovHeight = OVWindow.getInstance().getOVPanel().getHeight();
-		int configHeight = StatusMap.getInt(Status.ZOOMED_HEIGHT);
+		int configHeight = (int) Status.ZOOMED_HEIGHT.getValue();
 		float zoom = (float) ovHeight / (float) configHeight;
 		for (Cable cable : _cables) {
 			cable.paintOnBufferedImage(g, zoom, lod);

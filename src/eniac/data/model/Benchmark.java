@@ -23,11 +23,9 @@ import org.xml.sax.Attributes;
 
 import eniac.Manager;
 import eniac.data.model.unit.Unit;
-import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.simulation.Frequency;
 import eniac.util.Status;
-import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -105,7 +103,7 @@ public class Benchmark extends EData implements Observer {
 	void updateFrequencies() {
 
 		// init variables
-		long simTime = StatusMap.getLong(Status.SIMULATION_TIME);
+		long simTime = (long) Status.SIMULATION_TIME.getValue();
 		long realTime = System.currentTimeMillis();
 		long simTimeDiff = simTime - _lastSimTime;
 		long realTimeDiff = realTime - _lastRealTime;

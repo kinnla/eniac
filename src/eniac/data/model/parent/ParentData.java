@@ -20,7 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observer;
 
-import eniac.data.IDManager;
 import eniac.data.KinderGarten;
 import eniac.data.model.EData;
 import eniac.data.model.unit.Unit;

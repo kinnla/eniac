@@ -16,8 +16,6 @@
  */
 package eniac.data.model;
 
-import java.util.EnumSet;
-
 import org.xml.sax.Attributes;
 
 import eniac.data.PulseInteractor;
@@ -27,7 +25,6 @@ import eniac.io.XMLUtil;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 import eniac.util.Status;
-import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -41,7 +38,8 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
 	public static final String CABLE_TRANSMITTION = "cable_transmittion"; //$NON-NLS-1$
 
 	// static keys for pulse direction
-	private static final EnumSet<Tag> DIRECTION = EnumSet.of(Tag.IN, Tag.OUT, Tag.BOTH);
+	// private static final EnumSet<Tag> DIRECTION = EnumSet.of(Tag.IN, Tag.OUT,
+// Tag.BOTH);
 
 	// pulse direction of this connector
 	private Tag _direction;
@@ -135,7 +133,7 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
 			_lastPulse = time;
 
 			// if we are hightlighting, call for repaint
-			if ((Boolean) StatusMap.get(Status.HIGHLIGHT_PULSE)) {
+			if ((boolean) Status.HIGHLIGHT_PULSE.getValue()) {
 				setChanged();
 				notifyObservers(EData.PAINT_IMMEDIATELY);
 			}
@@ -144,7 +142,7 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
 			// note: maybe the highlightning-flag is not set now.
 			// But if we are in stepping mode it might switched on before our
 			// call-back occures. So we have to set alarm in any case.
-			Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+			Configuration config = (Configuration) Status.CONFIGURATION.getValue();
 			config.getCyclingLights().setAlarmClock(time, this);
 		}
 	}
@@ -314,7 +312,7 @@ public class Connector extends EData implements PulseInteractor, EEventListener 
 	 * @see eniac.simulation.EEventListener#process(eniac.simulation.EEvent)
 	 */
 	public void process(EEvent e) {
-		if (e.type == EEvent.ALARM && (Boolean) StatusMap.get(Status.HIGHLIGHT_PULSE)) {
+		if (e.type == EEvent.ALARM && (boolean) Status.HIGHLIGHT_PULSE.getValue()) {
 
 			// we are called for downlightning
 			setChanged();

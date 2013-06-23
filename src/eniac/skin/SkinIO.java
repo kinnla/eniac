@@ -30,7 +30,6 @@ import eniac.log.Log;
 import eniac.log.LogWords;
 import eniac.util.EProperties;
 import eniac.util.Status;
-import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
 /**
@@ -71,7 +70,7 @@ public final class SkinIO {
 				handler.setDescriptorsToType(type);
 			}
 			// set new skin
-			StatusMap.set(Status.SKIN, skin);
+			Status.SKIN.setValue(skin);
 		} catch (IOException e) {
 			Log.log(LogWords.LOADING_OF_SKIN_FAILED, JOptionPane.ERROR_MESSAGE, true);
 			e.printStackTrace();

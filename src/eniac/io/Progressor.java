@@ -33,7 +33,6 @@ import eniac.Manager;
 import eniac.lang.Dictionary;
 import eniac.util.Status;
 import eniac.util.StatusListener;
-import eniac.util.StatusMap;
 import eniac.window.EFrame;
 
 /**
@@ -72,7 +71,7 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener, 
 		Manager.getInstance().addMainListener(this);
 
 		// add as status listener to be notified when language changes
-		StatusMap.getInstance().addListener(Status.LANGUAGE, this);
+		Status.LANGUAGE.addListener(this);
 
 		// init components
 		// _progressBar.setIndeterminate(true);

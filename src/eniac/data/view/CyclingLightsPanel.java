@@ -24,7 +24,6 @@ import eniac.data.type.ParentGrid;
 import eniac.skin.Descriptor;
 import eniac.util.Status;
 import eniac.util.StatusListener;
-import eniac.util.StatusMap;
 
 /**
  * @author zoppke
@@ -44,17 +43,17 @@ public class CyclingLightsPanel extends EPanel implements StatusListener {
 		super.init();
 
 		// observe heaters of cycling unit to get notified about power switches
-		Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+		Configuration config = (Configuration) Status.CONFIGURATION.getValue();
 		_heaters = config.getUnit(_data.getGridNumbers()[0]).getHeaters();
 		_heaters.addObserver(this);
 
 		// add this as status listener to receive simulation-time updates
-		StatusMap.getInstance().addListener(Status.SIMULATION_TIME, this);
+		Status.SIMULATION_TIME.addListener(this);
 	}
 
 	public void dispose() {
 		super.dispose();
-		StatusMap.getInstance().removeListener(Status.SIMULATION_TIME, this);
+		Status.SIMULATION_TIME.removeListener(this);
 		_heaters.deleteObserver(this);
 	}
 
@@ -74,7 +73,7 @@ public class CyclingLightsPanel extends EPanel implements StatusListener {
 		if (_data.hasPower()) {
 
 			// get variables
-			long time = StatusMap.getLong(Status.SIMULATION_TIME);
+			long time = (long) Status.SIMULATION_TIME.getValue();
 			ParentGrid grid = (ParentGrid) _data.getType().getGrid(width, height, lod);
 			int gridWidth = grid.xValues[1] - grid.xValues[0];
 			int offset = (int) time % CyclingLights.ADDITION_CYCLE;

@@ -27,7 +27,6 @@ import eniac.lang.Dictionary;
 import eniac.util.EProperties;
 import eniac.util.Status;
 import eniac.util.StatusListener;
-import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 import eniac.window.EFrame;
 
@@ -72,7 +71,7 @@ public class LogWindow extends JDialog implements LifecycleListener {
 		setContentPane(_logPanel);
 
 		// add status Listener for visibility
-		StatusMap.getInstance().addListener(Status.SHOW_LOG, new StatusListener() {
+		Status.SHOW_LOG.addListener(new StatusListener() {
 
 			@Override
 			public void statusChanged(Status status, Object newValue) {
@@ -82,7 +81,7 @@ public class LogWindow extends JDialog implements LifecycleListener {
 		});
 
 		// add status listener for language
-		StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
+		Status.LANGUAGE.addListener(new StatusListener() {
 
 			@Override
 			public void statusChanged(Status status, Object newValue) {
@@ -94,13 +93,13 @@ public class LogWindow extends JDialog implements LifecycleListener {
 		// add windowListener
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				StatusMap.set(Status.SHOW_LOG, false);
+				Status.SHOW_LOG.setValue(false);
 			}
 		});
 
 		// to the screen
 		setBounds(StringConverter.toRectangle(EProperties.getInstance().getProperty("LOG_WINDOW_BOUNDS")));
-		setVisible((Boolean) StatusMap.get(Status.SHOW_LOG));
+		setVisible((boolean) Status.SHOW_LOG.getValue());
 	}
 
 	// =========================== listener stuff

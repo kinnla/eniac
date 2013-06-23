@@ -43,7 +43,6 @@ import eniac.skin.Skin;
 import eniac.util.EProperties;
 import eniac.util.Status;
 import eniac.util.StatusListener;
-import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
 /**
@@ -86,25 +85,25 @@ public class OVPanel extends JPanel implements ChangeListener, Observer, StatusL
 		enableEvents(AWTEvent.MOUSE_MOTION_EVENT_MASK);
 
 		// observe configuration
-		Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+		Configuration config = (Configuration) Status.CONFIGURATION.getValue();
 		if (config != null) {
 			config.addObserverToTree(this);
 		}
 
 		// add as propertychanglistener to status for get notified
 		// when skin changes or configuration changes
-		StatusMap.getInstance().addListener(Status.SKIN, this);
+		Status.SKIN.addListener(this);
 
 		// add as componentlistener to get notified when we are resized.
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
-				update((Configuration) StatusMap.get(Status.CONFIGURATION), null);
+				update((Configuration) Status.CONFIGURATION.getValue(), null);
 			}
 		});
 	}
 
 	public void dispose() {
-		StatusMap.getInstance().removeListener(Status.SKIN, this);
+		Status.SKIN.removeListener(this);
 		// TODO: do we need to unregister as observer?
 	}
 
@@ -169,9 +168,9 @@ public class OVPanel extends JPanel implements ChangeListener, Observer, StatusL
 
 		// multiply the DV preferred size by the initial ov zoom
 		int height = StringConverter.toInt(EProperties.getInstance().getProperty("INITIAL_OV_HEIGHT"));
-		Skin skin = (Skin) StatusMap.get(Status.SKIN);
+		Skin skin = (Skin) Status.SKIN.getValue();
 		int lod = skin.getLodByHeight(height);
-		Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+		Configuration config = (Configuration) Status.CONFIGURATION.getValue();
 
 		// if no configuration, return empty dimension
 		if (config == null) {
@@ -195,14 +194,14 @@ public class OVPanel extends JPanel implements ChangeListener, Observer, StatusL
 	public void paintComponent(Graphics g) {
 
 		// if configuration is null, just paint background
-		if (StatusMap.get(Status.CONFIGURATION) == null) {
+		if (Status.CONFIGURATION.getValue() == null) {
 			g.setColor(StringConverter.toColor(EProperties.getInstance().getProperty("BACKGROUND_COLOR")));
 			g.fillRect(0, 0, getWidth(), getHeight());
 			return;
 		}
 
 		// compute zoom and appropriate lod
-		Skin skin = (Skin) StatusMap.get(Status.SKIN);
+		Skin skin = (Skin) Status.SKIN.getValue();
 		int lod = skin.getLodByHeight(getHeight());
 
 		// check that we have a valid lod
@@ -292,7 +291,7 @@ public class OVPanel extends JPanel implements ChangeListener, Observer, StatusL
 	@Override
 	public void statusChanged(Status status, Object newValue) {
 		// new skin loaded. Repaint.
-		update((Configuration) StatusMap.get(Status.CONFIGURATION), null);
+		update((Configuration) Status.CONFIGURATION.getValue(), null);
 	}
 
 }

@@ -19,7 +19,6 @@ import org.xml.sax.Attributes;
 
 import eniac.data.io.DataParsingException;
 import eniac.data.model.EData;
-import eniac.data.type.EType;
 import eniac.io.XMLUtil;
 import eniac.property.ChoiceProperty;
 import eniac.property.Property;

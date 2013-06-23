@@ -24,15 +24,12 @@ import eniac.data.model.Connector;
 import eniac.data.model.EData;
 import eniac.data.model.parent.Configuration;
 import eniac.data.type.EType;
-import eniac.data.type.EType;
 import eniac.data.view.ConnectorPanel;
 import eniac.data.view.parent.ConfigPanel;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 import eniac.skin.Descriptor;
-import eniac.skin.Skin;
 import eniac.util.Status;
-import eniac.util.StatusMap;
 import eniac.window.EFrame;
 import eniac.window.OVWindow;
 
@@ -149,7 +146,7 @@ public class Cable extends Observable implements Observer, EEventListener {
 		}
 
 		// set color for drawing
-		if (_pulseTransmittion && (Boolean) StatusMap.get(Status.HIGHLIGHT_PULSE)) {
+		if (_pulseTransmittion && (Boolean) Status.HIGHLIGHT_PULSE.getValue()) {
 			g.setColor((Color) descriptor.get(Descriptor.Key.CABLE_COLOR_HIGHLIGHT));
 		}
 		else {
@@ -307,12 +304,12 @@ public class Cable extends Observable implements Observer, EEventListener {
 			_pulseTransmittion = true;
 
 			// set alarm clock for downlightning
-			long time = StatusMap.getLong(Status.SIMULATION_TIME);
-			Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+			long time = (long) Status.SIMULATION_TIME.getValue();
+			Configuration config = (Configuration) Status.CONFIGURATION.getValue();
 			config.getCyclingLights().setAlarmClock(time, this);
 
 			// if we are highlightning, repaint.
-			if ((Boolean) StatusMap.get(Status.HIGHLIGHT_PULSE)) {
+			if ((boolean) Status.HIGHLIGHT_PULSE.getValue()) {
 				paintImmediately();
 			}
 		}

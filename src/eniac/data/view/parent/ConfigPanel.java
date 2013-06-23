@@ -33,7 +33,6 @@ import eniac.skin.Skin;
 import eniac.util.EProperties;
 import eniac.util.Status;
 import eniac.util.StatusListener;
-import eniac.util.StatusMap;
 import eniac.util.StringConverter;
 
 /**
@@ -71,14 +70,14 @@ public class ConfigPanel extends ParentPanel implements Scrollable, StatusListen
 
 		// add as propertychangelistener to status to receive simulation time
 		// updates
-		StatusMap.getInstance().addListener(Status.HIGHLIGHT_PULSE, this);
-		StatusMap.getInstance().addListener(Status.ZOOMED_HEIGHT, this);
+		Status.HIGHLIGHT_PULSE.addListener(this);
+		Status.ZOOMED_HEIGHT.addListener(this);
 	}
 
 	public void dispose() {
 		super.dispose();
-		StatusMap.getInstance().removeListener(Status.HIGHLIGHT_PULSE, this);
-		StatusMap.getInstance().removeListener(Status.ZOOMED_HEIGHT, this);
+		Status.HIGHLIGHT_PULSE.removeListener(this);
+		Status.ZOOMED_HEIGHT.removeListener(this);
 		removeAll();
 		_cableManager = null;
 	}
@@ -107,10 +106,10 @@ public class ConfigPanel extends ParentPanel implements Scrollable, StatusListen
 	public Dimension getPreferredSize() {
 
 		// get current configuration height
-		int height = StatusMap.getInt(Status.ZOOMED_HEIGHT);
+		int height = (int) Status.ZOOMED_HEIGHT.getValue();
 
 		// set lod
-		Skin skin = (Skin) StatusMap.get((Status.SKIN));
+		Skin skin = (Skin) Status.SKIN.getValue();
 		_lod = skin.getLodByHeight(height);
 
 		// get descriptor for this configuration
@@ -246,7 +245,7 @@ public class ConfigPanel extends ParentPanel implements Scrollable, StatusListen
 	public static float heightToPercentage() {
 		// determine zoom and lod
 		int basicHeight = StringConverter.toInt(EProperties.getInstance().getProperty("BASIC_CONFIGURATION_HEIGHT"));
-		int zoomedHeight = StatusMap.getInt(Status.ZOOMED_HEIGHT);
+		int zoomedHeight = (int) Status.ZOOMED_HEIGHT.getValue();
 		return (float) zoomedHeight / (float) basicHeight;
 	}
 }
