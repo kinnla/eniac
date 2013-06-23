@@ -23,6 +23,7 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import eniac.data.model.EData;
+import eniac.data.model.EData.Tag;
 import eniac.data.model.parent.Configuration;
 import eniac.data.model.parent.ParentData;
 import eniac.data.type.EType;
@@ -123,12 +124,14 @@ public class ConfigHandler extends DefaultHandler {
             try {
             	Enum.valueOf(Proxy.Tag.class, name.toUpperCase());
             }
-        	catch(IllegalArgumentException exc2) {
-        		
-        		// completely unknown tag.
-        		System.out.println("Ignoring unknown type: "+name);
-        	}
-        	return null;
+            catch (IllegalArgumentException exc2) {
+
+				// we have either the root element "eniac" or an unknown tag
+				if (!Tag.ENIAC.name().equalsIgnoreCase(name)) {
+					System.out.println("Ignoring unknown type: " + name);
+				}
+			}
+			return null;
         }
     }
 
