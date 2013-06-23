@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
 import org.xml.sax.Attributes;
 
 import eniac.data.control.ControlerFactory;
-import eniac.io.Tag;
 import eniac.io.XMLUtil;
 import eniac.log.Log;
 import eniac.log.LogWords;
@@ -237,8 +236,8 @@ public class CreatorFactory {
 				if (_p == null) {
 					_p = new java.awt.Polygon();
 				}
-				int x = XMLUtil.parseInt(attrs, Tag.X);
-				int y = XMLUtil.parseInt(attrs, Tag.Y);
+				int x = XMLUtil.parseInt(attrs, Skin.Attribute.X);
+				int y = XMLUtil.parseInt(attrs, Skin.Attribute.Y);
 				_p.addPoint(x, y);
 			}
 		}

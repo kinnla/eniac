@@ -75,7 +75,7 @@ public enum Status {
 		SKIN._value = null;
 		LANGUAGE._value = null;
 		HIGHLIGHT_PULSE._value = StringConverter.toBoolean(EProperties.getInstance().getProperty(HIGHLIGHT_PULSE));
-		SIMULATION_TIME._value = -1;
+		SIMULATION_TIME._value = -1L;
 	}
 
 	// =========================== getter and setter

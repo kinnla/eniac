@@ -59,7 +59,7 @@ public class TextPanel extends DialogPanel {
 				performCancelAction();
 			}
 		};
-		_okAction.putValue(Action.NAME, Dictionary.OK);
+		_okAction.putValue(Action.NAME, Dictionary.OK.getText());
 		getActionMap().put(_okAction.getValue(Action.NAME), _okAction);
 
 		// init components
@@ -76,9 +76,9 @@ public class TextPanel extends DialogPanel {
 		// fill action- and inputMap
 		getActionMap().put(Dictionary.OK, _okAction);
 		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
-				.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), Dictionary.OK);
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), _okAction.getValue(Action.NAME));
 		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-				Dictionary.OK);
+				_okAction.getValue(Action.NAME));
 	}
 
 	/**

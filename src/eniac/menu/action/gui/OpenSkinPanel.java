@@ -88,7 +88,7 @@ public class OpenSkinPanel extends DialogPanel {
 			}
 		};
 		_okAction.setEnabled(false);
-		_okAction.putValue(Action.NAME, Dictionary.OK);
+		_okAction.putValue(Action.NAME, Dictionary.OK.getText());
 		getActionMap().put(_okAction.getValue(Action.NAME), _okAction);
 
 		// create and add cancelAction
@@ -97,7 +97,7 @@ public class OpenSkinPanel extends DialogPanel {
 				performCancelAction();
 			}
 		};
-		_cancelAction.putValue(Action.NAME, Dictionary.CANCEL);
+		_cancelAction.putValue(Action.NAME, Dictionary.CANCEL.getText());
 		getActionMap().put(_cancelAction.getValue(Action.NAME), _cancelAction);
 
 		// ============================ jpanel
@@ -157,18 +157,18 @@ public class OpenSkinPanel extends DialogPanel {
 		// =========================
 
 		// fill actionMap
-		getActionMap().put(Dictionary.OK, _okAction);
-		getActionMap().put(Dictionary.CANCEL, _cancelAction);
+		getActionMap().put(_okAction.getValue(Action.NAME), _okAction);
+		getActionMap().put(_cancelAction.getValue(Action.NAME), _cancelAction);
 
 		// fill inputMap
 		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
-				.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), Dictionary.OK);
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), _okAction.getValue(Action.NAME));
 		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-				Dictionary.CANCEL);
+				_cancelAction.getValue(Action.NAME));
 
 		// adjust inputMaps of buttons
 		cancelButton.getActionMap().setParent(getActionMap());
-		cancelButton.getInputMap(WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), Dictionary.CANCEL);
+		cancelButton.getInputMap(WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), _cancelAction.getValue(Action.NAME));
 	}
 
 	// this is called, when the panel already was added to the dialog.

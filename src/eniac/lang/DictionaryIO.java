@@ -58,7 +58,7 @@ public class DictionaryIO {
 			IOUtil.parse(in, handler);
 
 			// set new language
-			Status.LANGUAGE.setValue(proxy.get(Dictionary.Tag.KEY));
+			Status.LANGUAGE.setValue(proxy.get(Proxy.Tag.KEY));
 		} catch (IOException e) {
 			Log.log("Loading of language failed. Cannot change to new language", //$NON-NLS-1$
 					JOptionPane.ERROR_MESSAGE, true);
@@ -75,10 +75,10 @@ public class DictionaryIO {
 			String locale = System.getProperty(USER_LANGUAGE_SYSTEM_PROPERTY);
 
 			// recurse on proxies and find one that fits to the default language
-			for (Proxy p : proxies) {
-				if (p.get(Proxy.Tag.KEY).equals(locale)) {
+			for (Proxy proxy : proxies) {
+				if (proxy.get(Proxy.Tag.KEY).equals(locale)) {
 					// load language and return.
-					loadLanguage(p);
+					loadLanguage(proxy);
 					return;
 				}
 			}

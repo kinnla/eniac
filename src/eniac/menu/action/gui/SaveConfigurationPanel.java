@@ -78,7 +78,7 @@ public class SaveConfigurationPanel extends DialogPanel {
 				performOkAction();
 			}
 		};
-		_nextAction.putValue(Action.NAME, Dictionary.NEXT);
+		_nextAction.putValue(Action.NAME, Dictionary.NEXT.getText());
 		getActionMap().put(_nextAction.getValue(Action.NAME), _nextAction);
 
 		// create and add cancelAction
@@ -87,7 +87,7 @@ public class SaveConfigurationPanel extends DialogPanel {
 				performCancelAction();
 			}
 		};
-		_cancelAction.putValue(Action.NAME, Dictionary.CANCEL);
+		_cancelAction.putValue(Action.NAME, Dictionary.CANCEL.getText());
 		getActionMap().put(_cancelAction.getValue(Action.NAME), _cancelAction);
 
 		// ============================= jpanel
@@ -133,18 +133,18 @@ public class SaveConfigurationPanel extends DialogPanel {
 		// =========================
 
 		// fill actionMap
-		getActionMap().put(Dictionary.NEXT, _nextAction);
-		getActionMap().put(Dictionary.CANCEL, _cancelAction);
+		getActionMap().put(_nextAction.getValue(Action.NAME), _nextAction);
+		getActionMap().put(_cancelAction.getValue(Action.NAME), _cancelAction);
 
 		// fill inputMap
 		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
-				Dictionary.NEXT);
+				_nextAction.getValue(Action.NAME));
 		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-				Dictionary.CANCEL);
+				_cancelAction.getValue(Action.NAME));
 
 		// adjust inputMaps of buttons
 		cancelButton.getActionMap().setParent(getActionMap());
-		cancelButton.getInputMap(WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), Dictionary.CANCEL);
+		cancelButton.getInputMap(WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), _cancelAction.getValue(Action.NAME));
 	}
 
 	// ================================= getter

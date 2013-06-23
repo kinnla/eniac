@@ -24,19 +24,19 @@ public enum Tag {
 	 * ========================= general =======================
 	 */
 
-	X, Y, FALSE, TRUE,
+	//X, Y, FALSE, TRUE,
 
 	/*
 	 * ========================= menu =======================
 	 */
 
-	MENU, GROUP, ACTION, ICON, NUMBER_OF_ACTIONS,
+	MENU, GROUP, ACTION, ICON, NUMBER_OF_ACTIONS;
 
 	/*
 	 * ========================= language =======================
 	 */
 
-	FOLDER;
+//	FOLDER;
 
 	/*
 	 * ========================= type =======================

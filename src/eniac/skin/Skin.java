@@ -117,6 +117,16 @@ public class Skin {
 		 * the descriptor key for this element
 		 */
 		NAME,
+		
+		/**
+		 * the x coordinate of a polygon point
+		 */
+		X,
+		
+		/**
+		 * the y coordinate of a polygon point
+		 */
+		Y,
 	}
 
 	// default image and its static initialization
