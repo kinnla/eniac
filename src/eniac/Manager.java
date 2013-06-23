@@ -149,6 +149,7 @@ public class Manager {
 		}
 
 		// init defaults
+		Status.initValues();
 		DictionaryIO.loadDefaultLanguage();
 		SkinIO.loadDefaultSkin();
 
