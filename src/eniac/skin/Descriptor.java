@@ -13,7 +13,7 @@
  */
 package eniac.skin;
 
-import java.util.Hashtable;
+import java.util.EnumMap;
 
 import eniac.data.type.Grid;
 import eniac.data.type.ParentGrid;
@@ -21,7 +21,7 @@ import eniac.data.type.ParentGrid;
 /**
  * @author zoppke
  */
-public class Descriptor extends Hashtable<String, Object> {
+public class Descriptor {
 
 	/**
 	 * Enumeration of all keys that are available in a descriptor
@@ -116,6 +116,10 @@ public class Descriptor extends Hashtable<String, Object> {
 		 */
 		GRID_Y, 
 		
+		/**
+		 * the width of a slider (distance between min and max value)
+		 */
+		X,
 	}
 	
 	public enum Fill{ NONE, BOTH, HORIZONTAL, VERTICAL;}
@@ -125,12 +129,14 @@ public class Descriptor extends Hashtable<String, Object> {
     private int _height;
 
     private Fill _fill = Fill.NONE;
+    
+    private EnumMap<Key, Object> _map; 
 
     //============================= lifecycle
     // ==================================
 
     public Descriptor() {
-        // empty
+    	_map = new EnumMap(Key.class);
     }
 
     //============================= getters and setters
@@ -163,6 +169,14 @@ public class Descriptor extends Hashtable<String, Object> {
     //=============================== methods
     // ==================================
 
+    public Object get(Descriptor.Key key) {
+    	return _map.get(key);
+    }
+    
+    public void put(Descriptor.Key key, Object value) {
+    	_map.put(key, value);
+    }
+    
     public Grid makeGrid(int width, int height) {
 
         // get gridx. if gridx is null, return a simple grid.

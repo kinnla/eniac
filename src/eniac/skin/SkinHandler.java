@@ -63,7 +63,7 @@ public class SkinHandler extends DefaultHandler {
     // =====================
 
     // name of a single or an array
-    private String _name;
+    private Descriptor.Key _name;
 
     // the current lod number
     private int _lod = -1;
@@ -181,7 +181,7 @@ public class SkinHandler extends DefaultHandler {
                     String cls = XMLUtil.parseString(attrs, Skin.Tag.CLASS);
                     _creator = _factory.get(cls);
                     _list = new Vector<>();
-                    _name = XMLUtil.parseString(attrs, Skin.Tag.NAME);
+                    _name = XMLUtil.parseEnum(attrs, Skin.Tag.NAME, Descriptor.Key.class);
                 } else if (tag == Skin.Tag.ENTRY) {
 
                     // pass call to creator
@@ -190,7 +190,7 @@ public class SkinHandler extends DefaultHandler {
                 } else if (tag == Skin.Tag.SINGLE) {
 
                     // get creator and pass call to him
-                    _name = XMLUtil.parseString(attrs, Skin.Tag.NAME);
+                    _name = XMLUtil.parseEnum(attrs, Skin.Tag.NAME, Descriptor.Key.class);
                     String cls = XMLUtil.parseString(attrs, Skin.Tag.CLASS);
                     _creator = _factory.get(cls);
                     _creator.startElement(qName, attrs);

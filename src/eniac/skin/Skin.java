@@ -33,7 +33,7 @@ import eniac.util.StringConverter;
 public class Skin {
 
 	public enum Tag{
-		SKIN, NAME, BOTH,
+		NAME,
 		
 		// lod
 		LOD, MIN_HEIGHT, MAX_HEIGHT,

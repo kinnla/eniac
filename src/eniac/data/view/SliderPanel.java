@@ -21,7 +21,6 @@ import java.awt.event.MouseEvent;
 
 import eniac.data.control.Controler;
 import eniac.data.model.Slider;
-import eniac.io.Tag;
 import eniac.skin.Descriptor;
 
 /**
@@ -60,11 +59,11 @@ public class SliderPanel extends EPanel implements Controler {
         float yFactor = height / (float) descriptor.getHeight();
 
         // check whether horizontal or vertical sliding
-        Object o = descriptor.get(Tag.X);
+        Object o = descriptor.get(Descriptor.Key.X);
         if (o == null) {
 
             // vertical sliding. Adjust point
-            int y2 = ((Integer) descriptor.get(Tag.X)).intValue();
+            int y2 = ((Integer) descriptor.get(Descriptor.Key.X)).intValue();
             x += rect.x * xFactor;
             y += (rect.y + (y2 - rect.y) * value) * yFactor;
         } else {
@@ -108,12 +107,12 @@ public class SliderPanel extends EPanel implements Controler {
         float value;
 
         // check whether horizontal or vertical sliding
-        Object o = d.get(Tag.X);
+        Object o = d.get(Descriptor.Key.X);
         if (o == null) {
 
             // vertical sliding. Adjust point
             // compute value by y coordinate of click-point
-            int y2 = ((Integer) d.get(Tag.X)).intValue();
+            int y2 = ((Integer) d.get(Descriptor.Key.X)).intValue();
             float y = e.getY() * d.getHeight() / (float) getHeight();
             y -= rect.height >> 1;
             value = (y - rect.y) / (y2 - rect.y);
