@@ -21,18 +21,18 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import eniac.LifecycleListener;
 import eniac.Manager;
 import eniac.simulation.EEvent;
 import eniac.simulation.EEventListener;
 import eniac.simulation.EventQueue;
 import eniac.simulation.Frequency;
 import eniac.util.Status;
+import eniac.util.StatusListener;
 
 /**
  * @author zoppke
  */
-public class CyclingLights extends EData implements Runnable, EEventListener, LifecycleListener, Observer {
+public class CyclingLights extends EData implements Runnable, EEventListener, StatusListener, Observer {
 
 	// ===================== eeventmanager fields //=======================
 
@@ -109,7 +109,7 @@ public class CyclingLights extends EData implements Runnable, EEventListener, Li
 		// heaters.addObserver(this);
 
 		// add to starter as busyListener
-		Manager.getInstance().addMainListener(this);
+		Status.LIFECYCLE.addListener(this);
 
 		// init eventqueue
 		_queue = new EventQueue();
@@ -141,7 +141,7 @@ public class CyclingLights extends EData implements Runnable, EEventListener, Li
 	private synchronized void simulate() {
 
 		// check if there is work to do
-		while (_queue.isEmpty() || Manager.getInstance().getLifecycleState() != Manager.STATE_RUNNING
+		while (_queue.isEmpty() || Status.LIFECYCLE.getValue() != Manager.LifeCycle.STATE_RUNNING
 				|| _queue.getFirst().time > _stopTime) {
 
 			// if nothing to do, wait for new work
@@ -336,7 +336,7 @@ public class CyclingLights extends EData implements Runnable, EEventListener, Li
 		_stopTime = 0L;
 		// TODO: this is a hack, because there was a NuPoExc when changing
 		// configuration. Find a proper way to init and dispose.
-		if (Manager.getInstance().getLifecycleState() == Manager.STATE_RUNNING) {
+		if (Status.LIFECYCLE.getValue() == Manager.LifeCycle.STATE_RUNNING) {
 			Status.SIMULATION_TIME.setValue(0L);
 		}
 		notifyAll();
@@ -437,11 +437,8 @@ public class CyclingLights extends EData implements Runnable, EEventListener, Li
 		}
 	}
 
-	/**
-	 * @param busy
-	 * @see eniac.BusyListener#busyChanged(boolean)
-	 */
-	public synchronized void runLevelChanged(short oldVal, short newVal) {
+	@Override
+	public synchronized void statusChanged(Status status, Object value) {
 
 		// just notify simulation thread. This is useful, when the thread
 		// is waiting for the runlevel to idle and go back to work.

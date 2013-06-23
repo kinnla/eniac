@@ -5,6 +5,11 @@ import java.util.LinkedList;
 public enum Status {
 
 	/**
+	 * the current lifecycle state
+	 */
+	LIFECYCLE,
+
+	/**
 	 * the active configuration or null
 	 */
 	CONFIGURATION,

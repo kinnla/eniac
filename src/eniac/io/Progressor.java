@@ -28,7 +28,6 @@ import javax.swing.JProgressBar;
 import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
-import eniac.LifecycleListener;
 import eniac.Manager;
 import eniac.lang.Dictionary;
 import eniac.util.Status;
@@ -38,7 +37,7 @@ import eniac.window.EFrame;
 /**
  * @author zoppke
  */
-public class Progressor extends JDialog implements Runnable, LifecycleListener, StatusListener {
+public class Progressor extends JDialog implements Runnable, StatusListener {
 
 	// jpanel as contentpane
 	private JPanel _panel = new JPanel(new BorderLayout());
@@ -67,11 +66,10 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener, 
 		// create progressor as modal dialog with eframe as owner
 		super(EFrame.getInstance(), Dictionary.PLEASE_WAIT.getText(), true);
 
-		// add as main listener
-		Manager.getInstance().addMainListener(this);
-
-		// add as status listener to be notified when language changes
+		// add as status listener to be notified when language or runlevel
+// changes
 		Status.LANGUAGE.addListener(this);
+		Status.LIFECYCLE.addListener(this);
 
 		// init components
 		// _progressBar.setIndeterminate(true);
@@ -158,22 +156,17 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener, 
 	public void run() {
 
 		// run this thread until applet is shutting down.
-		while (Manager.getInstance().getLifecycleState() < Manager.STATE_STOPPED) {
+		while (Status.LIFECYCLE.getValue() != Manager.LifeCycle.STATE_STOPPED
+				|| Status.LIFECYCLE.getValue() != Manager.LifeCycle.STATE_DESTROYED) {
 
 			// show progressor, if applet is busy
-			short runlevel = Manager.getInstance().getLifecycleState();
-			if (runlevel != Manager.STATE_RUNNING) {
+			if (Status.LIFECYCLE.getValue() != Manager.LifeCycle.STATE_RUNNING) {
 				setVisible(true);
-			}
-
-			// check, if we are shuting down.
-			if (Manager.getInstance().getLifecycleState() >= Manager.STATE_STOPPED) {
-				break;
 			}
 
 			// wait until the runlevel changes
 			synchronized (this) {
-				if (Manager.getInstance().getLifecycleState() == Manager.STATE_BLOCKED) {
+				if (Status.LIFECYCLE.getValue() == Manager.LifeCycle.STATE_BLOCKED) {
 					try {
 						wait();
 					} catch (InterruptedException e) {
@@ -189,24 +182,32 @@ public class Progressor extends JDialog implements Runnable, LifecycleListener, 
 		dispose();
 	}
 
-	public synchronized void runLevelChanged(short oldVal, short newVal) {
+	public synchronized void statusChanged(Status status, Object newValue) {
+		assert status == Status.LANGUAGE || status == Status.LIFECYCLE;
 
-		// main status changed. If applet is idling, hide progressor.
-		// otherwise notify thread to show it.
-		if (newVal == Manager.STATE_RUNNING) {
-			setVisible(false);
-		}
-		else if (newVal == Manager.STATE_STOPPED) {
-			setVisible(false);
-			notifyAll();
-		}
-		else {
-			notifyAll();
-		}
-	}
+		switch (status) {
+			case LANGUAGE :
+				_button.setText(Dictionary.CANCEL.getText());
+				setTitle(Dictionary.PLEASE_WAIT.getText());
+				break;
 
-	public void statusChanged(Status status, Object newValue) {
-		_button.setText(Dictionary.CANCEL.getText());
-		setTitle(Dictionary.PLEASE_WAIT.getText());
+			case LIFECYCLE :
+				// If applet is idling, hide progressor.
+				// otherwise notify thread to show it.
+				if (newValue == Manager.LifeCycle.STATE_RUNNING) {
+					setVisible(false);
+				}
+				else if (newValue == Manager.LifeCycle.STATE_STOPPED) {
+					setVisible(false);
+					notifyAll();
+				}
+				else {
+					notifyAll();
+				}
+				break;
+
+			default :
+				break;
+		}
 	}
 }

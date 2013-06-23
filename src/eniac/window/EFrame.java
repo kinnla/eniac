@@ -31,7 +31,6 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.event.ChangeListener;
 
-import eniac.LifecycleListener;
 import eniac.Manager;
 import eniac.data.model.parent.Configuration;
 import eniac.data.view.parent.ConfigPanel;
@@ -43,7 +42,7 @@ import eniac.util.Status;
 import eniac.util.StatusListener;
 import eniac.util.StringConverter;
 
-public class EFrame extends JFrame implements StatusListener, LifecycleListener {
+public class EFrame extends JFrame implements StatusListener {
 
 	/*
 	 * ========================== private fields ===============================
@@ -80,7 +79,7 @@ public class EFrame extends JFrame implements StatusListener, LifecycleListener 
 		_mediaTracker = new MediaTracker(this);
 
 		// add as singleton to starter
-		Manager.getInstance().addMainListener(this);
+		Status.LIFECYCLE.addListener(this);
 	}
 
 	public static EFrame getInstance() {
@@ -193,26 +192,39 @@ public class EFrame extends JFrame implements StatusListener, LifecycleListener 
 	 */
 	public void statusChanged(Status status, Object newValue) {
 
-		if (status == Status.CONFIGURATION) {
-			// configuration changed. Update the configPanel.
-			updateConfigPanel();
-		}
-		else if (status == Status.SKIN) {
-			// skin changed. repaint
-			repaint();
-		}
-		else if (status == Status.LANGUAGE) {
-			// language changed. repaint and adjust title.
-			repaint();
+		switch (status) {
 
-			// set default locale to JComponent.
-			// So optionPane buttons get the right language.
-			// Note: on my machine there is a strange behaviour,
-			// that I cannot change to "en" or Locale.ENGLISH nor .US nor .UK.
-			// in these three cases, still my default locale (GERMAN) is used.
-			// Changing to FRENCH or JAPANESE works fine.
-			JComponent.setDefaultLocale(new Locale((String) newValue));
-			setTitle(Dictionary.MAIN_FRAME_TITLE.getText());
+			case CONFIGURATION :
+				// configuration changed. Update the configPanel.
+				updateConfigPanel();
+				break;
+			case SKIN :
+				// skin changed. repaint
+				repaint();
+				break;
+
+			case LANGUAGE :
+				// language changed. repaint and adjust title.
+				repaint();
+
+				// set default locale to JComponent.
+				// So optionPane buttons get the right language.
+				JComponent.setDefaultLocale(new Locale((String) newValue));
+				setTitle(Dictionary.MAIN_FRAME_TITLE.getText());
+				break;
+
+			case LIFECYCLE :
+				if (newValue == Manager.LifeCycle.STATE_STOPPED) {
+					setVisible(false);
+				}
+				else if (newValue == Manager.LifeCycle.STATE_DESTROYED) {
+					dispose();
+					instance = null;
+				}
+				break;
+
+			default :
+				break;
 		}
 	}
 
@@ -226,21 +238,6 @@ public class EFrame extends JFrame implements StatusListener, LifecycleListener 
 
 	public void removeChangeListener(ChangeListener listener) {
 		_scrollPane.getViewport().removeChangeListener(listener);
-	}
-
-	/**
-	 * @param oldVal
-	 * @param newVal
-	 * @see eniac.LifecycleListener#mainChanged(short, short)
-	 */
-	public void runLevelChanged(short oldVal, short newVal) {
-		if (newVal == Manager.STATE_STOPPED) {
-			setVisible(false);
-		}
-		else if (newVal == Manager.STATE_DESTROYED) {
-			dispose();
-			instance = null;
-		}
 	}
 
 	/**

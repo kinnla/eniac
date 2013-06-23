@@ -14,8 +14,6 @@ import java.applet.Applet;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
@@ -59,45 +57,40 @@ public class Manager {
 	 * ========================= applet lifecycle states =======================
 	 */
 
-	/**
-	 * Default lifecycle state on startup
-	 */
-	public static final short STATE_DEFAULT = 0;
+	public enum LifeCycle {
 
-	/**
-	 * Livecycle state indicating a successful initialization
-	 */
-	public static final short STATE_INITIALIZED = 1;
+		/**
+		 * Default lifecycle state on startup
+		 */
+		STATE_DEFAULT,
 
-	/**
-	 * Lifecycle state indicating that the application is running and the gui
-	 * expects input.
-	 */
-	public static final short STATE_RUNNING = 2;
+		/**
+		 * Livecycle state indicating a successful initialization
+		 */
+		STATE_INITIALIZED,
 
-	/**
-	 * Lifecycle state indicating that the application is running but the gui is
-	 * blocked.
-	 */
-	public static final short STATE_BLOCKED = 3;
+		/**
+		 * Lifecycle state indicating that the application is running and the
+		 * gui expects input.
+		 */
+		STATE_RUNNING,
 
-	/**
-	 * Lifecycle state indicating that the application is stopped.
-	 */
-	public static final short STATE_STOPPED = 4;
+		/**
+		 * Lifecycle state indicating that the application is running but the
+		 * gui is blocked.
+		 */
+		STATE_BLOCKED,
 
-	/**
-	 * Lifecycle state indicating that the application is destroyed.
-	 */
-	public static final short STATE_DESTROYED = 5;
+		/**
+		 * Lifecycle state indicating that the application is stopped.
+		 */
+		STATE_STOPPED,
 
-	// START_UP = 0, // default state on startup
-	// INITIALIZING = 1, // singleton instance is set
-	// IDLE = 2, // applet is running in idle mode
-	// BUSY = 3, // applet is running but busy
-	// STOPPING = 4, // applet is shutting down
-	// DESTROYING = 5, // applet is getting destroyed
-	// DESTROYED = 6; // applet is destroyed
+		/**
+		 * Lifecycle state indicating that the application is destroyed.
+		 */
+		STATE_DESTROYED,
+	}
 
 	/*
 	 * =============================== fields ==================================
@@ -108,12 +101,6 @@ public class Manager {
 
 	// reference to the applet. Stays null, if started as application.
 	private Applet _applet = null;
-
-	// list of mainListeners to be informed when run level changes
-	private List<LifecycleListener> _lifecycleListeners = new LinkedList<>();
-
-	// encoding the current lifecycle state
-	short _lifecycleState = STATE_DEFAULT;
 
 	/*
 	 * ========================== singleton stuff ==============================
@@ -141,28 +128,17 @@ public class Manager {
 	 * creates and initializes all instances
 	 */
 	public void init() {
-
-		// check lifecycle state
-		if (_lifecycleState != STATE_DEFAULT) {
-			System.out.println("unallowed call of init() at state " + _lifecycleState);
-			return;
-		}
-
-		// init defaults
 		Status.initValues();
 		DictionaryIO.loadDefaultLanguage();
 		SkinIO.loadDefaultSkin();
-
-		setLifecycleState(STATE_INITIALIZED);
+		Status.LIFECYCLE.setValue(LifeCycle.STATE_INITIALIZED);
 	}
 
 	public void start() {
 
-		// check lifecycle state
-		if (_lifecycleState != STATE_INITIALIZED) {
-			System.out.println("illegal call of start() at state " + _lifecycleState);
-			return;
-		}
+		// loading the configuration may open an input dialog for the user.
+		// as the java-plugin may expect this method to return quickly,
+		// we start a new thread.
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 
@@ -173,24 +149,18 @@ public class Manager {
 				ConfigIO.loadDefaultConfiguration();
 
 				// check, if we haven't been interrupted
-				if (_lifecycleState == STATE_INITIALIZED) {
+				if (Status.LIFECYCLE.getValue() == LifeCycle.STATE_INITIALIZED) {
 
 					// open eframe and adjust runlevel
 					EFrame.getInstance().toScreen();
 					LogWindow.getInstance();
-					setLifecycleState(STATE_RUNNING);
+					Status.LIFECYCLE.setValue(LifeCycle.STATE_RUNNING);
 				}
 			}
 		});
 	}
 
 	public void stop() {
-
-		// check lifecycle state
-		if (_lifecycleState != STATE_RUNNING) {
-			System.out.println("illegal call of start() at state " + _lifecycleState);
-			return;
-		}
 
 		// TODO: check, if we need to block first
 
@@ -202,25 +172,22 @@ public class Manager {
 		Status.CONFIGURATION.setValue(null);
 
 		// announce that applet is shutting down
-		setLifecycleState(STATE_STOPPED);
+		Status.LIFECYCLE.setValue(LifeCycle.STATE_STOPPED);
 	}
 
 	public void destroy() {
 
 		// check that we haven't been destroyed before
-		if (_lifecycleState != STATE_STOPPED) {
+		if (Status.LIFECYCLE.getValue() != LifeCycle.STATE_STOPPED) {
 			return;
 		}
-
-		// dispose Main
-		_lifecycleListeners.clear();
 
 		// run finalization.
 		// Though it probably has no effect, the purpose provides good fortune.
 		System.runFinalization();
 
 		// announce that applet is destroyed
-		setLifecycleState(STATE_DESTROYED);
+		Status.LIFECYCLE.setValue(LifeCycle.STATE_DESTROYED);
 	}
 
 	/*
@@ -229,14 +196,6 @@ public class Manager {
 
 	public void setApplet(Applet applet) {
 		_applet = applet;
-	}
-
-	public void addMainListener(LifecycleListener listener) {
-		_lifecycleListeners.add(listener);
-	}
-
-	public short getLifecycleState() {
-		return _lifecycleState;
 	}
 
 	public void makeDialog(DialogPanel content, String title) {
@@ -279,34 +238,15 @@ public class Manager {
 	// return getAppletContext() == null;
 	// }
 	public void block() {
-
-		// check lifecycle state
-		if (_lifecycleState == STATE_RUNNING) {
-			setLifecycleState(STATE_BLOCKED);
+		if (Status.LIFECYCLE.getValue() == LifeCycle.STATE_RUNNING) {
+			Status.LIFECYCLE.setValue(LifeCycle.STATE_BLOCKED);
 		}
 	}
 
 	public void unblock() {
-
-		// check lifecycle state
-		if (_lifecycleState == STATE_BLOCKED) {
-			setLifecycleState(STATE_RUNNING);
+		if (Status.LIFECYCLE.getValue() == LifeCycle.STATE_BLOCKED) {
+			Status.LIFECYCLE.setValue(LifeCycle.STATE_RUNNING);
 		}
-	}
-
-	public void setLifecycleState(short newVal) {
-		// System.out.println("switching to runlevel " + newVal);
-		if (_lifecycleState != newVal) {
-			short oldVal = _lifecycleState;
-			_lifecycleState = newVal;
-
-			// inform lifecycle listeners
-			for (LifecycleListener l : _lifecycleListeners) {
-				// System.out.println(listener);
-				l.runLevelChanged(oldVal, newVal);
-			}
-		}
-		// System.out.println("reached runlevel " + newVal);
 	}
 
 	// ============================ io methods //===============================

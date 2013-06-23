@@ -19,8 +19,9 @@ package eniac.log;
 import java.util.LinkedList;
 import java.util.List;
 
-import eniac.LifecycleListener;
 import eniac.Manager;
+import eniac.util.Status;
+import eniac.util.StatusListener;
 
 /**
  * @author zoppke
@@ -28,7 +29,7 @@ import eniac.Manager;
  *         To change the template for this generated type comment go to Window -
  *         Preferences - Java - Code Generation - Code and Comments
  */
-public class Log implements LifecycleListener {
+public class Log implements StatusListener {
 
 	// containing all text that was passed to this logger
 	private StringBuffer _stringBuffer = new StringBuffer();
@@ -58,10 +59,7 @@ public class Log implements LifecycleListener {
 	}
 
 	private void init() {
-
-		// add as singleton to starter
-		Manager.getInstance().addMainListener(this);
-
+		Status.LIFECYCLE.addListener(this);
 		addLogListener(new ConsolePrinter());
 		addLogListener(new DialogPrinter());
 	}
@@ -164,13 +162,9 @@ public class Log implements LifecycleListener {
 		getInstance().addMessage(new LogMessage(message, type, forUser));
 	}
 
-	/**
-	 * @param oldVal
-	 * @param newVal
-	 * @see eniac.LifecycleListener#mainChanged(short, short)
-	 */
-	public void runLevelChanged(short oldVal, short newVal) {
-		if (newVal == Manager.STATE_DESTROYED) {
+	@Override
+	public void statusChanged(Status status, Object newValue) {
+		if (newValue == Manager.LifeCycle.STATE_DESTROYED) {
 			instance = null;
 		}
 	}

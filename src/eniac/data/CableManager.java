@@ -159,7 +159,7 @@ public class CableManager implements Observer, Controler {
 	 */
 	public void update(Observable o, Object arg) {
 		assert arg != null;
-		if (arg == EData.REPAINT && Manager.getInstance().getLifecycleState() == Manager.STATE_RUNNING) {
+		if (arg == EData.REPAINT && Status.LIFECYCLE.getValue() == Manager.LifeCycle.STATE_RUNNING) {
 
 			// TODO: Find a better way to repaint
 			EFrame.getInstance().getConfigPanel().repaint();

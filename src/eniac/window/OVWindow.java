@@ -21,8 +21,6 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JDialog;
 
-import eniac.LifecycleListener;
-import eniac.Manager;
 import eniac.data.view.parent.ConfigPanel;
 import eniac.lang.Dictionary;
 import eniac.util.EProperties;
@@ -36,7 +34,7 @@ import eniac.util.StringConverter;
  *         To change the template for this generated type comment go to Window -
  *         Preferences - Java - Code Generation - Code and Comments
  */
-public class OVWindow extends JDialog implements LifecycleListener {
+public class OVWindow extends JDialog {
 
 	private OVPanel _ovPanel = null;
 
@@ -61,9 +59,6 @@ public class OVWindow extends JDialog implements LifecycleListener {
 	 * initializes this overviewWindow.
 	 */
 	private void init() {
-
-		// add as singleton to starter
-		Manager.getInstance().addMainListener(this);
 
 		// init configPanel first
 		configPanelChanged();
@@ -132,16 +127,5 @@ public class OVWindow extends JDialog implements LifecycleListener {
 
 	public OVPanel getOVPanel() {
 		return _ovPanel;
-	}
-
-	/**
-	 * @param oldVal
-	 * @param newVal
-	 * @see eniac.LifecycleListener#mainChanged(short, short)
-	 */
-	public void runLevelChanged(short oldVal, short newVal) {
-		if (newVal == Manager.STATE_DESTROYED) {
-			instance = null;
-		}
 	}
 }

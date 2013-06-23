@@ -21,8 +21,6 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JDialog;
 
-import eniac.LifecycleListener;
-import eniac.Manager;
 import eniac.lang.Dictionary;
 import eniac.util.EProperties;
 import eniac.util.Status;
@@ -36,7 +34,7 @@ import eniac.window.EFrame;
  *         To change the template for this generated type comment go to Window -
  *         Preferences - Java - Code Generation - Code and Comments
  */
-public class LogWindow extends JDialog implements LifecycleListener {
+public class LogWindow extends JDialog {
 
 	// reference to logpanel
 	private LogPanel _logPanel = null;
@@ -61,9 +59,6 @@ public class LogWindow extends JDialog implements LifecycleListener {
 	}
 
 	private void init() {
-
-		// add as singleton to starter
-		Manager.getInstance().addMainListener(this);
 
 		// layout
 		setTitle(Dictionary.LOG_WINDOW_TITLE.getText());
@@ -100,19 +95,5 @@ public class LogWindow extends JDialog implements LifecycleListener {
 		// to the screen
 		setBounds(StringConverter.toRectangle(EProperties.getInstance().getProperty("LOG_WINDOW_BOUNDS")));
 		setVisible((boolean) Status.SHOW_LOG.getValue());
-	}
-
-	// =========================== listener stuff
-	// ===============================
-
-	/**
-	 * @param oldVal
-	 * @param newVal
-	 * @see eniac.LifecycleListener#mainChanged(short, short)
-	 */
-	public void runLevelChanged(short oldVal, short newVal) {
-		if (newVal == Manager.STATE_DESTROYED) {
-			instance = null;
-		}
 	}
 }
