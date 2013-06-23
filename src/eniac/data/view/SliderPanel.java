@@ -23,7 +23,6 @@ import eniac.data.control.Controler;
 import eniac.data.model.Slider;
 import eniac.io.Tag;
 import eniac.skin.Descriptor;
-import eniac.skin.Skin;
 
 /**
  * @author zoppke
@@ -44,18 +43,18 @@ public class SliderPanel extends EPanel implements Controler {
         }
 
         // paint bgcolor, if defined
-        Color color = (Color) descriptor.get(Skin.Tag.COLOR);
+        Color color = (Color) descriptor.get(Descriptor.Key.COLOR);
         if (color != null) {
             g.setColor(color);
             g.fillRect(x, y, width, height);
         }
 
         // paint background image
-        Image img = (Image) descriptor.get(Skin.Tag.BACK_IMAGE);
+        Image img = (Image) descriptor.get(Descriptor.Key.BACK_IMAGE);
         g.drawImage(img, x, y, width, height, this);
 
         // get variables
-        Rectangle rect = (Rectangle) descriptor.get(Skin.Tag.RECTANGLE);
+        Rectangle rect = (Rectangle) descriptor.get(Descriptor.Key.RECTANGLE);
         float value = ((Slider) _data).getValue();
         float xFactor = width / (float) descriptor.getWidth();
         float yFactor = height / (float) descriptor.getHeight();
@@ -80,7 +79,7 @@ public class SliderPanel extends EPanel implements Controler {
         height = (int) (rect.height * yFactor);
 
         // paint foreground image
-        img = (Image) descriptor.get(Skin.Tag.FORE_IMAGE);
+        img = (Image) descriptor.get(Descriptor.Key.FORE_IMAGE);
         g.drawImage(img, x, y, width, height, this);
     }
 
@@ -104,7 +103,7 @@ public class SliderPanel extends EPanel implements Controler {
 
         // get variables
         Descriptor d = getDescriptor(getLod());
-        Rectangle rect = (Rectangle) d.get(Skin.Tag.RECTANGLE);
+        Rectangle rect = (Rectangle) d.get(Descriptor.Key.RECTANGLE);
         Slider slider = (Slider) _data;
         float value;
 

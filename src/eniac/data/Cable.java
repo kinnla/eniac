@@ -150,13 +150,13 @@ public class Cable extends Observable implements Observer, EEventListener {
 
         // set color for drawing
         if (_pulseTransmittion && (Boolean)StatusMap.get(Status.HIGHLIGHT_PULSE)) {
-            g.setColor((Color) descriptor.get(Skin.Tag.CABLE_COLOR_HIGHLIGHT));
+            g.setColor((Color) descriptor.get(Descriptor.Key.CABLE_COLOR_HIGHLIGHT));
         } else {
-            g.setColor((Color) descriptor.get(Skin.Tag.CABLE_COLOR));
+            g.setColor((Color) descriptor.get(Descriptor.Key.CABLE_COLOR));
         }
 
         // compute helper variables
-        float pixels = ((Integer) descriptor.get(Skin.Tag.CABLE_PIXELS))
+        float pixels = ((Integer) descriptor.get(Descriptor.Key.CABLE_PIXELS))
                 .floatValue()
                 * zoom;
         int dx = p2.x - p1.x;

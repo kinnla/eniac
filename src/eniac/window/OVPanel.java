@@ -267,8 +267,8 @@ public class OVPanel extends JPanel implements ChangeListener, Observer, StatusL
 
         // get xor image and color
         Descriptor d = EType.XOR_IMAGE.getDescriptor(lod);
-        Image img = (Image) d.get(Skin.Tag.BACK_IMAGE);
-        Color color = (Color) d.get(Skin.Tag.COLOR);
+        Image img = (Image) d.get(Descriptor.Key.BACK_IMAGE);
+        Color color = (Color) d.get(Descriptor.Key.COLOR);
 
         // set xore mode and paint xor image
         g.setXORMode(color);

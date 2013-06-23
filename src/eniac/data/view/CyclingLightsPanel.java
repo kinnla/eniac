@@ -22,9 +22,8 @@ import eniac.data.model.parent.Configuration;
 import eniac.data.model.sw.Switch;
 import eniac.data.type.ParentGrid;
 import eniac.skin.Descriptor;
-import eniac.skin.Skin;
-import eniac.util.StatusListener;
 import eniac.util.Status;
+import eniac.util.StatusListener;
 import eniac.util.StatusMap;
 
 /**
@@ -68,7 +67,7 @@ public class CyclingLightsPanel extends EPanel implements StatusListener {
             return;
         }
         // paint bgimage, if defined
-        Image bgimage = (Image) descriptor.get(Skin.Tag.BACK_IMAGE);
+        Image bgimage = (Image) descriptor.get(Descriptor.Key.BACK_IMAGE);
         if (bgimage != null) {
             g.drawImage(bgimage, x, y, width, height, this);
         }
@@ -83,7 +82,7 @@ public class CyclingLightsPanel extends EPanel implements StatusListener {
             int offset = (int) time % CyclingLights.ADDITION_CYCLE;
             int scaledOff = offset * gridWidth / CyclingLights.ADDITION_CYCLE;
             x += grid.xValues[0] + scaledOff;
-            Color color = (Color) descriptor.get(Skin.Tag.COLOR);
+            Color color = (Color) descriptor.get(Descriptor.Key.COLOR);
 
             // paint vertical line
             g.setColor(color);

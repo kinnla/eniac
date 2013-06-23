@@ -13,7 +13,6 @@
  */
 package eniac.skin;
 
-import java.util.EnumSet;
 import java.util.Hashtable;
 
 import eniac.data.type.Grid;
@@ -24,13 +23,108 @@ import eniac.data.type.ParentGrid;
  */
 public class Descriptor extends Hashtable<String, Object> {
 
-	public static EnumSet<Skin.Tag> CODES =EnumSet.of(Skin.Tag.NONE, Skin.Tag.BOTH, Skin.Tag.HORIZONTAL, Skin.Tag.VERTICAL );
+	/**
+	 * Enumeration of all keys that are available in a descriptor
+	 * @author till
+	 *
+	 * TODO
+	 */
+	public enum Key {
+		
+		/**
+		 * a background image
+		 */
+		BACK_IMAGE, 
+		
+		/**
+		 * an array of background images, as used by switches
+		 */
+		BACK_IMAGE_ARRAY, 
+		
+		/**
+		 * a foreground image
+		 */
+		FORE_IMAGE, 
+		
+		/**
+		 * an array of foreground images, as used by switchAndFlag
+		 */
+		FORE_IMAGE_ARRAY, 
+		
+		/**
+		 * The color, given as 6-digit rgb hex string
+		 */
+		COLOR, 
+		
+		/**
+		 * A rectangle defining the bounds of the epanel
+		 */
+		RECTANGLE, 
+		
+		/**
+		 * An array of rectangles, as for the light bulbs in blinkenlights
+		 */
+		RECTANGLE_ARRAY, 
+		
+		/**
+		 * An array of polygons
+		 */
+		AREAS, 
+		
+		/**
+		 * The controller class, used by switch
+		 */
+		ACTIONATOR, 
+		
+		/**
+		 * the color of the cable, as defined by the connectors
+		 */
+		CABLE_COLOR, 
+		
+		/**
+		 * the cable color in pulse highlighting mode
+		 */
+		CABLE_COLOR_HIGHLIGHT, 
+		
+		/**
+		 * the cable diameter in pixels
+		 */
+		CABLE_PIXELS, 
+		
+		/**
+		 * image for an unplugged connector
+		 */
+		UNPLUGGED, 
+		
+		/**
+		 * image for a plugged connector
+		 */
+		PLUGGED, 
+		
+		/**
+		 * image for a connector with a loadbox
+		 */
+		LOADBOX, 
+		
+		/**
+		 * the vertical lines of the grid 
+		 */
+		GRID_X, 
+		
+		/**
+		 * the horizontal lines of the grid
+		 */
+		GRID_Y, 
+		
+	}
+	
+	public enum Fill{ NONE, BOTH, HORIZONTAL, VERTICAL;}
 
     private int _width;
 
     private int _height;
 
-    private Skin.Tag _fill = Skin.Tag.NONE;
+    private Fill _fill = Fill.NONE;
 
     //============================= lifecycle
     // ==================================
@@ -58,12 +152,11 @@ public class Descriptor extends Hashtable<String, Object> {
         return _height;
     }
 
-    public void setFill(Skin.Tag fill) {
-    	//TODO: check whether the Skin.Tag is allowed (in CODES)
+    public void setFill(Fill fill) {
         _fill = fill;
     }
 
-    public Skin.Tag getFill() {
+    public Fill getFill() {
         return _fill;
     }
 
@@ -73,18 +166,18 @@ public class Descriptor extends Hashtable<String, Object> {
     public Grid makeGrid(int width, int height) {
 
         // get gridx. if gridx is null, return a simple grid.
-        int[] _gridX = (int[]) get(Skin.Tag.GRID_X);
+        int[] _gridX = (int[]) get(Key.GRID_X);
         if (_gridX == null) {
             return new Grid(width, height);
         }
 
         //otherwise get gridy, too. Create ParentGrid
-        int[] _gridY = (int[]) get(Skin.Tag.GRID_Y);
+        int[] _gridY = (int[]) get(Key.GRID_Y);
         ParentGrid grid = new ParentGrid(width, height);
 
         // compute zoom
-        grid.zoomX = ((float) width) / ((float) _width);
-        grid.zoomY = ((float) height) / ((float) _height);
+        grid.zoomX = (float) width / (float) _width;
+        grid.zoomY = (float) height / (float) _height;
 
         // create arrays
         grid.xValues = new int[_gridX.length];

@@ -19,7 +19,6 @@ import java.awt.Rectangle;
 
 import eniac.data.model.sw.SwitchAndFlag;
 import eniac.skin.Descriptor;
-import eniac.skin.Skin;
 
 /**
  * @author zoppke
@@ -50,16 +49,16 @@ public class OperationSwitchPanel extends SwitchPanel {
         boolean flag = os.isFlag();
 
         // draw background image. Background is the operation value.
-        images = (Image[]) descriptor.get(Skin.Tag.BACK_IMAGE_ARRAY);
+        images = (Image[]) descriptor.get(Descriptor.Key.BACK_IMAGE_ARRAY);
         img = images[value];
         g.drawImage(img, x, y, width, height, this);
 
         // paint foreground image. Foreground is the clear-correct value.
-        images = (Image[]) descriptor.get(Skin.Tag.FORE_IMAGE_ARRAY);
+        images = (Image[]) descriptor.get(Descriptor.Key.FORE_IMAGE_ARRAY);
         img = flag ? images[1] : images[0];
 
         // scale rectangle
-        Rectangle rect = (Rectangle) descriptor.get(Skin.Tag.RECTANGLE);
+        Rectangle rect = (Rectangle) descriptor.get(Descriptor.Key.RECTANGLE);
         x += rect.x * width / descriptor.getWidth();
         y += rect.y * height / descriptor.getHeight();
         width = width * rect.width / descriptor.getWidth();

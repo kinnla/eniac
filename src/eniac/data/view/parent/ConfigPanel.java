@@ -57,10 +57,6 @@ public class ConfigPanel extends ParentPanel implements Scrollable, StatusListen
 	// temporary Point for computation speed up
 	private Point _p = new Point();
 
-	// representing the location of the scrollbar according to configPanel Size.
-	private float _scrollX = 0.5F;
-	private float _scrollY = 0.5F;
-
 	/*
 	 * =============================== lifecycle ===============================
 	 */
