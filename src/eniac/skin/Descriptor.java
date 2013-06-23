@@ -136,7 +136,7 @@ public class Descriptor {
     // ==================================
 
     public Descriptor() {
-    	_map = new EnumMap(Key.class);
+    	_map = new EnumMap<>(Key.class);
     }
 
     //============================= getters and setters

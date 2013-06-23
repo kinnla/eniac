@@ -132,8 +132,8 @@ public class SkinHandler extends DefaultHandler {
 
                 if (tag == Skin.Tag.LOD) {
                     // lod tag. Parse attributes
-                    int min = XMLUtil.parseInt(attrs, Skin.Tag.MIN_HEIGHT);
-                    int max = XMLUtil.parseInt(attrs, Skin.Tag.MAX_HEIGHT);
+                    int min = XMLUtil.parseInt(attrs, Skin.Attribute.MIN_HEIGHT);
+                    int max = XMLUtil.parseInt(attrs, Skin.Attribute.MAX_HEIGHT);
                     String name = attrs.getValue(Proxy.Tag.NAME.name().toLowerCase());
 
                     // add lod to skin
@@ -150,12 +150,12 @@ public class SkinHandler extends DefaultHandler {
                     _descriptor = new Descriptor();
 
                     // set type
-                    EType type = getType(XMLUtil.parseString(attrs, Skin.Tag.TYPE));
+                    EType type = getType(XMLUtil.parseString(attrs, Skin.Attribute.TYPE));
 
                     // set width, height and fill
-                    _descriptor.setWidth(XMLUtil.parseInt(attrs, Skin.Tag.WIDTH));
-                    _descriptor.setHeight(XMLUtil.parseInt(attrs, Skin.Tag.HEIGHT));
-                    _descriptor.setFill(XMLUtil.parseEnum(attrs, Skin.Tag.FILL,
+                    _descriptor.setWidth(XMLUtil.parseInt(attrs, Skin.Attribute.WIDTH));
+                    _descriptor.setHeight(XMLUtil.parseInt(attrs, Skin.Attribute.HEIGHT));
+                    _descriptor.setFill(XMLUtil.parseEnum(attrs, Skin.Attribute.FILL,
                     		Descriptor.Fill.class));
 
                     // add descriptor to hashtable array
@@ -178,10 +178,10 @@ public class SkinHandler extends DefaultHandler {
                 if (tag == Skin.Tag.ARRAY) {
 
                     // get Creator, init list and adjust flag
-                    String cls = XMLUtil.parseString(attrs, Skin.Tag.CLASS);
+                    String cls = XMLUtil.parseString(attrs, Skin.Attribute.CLASS);
                     _creator = _factory.get(cls);
                     _list = new Vector<>();
-                    _name = XMLUtil.parseEnum(attrs, Skin.Tag.NAME, Descriptor.Key.class);
+                    _name = XMLUtil.parseEnum(attrs, Skin.Attribute.NAME, Descriptor.Key.class);
                 } else if (tag == Skin.Tag.ENTRY) {
 
                     // pass call to creator
@@ -190,8 +190,8 @@ public class SkinHandler extends DefaultHandler {
                 } else if (tag == Skin.Tag.SINGLE) {
 
                     // get creator and pass call to him
-                    _name = XMLUtil.parseEnum(attrs, Skin.Tag.NAME, Descriptor.Key.class);
-                    String cls = XMLUtil.parseString(attrs, Skin.Tag.CLASS);
+                    _name = XMLUtil.parseEnum(attrs, Skin.Attribute.NAME, Descriptor.Key.class);
+                    String cls = XMLUtil.parseString(attrs, Skin.Attribute.CLASS);
                     _creator = _factory.get(cls);
                     _creator.startElement(qName, attrs);
                     _state = CREATING;

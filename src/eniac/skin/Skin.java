@@ -32,15 +32,91 @@ import eniac.util.StringConverter;
  */
 public class Skin {
 
+	/**
+	 * enumeration of all tags in the skin xml.
+	 */
 	public enum Tag{
-		NAME,
 		
-		// lod
-		LOD, MIN_HEIGHT, MAX_HEIGHT,
+		/**
+		 * the root element 
+		 */
+		SKIN, 
+		
+		/**
+		 * the level of detail (should be 2 elements in a skin) 
+		 */
+		LOD, 
+		
+		/**
+		 * a descriptor, containing all attributes for an edata
+		 */
+		DESCRIPTOR, 
+		
+		/**
+		 * a single element in a descriptor 
+		 */
+		SINGLE, 
+		
+		/**
+		 * an array of elements in a descriptor
+		 */
+		ARRAY, 
+		
+		/**
+		 * an entry in an array of elements
+		 */
+		ENTRY,
+		
+		/**
+		 * a point of a polygon entry
+		 */
+		POINT,
+	}
+	
+	/**
+	 * enumeration of all attributes in the skin xml 
+	 */
+	public enum Attribute{
+		
+		/**
+		 * the minimum height for an lod in pixel
+		 */
+		MIN_HEIGHT,
 
-		// descriptor
-		DESCRIPTOR, TYPE, FILL, WIDTH, HEIGHT, CLASS, ARRAY, ENTRY, SINGLE, POINT
-
+		/**
+		 * the maximum height for an lod in pixel
+		 */
+		MAX_HEIGHT,
+		
+		/**
+		 * the type of a descriptor (reference to etype)
+		 */
+		TYPE, 
+		
+		/**
+		 * the width of a descriptor (default width of the epanel)
+		 */
+		WIDTH, 
+		
+		/**
+		 * the height of a descriptor (default height of the epanel)
+		 */
+		HEIGHT, 
+		
+		/**
+		 * the fill mode of a descriptor
+		 */
+		FILL, 
+		
+		/**
+		 * the creator class name of an element in a descriptor
+		 */
+		CLASS,  
+		
+		/**
+		 * the descriptor key for this element
+		 */
+		NAME,		
 	}
 	
     // default image and its static initialization
