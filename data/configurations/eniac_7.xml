@@ -759,9 +759,9 @@ No program is loaded.
 			<blend_a_10 id="1334" name="" grid="0,5,11,6" index="1"/>
 			<constant_sign_toggle_jl id="1335" name="sign toggle: row J, left" 
 				grid="3,0,4,1" index="0" value="M"/>
-			<constant_sign_toggle_jr id="1336" name="sign toggle: row K, right" 
+			<constant_sign_toggle_jr id="1336" name="sign toggle: row J, right" 
 				grid="7,0,8,1" index="1" value="M"/>
-			<constant_sign_toggle_kl id="1337" name="sign toggle: row J, left" 
+			<constant_sign_toggle_kl id="1337" name="sign toggle: row K, left" 
 				grid="3,1,4,2" index="2" value="M"/>
 			<constant_sign_toggle_kr id="1338" name="sign toggle: row K, right" 
 				grid="7,1,8,2" index="3" value="M"/>
