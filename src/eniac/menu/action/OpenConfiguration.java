@@ -54,8 +54,8 @@ public class OpenConfiguration extends EAction implements Runnable {
 		Manager.getInstance().makeDialog(panel, Dictionary.OPEN_CONFIGURATION_NAME.getText());
 
 		// if we are already stopping, we don't need to load a configuration.
-		if (Manager.getInstance() == null || Status.LIFECYCLE.getValue() == Manager.LifeCycle.STATE_STOPPED
-				|| Status.LIFECYCLE.getValue() == Manager.LifeCycle.STATE_DESTROYED) {
+		if (Manager.getInstance() == null || Status.LIFECYCLE.getValue() == Manager.LifeCycle.STOPPED
+				|| Status.LIFECYCLE.getValue() == Manager.LifeCycle.DESTROYED) {
 			return;
 		}
 

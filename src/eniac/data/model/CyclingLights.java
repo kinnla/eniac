@@ -141,7 +141,7 @@ public class CyclingLights extends EData implements Runnable, EEventListener, St
 	private synchronized void simulate() {
 
 		// check if there is work to do
-		while (_queue.isEmpty() || Status.LIFECYCLE.getValue() != Manager.LifeCycle.STATE_RUNNING
+		while (_queue.isEmpty() || Status.LIFECYCLE.getValue() != Manager.LifeCycle.RUNNING
 				|| _queue.getFirst().time > _stopTime) {
 
 			// if nothing to do, wait for new work
@@ -336,7 +336,7 @@ public class CyclingLights extends EData implements Runnable, EEventListener, St
 		_stopTime = 0L;
 		// TODO: this is a hack, because there was a NuPoExc when changing
 		// configuration. Find a proper way to init and dispose.
-		if (Status.LIFECYCLE.getValue() == Manager.LifeCycle.STATE_RUNNING) {
+		if (Status.LIFECYCLE.getValue() == Manager.LifeCycle.RUNNING) {
 			Status.SIMULATION_TIME.setValue(0L);
 		}
 		notifyAll();

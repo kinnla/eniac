@@ -214,10 +214,10 @@ public class EFrame extends JFrame implements StatusListener {
 				break;
 
 			case LIFECYCLE :
-				if (newValue == Manager.LifeCycle.STATE_STOPPED) {
+				if (newValue == Manager.LifeCycle.STOPPED) {
 					setVisible(false);
 				}
-				else if (newValue == Manager.LifeCycle.STATE_DESTROYED) {
+				else if (newValue == Manager.LifeCycle.DESTROYED) {
 					dispose();
 					instance = null;
 				}

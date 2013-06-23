@@ -164,7 +164,7 @@ public class Log implements StatusListener {
 
 	@Override
 	public void statusChanged(Status status, Object newValue) {
-		if (newValue == Manager.LifeCycle.STATE_DESTROYED) {
+		if (newValue == Manager.LifeCycle.DESTROYED) {
 			instance = null;
 		}
 	}

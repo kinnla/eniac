@@ -62,34 +62,34 @@ public class Manager {
 		/**
 		 * Default lifecycle state on startup
 		 */
-		STATE_DEFAULT,
+		DEFAULT,
 
 		/**
 		 * Livecycle state indicating a successful initialization
 		 */
-		STATE_INITIALIZED,
+		INITIALIZED,
 
 		/**
 		 * Lifecycle state indicating that the application is running and the
 		 * gui expects input.
 		 */
-		STATE_RUNNING,
+		RUNNING,
 
 		/**
 		 * Lifecycle state indicating that the application is running but the
 		 * gui is blocked.
 		 */
-		STATE_BLOCKED,
+		BLOCKED,
 
 		/**
 		 * Lifecycle state indicating that the application is stopped.
 		 */
-		STATE_STOPPED,
+		STOPPED,
 
 		/**
 		 * Lifecycle state indicating that the application is destroyed.
 		 */
-		STATE_DESTROYED,
+		DESTROYED,
 	}
 
 	/*
@@ -131,7 +131,7 @@ public class Manager {
 		Status.initValues();
 		DictionaryIO.loadDefaultLanguage();
 		SkinIO.loadDefaultSkin();
-		Status.LIFECYCLE.setValue(LifeCycle.STATE_INITIALIZED);
+		Status.LIFECYCLE.setValue(LifeCycle.INITIALIZED);
 	}
 
 	public void start() {
@@ -149,12 +149,12 @@ public class Manager {
 				ConfigIO.loadDefaultConfiguration();
 
 				// check, if we haven't been interrupted
-				if (Status.LIFECYCLE.getValue() == LifeCycle.STATE_INITIALIZED) {
+				if (Status.LIFECYCLE.getValue() == LifeCycle.INITIALIZED) {
 
 					// open eframe and adjust runlevel
 					EFrame.getInstance().toScreen();
 					LogWindow.getInstance();
-					Status.LIFECYCLE.setValue(LifeCycle.STATE_RUNNING);
+					Status.LIFECYCLE.setValue(LifeCycle.RUNNING);
 				}
 			}
 		});
@@ -172,13 +172,13 @@ public class Manager {
 		Status.CONFIGURATION.setValue(null);
 
 		// announce that applet is shutting down
-		Status.LIFECYCLE.setValue(LifeCycle.STATE_STOPPED);
+		Status.LIFECYCLE.setValue(LifeCycle.STOPPED);
 	}
 
 	public void destroy() {
 
 		// check that we haven't been destroyed before
-		if (Status.LIFECYCLE.getValue() != LifeCycle.STATE_STOPPED) {
+		if (Status.LIFECYCLE.getValue() != LifeCycle.STOPPED) {
 			return;
 		}
 
@@ -187,7 +187,7 @@ public class Manager {
 		System.runFinalization();
 
 		// announce that applet is destroyed
-		Status.LIFECYCLE.setValue(LifeCycle.STATE_DESTROYED);
+		Status.LIFECYCLE.setValue(LifeCycle.DESTROYED);
 	}
 
 	/*
@@ -238,14 +238,14 @@ public class Manager {
 	// return getAppletContext() == null;
 	// }
 	public void block() {
-		if (Status.LIFECYCLE.getValue() == LifeCycle.STATE_RUNNING) {
-			Status.LIFECYCLE.setValue(LifeCycle.STATE_BLOCKED);
+		if (Status.LIFECYCLE.getValue() == LifeCycle.RUNNING) {
+			Status.LIFECYCLE.setValue(LifeCycle.BLOCKED);
 		}
 	}
 
 	public void unblock() {
-		if (Status.LIFECYCLE.getValue() == LifeCycle.STATE_BLOCKED) {
-			Status.LIFECYCLE.setValue(LifeCycle.STATE_RUNNING);
+		if (Status.LIFECYCLE.getValue() == LifeCycle.BLOCKED) {
+			Status.LIFECYCLE.setValue(LifeCycle.RUNNING);
 		}
 	}
 

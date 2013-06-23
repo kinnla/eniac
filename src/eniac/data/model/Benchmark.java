@@ -145,7 +145,7 @@ public class Benchmark extends EData implements Observer {
 		}
 
 		public void run() {
-			if (Status.LIFECYCLE.getValue() == Manager.LifeCycle.STATE_RUNNING) {
+			if (Status.LIFECYCLE.getValue() == Manager.LifeCycle.RUNNING) {
 				updateFrequencies();
 			}
 		}

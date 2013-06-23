@@ -156,17 +156,17 @@ public class Progressor extends JDialog implements Runnable, StatusListener {
 	public void run() {
 
 		// run this thread until applet is shutting down.
-		while (Status.LIFECYCLE.getValue() != Manager.LifeCycle.STATE_STOPPED
-				|| Status.LIFECYCLE.getValue() != Manager.LifeCycle.STATE_DESTROYED) {
+		while (Status.LIFECYCLE.getValue() != Manager.LifeCycle.STOPPED
+				|| Status.LIFECYCLE.getValue() != Manager.LifeCycle.DESTROYED) {
 
 			// show progressor, if applet is busy
-			if (Status.LIFECYCLE.getValue() != Manager.LifeCycle.STATE_RUNNING) {
+			if (Status.LIFECYCLE.getValue() != Manager.LifeCycle.RUNNING) {
 				setVisible(true);
 			}
 
 			// wait until the runlevel changes
 			synchronized (this) {
-				if (Status.LIFECYCLE.getValue() == Manager.LifeCycle.STATE_BLOCKED) {
+				if (Status.LIFECYCLE.getValue() == Manager.LifeCycle.BLOCKED) {
 					try {
 						wait();
 					} catch (InterruptedException e) {
@@ -194,10 +194,10 @@ public class Progressor extends JDialog implements Runnable, StatusListener {
 			case LIFECYCLE :
 				// If applet is idling, hide progressor.
 				// otherwise notify thread to show it.
-				if (newValue == Manager.LifeCycle.STATE_RUNNING) {
+				if (newValue == Manager.LifeCycle.RUNNING) {
 					setVisible(false);
 				}
-				else if (newValue == Manager.LifeCycle.STATE_STOPPED) {
+				else if (newValue == Manager.LifeCycle.STOPPED) {
 					setVisible(false);
 					notifyAll();
 				}
