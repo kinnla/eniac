@@ -75,8 +75,8 @@ public class TextPanel extends DialogPanel {
 
 		// fill action- and inputMap
 		getActionMap().put(Dictionary.OK, _okAction);
-		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
-				.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), _okAction.getValue(Action.NAME));
+		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
+				_okAction.getValue(Action.NAME));
 		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
 				_okAction.getValue(Action.NAME));
 	}

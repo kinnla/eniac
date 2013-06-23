@@ -144,7 +144,8 @@ public class SaveConfigurationPanel extends DialogPanel {
 
 		// adjust inputMaps of buttons
 		cancelButton.getActionMap().setParent(getActionMap());
-		cancelButton.getInputMap(WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), _cancelAction.getValue(Action.NAME));
+		cancelButton.getInputMap(WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
+				_cancelAction.getValue(Action.NAME));
 	}
 
 	// ================================= getter
