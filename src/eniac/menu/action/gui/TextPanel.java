@@ -32,60 +32,60 @@ import eniac.lang.Dictionary;
  */
 public class TextPanel extends DialogPanel {
 
-    private JTextArea _textArea;
+	private JTextArea _textArea;
 
-    private JScrollPane _scrollPane;
+	private JScrollPane _scrollPane;
 
-    private JButton _okButton;
+	private JButton _okButton;
 
-    private Action _okAction;
+	private Action _okAction;
 
-    private String _text;
+	private String _text;
 
-    /**
-     * @param lm
-     */
-    public TextPanel(String text) {
-        super(new BorderLayout());
-        _text = text;
-    }
+	/**
+	 * @param lm
+	 */
+	public TextPanel(String text) {
+		super(new BorderLayout());
+		_text = text;
+	}
 
-    public void init() {
+	public void init() {
 
-        // create and add okAction
-        // we perform cancelAction, because ok means the same as cancel here.
-        _okAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                performCancelAction();
-            }
-        };
-        _okAction.putValue(Action.NAME, Dictionary.OK);
-        getActionMap().put(_okAction.getValue(Action.NAME), _okAction);
+		// create and add okAction
+		// we perform cancelAction, because ok means the same as cancel here.
+		_okAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				performCancelAction();
+			}
+		};
+		_okAction.putValue(Action.NAME, Dictionary.OK);
+		getActionMap().put(_okAction.getValue(Action.NAME), _okAction);
 
-        // init components
-        _textArea = new JTextArea(_text);
-        _textArea.setEditable(false);
-        _textArea.setTabSize(3);
-        _scrollPane = new JScrollPane(_textArea);
-        _okButton = new JButton(_okAction);
+		// init components
+		_textArea = new JTextArea(_text);
+		_textArea.setEditable(false);
+		_textArea.setTabSize(3);
+		_scrollPane = new JScrollPane(_textArea);
+		_okButton = new JButton(_okAction);
 
-        // add components
-        add(_scrollPane, BorderLayout.CENTER);
-        add(_okButton, BorderLayout.SOUTH);
+		// add components
+		add(_scrollPane, BorderLayout.CENTER);
+		add(_okButton, BorderLayout.SOUTH);
 
-        // fill action- and inputMap
-        getActionMap().put(Dictionary.OK, _okAction);
-        getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
-                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), Dictionary.OK);
-        getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
-                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), Dictionary.OK);
-    }
+		// fill action- and inputMap
+		getActionMap().put(Dictionary.OK, _okAction);
+		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), Dictionary.OK);
+		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+				Dictionary.OK);
+	}
 
-    /**
-     * 
-     * @see eniac.menu.actions.gui.DialogPanel#performCancelAction()
-     */
-    public void performCancelAction() {
-        SwingUtilities.windowForComponent(TextPanel.this).dispose();
-    }
+	/**
+	 * 
+	 * @see eniac.menu.actions.gui.DialogPanel#performCancelAction()
+	 */
+	public void performCancelAction() {
+		SwingUtilities.windowForComponent(TextPanel.this).dispose();
+	}
 }

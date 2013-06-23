@@ -34,124 +34,122 @@ import eniac.util.StatusMap;
  */
 public class Benchmark extends EData implements Observer {
 
-    // circular array of frequencies. One frequency per second.
-    private Frequency[] _freqs;
+	// circular array of frequencies. One frequency per second.
+	private Frequency[] _freqs;
 
-    // points to the next frequency to be overwritten
-    private int _pointer = 0;
+	// points to the next frequency to be overwritten
+	private int _pointer = 0;
 
-    // timer
-    private Timer _timer = new Timer();
+	// timer
+	private Timer _timer = new Timer();
 
-    // task for updating frequencies. To be scheduled at the timer.
-    private UpdateTask _task = new UpdateTask();
+	// task for updating frequencies. To be scheduled at the timer.
+	private UpdateTask _task = new UpdateTask();
 
-    // timestamps from when we computed a frequency last time.
-    private long _lastRealTime = 0L;
+	// timestamps from when we computed a frequency last time.
+	private long _lastRealTime = 0L;
 
-    private long _lastSimTime = 0L;
+	private long _lastSimTime = 0L;
 
-    //=============================== lifecycle //=============================
+	// =============================== lifecycle //=============================
 
-    /**
-     * @param type
-     */
-    public Benchmark() {
-        // empty constructor
-    }
+	/**
+	 * @param type
+	 */
+	public Benchmark() {
+		// empty constructor
+	}
 
-    public void init() {
-        super.init();
-        ((Unit) getParent()).getHeaters().addObserver(this);
+	public void init() {
+		super.init();
+		((Unit) getParent()).getHeaters().addObserver(this);
 
-        // initialize frequencies and schedule task,
-        // in case power is switched on.
-        update(null, null);
-    }
+		// initialize frequencies and schedule task,
+		// in case power is switched on.
+		update(null, null);
+	}
 
-    public void setAttributes(Attributes attrs) {
-        super.setAttributes(attrs);
-        int size = XMLUtil.parseInt(attrs, Tag.SIZE);
-        _freqs = new Frequency[size];
-    }
+	public void setAttributes(Attributes attrs) {
+		super.setAttributes(attrs);
+		int size = XMLUtil.parseInt(attrs, Tag.SIZE);
+		_freqs = new Frequency[size];
+	}
 
-    public void dispose() {
-        _task.cancel();
-        _timer.cancel();
-        super.dispose();
-    }
+	public void dispose() {
+		_task.cancel();
+		_timer.cancel();
+		super.dispose();
+	}
 
-    //=============================== methods //===============================
+	// =============================== methods //===============================
 
-    public void update(Observable o, Object args) {
-        if (hasPower()) {
+	public void update(Observable o, Object args) {
+		if (hasPower()) {
 
-            // power switch on. Init frequency array with zero line.
-            Frequency freq = Frequency.getNew();
-            freq.setLinear(0.01);
-            Arrays.fill(_freqs, freq);
+			// power switch on. Init frequency array with zero line.
+			Frequency freq = Frequency.getNew();
+			freq.setLinear(0.01);
+			Arrays.fill(_freqs, freq);
 
-            // schedule task.
-            _task = new UpdateTask();
-            _timer.schedule(_task, 0, 1000);
-        } else {
+			// schedule task.
+			_task = new UpdateTask();
+			_timer.schedule(_task, 0, 1000);
+		}
+		else {
 
-            // power switched off. Cancel task.
-            _task.cancel();
-        }
-    }
+			// power switched off. Cancel task.
+			_task.cancel();
+		}
+	}
 
-    void updateFrequencies() {
+	void updateFrequencies() {
 
-        // init variables
-        long simTime = StatusMap.getLong(Status.SIMULATION_TIME);
-        long realTime = System.currentTimeMillis();
-        long simTimeDiff = simTime - _lastSimTime;
-        long realTimeDiff = realTime - _lastRealTime;
+		// init variables
+		long simTime = StatusMap.getLong(Status.SIMULATION_TIME);
+		long realTime = System.currentTimeMillis();
+		long simTimeDiff = simTime - _lastSimTime;
+		long realTimeDiff = realTime - _lastRealTime;
 
-        // compute frequency and its logarithmic scale.
-        // the result will be within [0..1] on a logarithmic scale
-        double freq = CyclingLights.simToReal(simTimeDiff)
-                / (double) realTimeDiff;
-        _freqs[_pointer] = Frequency.getNew();
-        _freqs[_pointer].setLinear(freq);
+		// compute frequency and its logarithmic scale.
+		// the result will be within [0..1] on a logarithmic scale
+		double freq = CyclingLights.simToReal(simTimeDiff) / (double) realTimeDiff;
+		_freqs[_pointer] = Frequency.getNew();
+		_freqs[_pointer].setLinear(freq);
 
-        // adjust pointer and timestamps
-        _pointer = ++_pointer % _freqs.length;
-        _lastSimTime = simTime;
-        _lastRealTime = realTime;
+		// adjust pointer and timestamps
+		_pointer = ++_pointer % _freqs.length;
+		_lastSimTime = simTime;
+		_lastRealTime = realTime;
 
-        // call for repaint
-        setChanged();
-        notifyObservers(EData.REPAINT);
-    }
+		// call for repaint
+		setChanged();
+		notifyObservers(EData.REPAINT);
+	}
 
-    public Frequency[] getFrequencies() {
-        return _freqs;
-    }
+	public Frequency[] getFrequencies() {
+		return _freqs;
+	}
 
-    public int getPointer() {
-        return _pointer;
-    }
+	public int getPointer() {
+		return _pointer;
+	}
 
-    public String getAttributes() {
-        return super.getAttributes()
-                + XMLUtil.wrapAttribute(Tag.SIZE, Integer
-                        .toString(_freqs.length));
-    }
+	public String getAttributes() {
+		return super.getAttributes() + XMLUtil.wrapAttribute(Tag.SIZE, Integer.toString(_freqs.length));
+	}
 
-    //======================= private class UpdateTask //======================
+	// ======================= private class UpdateTask //======================
 
-    private class UpdateTask extends TimerTask {
-        
-    	public UpdateTask() {
-    		// empty constructor
-    	}
-    	
-    	public void run() {
-            if (Manager.getInstance().getLifecycleState() == Manager.STATE_RUNNING) {
-                updateFrequencies();
-            }
-        }
-    }
+	private class UpdateTask extends TimerTask {
+
+		public UpdateTask() {
+			// empty constructor
+		}
+
+		public void run() {
+			if (Manager.getInstance().getLifecycleState() == Manager.STATE_RUNNING) {
+				updateFrequencies();
+			}
+		}
+	}
 }

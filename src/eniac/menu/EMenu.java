@@ -20,7 +20,7 @@ import eniac.util.StatusMap;
 public class EMenu extends JMenu implements StatusListener {
 
 	private Dictionary _sid;
-	
+
 	public EMenu(String sid) {
 		_sid = Enum.valueOf(Dictionary.class, sid);
 		StatusMap.getInstance().addListener(Status.LANGUAGE, this);

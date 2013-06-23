@@ -29,95 +29,94 @@ import eniac.property.Property;
  */
 public class Switch extends EData {
 
-    protected int _value;
+	protected int _value;
 
-    private boolean _enabled = true;
+	private boolean _enabled = true;
 
-    //============================== lifecycle
-    // =================================
+	// ============================== lifecycle
+	// =================================
 
-    public Switch() {
-        // empty
-    }
+	public Switch() {
+		// empty
+	}
 
-    public void setAttributes(Attributes attrs) {
-        super.setAttributes(attrs);
+	public void setAttributes(Attributes attrs) {
+		super.setAttributes(attrs);
 
-        // parse value from attributes
-        String[] codes = _type.getCodes();
-        int value = XMLUtil.parseInt(attrs, _type.getCodeName(), codes);
+		// parse value from attributes
+		String[] codes = _type.getCodes();
+		int value = XMLUtil.parseInt(attrs, _type.getCodeName(), codes);
 
-        // If value is in bounds, set it. Otherwise throw exception.
-        if (isInbound(value)) {
-            setValue(value);
-        } else {
-            throw new DataParsingException(value, _type.getCodeName(),
-                    getClass());
-        }
-    }
+		// If value is in bounds, set it. Otherwise throw exception.
+		if (isInbound(value)) {
+			setValue(value);
+		}
+		else {
+			throw new DataParsingException(value, _type.getCodeName(), getClass());
+		}
+	}
 
-    //============================== methods
-    // ===================================
+	// ============================== methods
+	// ===================================
 
-    public void setValue(int value) {
-        if (_value != value) {
-            _value = value;
-            setChanged();
-            notifyObservers(EData.REPAINT);
-        }
-    }
+	public void setValue(int value) {
+		if (_value != value) {
+			_value = value;
+			setChanged();
+			notifyObservers(EData.REPAINT);
+		}
+	}
 
-    public int getValue() {
-        return _value;
-    }
+	public int getValue() {
+		return _value;
+	}
 
-    public void toggleValue() {
-        _value = 1 - _value;
-        setChanged();
-        notifyObservers(EData.REPAINT);
-    }
+	public void toggleValue() {
+		_value = 1 - _value;
+		setChanged();
+		notifyObservers(EData.REPAINT);
+	}
 
-    public boolean isValue() {
-        return _value == 1;
-    }
+	public boolean isValue() {
+		return _value == 1;
+	}
 
-    public String encode() {
-    	String[] codes = _type.getCodes();
-        return codes[_value];
-    }
+	public String encode() {
+		String[] codes = _type.getCodes();
+		return codes[_value];
+	}
 
-    protected boolean isInbound(int value) {
-    	String[] codes = _type.getCodes();
-        return value >= 0 && value < codes.length;
-    }
+	protected boolean isInbound(int value) {
+		String[] codes = _type.getCodes();
+		return value >= 0 && value < codes.length;
+	}
 
-    public String getAttributes() {
-        return super.getAttributes()
-                + XMLUtil.wrapAttribute(_type.getCodeName(), encode().toString());
-    }
+	public String getAttributes() {
+		return super.getAttributes() + XMLUtil.wrapAttribute(_type.getCodeName(), encode().toString());
+	}
 
-    public List<Property> getProperties() {
-        List<Property> l = super.getProperties();
-        String[] codes = _type.getCodes();
-        l.add(new ChoiceProperty(_type.getCodeName(), codes, _value));
-        return l;
-    }
+	public List<Property> getProperties() {
+		List<Property> l = super.getProperties();
+		String[] codes = _type.getCodes();
+		l.add(new ChoiceProperty(_type.getCodeName(), codes, _value));
+		return l;
+	}
 
-    public void setProperties(List<Property> l) {
-        for (Property p : l) { 
-            if (p.getName().equals(_type.getCodeName().name().toLowerCase())) {
-                setValue(((ChoiceProperty) p).getSelection());
-                // it.remove(); ===> need to remove ???
-            }
-        }
-        super.setProperties(l);
-    }
+	public void setProperties(List<Property> l) {
+		for (Property p : l) {
+			if (p.getName().equals(_type.getCodeName().name().toLowerCase())) {
+				setValue(((ChoiceProperty) p).getSelection());
+				// it.remove(); ===> need to remove ???
+			}
+		}
+		super.setProperties(l);
+	}
 
-    public void setEnabled(boolean b) {
-        _enabled = b;
-    }
+	public void setEnabled(boolean b) {
+		_enabled = b;
+	}
 
-    public boolean isEnabled() {
-        return _enabled;
-    }
+	public boolean isEnabled() {
+		return _enabled;
+	}
 }

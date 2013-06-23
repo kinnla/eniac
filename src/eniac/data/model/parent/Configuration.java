@@ -23,39 +23,38 @@ import eniac.data.type.EType;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public class Configuration extends ParentData {
 
-    private IDManager _idManager = new IDManager();
+	private IDManager _idManager = new IDManager();
 
-    //============================ lifecycle
-    // ===================================
+	// ============================ lifecycle
+	// ===================================
 
-    public Configuration() {
-        // empty
-    }
+	public Configuration() {
+		// empty
+	}
 
-    public void dispose() {
-        super.dispose();
-        _idManager.dispose();
-        _idManager = null;
-    }
+	public void dispose() {
+		super.dispose();
+		_idManager.dispose();
+		_idManager = null;
+	}
 
-    //============================== methods
-    // ===================================
+	// ============================== methods
+	// ===================================
 
-    public IDManager getIDManager() {
-        return _idManager;
-    }
+	public IDManager getIDManager() {
+		return _idManager;
+	}
 
-    public Configuration getConfiguration() {
-        return this;
-    }
+	public Configuration getConfiguration() {
+		return this;
+	}
 
-    public CyclingLights getCyclingLights() {
-        return (CyclingLights) getGarten()
-                .getKind(EType.CYCLING_LIGHTS, 0);
-    }
+	public CyclingLights getCyclingLights() {
+		return (CyclingLights) getGarten().getKind(EType.CYCLING_LIGHTS, 0);
+	}
 }

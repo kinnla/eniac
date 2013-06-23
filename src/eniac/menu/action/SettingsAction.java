@@ -26,25 +26,25 @@ import eniac.util.EProperties;
  */
 public class SettingsAction extends EAction {
 
-    /**
-     * @param e
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
+	/**
+	 * @param e
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
 
-        // create dialog that displays information
-        SettingsPanel panel = new SettingsPanel();
-        panel.init();
-        Manager.getInstance().makeDialog(panel, Dictionary.SETTINGS_NAME.getText());
+		// create dialog that displays information
+		SettingsPanel panel = new SettingsPanel();
+		panel.init();
+		Manager.getInstance().makeDialog(panel, Dictionary.SETTINGS_NAME.getText());
 
-        // dialog closed.
-        // If ok pressed, save changes
-        if (panel.isOkPressed()) {
-            for (Vector<String> row : panel.getDataVector()) {
-                String key = row.get(0);
-                String value = row.get(1);
-                EProperties.getInstance().setProperty(key, value);
-            }
-        }
-    }
+		// dialog closed.
+		// If ok pressed, save changes
+		if (panel.isOkPressed()) {
+			for (Vector<String> row : panel.getDataVector()) {
+				String key = row.get(0);
+				String value = row.get(1);
+				EProperties.getInstance().setProperty(key, value);
+			}
+		}
+	}
 }

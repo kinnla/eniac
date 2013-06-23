@@ -28,107 +28,108 @@ import eniac.skin.Descriptor;
  */
 public class SliderPanel extends EPanel implements Controler {
 
-    public SliderPanel() {
-        // empty
-    }
+	public SliderPanel() {
+		// empty
+	}
 
-    protected void paintComponent(Graphics g, int x, int y, int width,
-            int height, int lod) {
+	protected void paintComponent(Graphics g, int x, int y, int width, int height, int lod) {
 
-        // get descriptor. If no descriptor, just return.
-        Descriptor descriptor = getDescriptor(lod);
-        if (descriptor == null) {
-            return;
-        }
+		// get descriptor. If no descriptor, just return.
+		Descriptor descriptor = getDescriptor(lod);
+		if (descriptor == null) {
+			return;
+		}
 
-        // paint bgcolor, if defined
-        Color color = (Color) descriptor.get(Descriptor.Key.COLOR);
-        if (color != null) {
-            g.setColor(color);
-            g.fillRect(x, y, width, height);
-        }
+		// paint bgcolor, if defined
+		Color color = (Color) descriptor.get(Descriptor.Key.COLOR);
+		if (color != null) {
+			g.setColor(color);
+			g.fillRect(x, y, width, height);
+		}
 
-        // paint background image
-        Image img = (Image) descriptor.get(Descriptor.Key.BACK_IMAGE);
-        g.drawImage(img, x, y, width, height, this);
+		// paint background image
+		Image img = (Image) descriptor.get(Descriptor.Key.BACK_IMAGE);
+		g.drawImage(img, x, y, width, height, this);
 
-        // get variables
-        Rectangle rect = (Rectangle) descriptor.get(Descriptor.Key.RECTANGLE);
-        float value = ((Slider) _data).getValue();
-        float xFactor = width / (float) descriptor.getWidth();
-        float yFactor = height / (float) descriptor.getHeight();
+		// get variables
+		Rectangle rect = (Rectangle) descriptor.get(Descriptor.Key.RECTANGLE);
+		float value = ((Slider) _data).getValue();
+		float xFactor = width / (float) descriptor.getWidth();
+		float yFactor = height / (float) descriptor.getHeight();
 
-        // check whether horizontal or vertical sliding
-        Object o = descriptor.get(Descriptor.Key.X);
-        if (o == null) {
+		// check whether horizontal or vertical sliding
+		Object o = descriptor.get(Descriptor.Key.X);
+		if (o == null) {
 
-            // vertical sliding. Adjust point
-            int y2 = ((Integer) descriptor.get(Descriptor.Key.X)).intValue();
-            x += rect.x * xFactor;
-            y += (rect.y + (y2 - rect.y) * value) * yFactor;
-        } else {
+			// vertical sliding. Adjust point
+			int y2 = ((Integer) descriptor.get(Descriptor.Key.X)).intValue();
+			x += rect.x * xFactor;
+			y += (rect.y + (y2 - rect.y) * value) * yFactor;
+		}
+		else {
 
-            // horizontal sliding. Adjust point
-            int x2 = ((Integer) o).intValue();
-            x += (rect.x + (x2 - rect.x) * value) * xFactor;
-            y += rect.y * yFactor;
-        }
-        // scale bounds
-        width = (int) (rect.width * yFactor);
-        height = (int) (rect.height * yFactor);
+			// horizontal sliding. Adjust point
+			int x2 = ((Integer) o).intValue();
+			x += (rect.x + (x2 - rect.x) * value) * xFactor;
+			y += rect.y * yFactor;
+		}
+		// scale bounds
+		width = (int) (rect.width * yFactor);
+		height = (int) (rect.height * yFactor);
 
-        // paint foreground image
-        img = (Image) descriptor.get(Descriptor.Key.FORE_IMAGE);
-        g.drawImage(img, x, y, width, height, this);
-    }
+		// paint foreground image
+		img = (Image) descriptor.get(Descriptor.Key.FORE_IMAGE);
+		g.drawImage(img, x, y, width, height, this);
+	}
 
-    protected Controler getController() {
-        return this;
-    }
+	protected Controler getController() {
+		return this;
+	}
 
-    public void mpressed(MouseEvent e) {
-        setValueByPoint(e);
-    }
+	public void mpressed(MouseEvent e) {
+		setValueByPoint(e);
+	}
 
-    public void mreleased(MouseEvent e) {
-        setValueByPoint(e);
-    }
+	public void mreleased(MouseEvent e) {
+		setValueByPoint(e);
+	}
 
-    public void mdragged(MouseEvent e) {
-        setValueByPoint(e);
-    }
+	public void mdragged(MouseEvent e) {
+		setValueByPoint(e);
+	}
 
-    private void setValueByPoint(MouseEvent e) {
+	private void setValueByPoint(MouseEvent e) {
 
-        // get variables
-        Descriptor d = getDescriptor(getLod());
-        Rectangle rect = (Rectangle) d.get(Descriptor.Key.RECTANGLE);
-        Slider slider = (Slider) _data;
-        float value;
+		// get variables
+		Descriptor d = getDescriptor(getLod());
+		Rectangle rect = (Rectangle) d.get(Descriptor.Key.RECTANGLE);
+		Slider slider = (Slider) _data;
+		float value;
 
-        // check whether horizontal or vertical sliding
-        Object o = d.get(Descriptor.Key.X);
-        if (o == null) {
+		// check whether horizontal or vertical sliding
+		Object o = d.get(Descriptor.Key.X);
+		if (o == null) {
 
-            // vertical sliding. Adjust point
-            // compute value by y coordinate of click-point
-            int y2 = ((Integer) d.get(Descriptor.Key.X)).intValue();
-            float y = e.getY() * d.getHeight() / (float) getHeight();
-            y -= rect.height >> 1;
-            value = (y - rect.y) / (y2 - rect.y);
-        } else {
+			// vertical sliding. Adjust point
+			// compute value by y coordinate of click-point
+			int y2 = ((Integer) d.get(Descriptor.Key.X)).intValue();
+			float y = e.getY() * d.getHeight() / (float) getHeight();
+			y -= rect.height >> 1;
+			value = (y - rect.y) / (y2 - rect.y);
+		}
+		else {
 
-            // horizontal sliding.
-            // compute value by x coordinate of click-point
-            int x2 = ((Integer) o).intValue();
-            float x = e.getX() * d.getWidth() / (float) getWidth();
-            x -= rect.width >> 1;
-            value = (x - rect.x) / (x2 - rect.x);
-        }
+			// horizontal sliding.
+			// compute value by x coordinate of click-point
+			int x2 = ((Integer) o).intValue();
+			float x = e.getX() * d.getWidth() / (float) getWidth();
+			x -= rect.width >> 1;
+			value = (x - rect.x) / (x2 - rect.x);
+		}
 
-        // adjust value to bounds and set to slider.
-        value = Math.min(value, 1);
-        value = Math.max(value, 0);
-        slider.setValue(value);
-    }
+		// adjust value to bounds and set to slider.
+		value = Math.min(value, 1);
+		value = Math.max(value, 0);
+		slider.setValue(value);
+	}
 }

@@ -25,48 +25,48 @@ import eniac.data.type.EType;
  */
 public class CycleCounter extends ParentData implements Observer {
 
-    public CycleCounter() {
-        // empty
-    }
+	public CycleCounter() {
+		// empty
+	}
 
-    public void init() {
-        super.init();
-        EData clear = getGarten().getKind(EType.CYCLE_COUNTER_CLEAR, 0);
-        clear.addObserver(this);
-    }
+	public void init() {
+		super.init();
+		EData clear = getGarten().getKind(EType.CYCLE_COUNTER_CLEAR, 0);
+		clear.addObserver(this);
+	}
 
-    public void setValue(int value) {
-        EData[] ciphers = getGarten().getKinder(EType.CIPHER);
-        for (int i = 0; i < ciphers.length; ++i) {
-            Switch c = (Switch) ciphers[i];
-            c.setValue(value % 10);
-            value /= 10;
-        }
-    }
+	public void setValue(int value) {
+		EData[] ciphers = getGarten().getKinder(EType.CIPHER);
+		for (int i = 0; i < ciphers.length; ++i) {
+			Switch c = (Switch) ciphers[i];
+			c.setValue(value % 10);
+			value /= 10;
+		}
+	}
 
-    public void incrementValue() {
-        setValue(getValue() + 1);
-    }
+	public void incrementValue() {
+		setValue(getValue() + 1);
+	}
 
-    public int getValue() {
-        int value = 0;
-        EData[] ciphers = getGarten().getKinder(EType.CIPHER);
-        for (int i = ciphers.length - 1; i >= 0; --i) {
-            Switch c = (Switch) ciphers[i];
-            value *= 10;
-            value += c.getValue();
-        }
-        return value;
-    }
+	public int getValue() {
+		int value = 0;
+		EData[] ciphers = getGarten().getKinder(EType.CIPHER);
+		for (int i = ciphers.length - 1; i >= 0; --i) {
+			Switch c = (Switch) ciphers[i];
+			value *= 10;
+			value += c.getValue();
+		}
+		return value;
+	}
 
-    /**
-     * @param data
-     * @see eniac.data.DataListener#dataChanged(eniac.data.EData)
-     */
-    public void update(Observable o, Object args) {
-        if (((Switch) o).isValue()) {
-            setValue(0);
-        }
-    }
+	/**
+	 * @param data
+	 * @see eniac.data.DataListener#dataChanged(eniac.data.EData)
+	 */
+	public void update(Observable o, Object args) {
+		if (((Switch) o).isValue()) {
+			setValue(0);
+		}
+	}
 
 }

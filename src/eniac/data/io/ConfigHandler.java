@@ -35,96 +35,94 @@ import eniac.log.Log;
  */
 public class ConfigHandler extends DefaultHandler {
 
-    //================================ fields
-    // ==================================
+	// ================================ fields
+	// ==================================
 
-    // stack for the data objects to be parsed
-    private Stack<EData> _stack = new Stack<>();
+	// stack for the data objects to be parsed
+	private Stack<EData> _stack = new Stack<>();
 
-    // reference to the configuration as the root of our dataObject tree.
-    // if parsing was not successful, this will stay null.
-    private Configuration _configuration = null;
+	// reference to the configuration as the root of our dataObject tree.
+	// if parsing was not successful, this will stay null.
+	private Configuration _configuration = null;
 
-    /**
-     * Creates a new configurationHandler
-     */
-    public ConfigHandler() {
-        // empty constructor
-    }
+	/**
+	 * Creates a new configurationHandler
+	 */
+	public ConfigHandler() {
+		// empty constructor
+	}
 
-    public Configuration getConfiguration() {
-        return _configuration;
-    }
+	public Configuration getConfiguration() {
+		return _configuration;
+	}
 
-    //===================== overriding DefaultHandler methods
-    // ==================
+	// ===================== overriding DefaultHandler methods
+	// ==================
 
-    public void startElement(String uri, String localName, String qName,
-            Attributes attrs) throws SAXException {
+	public void startElement(String uri, String localName, String qName, Attributes attrs) throws SAXException {
 
-        try {
-            // read type from string
-        	EType type = convertToType(qName);
-            if (type == null) {
-                return;
-            }
+		try {
+			// read type from string
+			EType type = convertToType(qName);
+			if (type == null) {
+				return;
+			}
 
-            // create dataObject and push it to the stack.
-            EData data = type.makeEData();
-            data.setAttributes(attrs);
-            _stack.push(data);
-        } catch (Exception e) {
-            // in case of exception, print stack trace and rethrow as sax
-            e.printStackTrace();
-            throw new SAXException(e);
-        }
-    }
+			// create dataObject and push it to the stack.
+			EData data = type.makeEData();
+			data.setAttributes(attrs);
+			_stack.push(data);
+		} catch (Exception e) {
+			// in case of exception, print stack trace and rethrow as sax
+			e.printStackTrace();
+			throw new SAXException(e);
+		}
+	}
 
-    public void endElement(String uri, String localName, String qName)
-            throws SAXException {
+	public void endElement(String uri, String localName, String qName) throws SAXException {
 
-        try {
-            // read type from string
-        	EType type = convertToType(qName);
-            if (type == null) {
-                return;
-            }
+		try {
+			// read type from string
+			EType type = convertToType(qName);
+			if (type == null) {
+				return;
+			}
 
-            // pop object from stack
-            EData data = _stack.pop();
-            if (data instanceof Configuration) {
-                // special case: assign configuration field
-                _configuration = (Configuration) data;
-            } else {
-                // add object as new child to the top-of_stack-dataObject.
-                ParentData parent = (ParentData) _stack.peek();
-                parent.addChild(data);
-            }
-        } catch (Exception e) {
-            // in case of exception, print stack trace and rethrow as sax
-            e.printStackTrace();
-            throw new SAXException(e);
-        }
-    }
+			// pop object from stack
+			EData data = _stack.pop();
+			if (data instanceof Configuration) {
+				// special case: assign configuration field
+				_configuration = (Configuration) data;
+			}
+			else {
+				// add object as new child to the top-of_stack-dataObject.
+				ParentData parent = (ParentData) _stack.peek();
+				parent.addChild(data);
+			}
+		} catch (Exception e) {
+			// in case of exception, print stack trace and rethrow as sax
+			e.printStackTrace();
+			throw new SAXException(e);
+		}
+	}
 
-    public void warning(SAXParseException e) throws SAXException {
-        Log.log(e.toString());
-    }
+	public void warning(SAXParseException e) throws SAXException {
+		Log.log(e.toString());
+	}
 
-    public void error(SAXParseException e) throws SAXException {
-        Log.log(e.toString());
-    }
+	public void error(SAXParseException e) throws SAXException {
+		Log.log(e.toString());
+	}
 
-    private EType convertToType(String name){
-        try {
-        	return Enum.valueOf(EType.class, name.toUpperCase());
-        }catch (IllegalArgumentException exc) {
-        	
-        	// check, if this is a proxy tag
-            try {
-            	Enum.valueOf(Proxy.Tag.class, name.toUpperCase());
-            }
-            catch (IllegalArgumentException exc2) {
+	private EType convertToType(String name) {
+		try {
+			return Enum.valueOf(EType.class, name.toUpperCase());
+		} catch (IllegalArgumentException exc) {
+
+			// check, if this is a proxy tag
+			try {
+				Enum.valueOf(Proxy.Tag.class, name.toUpperCase());
+			} catch (IllegalArgumentException exc2) {
 
 				// we have either the root element "eniac" or an unknown tag
 				if (!Tag.ENIAC.name().equalsIgnoreCase(name)) {
@@ -132,7 +130,7 @@ public class ConfigHandler extends DefaultHandler {
 				}
 			}
 			return null;
-        }
-    }
+		}
+	}
 
 }

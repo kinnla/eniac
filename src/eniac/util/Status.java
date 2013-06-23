@@ -5,47 +5,46 @@ public enum Status {
 	/**
 	 * the active configuration or null
 	 */
-	CONFIGURATION, 
-	
+	CONFIGURATION,
+
 	/**
 	 * flag indicating, whether the overview window is shown or not
 	 */
-	SHOW_OVERVIEW, 
-	
+	SHOW_OVERVIEW,
+
 	/**
 	 * the default height of the configuration panel
 	 */
 	BASIC_CONFIGURATION_HEIGHT,
-	
+
 	/**
-	 * the height of the configuration panel 
+	 * the height of the configuration panel
 	 */
-	ZOOMED_HEIGHT, 
-	
+	ZOOMED_HEIGHT,
+
 	/**
 	 * flag indicating, whether the overview window is shown or not
 	 */
-	SHOW_LOG, 
-	
+	SHOW_LOG,
+
 	/**
 	 * the currently loaded skin (currently only buttercream) or null
 	 */
-	SKIN, 
-	
+	SKIN,
+
 	/**
 	 * the currently loaded language
 	 */
-	LANGUAGE, 
-	
+	LANGUAGE,
+
 	/**
 	 * flag indicating, whether the pulses shall be highlighted or not
 	 */
-	HIGHLIGHT_PULSE, 
-	
+	HIGHLIGHT_PULSE,
+
 	/**
 	 * the current simulation time
 	 */
 	SIMULATION_TIME;
 
-	
 }

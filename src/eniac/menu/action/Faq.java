@@ -26,18 +26,17 @@ import eniac.util.StringConverter;
  */
 public class Faq extends EAction {
 
-    /**
-     * @param e
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
+	/**
+	 * @param e
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
 
-        // create dialog that displays information
-        TextPanel panel = new TextPanel(Dictionary.FAQ_TEXT.getText());
-        panel.init();
-        panel.setPreferredSize(StringConverter.toDimension(EProperties.getInstance()
-                .getProperty("FAQ_SIZE")));
-        Manager.getInstance().makeDialog(panel, Dictionary.FAQ_NAME.getText());
-        // dialog closed. Nothing to do any more
-    }
+		// create dialog that displays information
+		TextPanel panel = new TextPanel(Dictionary.FAQ_TEXT.getText());
+		panel.init();
+		panel.setPreferredSize(StringConverter.toDimension(EProperties.getInstance().getProperty("FAQ_SIZE")));
+		Manager.getInstance().makeDialog(panel, Dictionary.FAQ_NAME.getText());
+		// dialog closed. Nothing to do any more
+	}
 }

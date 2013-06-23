@@ -30,270 +30,268 @@ import eniac.window.EFrame;
  */
 public class CreatorFactory {
 
-    // array containing creators
-    private Creator[] _creators;
+	// array containing creators
+	private Creator[] _creators;
 
-    // class keys of creators
-    private String[] _keys;
+	// class keys of creators
+	private String[] _keys;
 
-    // base folder for creating images
-    String _imageBase;
+	// base folder for creating images
+	String _imageBase;
 
-    // lod name. Subfolder for creating images
-    String _lodName;
+	// lod name. Subfolder for creating images
+	String _lodName;
 
-    // flag indicating whether there are any images missing.
-    boolean _missingImages;
+	// flag indicating whether there are any images missing.
+	boolean _missingImages;
 
-    // actionatorFactory where we get actionators from
-    ControlerFactory _actionatorFactory;
+	// actionatorFactory where we get actionators from
+	ControlerFactory _actionatorFactory;
 
-    //================================ lifecycle
-    // ===============================
+	// ================================ lifecycle
+	// ===============================
 
-    public CreatorFactory(String imageBase) {
+	public CreatorFactory(String imageBase) {
 
-        // set image base
-        _imageBase = imageBase;
+		// set image base
+		_imageBase = imageBase;
 
-        // create actionator factory
-        _actionatorFactory = new ControlerFactory();
+		// create actionator factory
+		_actionatorFactory = new ControlerFactory();
 
-        // collect Creators in an array
-        _creators = new Creator[] { new Color(), new Image(), new IntArray(),
-                new Integer(), new Rectangle(), new Polygon(),
-                new Actionator(), new Boolean() };
+		// collect Creators in an array
+		_creators = new Creator[]{new Color(), new Image(), new IntArray(), new Integer(), new Rectangle(),
+				new Polygon(), new Actionator(), new Boolean()};
 
-        // init keys
-        _keys = new String[_creators.length];
-        for (int i = 0; i < _keys.length; ++i) {
-            String s = _creators[i].getClass().getName();
-            _keys[i] = s.substring(s.lastIndexOf('$') + 1);
-        }
-    }
+		// init keys
+		_keys = new String[_creators.length];
+		for (int i = 0; i < _keys.length; ++i) {
+			String s = _creators[i].getClass().getName();
+			_keys[i] = s.substring(s.lastIndexOf('$') + 1);
+		}
+	}
 
-    //=============================== methods
-    // ==================================
+	// =============================== methods
+	// ==================================
 
-    public Creator get(String cls) {
-        for (int i = 0; i < _creators.length; ++i) {
-            if (_keys[i].equals(cls)) {
-                return _creators[i];
-            }
-        }
-        return null;
-    }
+	public Creator get(String cls) {
+		for (int i = 0; i < _creators.length; ++i) {
+			if (_keys[i].equals(cls)) {
+				return _creators[i];
+			}
+		}
+		return null;
+	}
 
-    public boolean hasMissingImages() {
-        return _missingImages;
-    }
+	public boolean hasMissingImages() {
+		return _missingImages;
+	}
 
-    public void setLodName(String lodName) {
-        _lodName = lodName;
-    }
+	public void setLodName(String lodName) {
+		_lodName = lodName;
+	}
 
-    //========================= inner class ColorCreator
-    // =======================
+	// ========================= inner class ColorCreator
+	// =======================
 
-    private class Color extends Creator {
-        
-    	public Color() {
-    		// empty constructor
-    	}
-    	
-    	public void endElement(String name) {
-            _object = StringConverter.toColor(_cdata);
-            _cdata = null;
-        }
+	private class Color extends Creator {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see eniac.skin.Creator#startElement(java.lang.String,
-         *      org.xml.sax.Attributes)
-         */
-        public void startElement(String name, Attributes attrs) {
-            // TODO Auto-generated method stub
+		public Color() {
+			// empty constructor
+		}
 
-        }
-    }
+		public void endElement(String name) {
+			_object = StringConverter.toColor(_cdata);
+			_cdata = null;
+		}
 
-    private class IntArray extends Creator {
-        
-    	public IntArray() {
-    		// empty constructor
-    	}
-    	
-        public void endElement(String name) {
-            _object = StringConverter.toIntArray(_cdata);
-            _cdata = null;
-        }
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see eniac.skin.Creator#startElement(java.lang.String,
+		 * org.xml.sax.Attributes)
+		 */
+		public void startElement(String name, Attributes attrs) {
+			// TODO Auto-generated method stub
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see eniac.skin.Creator#startElement(java.lang.String,
-         *      org.xml.sax.Attributes)
-         */
-        public void startElement(String name, Attributes attrs) {
-            // TODO Auto-generated method stub
+		}
+	}
 
-        }
-    }
+	private class IntArray extends Creator {
 
-    private class Image extends Creator {
-        
-    	public Image() {
-    		// empty constructor
-    	}
-    	
-        public void endElement(String name) {
-            // load image.
-            String path = _imageBase + _lodName + "/" + _cdata; //$NON-NLS-1$
-            _object = EFrame.getInstance().getResourceAsImage(path);
-            if (_object == null) {
+		public IntArray() {
+			// empty constructor
+		}
 
-                // If image cannot be loaded, try to load without subfolder
-                path = _imageBase + _cdata;
-                _object = EFrame.getInstance().getResourceAsImage(path);
-                if (_object == null) {
+		public void endElement(String name) {
+			_object = StringConverter.toIntArray(_cdata);
+			_cdata = null;
+		}
 
-                    // cannot find at all. Load default image.
-                    Log.log(LogWords.IMAGE_NOT_FOUND,
-                            JOptionPane.ERROR_MESSAGE, _cdata);
-                    _object = Skin.DEFAULT_IMAGE;
-                    _missingImages = true;
-                }
-            }
-            _cdata = null;
-        }
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see eniac.skin.Creator#startElement(java.lang.String,
+		 * org.xml.sax.Attributes)
+		 */
+		public void startElement(String name, Attributes attrs) {
+			// TODO Auto-generated method stub
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see eniac.skin.Creator#startElement(java.lang.String,
-         *      org.xml.sax.Attributes)
-         */
-        public void startElement(String name, Attributes attrs) {
-            // TODO Auto-generated method stub
+		}
+	}
 
-        }
-    }
+	private class Image extends Creator {
 
-    private class Rectangle extends Creator {
-        
-    	public Rectangle() {
-    		// empty constructor
-    	}
-    	
-        public void endElement(String name) {
-            _object = StringConverter.toRectangle(_cdata);
-            _cdata = null;
-        }
+		public Image() {
+			// empty constructor
+		}
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see eniac.skin.Creator#startElement(java.lang.String,
-         *      org.xml.sax.Attributes)
-         */
-        public void startElement(String name, Attributes attrs) {
-            // TODO Auto-generated method stub
+		public void endElement(String name) {
+			// load image.
+			String path = _imageBase + _lodName + "/" + _cdata; //$NON-NLS-1$
+			_object = EFrame.getInstance().getResourceAsImage(path);
+			if (_object == null) {
 
-        }
-    }
+				// If image cannot be loaded, try to load without subfolder
+				path = _imageBase + _cdata;
+				_object = EFrame.getInstance().getResourceAsImage(path);
+				if (_object == null) {
 
-    private class Integer extends Creator {
-        
-    	public Integer() {
-    		// empty constructor
-    	}
-    	
-        public void endElement(String name) {
-            _object = new java.lang.Integer(StringConverter.toInt(_cdata));
-            _cdata = null;
-        }
+					// cannot find at all. Load default image.
+					Log.log(LogWords.IMAGE_NOT_FOUND, JOptionPane.ERROR_MESSAGE, _cdata);
+					_object = Skin.DEFAULT_IMAGE;
+					_missingImages = true;
+				}
+			}
+			_cdata = null;
+		}
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see eniac.skin.Creator#startElement(java.lang.String,
-         *      org.xml.sax.Attributes)
-         */
-        public void startElement(String name, Attributes attrs) {
-            // TODO Auto-generated method stub
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see eniac.skin.Creator#startElement(java.lang.String,
+		 * org.xml.sax.Attributes)
+		 */
+		public void startElement(String name, Attributes attrs) {
+			// TODO Auto-generated method stub
 
-        }
-    }
+		}
+	}
 
-    private class Polygon extends Creator {
-        
-    	public Polygon() {
-    		// empty constructor
-    	}
-    	
-        private java.awt.Polygon _p = null;
+	private class Rectangle extends Creator {
 
-        public void startElement(String name, Attributes attrs) {
-            if (name.equals(Skin.Tag.POINT.name().toLowerCase())) {
-                if (_p == null) {
-                    _p = new java.awt.Polygon();
-                }
-                int x = XMLUtil.parseInt(attrs, Tag.X);
-                int y = XMLUtil.parseInt(attrs, Tag.Y);
-                _p.addPoint(x, y);
-            }
-        }
+		public Rectangle() {
+			// empty constructor
+		}
 
-        public void endElement(String name) {
-            _object = _p;
-            _p = null;
-        }
-    }
+		public void endElement(String name) {
+			_object = StringConverter.toRectangle(_cdata);
+			_cdata = null;
+		}
 
-    private class Actionator extends Creator {
-        
-    	public Actionator() {
-    		// empty constructor
-    	}
-    	
-    	public void endElement(String name) {
-            _object = _actionatorFactory.get(_cdata);
-            _cdata = null;
-        }
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see eniac.skin.Creator#startElement(java.lang.String,
+		 * org.xml.sax.Attributes)
+		 */
+		public void startElement(String name, Attributes attrs) {
+			// TODO Auto-generated method stub
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see eniac.skin.Creator#startElement(java.lang.String,
-         *      org.xml.sax.Attributes)
-         */
-        public void startElement(String name, Attributes attrs) {
-            // TODO Auto-generated method stub
+		}
+	}
 
-        }
-    }
+	private class Integer extends Creator {
 
-    private class Boolean extends Creator {
-        
-    	public Boolean() {
-    		// empty constructor
-    	}
-    	
-    	public void endElement(String name) {
-            _object = new java.lang.Boolean(_cdata);
-            _cdata = null;
-        }
+		public Integer() {
+			// empty constructor
+		}
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see eniac.skin.Creator#startElement(java.lang.String,
-         *      org.xml.sax.Attributes)
-         */
-        public void startElement(String name, Attributes attrs) {
-            // TODO Auto-generated method stub
+		public void endElement(String name) {
+			_object = new java.lang.Integer(StringConverter.toInt(_cdata));
+			_cdata = null;
+		}
 
-        }
-    }
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see eniac.skin.Creator#startElement(java.lang.String,
+		 * org.xml.sax.Attributes)
+		 */
+		public void startElement(String name, Attributes attrs) {
+			// TODO Auto-generated method stub
+
+		}
+	}
+
+	private class Polygon extends Creator {
+
+		public Polygon() {
+			// empty constructor
+		}
+
+		private java.awt.Polygon _p = null;
+
+		public void startElement(String name, Attributes attrs) {
+			if (name.equals(Skin.Tag.POINT.name().toLowerCase())) {
+				if (_p == null) {
+					_p = new java.awt.Polygon();
+				}
+				int x = XMLUtil.parseInt(attrs, Tag.X);
+				int y = XMLUtil.parseInt(attrs, Tag.Y);
+				_p.addPoint(x, y);
+			}
+		}
+
+		public void endElement(String name) {
+			_object = _p;
+			_p = null;
+		}
+	}
+
+	private class Actionator extends Creator {
+
+		public Actionator() {
+			// empty constructor
+		}
+
+		public void endElement(String name) {
+			_object = _actionatorFactory.get(_cdata);
+			_cdata = null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see eniac.skin.Creator#startElement(java.lang.String,
+		 * org.xml.sax.Attributes)
+		 */
+		public void startElement(String name, Attributes attrs) {
+			// TODO Auto-generated method stub
+
+		}
+	}
+
+	private class Boolean extends Creator {
+
+		public Boolean() {
+			// empty constructor
+		}
+
+		public void endElement(String name) {
+			_object = new java.lang.Boolean(_cdata);
+			_cdata = null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see eniac.skin.Creator#startElement(java.lang.String,
+		 * org.xml.sax.Attributes)
+		 */
+		public void startElement(String name, Attributes attrs) {
+			// TODO Auto-generated method stub
+
+		}
+	}
 }

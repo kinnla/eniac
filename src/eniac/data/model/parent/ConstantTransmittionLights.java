@@ -27,58 +27,55 @@ import eniac.data.type.EType;
  */
 public class ConstantTransmittionLights extends ParentData implements Observer {
 
-    public static final String PAINT_LIGHTS = "PAINT_LIGHTS"; //$NON-NLS-1$
+	public static final String PAINT_LIGHTS = "PAINT_LIGHTS"; //$NON-NLS-1$
 
-    public void init() {
-        super.init();
+	public void init() {
+		super.init();
 
-        // observe the constant transmitter unit
-        EData data = getUnit();
-        assertInit(data);
-        data.addObserver(this);
-        
-        // observe the constant lights
-        data = getConfiguration().getGarten().getKind(EType.CONSTANT_2_LIGHTS, 0);
-        assertInit(data);
-        data.addObserver(this);
-    }
+		// observe the constant transmitter unit
+		EData data = getUnit();
+		assertInit(data);
+		data.addObserver(this);
 
-    public boolean hasPower() {
-        ConstantTransmitter1 unit = getUnit();
-        return unit.hasPower() && unit.isTransmitting();
-    }
+		// observe the constant lights
+		data = getConfiguration().getGarten().getKind(EType.CONSTANT_2_LIGHTS, 0);
+		assertInit(data);
+		data.addObserver(this);
+	}
 
-    private ConstantTransmitter1 getUnit() {
-        EData unit = getConfiguration().getGarten().getKind(
-                EType.CONSTANT_TRANSMITTER_1_UNIT, 0);
-        return (ConstantTransmitter1) unit;
-    }
+	public boolean hasPower() {
+		ConstantTransmitter1 unit = getUnit();
+		return unit.hasPower() && unit.isTransmitting();
+	}
 
-    /**
-     * @param o
-     * @param arg
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    public void update(Observable o, Object arg) {
+	private ConstantTransmitter1 getUnit() {
+		EData unit = getConfiguration().getGarten().getKind(EType.CONSTANT_TRANSMITTER_1_UNIT, 0);
+		return (ConstantTransmitter1) unit;
+	}
 
-        if (arg == PAINT_LIGHTS) {
-            // set number to our ciphers
-            EData[] ciphers = getGarten().getKinder(
-                    EType.CONSTANT_TRANSMITTION_CIPHER);
-            ConstantTransmitter1 unit = getUnit();
-            long number = unit.getNumber();
-            for (int i = ciphers.length - 1; i >= 0; --i) {
-                ((Switch) ciphers[i]).setValue((int) (number % 10));
-                number /= 10;
-            }
-            // set sign
-            EData sign = getGarten().getKind(
-                    EType.CONSTANT_TRANSMITTION_SIGN, 0);
-            ((Switch) sign).setValue(unit.isNegative() ? 0 : 1);
+	/**
+	 * @param o
+	 * @param arg
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
+	public void update(Observable o, Object arg) {
 
-            // notify for repaint
-            setChanged();
-            notifyObservers(EData.REPAINT);
-        }
-    }
+		if (arg == PAINT_LIGHTS) {
+			// set number to our ciphers
+			EData[] ciphers = getGarten().getKinder(EType.CONSTANT_TRANSMITTION_CIPHER);
+			ConstantTransmitter1 unit = getUnit();
+			long number = unit.getNumber();
+			for (int i = ciphers.length - 1; i >= 0; --i) {
+				((Switch) ciphers[i]).setValue((int) (number % 10));
+				number /= 10;
+			}
+			// set sign
+			EData sign = getGarten().getKind(EType.CONSTANT_TRANSMITTION_SIGN, 0);
+			((Switch) sign).setValue(unit.isNegative() ? 0 : 1);
+
+			// notify for repaint
+			setChanged();
+			notifyObservers(EData.REPAINT);
+		}
+	}
 }

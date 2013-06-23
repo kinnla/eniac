@@ -195,9 +195,9 @@ public class ConfigPanel extends ParentPanel implements Scrollable, StatusListen
 
 			// zoom changed.
 			// init with default values
-			double scrollPercentageX=0.5;
-			double scrollPercentageY=0.5;
-			
+			double scrollPercentageX = 0.5;
+			double scrollPercentageY = 0.5;
+
 			// get values
 			Dimension preferredSize = getPreferredSize();
 			JViewport viewPort = ((JViewport) getParent());
@@ -206,33 +206,33 @@ public class ConfigPanel extends ParentPanel implements Scrollable, StatusListen
 
 			// check, if preferred width > viewport width
 			int widthDiff = preferredSize.width - viewPortSize.width;
-			if (widthDiff >0) {
+			if (widthDiff > 0) {
 				// compute relative scroll position x
 				scrollPercentageX = currentPosition.x / (double) (getSize().width - viewPortSize.width);
 			}
 
 			// check, if preferred height > viewport height
 			int heightDiff = preferredSize.height - viewPortSize.height;
-			if (heightDiff >0) {
+			if (heightDiff > 0) {
 				// compute relative scroll position y
 				scrollPercentageY = currentPosition.y / (double) (getSize().height - viewPortSize.height);
 			}
 
 			// default _p to current position
 			_p = getLocation();
-			
+
 			// check, if need to update x location
-			if (widthDiff>0) {
+			if (widthDiff > 0) {
 				// we cannot see the complete configuration in x direction
-				_p.x=(int) (widthDiff * scrollPercentageX);
+				_p.x = (int) (widthDiff * scrollPercentageX);
 			}
-			
+
 			// check, if need to update x location
-			if (heightDiff>0) {
+			if (heightDiff > 0) {
 				// we cannot see the complete configuration in x direction
-				_p.y=(int) (heightDiff * scrollPercentageY);
+				_p.y = (int) (heightDiff * scrollPercentageY);
 			}
-			
+
 			setSize(preferredSize);
 			viewPort.setViewPosition(_p);
 			revalidate();

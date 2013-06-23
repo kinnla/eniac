@@ -20,12 +20,12 @@ import java.awt.event.MouseEvent;
  */
 public interface Controler {
 
-    public static final BasicControler NONE = new BasicControler();
+	public static final BasicControler NONE = new BasicControler();
 
-    public void mpressed(MouseEvent e);
+	public void mpressed(MouseEvent e);
 
-    public void mreleased(MouseEvent e);
+	public void mreleased(MouseEvent e);
 
-    public void mdragged(MouseEvent e);
+	public void mdragged(MouseEvent e);
 
 }

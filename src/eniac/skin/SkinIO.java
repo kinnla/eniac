@@ -38,66 +38,62 @@ import eniac.util.StringConverter;
  */
 public final class SkinIO {
 
-    private SkinIO() {
-        // empty
-    }
+	private SkinIO() {
+		// empty
+	}
 
-    public static List<Proxy> loadProxies() {
-        String path = getSkinPathWithoutIndex();
-        int max = StringConverter.toInt(EProperties.getInstance().getProperty(
-                "MAX_NUMBER_OF_SKINS"));
-        String text = Dictionary.SKIN_SCANNING.getText();
-        return IOUtil.loadProxies(path, max, text);
-    }
+	public static List<Proxy> loadProxies() {
+		String path = getSkinPathWithoutIndex();
+		int max = StringConverter.toInt(EProperties.getInstance().getProperty("MAX_NUMBER_OF_SKINS"));
+		String text = Dictionary.SKIN_SCANNING.getText();
+		return IOUtil.loadProxies(path, max, text);
+	}
 
-    public static void loadSkin(Proxy proxy) {
+	public static void loadSkin(Proxy proxy) {
 
-        String path = proxy.getPath();
-        InputStream in = Manager.getInstance().getResourceAsStream(path);
-        Skin skin = new Skin(proxy);
-        SkinHandler handler = new SkinHandler(skin);
-        try {
-            IOUtil.parse(in, handler);
+		String path = proxy.getPath();
+		InputStream in = Manager.getInstance().getResourceAsStream(path);
+		Skin skin = new Skin(proxy);
+		SkinHandler handler = new SkinHandler(skin);
+		try {
+			IOUtil.parse(in, handler);
 
-            // check, if all images could be loaded.
-            // if not, announce this to the user
-            if (handler.hasMissingImages()) {
-                Log.log(LogWords.MISSING_IMAGES,
-                        JOptionPane.INFORMATION_MESSAGE, true);
-            }
+			// check, if all images could be loaded.
+			// if not, announce this to the user
+			if (handler.hasMissingImages()) {
+				Log.log(LogWords.MISSING_IMAGES, JOptionPane.INFORMATION_MESSAGE, true);
+			}
 
-            // TODO: this should be done at another place
-            // iterate on types
-            for (EType type : EType.values()) {
-                // set descriptors to etypes
-                handler.setDescriptorsToType(type);
-            }
-            // set new skin
-            StatusMap.set(Status.SKIN, skin);
-        } catch (IOException e) {
-            Log.log(LogWords.LOADING_OF_SKIN_FAILED, JOptionPane.ERROR_MESSAGE,
-                    true);
-            e.printStackTrace();
-        }
-    }
+			// TODO: this should be done at another place
+			// iterate on types
+			for (EType type : EType.values()) {
+				// set descriptors to etypes
+				handler.setDescriptorsToType(type);
+			}
+			// set new skin
+			StatusMap.set(Status.SKIN, skin);
+		} catch (IOException e) {
+			Log.log(LogWords.LOADING_OF_SKIN_FAILED, JOptionPane.ERROR_MESSAGE, true);
+			e.printStackTrace();
+		}
+	}
 
-    public static void loadDefaultSkin() {
-        String path = getSkinPathWithoutIndex();
-        int index = StringConverter.toInt(EProperties.getInstance().getProperty(
-                "INDEX_OF_DEFAULT_SKIN"));
-        String skinPath = IOUtil.addIndex(path, index);
-        Proxy proxy = IOUtil.loadProxy(skinPath);
-        if (proxy == null) {
-            Log.log("skin loading: proxy is null");
-            // System.out.println("skin loading: proxy is null");
-            return;
-        }
-        loadSkin(proxy);
-    }
+	public static void loadDefaultSkin() {
+		String path = getSkinPathWithoutIndex();
+		int index = StringConverter.toInt(EProperties.getInstance().getProperty("INDEX_OF_DEFAULT_SKIN"));
+		String skinPath = IOUtil.addIndex(path, index);
+		Proxy proxy = IOUtil.loadProxy(skinPath);
+		if (proxy == null) {
+			Log.log("skin loading: proxy is null");
+			// System.out.println("skin loading: proxy is null");
+			return;
+		}
+		loadSkin(proxy);
+	}
 
-    private static String getSkinPathWithoutIndex() {
-        String folder = EProperties.getInstance().getProperty("SKIN_FOLDER");
-        String file = EProperties.getInstance().getProperty("SKIN_FILE_WITHOUT_INDEX");
-        return folder + "/" + file; //$NON-NLS-1$
-    }
+	private static String getSkinPathWithoutIndex() {
+		String folder = EProperties.getInstance().getProperty("SKIN_FOLDER");
+		String file = EProperties.getInstance().getProperty("SKIN_FILE_WITHOUT_INDEX");
+		return folder + "/" + file; //$NON-NLS-1$
+	}
 }

@@ -24,51 +24,51 @@ import eniac.data.view.sw.SwitchPanel;
  */
 public class BasicControler implements Controler {
 
-    public BasicControler() {
-        // empty constructor
-    }
+	public BasicControler() {
+		// empty constructor
+	}
 
-    //========================= mouselistener methods
-    // ==========================
+	// ========================= mouselistener methods
+	// ==========================
 
-    public void mpressed(MouseEvent e) {
-        // no action
-    }
+	public void mpressed(MouseEvent e) {
+		// no action
+	}
 
-    public void mreleased(MouseEvent e) {
-        // no action
-    }
+	public void mreleased(MouseEvent e) {
+		// no action
+	}
 
-    public void mdragged(MouseEvent e) {
-        // no action
-    }
+	public void mdragged(MouseEvent e) {
+		// no action
+	}
 
-    //====================== static helper methods
-    // =============================
+	// ====================== static helper methods
+	// =============================
 
-    protected static SwitchPanel getSwitchPanel(MouseEvent e) {
-        return (SwitchPanel) e.getSource();
-    }
+	protected static SwitchPanel getSwitchPanel(MouseEvent e) {
+		return (SwitchPanel) e.getSource();
+	}
 
-    protected static Switch getSwitch(MouseEvent e) {
-        return (Switch) getSwitchPanel(e).getData();
-    }
+	protected static Switch getSwitch(MouseEvent e) {
+		return (Switch) getSwitchPanel(e).getData();
+	}
 
-    protected static void setValue(MouseEvent e, int value) {
-        getSwitch(e).setValue(value);
-    }
+	protected static void setValue(MouseEvent e, int value) {
+		getSwitch(e).setValue(value);
+	}
 
-    protected static int getValue(MouseEvent e) {
-        return getSwitch(e).getValue();
-    }
+	protected static int getValue(MouseEvent e) {
+		return getSwitch(e).getValue();
+	}
 
-    protected static void toggleValue(MouseEvent e) {
-        getSwitch(e).toggleValue();
-    }
+	protected static void toggleValue(MouseEvent e) {
+		getSwitch(e).toggleValue();
+	}
 
-    protected static boolean isInside(MouseEvent e) {
-        SwitchPanel sp = getSwitchPanel(e);
-        Rectangle r = new Rectangle(0, 0, sp.getWidth(), sp.getHeight());
-        return r.contains(e.getX(), e.getY());
-    }
+	protected static boolean isInside(MouseEvent e) {
+		SwitchPanel sp = getSwitchPanel(e);
+		Rectangle r = new Rectangle(0, 0, sp.getWidth(), sp.getHeight());
+		return r.contains(e.getX(), e.getY());
+	}
 }

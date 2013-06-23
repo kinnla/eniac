@@ -24,74 +24,73 @@ import eniac.data.model.sw.Switch;
 /**
  * @author zoppke
  */
-public abstract class Unit extends ParentData implements Observer,
-        PulseInteractor {
+public abstract class Unit extends ParentData implements Observer, PulseInteractor {
 
-    //============================== lifecycle
-    // =================================
+	// ============================== lifecycle
+	// =================================
 
-    public Unit() {
-        // empty
-    }
+	public Unit() {
+		// empty
+	}
 
-    public void init() {
+	public void init() {
 
-        // super inits children
-        super.init();
+		// super inits children
+		super.init();
 
-        // add this as dataListener to heaters in order to track power changing
-        getHeaters().addObserver(this);
-    }
+		// add this as dataListener to heaters in order to track power changing
+		getHeaters().addObserver(this);
+	}
 
-    //================================ methods
-    // =================================
+	// ================================ methods
+	// =================================
 
-    public abstract Switch getHeaters();
+	public abstract Switch getHeaters();
 
-    public boolean hasPower() {
-        return getHeaters().isValue();
-    }
+	public boolean hasPower() {
+		return getHeaters().isValue();
+	}
 
-    public EData getBlinkens() {
-        return ((Configuration) getParent()).getChild(_gridNumbers[0], 0);
-    }
+	public EData getBlinkens() {
+		return ((Configuration) getParent()).getChild(_gridNumbers[0], 0);
+	}
 
-    //======================== pulseinteractor methods
-    // =========================
+	// ======================== pulseinteractor methods
+	// =========================
 
-    /**
-     * @param time
-     * @param source
-     * @return @see eniac.data.PulseInteractor#canReceiveProgram(long,
-     *         eniac.data.PulseInteractor)
-     */
-    public boolean canReceiveProgram(long time, PulseInteractor source) {
-        return hasPower();
-    }
+	/**
+	 * @param time
+	 * @param source
+	 * @return @see eniac.data.PulseInteractor#canReceiveProgram(long,
+	 *         eniac.data.PulseInteractor)
+	 */
+	public boolean canReceiveProgram(long time, PulseInteractor source) {
+		return hasPower();
+	}
 
-    public void receiveProgram(long time, PulseInteractor source) {
-        // empty
-    }
+	public void receiveProgram(long time, PulseInteractor source) {
+		// empty
+	}
 
-    public void sendProgram(long time, PulseInteractor source) {
-        // empty
-    }
+	public void sendProgram(long time, PulseInteractor source) {
+		// empty
+	}
 
-    /**
-     * @param time
-     * @param source
-     * @return @see eniac.data.PulseInteractor#canReceiveDigit(long,
-     *         eniac.data.PulseInteractor)
-     */
-    public boolean canReceiveDigit(long time, PulseInteractor source) {
-        return hasPower();
-    }
+	/**
+	 * @param time
+	 * @param source
+	 * @return @see eniac.data.PulseInteractor#canReceiveDigit(long,
+	 *         eniac.data.PulseInteractor)
+	 */
+	public boolean canReceiveDigit(long time, PulseInteractor source) {
+		return hasPower();
+	}
 
-    public void receiveDigit(long time, long value, PulseInteractor source) {
-        // empty
-    }
+	public void receiveDigit(long time, long value, PulseInteractor source) {
+		// empty
+	}
 
-    public void sendDigit(long time, long value, PulseInteractor source) {
-        // empty
-    }
+	public void sendDigit(long time, long value, PulseInteractor source) {
+		// empty
+	}
 }

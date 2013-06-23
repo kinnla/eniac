@@ -35,57 +35,57 @@ public class ToggleAction extends EAction {
 
 	public void init() {
 
-        // create buttonModel and init selection state
+		// create buttonModel and init selection state
 		Status key = (Status) getValue(STATUS_PROPERTY);
-        ButtonModel model = new JToggleButton.ToggleButtonModel();
-        model.setSelected((Boolean)StatusMap.get(key));
+		ButtonModel model = new JToggleButton.ToggleButtonModel();
+		model.setSelected((Boolean) StatusMap.get(key));
 
-        // create button
-        JToggleButton button = new JToggleButton(this);
-        button.setText(null);
-        button.setModel(model);
+		// create button
+		JToggleButton button = new JToggleButton(this);
+		button.setText(null);
+		button.setModel(model);
 
-        // create menuItem
-        JCheckBoxMenuItem item = new JCheckBoxMenuItem(this);
-        item.setModel(model);
+		// create menuItem
+		JCheckBoxMenuItem item = new JCheckBoxMenuItem(this);
+		item.setModel(model);
 
 		// store objects
-        putValue(BUTTON, button);
-        putValue(MODEL, model);
-        putValue(ITEM, item);
+		putValue(BUTTON, button);
+		putValue(MODEL, model);
+		putValue(ITEM, item);
 
-        // add listener for status of boolean property bound to this action
-        StatusMap.getInstance().addListener(key, new StatusListener() {
-			
+		// add listener for status of boolean property bound to this action
+		StatusMap.getInstance().addListener(key, new StatusListener() {
+
 			@Override
 			public void statusChanged(Status status, Object newValue) {
-	            // value was toggeled by another party. update selection
+				// value was toggeled by another party. update selection
 				((ToggleButtonModel) getValue(MODEL)).setSelected((boolean) newValue);
 			}
 		});
-        
+
 		// add listener and init text
-        StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
-			
+		StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
+
 			@Override
 			public void statusChanged(Status status, Object newValue) {
-		        // language changed. update action values and hide text
-		        updateText();
+				// language changed. update action values and hide text
+				updateText();
 			}
 		});
-        updateText();
-    }
+		updateText();
+	}
 
-    /*
-     * ============================= methods ================================
-     */
-	
-    /**
-     * @param e
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-    		Status key = (Status) getValue(STATUS_PROPERTY);
-        StatusMap.set(key, ((ToggleButtonModel) getValue(MODEL)).isSelected());
-    }
+	/*
+	 * ============================= methods ================================
+	 */
+
+	/**
+	 * @param e
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Status key = (Status) getValue(STATUS_PROPERTY);
+		StatusMap.set(key, ((ToggleButtonModel) getValue(MODEL)).isSelected());
+	}
 }

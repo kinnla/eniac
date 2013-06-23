@@ -45,11 +45,11 @@ public enum Tag {
 	public String toLowerCase() {
 		return name().toLowerCase();
 	}
-	
+
 	public static Tag from(String s) {
 		try {
 			return Enum.valueOf(Tag.class, s.toUpperCase());
-		}catch(IllegalArgumentException exc) {
+		} catch (IllegalArgumentException exc) {
 			return null;
 		}
 	}

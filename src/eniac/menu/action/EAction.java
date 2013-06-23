@@ -39,44 +39,43 @@ public abstract class EAction extends AbstractAction {
 
 	public static final String
 
-		/**
-		 * unique key identifying this action
-		 */
-		KEY = "key",
+	/**
+	 * unique key identifying this action
+	 */
+	KEY = "key",
 
-		/**
-		 * the button produced from this action.
-		 */
-		BUTTON = "button",
+	/**
+	 * the button produced from this action.
+	 */
+	BUTTON = "button",
 
-		/**
-		 * The menu item
-		 */
-		ITEM = "item",
+	/**
+	 * The menu item
+	 */
+	ITEM = "item",
 
-		/**
-		 * The model for the button and the menu item
-		 */
-		MODEL = "model",
+	/**
+	 * The model for the button and the menu item
+	 */
+	MODEL = "model",
 
-		/**
-		 * The SID for the name
-		 */
-		SID_NAME = "SID_Name",
+	/**
+	 * The SID for the name
+	 */
+	SID_NAME = "SID_Name",
 
-		/**
-		 * The SID for the short description
-		 */
-		SID_SHORT_DESCRIPTION = "SID_ShortDescription",
+	/**
+	 * The SID for the short description
+	 */
+	SID_SHORT_DESCRIPTION = "SID_ShortDescription",
 
-		/**
-		 * in case the action modifies a property registered at the StatusMap,
-		 * this is the properties name
-		 */
-		STATUS_PROPERTY = "status_property";
-	
+	/**
+	 * in case the action modifies a property registered at the StatusMap, this
+	 * is the properties name
+	 */
+	STATUS_PROPERTY = "status_property";
 
-	//=============================== lifecycle //=============================
+	// =============================== lifecycle //=============================
 
 	public void init() {
 
@@ -92,20 +91,20 @@ public abstract class EAction extends AbstractAction {
 		putValue(ITEM, new JMenuItem(this));
 
 		// add listener and init text
-        StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
-			
+		StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
+
 			@Override
 			public void statusChanged(Status status, Object newValue) {
-		        // language changed. update action values and hide text
-		        updateText();
+				// language changed. update action values and hide text
+				updateText();
 			}
 		});
-        updateText();
+		updateText();
 	}
-    
-    //=============================== methods //===============================
 
-    protected void updateText() {
+	// =============================== methods //===============================
+
+	protected void updateText() {
 
 		// get values from dictionary and put them
 		String sid = (String) getValue(SID_NAME);
@@ -124,7 +123,7 @@ public abstract class EAction extends AbstractAction {
 		}
 		putValue(Action.SHORT_DESCRIPTION, sid);
 
-        // hide text
-        ((AbstractButton)getValue(BUTTON)).setText(null);
-    }
+		// hide text
+		((AbstractButton) getValue(BUTTON)).setText(null);
+	}
 }

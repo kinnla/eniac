@@ -34,87 +34,86 @@ import eniac.window.EFrame;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public class LogWindow extends JDialog implements LifecycleListener {
 
-    // reference to logpanel
-    private LogPanel _logPanel = null;
+	// reference to logpanel
+	private LogPanel _logPanel = null;
 
-    // ============================= singleton stuff
-    // ============================
+	// ============================= singleton stuff
+	// ============================
 
-    // singleton self reference
-    private static LogWindow instance;
+	// singleton self reference
+	private static LogWindow instance;
 
-    // private constructor
-    private LogWindow() {
-        super(EFrame.getInstance(), false);
-    }
+	// private constructor
+	private LogWindow() {
+		super(EFrame.getInstance(), false);
+	}
 
-    public static LogWindow getInstance() {
-        if (instance == null) {
-            instance = new LogWindow();
-            instance.init();
-        }
-        return instance;
-    }
+	public static LogWindow getInstance() {
+		if (instance == null) {
+			instance = new LogWindow();
+			instance.init();
+		}
+		return instance;
+	}
 
-    private void init() {
+	private void init() {
 
-        // add as singleton to starter
-        Manager.getInstance().addMainListener(this);
+		// add as singleton to starter
+		Manager.getInstance().addMainListener(this);
 
-        // layout
-        setTitle(Dictionary.LOG_WINDOW_TITLE.getText());
-        _logPanel = Log.getInstance().getLogPanel();
-        setContentPane(_logPanel);
+		// layout
+		setTitle(Dictionary.LOG_WINDOW_TITLE.getText());
+		_logPanel = Log.getInstance().getLogPanel();
+		setContentPane(_logPanel);
 
-        // add status Listener for visibility
-        StatusMap.getInstance().addListener(Status.SHOW_LOG, new StatusListener() {
-			
+		// add status Listener for visibility
+		StatusMap.getInstance().addListener(Status.SHOW_LOG, new StatusListener() {
+
 			@Override
 			public void statusChanged(Status status, Object newValue) {
-	            // show_log changed. Show or hide log window
-	            setVisible((boolean)newValue);
+				// show_log changed. Show or hide log window
+				setVisible((boolean) newValue);
 			}
 		});
 
-        // add status listener for language
-        StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
-			
+		// add status listener for language
+		StatusMap.getInstance().addListener(Status.LANGUAGE, new StatusListener() {
+
 			@Override
 			public void statusChanged(Status status, Object newValue) {
-	            // language changed. update window title
-	            setTitle(Dictionary.LOG_WINDOW_TITLE.getText());
+				// language changed. update window title
+				setTitle(Dictionary.LOG_WINDOW_TITLE.getText());
 			}
 		});
 
-        // add windowListener
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                StatusMap.set(Status.SHOW_LOG, false);
-            }
-        });
+		// add windowListener
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				StatusMap.set(Status.SHOW_LOG, false);
+			}
+		});
 
-        // to the screen
-        setBounds(StringConverter.toRectangle(EProperties.getInstance()
-                .getProperty("LOG_WINDOW_BOUNDS")));
-        setVisible((Boolean)StatusMap.get(Status.SHOW_LOG));
-    }
+		// to the screen
+		setBounds(StringConverter.toRectangle(EProperties.getInstance().getProperty("LOG_WINDOW_BOUNDS")));
+		setVisible((Boolean) StatusMap.get(Status.SHOW_LOG));
+	}
 
-    // =========================== listener stuff
-    // ===============================
+	// =========================== listener stuff
+	// ===============================
 
-    /**
-     * @param oldVal
-     * @param newVal
-     * @see eniac.LifecycleListener#mainChanged(short, short)
-     */
-    public void runLevelChanged(short oldVal, short newVal) {
-        if (newVal == Manager.STATE_DESTROYED) {
-            instance = null;
-        }
-    }
+	/**
+	 * @param oldVal
+	 * @param newVal
+	 * @see eniac.LifecycleListener#mainChanged(short, short)
+	 */
+	public void runLevelChanged(short oldVal, short newVal) {
+		if (newVal == Manager.STATE_DESTROYED) {
+			instance = null;
+		}
+	}
 }

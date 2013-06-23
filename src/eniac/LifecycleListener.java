@@ -18,6 +18,6 @@ package eniac;
  */
 public interface LifecycleListener {
 
-    public void runLevelChanged(short oldVal, short newVal);
+	public void runLevelChanged(short oldVal, short newVal);
 
 }

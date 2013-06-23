@@ -30,41 +30,41 @@ import eniac.window.EFrame;
  */
 public class ZoomFitWidth extends EAction {
 
-    /**
-     * @param e
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
+	/**
+	 * @param e
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
 
-        // get variables
-        ConfigPanel cp = EFrame.getInstance().getConfigPanel();
-        JScrollPane scrollPane = (JScrollPane) cp.getParent().getParent();
-        int newWidth = scrollPane.getWidth();
-        EType configType = cp.getData().getType();
-        Skin skin = (Skin) StatusMap.get(Status.SKIN);
-        int lod = cp.getLod();
-        Descriptor d = configType.getDescriptor(lod);
+		// get variables
+		ConfigPanel cp = EFrame.getInstance().getConfigPanel();
+		JScrollPane scrollPane = (JScrollPane) cp.getParent().getParent();
+		int newWidth = scrollPane.getWidth();
+		EType configType = cp.getData().getType();
+		Skin skin = (Skin) StatusMap.get(Status.SKIN);
+		int lod = cp.getLod();
+		Descriptor d = configType.getDescriptor(lod);
 
-        // compute new height according to current lod
-        int newHeight = newWidth * d.getHeight() / d.getWidth();
+		// compute new height according to current lod
+		int newHeight = newWidth * d.getHeight() / d.getWidth();
 
-        // compute lod according to new hight
-        lod = skin.getLodByHeight(newHeight);
+		// compute lod according to new hight
+		lod = skin.getLodByHeight(newHeight);
 
-        // compute new height according to new lod
-        d = configType.getDescriptor(lod);
-        newHeight = newWidth * d.getHeight() / d.getWidth();
+		// compute new height according to new lod
+		d = configType.getDescriptor(lod);
+		newHeight = newWidth * d.getHeight() / d.getWidth();
 
-        // if new height affords vertical scrollbars,
-        // we need to adjust the widht.
-        if (newHeight > scrollPane.getHeight()) {
-            newWidth -= scrollPane.getVerticalScrollBar().getWidth();
-        }
-        newWidth -= 4;
-        newHeight = newWidth * d.getHeight() / d.getWidth();
+		// if new height affords vertical scrollbars,
+		// we need to adjust the widht.
+		if (newHeight > scrollPane.getHeight()) {
+			newWidth -= scrollPane.getVerticalScrollBar().getWidth();
+		}
+		newWidth -= 4;
+		newHeight = newWidth * d.getHeight() / d.getWidth();
 
-        // set new height.
-        StatusMap.set(Status.ZOOMED_HEIGHT, newHeight);
-    }
+		// set new height.
+		StatusMap.set(Status.ZOOMED_HEIGHT, newHeight);
+	}
 
 }

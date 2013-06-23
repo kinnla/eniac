@@ -25,51 +25,51 @@ import eniac.util.EProperties;
  */
 public class ProtoTypes {
 
-    static {
-    	String file = EProperties.getInstance().getProperty("PROTOTYPES_FILE");
-        InputStream in = Manager.class.getClassLoader().getResourceAsStream(file);
-        TypeHandler handler = new TypeHandler();
-        try {
-            IOUtil.parse(in, handler);
-        } catch (Exception e) {
-            System.out.println("Error in initializing types"); //$NON-NLS-1$
-        }
-    }
+	static {
+		String file = EProperties.getInstance().getProperty("PROTOTYPES_FILE");
+		InputStream in = Manager.class.getClassLoader().getResourceAsStream(file);
+		TypeHandler handler = new TypeHandler();
+		try {
+			IOUtil.parse(in, handler);
+		} catch (Exception e) {
+			System.out.println("Error in initializing types"); //$NON-NLS-1$
+		}
+	}
 
-    //=============================== methods
-    // ==================================
+	// =============================== methods
+	// ==================================
 
-    public static void setType(EType type) {
-        try {
-            String name = type.toString().toUpperCase();
-            Field f = ProtoTypes.class.getField(name);
-            f.set(null, type);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	public static void setType(EType type) {
+		try {
+			String name = type.toString().toUpperCase();
+			Field f = ProtoTypes.class.getField(name);
+			f.set(null, type);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    public static EType[] getTypes() {
-        Field[] fields = ProtoTypes.class.getFields();
-        EType[] types = new EType[fields.length];
-        for (int i = 0; i < types.length; ++i) {
-            try {
-                types[i] = (EType) fields[i].get(null);
-                //System.out.println(fields[i].getName() + "------" +
-                // types[i]);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return types;
-    }
+	public static EType[] getTypes() {
+		Field[] fields = ProtoTypes.class.getFields();
+		EType[] types = new EType[fields.length];
+		for (int i = 0; i < types.length; ++i) {
+			try {
+				types[i] = (EType) fields[i].get(null);
+				// System.out.println(fields[i].getName() + "------" +
+				// types[i]);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return types;
+	}
 
-    public static EType getType(String name) {
-        try {
-            Field f = ProtoTypes.class.getField(name.toUpperCase());
-            return (EType) f.get(null);
-        } catch (Exception e) {
-            return null;
-        }
-    }
+	public static EType getType(String name) {
+		try {
+			Field f = ProtoTypes.class.getField(name.toUpperCase());
+			return (EType) f.get(null);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

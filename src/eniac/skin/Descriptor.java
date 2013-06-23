@@ -25,187 +25,190 @@ public class Descriptor {
 
 	/**
 	 * Enumeration of all keys that are available in a descriptor
+	 * 
 	 * @author till
-	 *
-	 * TODO
+	 * 
+	 *         TODO
 	 */
 	public enum Key {
-		
+
 		/**
 		 * a background image
 		 */
-		BACK_IMAGE, 
-		
+		BACK_IMAGE,
+
 		/**
 		 * an array of background images, as used by switches
 		 */
-		BACK_IMAGE_ARRAY, 
-		
+		BACK_IMAGE_ARRAY,
+
 		/**
 		 * a foreground image
 		 */
-		FORE_IMAGE, 
-		
+		FORE_IMAGE,
+
 		/**
 		 * an array of foreground images, as used by switchAndFlag
 		 */
-		FORE_IMAGE_ARRAY, 
-		
+		FORE_IMAGE_ARRAY,
+
 		/**
 		 * The color, given as 6-digit rgb hex string
 		 */
-		COLOR, 
-		
+		COLOR,
+
 		/**
 		 * A rectangle defining the bounds of the epanel
 		 */
-		RECTANGLE, 
-		
+		RECTANGLE,
+
 		/**
 		 * An array of rectangles, as for the light bulbs in blinkenlights
 		 */
-		RECTANGLE_ARRAY, 
-		
+		RECTANGLE_ARRAY,
+
 		/**
 		 * An array of polygons
 		 */
-		AREAS, 
-		
+		AREAS,
+
 		/**
 		 * The controller class, used by switch
 		 */
-		ACTIONATOR, 
-		
+		ACTIONATOR,
+
 		/**
 		 * the color of the cable, as defined by the connectors
 		 */
-		CABLE_COLOR, 
-		
+		CABLE_COLOR,
+
 		/**
 		 * the cable color in pulse highlighting mode
 		 */
-		CABLE_COLOR_HIGHLIGHT, 
-		
+		CABLE_COLOR_HIGHLIGHT,
+
 		/**
 		 * the cable diameter in pixels
 		 */
-		CABLE_PIXELS, 
-		
+		CABLE_PIXELS,
+
 		/**
 		 * image for an unplugged connector
 		 */
-		UNPLUGGED, 
-		
+		UNPLUGGED,
+
 		/**
 		 * image for a plugged connector
 		 */
-		PLUGGED, 
-		
+		PLUGGED,
+
 		/**
 		 * image for a connector with a loadbox
 		 */
-		LOADBOX, 
-		
+		LOADBOX,
+
 		/**
-		 * the vertical lines of the grid 
+		 * the vertical lines of the grid
 		 */
-		GRID_X, 
-		
+		GRID_X,
+
 		/**
 		 * the horizontal lines of the grid
 		 */
-		GRID_Y, 
-		
+		GRID_Y,
+
 		/**
 		 * the width of a slider (distance between min and max value)
 		 */
 		X,
 	}
-	
-	public enum Fill{ NONE, BOTH, HORIZONTAL, VERTICAL;}
 
-    private int _width;
+	public enum Fill {
+		NONE, BOTH, HORIZONTAL, VERTICAL;
+	}
 
-    private int _height;
+	private int _width;
 
-    private Fill _fill = Fill.NONE;
-    
-    private EnumMap<Key, Object> _map; 
+	private int _height;
 
-    //============================= lifecycle
-    // ==================================
+	private Fill _fill = Fill.NONE;
 
-    public Descriptor() {
-    	_map = new EnumMap<>(Key.class);
-    }
+	private EnumMap<Key, Object> _map;
 
-    //============================= getters and setters
-    // ========================
+	// ============================= lifecycle
+	// ==================================
 
-    public void setWidth(int width) {
-        _width = width;
-    }
+	public Descriptor() {
+		_map = new EnumMap<>(Key.class);
+	}
 
-    public int getWidth() {
-        return _width;
-    }
+	// ============================= getters and setters
+	// ========================
 
-    public void setHeight(int height) {
-        _height = height;
-    }
+	public void setWidth(int width) {
+		_width = width;
+	}
 
-    public int getHeight() {
-        return _height;
-    }
+	public int getWidth() {
+		return _width;
+	}
 
-    public void setFill(Fill fill) {
-        _fill = fill;
-    }
+	public void setHeight(int height) {
+		_height = height;
+	}
 
-    public Fill getFill() {
-        return _fill;
-    }
+	public int getHeight() {
+		return _height;
+	}
 
-    //=============================== methods
-    // ==================================
+	public void setFill(Fill fill) {
+		_fill = fill;
+	}
 
-    public Object get(Descriptor.Key key) {
-    	return _map.get(key);
-    }
-    
-    public void put(Descriptor.Key key, Object value) {
-    	_map.put(key, value);
-    }
-    
-    public Grid makeGrid(int width, int height) {
+	public Fill getFill() {
+		return _fill;
+	}
 
-        // get gridx. if gridx is null, return a simple grid.
-        int[] _gridX = (int[]) get(Key.GRID_X);
-        if (_gridX == null) {
-            return new Grid(width, height);
-        }
+	// =============================== methods
+	// ==================================
 
-        //otherwise get gridy, too. Create ParentGrid
-        int[] _gridY = (int[]) get(Key.GRID_Y);
-        ParentGrid grid = new ParentGrid(width, height);
+	public Object get(Descriptor.Key key) {
+		return _map.get(key);
+	}
 
-        // compute zoom
-        grid.zoomX = (float) width / (float) _width;
-        grid.zoomY = (float) height / (float) _height;
+	public void put(Descriptor.Key key, Object value) {
+		_map.put(key, value);
+	}
 
-        // create arrays
-        grid.xValues = new int[_gridX.length];
-        grid.yValues = new int[_gridY.length];
+	public Grid makeGrid(int width, int height) {
 
-        // copy grid numbers
-        for (int i = 0; i < grid.xValues.length; ++i) {
-            grid.xValues[i] = _gridX[i] * width / _width;
-        }
-        for (int i = 0; i < grid.yValues.length; ++i) {
-            grid.yValues[i] = _gridY[i] * height / _height;
-        }
+		// get gridx. if gridx is null, return a simple grid.
+		int[] _gridX = (int[]) get(Key.GRID_X);
+		if (_gridX == null) {
+			return new Grid(width, height);
+		}
 
-        // return grid.
-        return grid;
-    }
+		// otherwise get gridy, too. Create ParentGrid
+		int[] _gridY = (int[]) get(Key.GRID_Y);
+		ParentGrid grid = new ParentGrid(width, height);
+
+		// compute zoom
+		grid.zoomX = (float) width / (float) _width;
+		grid.zoomY = (float) height / (float) _height;
+
+		// create arrays
+		grid.xValues = new int[_gridX.length];
+		grid.yValues = new int[_gridY.length];
+
+		// copy grid numbers
+		for (int i = 0; i < grid.xValues.length; ++i) {
+			grid.xValues[i] = _gridX[i] * width / _width;
+		}
+		for (int i = 0; i < grid.yValues.length; ++i) {
+			grid.yValues[i] = _gridY[i] * height / _height;
+		}
+
+		// return grid.
+		return grid;
+	}
 }

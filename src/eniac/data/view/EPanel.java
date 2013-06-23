@@ -53,283 +53,283 @@ import eniac.util.StringConverter;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public class EPanel extends JPanel implements Observer, MouseInputListener {
 
-    // reference to dataObject
-    protected EData _data;
+	// reference to dataObject
+	protected EData _data;
 
-    // =========================== lifecycle
-    // ====================================
+	// =========================== lifecycle
+	// ====================================
 
-    public EPanel() {
-        super(null);
-    }
+	public EPanel() {
+		super(null);
+	}
 
-    public void init() {
-        // System.out.println("init " + _data.getType());
-        // init listeners
-        addMouseListener(this);
-        addMouseMotionListener(this);
-        _data.addObserver(this);
+	public void init() {
+		// System.out.println("init " + _data.getType());
+		// init listeners
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		_data.addObserver(this);
 
-        // find a non-empty name
-        String name;
-        EPanel panel = this;
-        do {
-            name = panel.getData().getName();
-            panel = (EPanel) getParent();
-        } while (name.equals("")); //$NON-NLS-1$
+		// find a non-empty name
+		String name;
+		EPanel panel = this;
+		do {
+			name = panel.getData().getName();
+			panel = (EPanel) getParent();
+		} while (name.equals("")); //$NON-NLS-1$
 
-        // set name as tooltip
-        setToolTipText(name);
-    }
+		// set name as tooltip
+		setToolTipText(name);
+	}
 
-    /**
-     * @see eniac.data.IDataPanel#dispose() TODO: how to dispose? dataObject
-     *      calls its tree, dataPanel calls its tree?
-     */
-    public void dispose() {
-        removeMouseListener(this);
-        removeMouseMotionListener(this);
-        _data.deleteObserver(this);
-    }
+	/**
+	 * @see eniac.data.IDataPanel#dispose() TODO: how to dispose? dataObject
+	 *      calls its tree, dataPanel calls its tree?
+	 */
+	public void dispose() {
+		removeMouseListener(this);
+		removeMouseMotionListener(this);
+		_data.deleteObserver(this);
+	}
 
-    // =============================== methods //===============================
+	// =============================== methods //===============================
 
-    public void setData(EData data) {
-        _data = data;
-    }
+	public void setData(EData data) {
+		_data = data;
+	}
 
-    public EData getData() {
-        return _data;
-    }
+	public EData getData() {
+		return _data;
+	}
 
-    public JComponent createPropertiesPanel() {
-        return new PropertyPanel(_data.getProperties());
-    }
+	public JComponent createPropertiesPanel() {
+		return new PropertyPanel(_data.getProperties());
+	}
 
-    public List<Action> getActions() {
-        List<Action> l = new LinkedList<>();
-        l.add(new ShowProperties());
-        return l;
-    }
+	public List<Action> getActions() {
+		List<Action> l = new LinkedList<>();
+		l.add(new ShowProperties());
+		return l;
+	}
 
-    public void paintAsIcon(Graphics g, int x, int y, int w, int h, int lod) {
-        paintComponent(g, x, y, w, h, lod);
-    }
+	public void paintAsIcon(Graphics g, int x, int y, int w, int h, int lod) {
+		paintComponent(g, x, y, w, h, lod);
+	}
 
-    /**
-     * Paints this dataPanel.
-     */
-    public void paintComponent(Graphics g) {
-        // maybe call super-paint: super.paintComponent(g);
-        paintComponent(g, 0, 0, getWidth(), getHeight(), getLod());
-    }
+	/**
+	 * Paints this dataPanel.
+	 */
+	public void paintComponent(Graphics g) {
+		// maybe call super-paint: super.paintComponent(g);
+		paintComponent(g, 0, 0, getWidth(), getHeight(), getLod());
+	}
 
-    protected void paintComponent(Graphics g, int x, int y, int width,
-            int height, int lod) {
+	protected void paintComponent(Graphics g, int x, int y, int width, int height, int lod) {
 
-        // get descriptor. If no descriptor, just return.
-        Descriptor d = getDescriptor(lod);
-        if (d == null) {
-            return;
-        }
-        // draw background
-        drawBackground(g, x, y, width, height, lod, d);
+		// get descriptor. If no descriptor, just return.
+		Descriptor d = getDescriptor(lod);
+		if (d == null) {
+			return;
+		}
+		// draw background
+		drawBackground(g, x, y, width, height, lod, d);
 
-        // paint bgimage, if defined
-        Image bgimage = (Image) d.get(Descriptor.Key.BACK_IMAGE);
-        if (bgimage != null) {
-            g.drawImage(bgimage, x, y, width, height, this);
-        }
-    }
+		// paint bgimage, if defined
+		Image bgimage = (Image) d.get(Descriptor.Key.BACK_IMAGE);
+		if (bgimage != null) {
+			g.drawImage(bgimage, x, y, width, height, this);
+		}
+	}
 
-    protected void drawBackground(Graphics g, int x, int y, int width,
-            int height, int lod, Descriptor d) {
+	protected void drawBackground(Graphics g, int x, int y, int width, int height, int lod, Descriptor d) {
 
-        // get bgcolor. If background color is not defined, take ancestor one's.
-        Color color = (Color) d.get(Descriptor.Key.COLOR);
-        EPanel p = this;
-        while (color == null) {
+		// get bgcolor. If background color is not defined, take ancestor one's.
+		Color color = (Color) d.get(Descriptor.Key.COLOR);
+		EPanel p = this;
+		while (color == null) {
 
-            // get parent's background color
-            Component c = p.getParent();
-            if (c == null) {
-                // sometimes we have no parent yet
-                color = StringConverter.toColor(EProperties.getInstance().getProperty(
-                        "BACKGROUND_COLOR"));
-            } else {
-                p = (EPanel) c;
-                d = p.getDescriptor(lod);
-                // note: the parent's descriptor is not null, because ours is
-                // not.
-                color = (Color) d.get(Descriptor.Key.COLOR);
-            }
-        }
-        // draw background
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
-    }
+			// get parent's background color
+			Component c = p.getParent();
+			if (c == null) {
+				// sometimes we have no parent yet
+				color = StringConverter.toColor(EProperties.getInstance().getProperty("BACKGROUND_COLOR"));
+			}
+			else {
+				p = (EPanel) c;
+				d = p.getDescriptor(lod);
+				// note: the parent's descriptor is not null, because ours is
+				// not.
+				color = (Color) d.get(Descriptor.Key.COLOR);
+			}
+		}
+		// draw background
+		g.setColor(color);
+		g.fillRect(x, y, width, height);
+	}
 
-    public Descriptor getDescriptor(int lod) {
-        return _data.getType().getDescriptor(lod);
-    }
+	public Descriptor getDescriptor(int lod) {
+		return _data.getType().getDescriptor(lod);
+	}
 
-    public int getLod() {
-        return ((EPanel) getParent()).getLod();
-    }
+	public int getLod() {
+		return ((EPanel) getParent()).getLod();
+	}
 
-    public void update(Observable o, Object arg) {
-        assert arg != null;
-        // if (Simulator.getInstance().isSimulationThread()) {
-        // paintComponent(getGraphics());
-        // } else {
-        // repaint();
-        // }
-        if (arg == EData.REPAINT && getDescriptor(getLod()) != null) {
-            repaint();
-        } else if (arg == EData.PAINT_IMMEDIATELY) {
-            paintComponent(getGraphics());
-        }
-    }
+	public void update(Observable o, Object arg) {
+		assert arg != null;
+		// if (Simulator.getInstance().isSimulationThread()) {
+		// paintComponent(getGraphics());
+		// } else {
+		// repaint();
+		// }
+		if (arg == EData.REPAINT && getDescriptor(getLod()) != null) {
+			repaint();
+		}
+		else if (arg == EData.PAINT_IMMEDIATELY) {
+			paintComponent(getGraphics());
+		}
+	}
 
-    public Point getLocationOnConfigPanel() {
-        Component c = this;
-        Point p = new Point();
-        while (!(c instanceof ConfigPanel)) {
-            p.x += c.getX();
-            p.y += c.getY();
-            c = c.getParent();
-        }
-        return p;
-    }
+	public Point getLocationOnConfigPanel() {
+		Component c = this;
+		Point p = new Point();
+		while (!(c instanceof ConfigPanel)) {
+			p.x += c.getX();
+			p.y += c.getY();
+			c = c.getParent();
+		}
+		return p;
+	}
 
-    public boolean isEnabled() {
-        Descriptor d = _data.getType().getDescriptor(getLod());
-        return d != null;
-    }
+	public boolean isEnabled() {
+		Descriptor d = _data.getType().getDescriptor(getLod());
+		return d != null;
+	}
 
-    public Rectangle computeBound(ParentGrid pg, int lod) {
+	public Rectangle computeBound(ParentGrid pg, int lod) {
 
-        EType type = _data.getType();
-        int[] gridNums = _data.getGridNumbers();
+		EType type = _data.getType();
+		int[] gridNums = _data.getGridNumbers();
 
-        // helper variables
-        int x1 = gridNums[0];
-        int y1 = gridNums[1];
-        int x2 = gridNums[2];
-        int y2 = gridNums[3];
+		// helper variables
+		int x1 = gridNums[0];
+		int y1 = gridNums[1];
+		int x2 = gridNums[2];
+		int y2 = gridNums[3];
 
-        // compute size of the grid-square
-        int newWidth = pg.xValues[x2] - pg.xValues[x1];
-        int newHeight = pg.yValues[y2] - pg.yValues[y1];
-        int newX = pg.xValues[x1];
-        int newY = pg.yValues[y1];
+		// compute size of the grid-square
+		int newWidth = pg.xValues[x2] - pg.xValues[x1];
+		int newHeight = pg.yValues[y2] - pg.yValues[y1];
+		int newX = pg.xValues[x1];
+		int newY = pg.yValues[y1];
 
-        // determine size of the panel that should be centered
-        // check, if the whole grid-rectangle should be filled.
-        Descriptor descriptor = type.getDescriptor(lod);
-        // if (descriptor == null) {
-        // System.out.println(type);
-        // }
-        Descriptor.Fill fill = descriptor.getFill();
-        if (fill == Descriptor.Fill.HORIZONTAL || fill == Descriptor.Fill.NONE) {
-            int h = (int) (descriptor.getHeight() * pg.zoomY);
-            newY = newY + ((newHeight - h) >> 1);
-            newHeight = h;
-        }
-        if (fill == Descriptor.Fill.VERTICAL || fill == Descriptor.Fill.NONE) {
-            int w = (int) (descriptor.getWidth() * pg.zoomX);
-            newX = newX + ((newWidth - w) >> 1);
-            newWidth = w;
-        }
-        return new Rectangle(newX, newY, newWidth, newHeight);
-    }
+		// determine size of the panel that should be centered
+		// check, if the whole grid-rectangle should be filled.
+		Descriptor descriptor = type.getDescriptor(lod);
+		// if (descriptor == null) {
+		// System.out.println(type);
+		// }
+		Descriptor.Fill fill = descriptor.getFill();
+		if (fill == Descriptor.Fill.HORIZONTAL || fill == Descriptor.Fill.NONE) {
+			int h = (int) (descriptor.getHeight() * pg.zoomY);
+			newY = newY + ((newHeight - h) >> 1);
+			newHeight = h;
+		}
+		if (fill == Descriptor.Fill.VERTICAL || fill == Descriptor.Fill.NONE) {
+			int w = (int) (descriptor.getWidth() * pg.zoomX);
+			newX = newX + ((newWidth - w) >> 1);
+			newWidth = w;
+		}
+		return new Rectangle(newX, newY, newWidth, newHeight);
+	}
 
-    // ======================= MouseListener methods
-    // ============================
+	// ======================= MouseListener methods
+	// ============================
 
-    public void mouseReleased(MouseEvent e) {
-        if (isEnabled() && e.getButton() != MouseEvent.BUTTON3) {
-            getController().mreleased(e);
-        }
-    }
+	public void mouseReleased(MouseEvent e) {
+		if (isEnabled() && e.getButton() != MouseEvent.BUTTON3) {
+			getController().mreleased(e);
+		}
+	}
 
-    public void mousePressed(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON3) {
+	public void mousePressed(MouseEvent e) {
+		if (e.getButton() == MouseEvent.BUTTON3) {
 
-            // if right button, create pop-up menu
-            JPopupMenu menu = new JPopupMenu();
-            for (Action a : getActions()) {
-                menu.add(a);
-            }
-            menu.show(this, e.getX(), e.getY());
-        } else {
-            if (isEnabled()) {
-                getController().mpressed(e);
-            }
-        }
-    }
+			// if right button, create pop-up menu
+			JPopupMenu menu = new JPopupMenu();
+			for (Action a : getActions()) {
+				menu.add(a);
+			}
+			menu.show(this, e.getX(), e.getY());
+		}
+		else {
+			if (isEnabled()) {
+				getController().mpressed(e);
+			}
+		}
+	}
 
-    public void mouseDragged(MouseEvent e) {
-        if (isEnabled()) {
-            getController().mdragged(e);
-        }
-    }
+	public void mouseDragged(MouseEvent e) {
+		if (isEnabled()) {
+			getController().mdragged(e);
+		}
+	}
 
-    public void mouseMoved(MouseEvent e) {
-        // empty
-    }
+	public void mouseMoved(MouseEvent e) {
+		// empty
+	}
 
-    public void mouseClicked(MouseEvent e) {
-        // empty
-    }
+	public void mouseClicked(MouseEvent e) {
+		// empty
+	}
 
-    public void mouseEntered(MouseEvent e) {
-        // empty
-    }
+	public void mouseEntered(MouseEvent e) {
+		// empty
+	}
 
-    public void mouseExited(MouseEvent e) {
-        // empty
-    }
+	public void mouseExited(MouseEvent e) {
+		// empty
+	}
 
-    protected Controler getController() {
-        // get actionator by descriptor
-        Descriptor descriptor = getDescriptor(getLod());
-        if (descriptor != null) {
-            Object o = descriptor.get(Descriptor.Key.ACTIONATOR);
-            if (o != null) {
-                return (BasicControler) o;
-            }
-        }
-        return Controler.NONE;
-    }
+	protected Controler getController() {
+		// get actionator by descriptor
+		Descriptor descriptor = getDescriptor(getLod());
+		if (descriptor != null) {
+			Object o = descriptor.get(Descriptor.Key.ACTIONATOR);
+			if (o != null) {
+				return (BasicControler) o;
+			}
+		}
+		return Controler.NONE;
+	}
 
-    public class ShowProperties extends AbstractAction {
+	public class ShowProperties extends AbstractAction {
 
-        public ShowProperties() {
-            putValue(Action.NAME, Dictionary.PROPERTIES + "..."); //$NON-NLS-1$
-        }
+		public ShowProperties() {
+			putValue(Action.NAME, Dictionary.PROPERTIES + "..."); //$NON-NLS-1$
+		}
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 
-            // create and init new dataPropertyPanel
-            List<Property> properties = EPanel.this.getData().getProperties();
-            PropertyPanel panel = new PropertyPanel(properties);
-            panel.init();
+			// create and init new dataPropertyPanel
+			List<Property> properties = EPanel.this.getData().getProperties();
+			PropertyPanel panel = new PropertyPanel(properties);
+			panel.init();
 
-            // show dialog
-            Manager.getInstance().makeDialog(panel, Dictionary.PROPERTIES.getText());
+			// show dialog
+			Manager.getInstance().makeDialog(panel, Dictionary.PROPERTIES.getText());
 
-            // if input result is null, then the dialog was canceled.
-            // otherwise set new configuration
-            if (panel.isCommitChanges()) {
-                EPanel.this.getData().setProperties(properties);
-            }
-        }
-    }
+			// if input result is null, then the dialog was canceled.
+			// otherwise set new configuration
+			if (panel.isCommitChanges()) {
+				EPanel.this.getData().setProperties(properties);
+			}
+		}
+	}
 
 }

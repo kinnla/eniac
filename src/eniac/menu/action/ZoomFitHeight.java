@@ -30,31 +30,31 @@ import eniac.window.EFrame;
  */
 public class ZoomFitHeight extends EAction {
 
-    /**
-     * @param e
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
+	/**
+	 * @param e
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
 
-        // compute new height
-        ConfigPanel cp = EFrame.getInstance().getConfigPanel();
-        JScrollPane scrollPane = (JScrollPane) cp.getParent().getParent();
-        int newHeight = scrollPane.getHeight();
+		// compute new height
+		ConfigPanel cp = EFrame.getInstance().getConfigPanel();
+		JScrollPane scrollPane = (JScrollPane) cp.getParent().getParent();
+		int newHeight = scrollPane.getHeight();
 
-        // check, if new height affords scrollbars
-        EType configType = cp.getData().getType();
-        Skin skin = (Skin) StatusMap.get(Status.SKIN);
-        int lod = skin.getLodByHeight(newHeight);
-        Descriptor d = configType.getDescriptor(lod);
-        int newWidth = d.getWidth() * newHeight / d.getHeight();
-        if (newWidth > scrollPane.getWidth()) {
-            // adjust height
-            newHeight -= scrollPane.getHorizontalScrollBar().getHeight();
-        }
-        // subtract some pixels.
-        newHeight -= 4;
+		// check, if new height affords scrollbars
+		EType configType = cp.getData().getType();
+		Skin skin = (Skin) StatusMap.get(Status.SKIN);
+		int lod = skin.getLodByHeight(newHeight);
+		Descriptor d = configType.getDescriptor(lod);
+		int newWidth = d.getWidth() * newHeight / d.getHeight();
+		if (newWidth > scrollPane.getWidth()) {
+			// adjust height
+			newHeight -= scrollPane.getHorizontalScrollBar().getHeight();
+		}
+		// subtract some pixels.
+		newHeight -= 4;
 
-        // set new height.
-        StatusMap.set(Status.ZOOMED_HEIGHT, newHeight);
-    }
+		// set new height.
+		StatusMap.set(Status.ZOOMED_HEIGHT, newHeight);
+	}
 }

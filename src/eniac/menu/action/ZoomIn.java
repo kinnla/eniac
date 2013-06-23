@@ -27,39 +27,39 @@ import eniac.util.StatusMap;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public class ZoomIn extends EAction {
 
-    public ZoomIn() {
-        StatusMap.getInstance().addListener(Status.ZOOMED_HEIGHT, new StatusListener() {
-			
+	public ZoomIn() {
+		StatusMap.getInstance().addListener(Status.ZOOMED_HEIGHT, new StatusListener() {
+
 			@Override
 			public void statusChanged(Status status, Object newValue) {
-	            setEnabled(getNewHeight() != (int) newValue);
+				setEnabled(getNewHeight() != (int) newValue);
 			}
 		});
-    }
+	}
 
-    int getNewHeight() {
+	int getNewHeight() {
 
-        // get current height and zoomSteps
-        int height = StatusMap.getInt(Status.ZOOMED_HEIGHT);
-        Skin skin = (Skin) StatusMap.get(Status.SKIN);
-        int[] steps = skin.getZoomSteps();
+		// get current height and zoomSteps
+		int height = StatusMap.getInt(Status.ZOOMED_HEIGHT);
+		Skin skin = (Skin) StatusMap.get(Status.SKIN);
+		int[] steps = skin.getZoomSteps();
 
-        // search index of current height in zoomSteps
-        int index = Arrays.binarySearch(steps, height);
-        if (index < 0) {
-            // we are between 2 steps. Choose the lower one.
-            index = -index - 2;
-        }
-        // increase step, but check that we stay inside array bounds
-        return steps[Math.min(index + 1, steps.length - 1)];
-    }
+		// search index of current height in zoomSteps
+		int index = Arrays.binarySearch(steps, height);
+		if (index < 0) {
+			// we are between 2 steps. Choose the lower one.
+			index = -index - 2;
+		}
+		// increase step, but check that we stay inside array bounds
+		return steps[Math.min(index + 1, steps.length - 1)];
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        StatusMap.set(Status.ZOOMED_HEIGHT, getNewHeight());
-    }
+	public void actionPerformed(ActionEvent e) {
+		StatusMap.set(Status.ZOOMED_HEIGHT, getNewHeight());
+	}
 }

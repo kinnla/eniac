@@ -26,34 +26,34 @@ import eniac.util.StatusMap;
  */
 public class ZoomOut extends EAction {
 
-    public ZoomOut() {
-        StatusMap.getInstance().addListener(Status.ZOOMED_HEIGHT, new StatusListener() {
-			
+	public ZoomOut() {
+		StatusMap.getInstance().addListener(Status.ZOOMED_HEIGHT, new StatusListener() {
+
 			@Override
 			public void statusChanged(Status status, Object newValue) {
-	            setEnabled((int) newValue != getNewHeight());
+				setEnabled((int) newValue != getNewHeight());
 			}
 		});
-    }
+	}
 
-    int getNewHeight() {
+	int getNewHeight() {
 
-        // get current height and zoomSteps
-        int height = StatusMap.getInt(Status.ZOOMED_HEIGHT);
-        Skin skin = (Skin) StatusMap.get(Status.SKIN);
-        int[] steps = skin.getZoomSteps();
+		// get current height and zoomSteps
+		int height = StatusMap.getInt(Status.ZOOMED_HEIGHT);
+		Skin skin = (Skin) StatusMap.get(Status.SKIN);
+		int[] steps = skin.getZoomSteps();
 
-        // search index of current height in zoomSteps
-        int index = Arrays.binarySearch(steps, height);
-        if (index < 0) {
-            // we are between 2 steps. Choose the upper one.
-            index = -index - 1;
-        }
-        // decrease step, but check that we stay inside array bounds
-        return steps[Math.max(index - 1, 0)];
-    }
+		// search index of current height in zoomSteps
+		int index = Arrays.binarySearch(steps, height);
+		if (index < 0) {
+			// we are between 2 steps. Choose the upper one.
+			index = -index - 1;
+		}
+		// decrease step, but check that we stay inside array bounds
+		return steps[Math.max(index - 1, 0)];
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        StatusMap.set(Status.ZOOMED_HEIGHT, getNewHeight());
-    }
+	public void actionPerformed(ActionEvent e) {
+		StatusMap.set(Status.ZOOMED_HEIGHT, getNewHeight());
+	}
 }

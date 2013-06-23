@@ -41,8 +41,8 @@ import eniac.window.EFrame;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public class SaveConfiguration extends EAction implements Runnable {
 
@@ -50,85 +50,81 @@ public class SaveConfiguration extends EAction implements Runnable {
 	public void init() {
 		super.init();
 		StatusMap.getInstance().addListener(Status.CONFIGURATION, new StatusListener() {
-			
+
 			@Override
 			public void statusChanged(Status status, Object newValue) {
-	            setEnabled(newValue != null);
+				setEnabled(newValue != null);
 			}
 		});
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
-        // check for privileges
-        if (Manager.getInstance().hasIOAccess()) {
-            Thread t = new Thread(this);
-            t.start();
-            // We have privileges to write file to users file system
-        } else {
-            // we have no privileges to write.
-            // display message to tell user
-            Log.log(LogWords.CANNOT_SAVE_FILE, JOptionPane.INFORMATION_MESSAGE,
-                    true);
-        }
-    }
+		// check for privileges
+		if (Manager.getInstance().hasIOAccess()) {
+			Thread t = new Thread(this);
+			t.start();
+			// We have privileges to write file to users file system
+		}
+		else {
+			// we have no privileges to write.
+			// display message to tell user
+			Log.log(LogWords.CANNOT_SAVE_FILE, JOptionPane.INFORMATION_MESSAGE, true);
+		}
+	}
 
-    // starts a wizard with dialogs for enter details of configuration
-    // and a filechooser for configuration target.
-    public void run() {
+	// starts a wizard with dialogs for enter details of configuration
+	// and a filechooser for configuration target.
+	public void run() {
 
-        Manager.getInstance().block();
+		Manager.getInstance().block();
 
-        // create dialog that user can enter name and description
-        SaveConfigurationPanel panel = new SaveConfigurationPanel();
-        panel.init();
-        Manager.getInstance().makeDialog(panel,
-                Dictionary.SAVE_CONFIGURATION_TITLE.getText());
+		// create dialog that user can enter name and description
+		SaveConfigurationPanel panel = new SaveConfigurationPanel();
+		panel.init();
+		Manager.getInstance().makeDialog(panel, Dictionary.SAVE_CONFIGURATION_TITLE.getText());
 
-        // if canceled, do nothing.
-        if (!panel.isNextPressed()) {
-            Manager.getInstance().unblock();
-            return;
-        }
+		// if canceled, do nothing.
+		if (!panel.isNextPressed()) {
+			Manager.getInstance().unblock();
+			return;
+		}
 
-        // otherwise create proxy
-        Proxy proxy = new Proxy();
-        proxy.put(Proxy.Tag.NAME, panel.getName());
-        proxy.put(Proxy.Tag.DESCRIPTION, panel.getDescription());
+		// otherwise create proxy
+		Proxy proxy = new Proxy();
+		proxy.put(Proxy.Tag.NAME, panel.getName());
+		proxy.put(Proxy.Tag.DESCRIPTION, panel.getDescription());
 
-        // create filechooser
-        JFileChooser chooser = new JFileChooser();
+		// create filechooser
+		JFileChooser chooser = new JFileChooser();
 
-        // get default filename without index
-        String s = chooser.getFileSystemView().getDefaultDirectory()
-                .getAbsolutePath();
-        s += File.separator;
-        s += EProperties.getInstance().getProperty("DEFAULT_FILE_WITHOUT_NUMBER");
+		// get default filename without index
+		String s = chooser.getFileSystemView().getDefaultDirectory().getAbsolutePath();
+		s += File.separator;
+		s += EProperties.getInstance().getProperty("DEFAULT_FILE_WITHOUT_NUMBER");
 
-        // determine lowest index that the file doesn't exist
-        File file;
-        int i = -1;
-        do {
-            file = new File(IOUtil.addIndex(s, ++i));
-        } while (file.exists());
+		// determine lowest index that the file doesn't exist
+		File file;
+		int i = -1;
+		do {
+			file = new File(IOUtil.addIndex(s, ++i));
+		} while (file.exists());
 
-        // create dialog that user can choose path to save
-        chooser.setFileFilter(IOUtil.getFileFilter());
-        chooser.setSelectedFile(file);
-        int returnVal = EFrame.getInstance().showFileChooser(chooser,
-                Dictionary.WRITE.getText());
+		// create dialog that user can choose path to save
+		chooser.setFileFilter(IOUtil.getFileFilter());
+		chooser.setSelectedFile(file);
+		int returnVal = EFrame.getInstance().showFileChooser(chooser, Dictionary.WRITE.getText());
 
-        // check if user wants to write
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
+		// check if user wants to write
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
 
-            // try to write to the file specified by filechooser
-            try {
-                Configuration config = (Configuration) StatusMap
-                        .get(Status.CONFIGURATION);
-                ConfigIO.write(chooser.getSelectedFile(), config, proxy);
-            } catch (IOException exc) {
-                exc.printStackTrace();
-            }
-        }
-        Manager.getInstance().unblock();
-    }
+			// try to write to the file specified by filechooser
+			try {
+				Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+				ConfigIO.write(chooser.getSelectedFile(), config, proxy);
+			} catch (IOException exc) {
+				exc.printStackTrace();
+			}
+		}
+		Manager.getInstance().unblock();
+	}
 }

@@ -18,50 +18,49 @@ package eniac.simulation;
  */
 public class Frequency {
 
-    private double _min;
+	private double _min;
 
-    private double _logMaxDivMin;
+	private double _logMaxDivMin;
 
-    private Double _linear;
+	private Double _linear;
 
-    private Double _logarithmic;
+	private Double _logarithmic;
 
-    public Frequency(double min, double max) {
-        _min = min;
-        _logMaxDivMin = Math.log(max / min);
-    }
+	public Frequency(double min, double max) {
+		_min = min;
+		_logMaxDivMin = Math.log(max / min);
+	}
 
-    public void setLinear(double d) {
-        _linear = new Double(d);
-    }
+	public void setLinear(double d) {
+		_linear = new Double(d);
+	}
 
-    public void setLogarithmic(double d) {
-        _logarithmic = new Double(d);
-    }
+	public void setLogarithmic(double d) {
+		_logarithmic = new Double(d);
+	}
 
-    public double logarithmic() {
-        if (_logarithmic == null) {
-            double d = Math.log(_linear.doubleValue() / _min) / _logMaxDivMin;
-            d = Math.max(d, Double.MIN_VALUE);
-            _logarithmic = new Double(d);
-        }
-        return _logarithmic.doubleValue();
-    }
+	public double logarithmic() {
+		if (_logarithmic == null) {
+			double d = Math.log(_linear.doubleValue() / _min) / _logMaxDivMin;
+			d = Math.max(d, Double.MIN_VALUE);
+			_logarithmic = new Double(d);
+		}
+		return _logarithmic.doubleValue();
+	}
 
-    public double linear() {
-        if (_linear == null) {
-            double d = Math.exp(_logMaxDivMin * _logarithmic.doubleValue())
-                    * _min;
-            _linear = new Double(d);
-        }
-        return _linear.doubleValue();
-    }
+	public double linear() {
+		if (_linear == null) {
+			double d = Math.exp(_logMaxDivMin * _logarithmic.doubleValue()) * _min;
+			_linear = new Double(d);
+		}
+		return _linear.doubleValue();
+	}
 
-    public String toString() {
-        return "linear: " + linear() + ",  logarithmic: " + logarithmic(); //$NON-NLS-1$ //$NON-NLS-2$
-    }
+	public String toString() {
+		return "linear: " + linear() + ",  logarithmic: " + logarithmic(); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-    public static Frequency getNew() {
-        return new Frequency(0.01, 10000);
-    }
+	public static Frequency getNew() {
+		return new Frequency(0.01, 10000);
+	}
 }

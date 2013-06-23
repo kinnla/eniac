@@ -18,41 +18,41 @@ package eniac.simulation;
  */
 public class EEvent {
 
-    public static final short
-    // event types
-            GENERATE_NEW = 0, CPP = 1, PULSE_10P = 2, PULSE_9P = 3,
-            PULSE_1P = 4, PULSE_2P = 5, PULSE_2AP = 6, PULSE_4P = 7,
-            PULSE_1AP = 8, CCG_UP = 9, CCG_DOWN = 10, RP = 11, NOP = 12,
-            ALARM = 13;
+	public static final short
+	// event types
+			GENERATE_NEW = 0,
+			CPP = 1, PULSE_10P = 2, PULSE_9P = 3, PULSE_1P = 4, PULSE_2P = 5, PULSE_2AP = 6,
+			PULSE_4P = 7,
+			PULSE_1AP = 8, CCG_UP = 9, CCG_DOWN = 10, RP = 11, NOP = 12, ALARM = 13;
 
-    /**
-     * Timestamp of this event
-     */
-    public long time;
+	/**
+	 * Timestamp of this event
+	 */
+	public long time;
 
-    /**
-     * Type of this event
-     */
-    public short type;
+	/**
+	 * Type of this event
+	 */
+	public short type;
 
-    /**
-     * eevent listener for this event. If this is null, this event is dispatched
-     * by the eeventManager.dispatch(eevent) method.
-     */
-    public EEventListener listener;
+	/**
+	 * eevent listener for this event. If this is null, this event is dispatched
+	 * by the eeventManager.dispatch(eevent) method.
+	 */
+	public EEventListener listener;
 
-    public EEvent(long time, short type) {
-        this.time = time;
-        this.type = type;
-    }
+	public EEvent(long time, short type) {
+		this.time = time;
+		this.type = type;
+	}
 
-    public EEvent(long time, short type, EEventListener listener) {
-        this.time = time;
-        this.type = type;
-        this.listener = listener;
-    }
+	public EEvent(long time, short type, EEventListener listener) {
+		this.time = time;
+		this.type = type;
+		this.listener = listener;
+	}
 
-    public String toString() {
-        return "[EEvent; time=" + time + ", type=" + type + "]"; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
-    }
+	public String toString() {
+		return "[EEvent; time=" + time + ", type=" + type + "]"; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+	}
 }

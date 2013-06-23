@@ -32,303 +32,293 @@ import eniac.util.StatusMap;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public class Connector extends EData implements PulseInteractor, EEventListener {
 
-    // static key for observation messages
-    public static final String CABLE_TRANSMITTION = "cable_transmittion"; //$NON-NLS-1$
+	// static key for observation messages
+	public static final String CABLE_TRANSMITTION = "cable_transmittion"; //$NON-NLS-1$
 
-    // static keys for pulse direction
-    private static final EnumSet<Tag> DIRECTION = EnumSet.of( Tag.IN, Tag.OUT, Tag.BOTH );
+	// static keys for pulse direction
+	private static final EnumSet<Tag> DIRECTION = EnumSet.of(Tag.IN, Tag.OUT, Tag.BOTH);
 
-    // pulse direction of this connector
-    private Tag _direction;
+	// pulse direction of this connector
+	private Tag _direction;
 
-    // id of the connector, that we are connected with by a cable.
-    // if no cable, then this is -1.
-    private int _partner;
+	// id of the connector, that we are connected with by a cable.
+	// if no cable, then this is -1.
+	private int _partner;
 
-    // flag indicating whether this connector has a cable.
-    // note: This is another thing than having a partner. If a cable ist just
-    // created by users click, the connector is plugged, but the cable ends
-    // at the mouse-dragging-point. So no partner in this case.
-    private boolean _plugged = false;
+	// flag indicating whether this connector has a cable.
+	// note: This is another thing than having a partner. If a cable ist just
+	// created by users click, the connector is plugged, but the cable ends
+	// at the mouse-dragging-point. So no partner in this case.
+	private boolean _plugged = false;
 
-    // timeslot where we got the last pulse.
-    // note: if choose -1 for this, the connector will be painted in highlight
-    // mode at startup. I don't know why.
-    private long _lastPulse = -11;
+	// timeslot where we got the last pulse.
+	// note: if choose -1 for this, the connector will be painted in highlight
+	// mode at startup. I don't know why.
+	private long _lastPulse = -11;
 
-    // value of the pulse. If this is a program connector, it is 0 or 1.
-    // in case of a digit connector, it is according to the pulse transmission.
-    private long _pulseValue = 0;
+	// value of the pulse. If this is a program connector, it is 0 or 1.
+	// in case of a digit connector, it is according to the pulse transmission.
+	private long _pulseValue = 0;
 
-    //============================ lifecycle
-    // ===================================
+	// ============================ lifecycle
+	// ===================================
 
-    public Connector() {
-        // empty constructor
-    }
+	public Connector() {
+		// empty constructor
+	}
 
-    public void setAttributes(Attributes attrs) {
-        super.setAttributes(attrs);
-        _direction = XMLUtil.parseEnum(attrs, Tag.IO, Tag.class);
-        _partner = XMLUtil.parseInt(attrs, Tag.PARTNER);
-        //_plugged = _partner >= 0;
-        // note: the connector is plugged, when both partners are set to
-        // the cable
-    }
+	public void setAttributes(Attributes attrs) {
+		super.setAttributes(attrs);
+		_direction = XMLUtil.parseEnum(attrs, Tag.IO, Tag.class);
+		_partner = XMLUtil.parseInt(attrs, Tag.PARTNER);
+		// _plugged = _partner >= 0;
+		// note: the connector is plugged, when both partners are set to
+		// the cable
+	}
 
-    //================================ methods
-    // =================================
+	// ================================ methods
+	// =================================
 
-    public String getAttributes() {
-        return super.getAttributes()
-                + XMLUtil.wrapAttribute(Tag.IO, _direction.toString())
-                + XMLUtil.wrapAttribute(Tag.PARTNER, Integer
-                        .toString(_partner));
-    }
+	public String getAttributes() {
+		return super.getAttributes() + XMLUtil.wrapAttribute(Tag.IO, _direction.toString())
+				+ XMLUtil.wrapAttribute(Tag.PARTNER, Integer.toString(_partner));
+	}
 
-    public int getPartner() {
-        return _partner;
-    }
+	public int getPartner() {
+		return _partner;
+	}
 
-    public void setPartnerID(int id) {
-        _partner = id;
-    }
+	public void setPartnerID(int id) {
+		_partner = id;
+	}
 
-    public boolean isPlugged() {
-        return _plugged;
-    }
+	public boolean isPlugged() {
+		return _plugged;
+	}
 
-    public void setPlugged(boolean b) {
-        if (_plugged != b) {
-            _plugged = b;
-            setChanged();
-            notifyObservers(REPAINT);
-        }
-    }
+	public void setPlugged(boolean b) {
+		if (_plugged != b) {
+			_plugged = b;
+			setChanged();
+			notifyObservers(REPAINT);
+		}
+	}
 
-    public Tag getDirection() {
-        return _direction;
-    }
+	public Tag getDirection() {
+		return _direction;
+	}
 
-    private boolean isSender() {
-        return (_direction == Tag.OUT || _direction == Tag.BOTH);
-    }
+	private boolean isSender() {
+		return (_direction == Tag.OUT || _direction == Tag.BOTH);
+	}
 
-    private boolean isReceiver() {
-        return (_direction == Tag.IN || _direction == Tag.BOTH);
-    }
+	private boolean isReceiver() {
+		return (_direction == Tag.IN || _direction == Tag.BOTH);
+	}
 
-    private boolean isDigit() {
-        return _type == EType.DIGIT_CONNECTOR
-                || _type == EType.DIGIT_CONNECTOR_CROSS
-                || _type == EType.INTER_CONNECTOR;
-    }
+	private boolean isDigit() {
+		return _type == EType.DIGIT_CONNECTOR || _type == EType.DIGIT_CONNECTOR_CROSS || _type == EType.INTER_CONNECTOR;
+	}
 
-    private boolean isProgram() {
-        return _type == EType.PROGRAM_CONNECTOR;
-    }
+	private boolean isProgram() {
+		return _type == EType.PROGRAM_CONNECTOR;
+	}
 
-    public void setLastPulse(long time) {
-        if (_lastPulse < time) {
-            // adjust pulse time and value
-            _lastPulse = time;
+	public void setLastPulse(long time) {
+		if (_lastPulse < time) {
+			// adjust pulse time and value
+			_lastPulse = time;
 
-            // if we are hightlighting, call for repaint
-            if ((Boolean)StatusMap.get(Status.HIGHLIGHT_PULSE)) {
-                setChanged();
-                notifyObservers(EData.PAINT_IMMEDIATELY);
-            }
-            // set alarm clock for changing our highlightning in the following
-            // eevent time slot.
-            // note: maybe the highlightning-flag is not set now.
-            // But if we are in stepping mode it might switched on before our
-            // call-back occures. So we have to set alarm in any case.
-            Configuration config = (Configuration) StatusMap
-                    .get(Status.CONFIGURATION);
-            config.getCyclingLights().setAlarmClock(time, this);
-        }
-    }
+			// if we are hightlighting, call for repaint
+			if ((Boolean) StatusMap.get(Status.HIGHLIGHT_PULSE)) {
+				setChanged();
+				notifyObservers(EData.PAINT_IMMEDIATELY);
+			}
+			// set alarm clock for changing our highlightning in the following
+			// eevent time slot.
+			// note: maybe the highlightning-flag is not set now.
+			// But if we are in stepping mode it might switched on before our
+			// call-back occures. So we have to set alarm in any case.
+			Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+			config.getCyclingLights().setAlarmClock(time, this);
+		}
+	}
 
-    public long getLastPulse() {
-        return _lastPulse;
-    }
+	public long getLastPulse() {
+		return _lastPulse;
+	}
 
-    //========================= pulseInteractor methods
-    // ========================
+	// ========================= pulseInteractor methods
+	// ========================
 
-    /**
-     * @param time
-     * @param source
-     * @see eniac.data.PulseInteractor#canReceiveDigit(long,
-     *      eniac.data.PulseInteractor)
-     */
-    public boolean canReceiveDigit(long time, PulseInteractor source) {
-        return isReceiver() && isDigit()
-                && ((PulseInteractor) getParent()).canReceiveDigit(time, this);
-    }
+	/**
+	 * @param time
+	 * @param source
+	 * @see eniac.data.PulseInteractor#canReceiveDigit(long,
+	 *      eniac.data.PulseInteractor)
+	 */
+	public boolean canReceiveDigit(long time, PulseInteractor source) {
+		return isReceiver() && isDigit() && ((PulseInteractor) getParent()).canReceiveDigit(time, this);
+	}
 
-    private long checkDigit(long time, long value) {
+	private long checkDigit(long time, long value) {
 
-        // check, if this is the first pulse within this time slot
-        if (_lastPulse < time) {
+		// check, if this is the first pulse within this time slot
+		if (_lastPulse < time) {
 
-            // adjust pulse time and value
-            setLastPulse(time);
-            _pulseValue = value;
+			// adjust pulse time and value
+			setLastPulse(time);
+			_pulseValue = value;
 
-        } else {
+		}
+		else {
 
-            // there has been a pulse before. Adjust values
-            long oldPulseValue = _pulseValue;
-            _pulseValue |= value;
-            value = _pulseValue ^ oldPulseValue;
-        }
-        return value;
-    }
+			// there has been a pulse before. Adjust values
+			long oldPulseValue = _pulseValue;
+			_pulseValue |= value;
+			value = _pulseValue ^ oldPulseValue;
+		}
+		return value;
+	}
 
-    /**
-     * @param time
-     * @param value
-     * @param source
-     * @see eniac.data.PulseInteractor#receive(long, int,
-     *      eniac.data.PulseInteractor)
-     */
-    public void receiveDigit(long time, long value, PulseInteractor source) {
+	/**
+	 * @param time
+	 * @param value
+	 * @param source
+	 * @see eniac.data.PulseInteractor#receive(long, int,
+	 *      eniac.data.PulseInteractor)
+	 */
+	public void receiveDigit(long time, long value, PulseInteractor source) {
 
-        // if value contains no pulse, there is nothing to do
-        if (value == 0) {
-            return;
-        }
+		// if value contains no pulse, there is nothing to do
+		if (value == 0) {
+			return;
+		}
 
-        // check value
-        value = checkDigit(time, value);
+		// check value
+		value = checkDigit(time, value);
 
-        // transmitt pulse to parent
-        // note: we already asked parent if it can receive
-        if (value > 0) {
-            ((PulseInteractor) _parent).receiveDigit(time, value, this);
-        }
-    }
+		// transmitt pulse to parent
+		// note: we already asked parent if it can receive
+		if (value > 0) {
+			((PulseInteractor) _parent).receiveDigit(time, value, this);
+		}
+	}
 
-    /**
-     * @param time
-     * @param value
-     * @param source
-     * @see eniac.data.PulseInteractor#sendDigit(long, long, PulseInteractor)
-     */
-    public void sendDigit(long time, long value, PulseInteractor source) {
+	/**
+	 * @param time
+	 * @param value
+	 * @param source
+	 * @see eniac.data.PulseInteractor#sendDigit(long, long, PulseInteractor)
+	 */
+	public void sendDigit(long time, long value, PulseInteractor source) {
 
-        //if (getType() == EType.INTER_CONNECTOR) {
-        //    System.out.println("jkjkj"); //$NON-NLS-1$
-        //}
+		// if (getType() == EType.INTER_CONNECTOR) {
+		//    System.out.println("jkjkj"); //$NON-NLS-1$
+		// }
 
-        // check that we potentially can send a digit pulse and haven't done
-        // in current timeslice
-        if (isDigit() && isSender() && value > 0) {
+		// check that we potentially can send a digit pulse and haven't done
+		// in current timeslice
+		if (isDigit() && isSender() && value > 0) {
 
-            // check value
-            value = checkDigit(time, value);
+			// check value
+			value = checkDigit(time, value);
 
-            // if value contains no pulse, we don't need to send
-            if (value == 0) {
-                return;
-            }
+			// if value contains no pulse, we don't need to send
+			if (value == 0) {
+				return;
+			}
 
-            // check, if we are plugged and have a valid partner
-            if (_plugged && _partner >= 0) {
+			// check, if we are plugged and have a valid partner
+			if (_plugged && _partner >= 0) {
 
-                // send pulse to partner if he can receive.
-                Connector c = (Connector) getConfiguration().getIDManager()
-                        .get(_partner);
-                if (c.canReceiveDigit(time, this)) {
-                    c.receiveDigit(time, value, this);
-                }
-                // notify cable for highlightning
-                setChanged();
-                notifyObservers(CABLE_TRANSMITTION);
-            }
-        }
-    }
+				// send pulse to partner if he can receive.
+				Connector c = (Connector) getConfiguration().getIDManager().get(_partner);
+				if (c.canReceiveDigit(time, this)) {
+					c.receiveDigit(time, value, this);
+				}
+				// notify cable for highlightning
+				setChanged();
+				notifyObservers(CABLE_TRANSMITTION);
+			}
+		}
+	}
 
-    /**
-     * @param time
-     * @param source
-     * @see eniac.data.PulseInteractor#canReceiveProgram(long,
-     *      eniac.data.PulseInteractor)
-     */
-    public boolean canReceiveProgram(long time, PulseInteractor source) {
-        return isReceiver()
-                && isProgram()
-                && _lastPulse < time
-                && ((PulseInteractor) getParent())
-                        .canReceiveProgram(time, this);
-    }
+	/**
+	 * @param time
+	 * @param source
+	 * @see eniac.data.PulseInteractor#canReceiveProgram(long,
+	 *      eniac.data.PulseInteractor)
+	 */
+	public boolean canReceiveProgram(long time, PulseInteractor source) {
+		return isReceiver() && isProgram() && _lastPulse < time
+				&& ((PulseInteractor) getParent()).canReceiveProgram(time, this);
+	}
 
-    /**
-     * @param time
-     * @param source
-     * @see eniac.data.PulseInteractor#receiveProgram(long,
-     *      eniac.data.PulseInteractor)
-     */
-    public void receiveProgram(long time, PulseInteractor source) {
+	/**
+	 * @param time
+	 * @param source
+	 * @see eniac.data.PulseInteractor#receiveProgram(long,
+	 *      eniac.data.PulseInteractor)
+	 */
+	public void receiveProgram(long time, PulseInteractor source) {
 
-        // adjust pulse time
-        setLastPulse(time);
+		// adjust pulse time
+		setLastPulse(time);
 
-        // transmitt pulse to parent.
-        // note: it has already been checked, that parent can receive.
-        // so we don't ask again.
-        ((PulseInteractor) _parent).receiveProgram(time, this);
-    }
+		// transmitt pulse to parent.
+		// note: it has already been checked, that parent can receive.
+		// so we don't ask again.
+		((PulseInteractor) _parent).receiveProgram(time, this);
+	}
 
-    /**
-     * @param time
-     * @param source
-     * @see eniac.data.PulseInteractor#sendProgram(long,
-     *      eniac.data.PulseInteractor)
-     */
-    public void sendProgram(long time, PulseInteractor source) {
+	/**
+	 * @param time
+	 * @param source
+	 * @see eniac.data.PulseInteractor#sendProgram(long,
+	 *      eniac.data.PulseInteractor)
+	 */
+	public void sendProgram(long time, PulseInteractor source) {
 
-        // check if pulse can go and haven't already gone this time
-        if (isProgram() && isSender() && _lastPulse < time) {
+		// check if pulse can go and haven't already gone this time
+		if (isProgram() && isSender() && _lastPulse < time) {
 
-            // adjust pulse time
-            setLastPulse(time);
+			// adjust pulse time
+			setLastPulse(time);
 
-            // if we are plugged and have a valid partner, transmitt pulse.
-            if (_plugged && _partner >= 0) {
+			// if we are plugged and have a valid partner, transmitt pulse.
+			if (_plugged && _partner >= 0) {
 
-                //TODO: synchronize this. maybe cable is removed.
-                Connector c = (Connector) getConfiguration().getIDManager()
-                        .get(_partner);
-                if (c.canReceiveProgram(time, this)) {
-                    c.receiveProgram(time, this);
-                }
-                // notify cable to paint
-                setChanged();
-                notifyObservers(CABLE_TRANSMITTION);
-            }
-        }
-    }
+				// TODO: synchronize this. maybe cable is removed.
+				Connector c = (Connector) getConfiguration().getIDManager().get(_partner);
+				if (c.canReceiveProgram(time, this)) {
+					c.receiveProgram(time, this);
+				}
+				// notify cable to paint
+				setChanged();
+				notifyObservers(CABLE_TRANSMITTION);
+			}
+		}
+	}
 
-    //============================= event listening
-    // ============================
+	// ============================= event listening
+	// ============================
 
-    /**
-     * @param e
-     * @see eniac.simulation.EEventListener#process(eniac.simulation.EEvent)
-     */
-    public void process(EEvent e) {
-        if (e.type == EEvent.ALARM && (Boolean)StatusMap.get(Status.HIGHLIGHT_PULSE)) {
+	/**
+	 * @param e
+	 * @see eniac.simulation.EEventListener#process(eniac.simulation.EEvent)
+	 */
+	public void process(EEvent e) {
+		if (e.type == EEvent.ALARM && (Boolean) StatusMap.get(Status.HIGHLIGHT_PULSE)) {
 
-            // we are called for downlightning
-            setChanged();
-            notifyObservers(EData.PAINT_IMMEDIATELY);
-        }
-    }
+			// we are called for downlightning
+			setChanged();
+			notifyObservers(EData.PAINT_IMMEDIATELY);
+		}
+	}
 }

@@ -23,21 +23,21 @@ import eniac.data.type.EType;
  */
 public class ConstantTransmitter2 extends Unit {
 
-    /**
-     * @return @see eniac.data.model.unit.Unit#getHeaters()
-     */
-    public Switch getHeaters() {
-        return (Switch) getGarten().getKind(EType.HEATERS, 0);
-    }
+	/**
+	 * @return @see eniac.data.model.unit.Unit#getHeaters()
+	 */
+	public Switch getHeaters() {
+		return (Switch) getGarten().getKind(EType.HEATERS, 0);
+	}
 
-    /**
-     * @param o
-     * @param arg
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
+	/**
+	 * @param o
+	 * @param arg
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
 }

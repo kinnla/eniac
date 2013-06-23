@@ -26,62 +26,62 @@ import eniac.lang.Dictionary;
  */
 public class ProxyScanner extends AbstractAction {
 
-    private String _path;
+	private String _path;
 
-    private int _maxIndex;
+	private int _maxIndex;
 
-    private String _text;
+	private String _text;
 
-    private boolean _running = true;
+	private boolean _running = true;
 
-    public ProxyScanner(String path, int maxIndex, String text) {
-        super(Dictionary.CANCEL.getText());
-        _path = path;
-        _maxIndex = maxIndex;
-        _text = text;
-    }
+	public ProxyScanner(String path, int maxIndex, String text) {
+		super(Dictionary.CANCEL.getText());
+		_path = path;
+		_maxIndex = maxIndex;
+		_text = text;
+	}
 
-    /**
-     * 
-     * @see java.lang.Runnable#run()
-     */
-    public List<Proxy> getProxies() {
+	/**
+	 * 
+	 * @see java.lang.Runnable#run()
+	 */
+	public List<Proxy> getProxies() {
 
-        // register cancel action at progressor
-        Progressor.getInstance().setText(_text);
-        Progressor.getInstance().setProgress(0, _maxIndex);
-        Progressor.getInstance().setAction(this);
+		// register cancel action at progressor
+		Progressor.getInstance().setText(_text);
+		Progressor.getInstance().setProgress(0, _maxIndex);
+		Progressor.getInstance().setAction(this);
 
-        // get ready to scan
-        List<Proxy> v = new LinkedList<>();
-        ProxyHandler handler = new ProxyHandler();
-        String[] proxyFiles = IOUtil.addIndices(_path, 0, _maxIndex);
+		// get ready to scan
+		List<Proxy> v = new LinkedList<>();
+		ProxyHandler handler = new ProxyHandler();
+		String[] proxyFiles = IOUtil.addIndices(_path, 0, _maxIndex);
 
-        // parse previews and collect them in a list
-        for (int i = 0; i < proxyFiles.length && _running; ++i) {
+		// parse previews and collect them in a list
+		for (int i = 0; i < proxyFiles.length && _running; ++i) {
 
-            // update progressor to current search index
-            Progressor.getInstance().incrementValue();
+			// update progressor to current search index
+			Progressor.getInstance().incrementValue();
 
-            // try to load proxy with given proxy
-            Proxy proxy = IOUtil.loadProxy(proxyFiles[i], handler);
-            if (proxy != null) {
-                v.add(proxy);
-            }
+			// try to load proxy with given proxy
+			Proxy proxy = IOUtil.loadProxy(proxyFiles[i], handler);
+			if (proxy != null) {
+				v.add(proxy);
+			}
 
-            // reset handler
-            handler.reset();
-        }
-        // unregister cancel action and return
-        Progressor.getInstance().setAction(this);
-        return v;
-    }
+			// reset handler
+			handler.reset();
+		}
+		// unregister cancel action and return
+		Progressor.getInstance().setAction(this);
+		return v;
+	}
 
-    /**
-     * @param e
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        _running = false;
-    }
+	/**
+	 * @param e
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		_running = false;
+	}
 }

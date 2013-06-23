@@ -27,35 +27,35 @@ import eniac.skin.SkinIO;
  */
 public class OpenSkin extends EAction implements Runnable {
 
-    public void actionPerformed(ActionEvent evt) {
-        Thread t = new Thread(this);
-        t.start();
-    }
+	public void actionPerformed(ActionEvent evt) {
+		Thread t = new Thread(this);
+		t.start();
+	}
 
-    /**
-     * @param e
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void run() {
+	/**
+	 * @param e
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void run() {
 
-        // announce that we are working
-        Manager.getInstance().block();
+		// announce that we are working
+		Manager.getInstance().block();
 
-        // scan for proxies
-        List<Proxy> proxies = SkinIO.loadProxies();
+		// scan for proxies
+		List<Proxy> proxies = SkinIO.loadProxies();
 
-        // create dialog that user can choose a configDescriptor
-        OpenSkinPanel panel = new OpenSkinPanel(proxies);
-        panel.init();
-        Manager.getInstance().makeDialog(panel, Dictionary.OPEN_SKIN_NAME.getText());
+		// create dialog that user can choose a configDescriptor
+		OpenSkinPanel panel = new OpenSkinPanel(proxies);
+		panel.init();
+		Manager.getInstance().makeDialog(panel, Dictionary.OPEN_SKIN_NAME.getText());
 
-        // if ok, open skin
-        Proxy proxy = panel.getSelectedProxy();
-        if (proxy != null) {
-            SkinIO.loadSkin(proxy);
-        }
+		// if ok, open skin
+		Proxy proxy = panel.getSelectedProxy();
+		if (proxy != null) {
+			SkinIO.loadSkin(proxy);
+		}
 
-        // announce that work is done
-        Manager.getInstance().unblock();
-    }
+		// announce that work is done
+		Manager.getInstance().unblock();
+	}
 }

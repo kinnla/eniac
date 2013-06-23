@@ -39,7 +39,7 @@ import eniac.util.EProperties;
 public class MenuHandler extends DefaultHandler {
 
 	// constant tag and attribute names for parsing the menu xml file
-	private enum Tag  {
+	private enum Tag {
 		MENU, GROUP, ACTION, NAME, MENUBAR, TOOLBAR, SEPARATOR, KEY, SID;
 	}
 
@@ -48,7 +48,7 @@ public class MenuHandler extends DefaultHandler {
 		DEFAULT, TOOLBAR, MENUBAR;
 	}
 
-	//=============================== fields //================================
+	// =============================== fields //================================
 
 	private Hashtable<String, EAction> _actionDefaults = null;
 
@@ -62,7 +62,7 @@ public class MenuHandler extends DefaultHandler {
 
 	private Hashtable<String, EAction> _actions = new Hashtable<>();
 
-	//============================ lifecycle //================================
+	// ============================ lifecycle //================================
 
 	public MenuHandler(Hashtable<String, EAction> actionDefaults) {
 		_actionDefaults = actionDefaults;
@@ -80,66 +80,67 @@ public class MenuHandler extends DefaultHandler {
 		}
 	}
 
-	//========================== defaultHandler methods //=====================
+	// ========================== defaultHandler methods //=====================
 
-	public void startElement(String uri, String localName, String qName,
-			Attributes attrs) throws SAXException {
-		//System.out.println(qName);
-		
+	public void startElement(String uri, String localName, String qName, Attributes attrs) throws SAXException {
+		// System.out.println(qName);
+
 		try {
 			Tag tag = Enum.valueOf(Tag.class, qName.toUpperCase());
-			
-			switch(tag) {
-				
-				case TOOLBAR:
-				// create jtoolbar and adjust parsing state
-				_toolBar = new JToolBar();
-				_parsingState = ParsingState.TOOLBAR;
-				break;
 
-				case ACTION:
+			switch (tag) {
+
+				case TOOLBAR :
+					// create jtoolbar and adjust parsing state
+					_toolBar = new JToolBar();
+					_parsingState = ParsingState.TOOLBAR;
+					break;
+
+				case ACTION :
 					if (_parsingState == ParsingState.MENUBAR) {
 
 						// add action to jmenu
 						String key = XMLUtil.parseString(attrs, Tag.KEY);
 						EAction action = getAction(key);
 						_currentMenu.add((JMenuItem) action.getValue(EAction.ITEM));
-					} else if (_parsingState == ParsingState.TOOLBAR) {
-						
+					}
+					else if (_parsingState == ParsingState.TOOLBAR) {
+
 						// add action to toolbar
 						String key = XMLUtil.parseString(attrs, Tag.KEY);
 						EAction action = getAction(key);
 						_toolBar.add((AbstractButton) action.getValue(EAction.BUTTON));
 					}
 					break;
-					
-				case SEPARATOR:
+
+				case SEPARATOR :
 					if (_parsingState == ParsingState.TOOLBAR) {
 
 						// add separator to toolbar
 						_toolBar.addSeparator();
-					} else if (_parsingState == ParsingState.MENUBAR) {
+					}
+					else if (_parsingState == ParsingState.MENUBAR) {
 
 						// add separator to menu
 						_currentMenu.addSeparator();
 					}
 					break;
-				
-				case MENUBAR:
+
+				case MENUBAR :
 
 					// create jmenubar and adjust parsing state
 					_menuBar = new JMenuBar();
 					_parsingState = ParsingState.MENUBAR;
 					break;
-				
-				case GROUP:
-					
+
+				case GROUP :
+
 					// create jmenu and add it to menubar
 					String sid = XMLUtil.parseString(attrs, Tag.SID);
 					_currentMenu = new EMenu(sid);
 					_menuBar.add(_currentMenu);
 					break;
-					
+
 				default :
 					break;
 			}
@@ -151,7 +152,7 @@ public class MenuHandler extends DefaultHandler {
 		}
 	}
 
-	//=========================== other methods //=============================
+	// =========================== other methods //=============================
 
 	public JToolBar getToolBar() {
 		return _toolBar;

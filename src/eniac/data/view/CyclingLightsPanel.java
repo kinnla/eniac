@@ -31,73 +31,71 @@ import eniac.util.StatusMap;
  */
 public class CyclingLightsPanel extends EPanel implements StatusListener {
 
-    private Switch _heaters;
+	private Switch _heaters;
 
-    /**
-     * @param data
-     */
-    public CyclingLightsPanel() {
-        // empty
-    }
+	/**
+	 * @param data
+	 */
+	public CyclingLightsPanel() {
+		// empty
+	}
 
-    public void init() {
-        super.init();
+	public void init() {
+		super.init();
 
-        // observe heaters of cycling unit to get notified about power switches
-        Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
-        _heaters = config.getUnit(_data.getGridNumbers()[0]).getHeaters();
-        _heaters.addObserver(this);
+		// observe heaters of cycling unit to get notified about power switches
+		Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+		_heaters = config.getUnit(_data.getGridNumbers()[0]).getHeaters();
+		_heaters.addObserver(this);
 
-        // add this as status listener to receive simulation-time updates
-        StatusMap.getInstance().addListener(Status.SIMULATION_TIME, this);
-    }
+		// add this as status listener to receive simulation-time updates
+		StatusMap.getInstance().addListener(Status.SIMULATION_TIME, this);
+	}
 
-    public void dispose() {
-        super.dispose();
-        StatusMap.getInstance().removeListener(Status.SIMULATION_TIME, this);
-        _heaters.deleteObserver(this);
-    }
+	public void dispose() {
+		super.dispose();
+		StatusMap.getInstance().removeListener(Status.SIMULATION_TIME, this);
+		_heaters.deleteObserver(this);
+	}
 
-    protected void paintComponent(Graphics g, int x, int y, int width,
-            int height, int lod) {
+	protected void paintComponent(Graphics g, int x, int y, int width, int height, int lod) {
 
-        // get descriptor. If no descriptor, just return.
-        Descriptor descriptor = getDescriptor(lod);
-        if (descriptor == null) {
-            return;
-        }
-        // paint bgimage, if defined
-        Image bgimage = (Image) descriptor.get(Descriptor.Key.BACK_IMAGE);
-        if (bgimage != null) {
-            g.drawImage(bgimage, x, y, width, height, this);
-        }
-        // if power, paint vertical line
-        if (_data.hasPower()) {
+		// get descriptor. If no descriptor, just return.
+		Descriptor descriptor = getDescriptor(lod);
+		if (descriptor == null) {
+			return;
+		}
+		// paint bgimage, if defined
+		Image bgimage = (Image) descriptor.get(Descriptor.Key.BACK_IMAGE);
+		if (bgimage != null) {
+			g.drawImage(bgimage, x, y, width, height, this);
+		}
+		// if power, paint vertical line
+		if (_data.hasPower()) {
 
-            // get variables
-            long time = StatusMap.getLong(Status.SIMULATION_TIME);
-            ParentGrid grid = (ParentGrid) _data.getType().getGrid(width,
-                    height, lod);
-            int gridWidth = grid.xValues[1] - grid.xValues[0];
-            int offset = (int) time % CyclingLights.ADDITION_CYCLE;
-            int scaledOff = offset * gridWidth / CyclingLights.ADDITION_CYCLE;
-            x += grid.xValues[0] + scaledOff;
-            Color color = (Color) descriptor.get(Descriptor.Key.COLOR);
+			// get variables
+			long time = StatusMap.getLong(Status.SIMULATION_TIME);
+			ParentGrid grid = (ParentGrid) _data.getType().getGrid(width, height, lod);
+			int gridWidth = grid.xValues[1] - grid.xValues[0];
+			int offset = (int) time % CyclingLights.ADDITION_CYCLE;
+			int scaledOff = offset * gridWidth / CyclingLights.ADDITION_CYCLE;
+			x += grid.xValues[0] + scaledOff;
+			Color color = (Color) descriptor.get(Descriptor.Key.COLOR);
 
-            // paint vertical line
-            g.setColor(color);
-            g.drawLine(x, y + grid.yValues[0], x, y + grid.yValues[1]);
-        }
-    }
+			// paint vertical line
+			g.setColor(color);
+			g.drawLine(x, y + grid.yValues[0], x, y + grid.yValues[1]);
+		}
+	}
 
-    public void statusChanged(Status status, Object newValue) {
-        // track simulation time for updating cycle
-        // if we are highlightning, paint immediately.
-        //			if (StatusMap.getBoolean(StatusMap.HIGHLIGHT_PULSE)) {
-        //				paintComponent(getGraphics());
-        //			} else {
-        // Otherwise call for repaint.
-        repaint();
-        //			}
-    }
+	public void statusChanged(Status status, Object newValue) {
+		// track simulation time for updating cycle
+		// if we are highlightning, paint immediately.
+		// if (StatusMap.getBoolean(StatusMap.HIGHLIGHT_PULSE)) {
+		// paintComponent(getGraphics());
+		// } else {
+		// Otherwise call for repaint.
+		repaint();
+		// }
+	}
 }

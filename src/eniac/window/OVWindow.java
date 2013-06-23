@@ -34,48 +34,48 @@ import eniac.util.StringConverter;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public class OVWindow extends JDialog implements LifecycleListener {
 
-    private OVPanel _ovPanel = null;
+	private OVPanel _ovPanel = null;
 
-    // =========================== singleton stuff
-    // ==============================
+	// =========================== singleton stuff
+	// ==============================
 
-    private static OVWindow instance;
+	private static OVWindow instance;
 
-    private OVWindow() {
-        super(EFrame.getInstance(), Dictionary.OVERVIEW_WINDOW_TITLE.getText(), false);
-    }
+	private OVWindow() {
+		super(EFrame.getInstance(), Dictionary.OVERVIEW_WINDOW_TITLE.getText(), false);
+	}
 
-    public static OVWindow getInstance() {
-        if (instance == null) {
-            instance = new OVWindow();
-            instance.init();
-        }
-        return instance;
-    }
+	public static OVWindow getInstance() {
+		if (instance == null) {
+			instance = new OVWindow();
+			instance.init();
+		}
+		return instance;
+	}
 
-    /**
-     * initializes this overviewWindow.
-     */
-    private void init() {
+	/**
+	 * initializes this overviewWindow.
+	 */
+	private void init() {
 
-        // add as singleton to starter
-        Manager.getInstance().addMainListener(this);
+		// add as singleton to starter
+		Manager.getInstance().addMainListener(this);
 
-        // init configPanel first
-        configPanelChanged();
+		// init configPanel first
+		configPanelChanged();
 
-        // register as propertyChangeListener
-        StatusMap.getInstance().addListener(Status.SHOW_OVERVIEW, new StatusListener() {
-			
+		// register as propertyChangeListener
+		StatusMap.getInstance().addListener(Status.SHOW_OVERVIEW, new StatusListener() {
+
 			@Override
 			public void statusChanged(Status status, Object newValue) {
-	            // show overview toggeled
-	            setVisible((Boolean)newValue);
+				// show overview toggeled
+				setVisible((Boolean) newValue);
 			}
 		});
 
@@ -87,63 +87,62 @@ public class OVWindow extends JDialog implements LifecycleListener {
 				setTitle(Dictionary.OVERVIEW_WINDOW_TITLE.getText());
 			}
 		});
-        
-        // add WindowListener
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                StatusMap.set(Status.SHOW_OVERVIEW, false);
-            }
-        });
 
-        // to the screen
-        pack();
-        setLocation(StringConverter.toPoint(EProperties.getInstance().getProperty(
-                "OVERVIEW_WINDOW_LOCATION")));
-        setVisible((Boolean)StatusMap.get(Status.SHOW_OVERVIEW));
-    }
+		// add WindowListener
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				StatusMap.set(Status.SHOW_OVERVIEW, false);
+			}
+		});
 
-    public void dispose() {
-        super.dispose();
-        instance = null;
-    }
+		// to the screen
+		pack();
+		setLocation(StringConverter.toPoint(EProperties.getInstance().getProperty("OVERVIEW_WINDOW_LOCATION")));
+		setVisible((Boolean) StatusMap.get(Status.SHOW_OVERVIEW));
+	}
 
-    // =============================== methods
-    // ==================================
+	public void dispose() {
+		super.dispose();
+		instance = null;
+	}
 
-    /**
-     * initializes an overviewPane according to the actual view-dimension and
-     * the actual configurationPanel
-     */
-    public void configPanelChanged() {
+	// =============================== methods
+	// ==================================
 
-        // dispose old panel, if an overviewPanel
-        if (_ovPanel != null) {
-            _ovPanel.dispose();
-        }
+	/**
+	 * initializes an overviewPane according to the actual view-dimension and
+	 * the actual configurationPanel
+	 */
+	public void configPanelChanged() {
 
-        // determine, which overviewPanel to set
-        ConfigPanel configPanel = EFrame.getInstance().getConfigPanel();
-        if (configPanel != null) {
-            _ovPanel = new OVPanel();
-            _ovPanel.init();
-            setContentPane(_ovPanel);
-        }
-        // layout
-        pack();
-    }
+		// dispose old panel, if an overviewPanel
+		if (_ovPanel != null) {
+			_ovPanel.dispose();
+		}
 
-    public OVPanel getOVPanel() {
-        return _ovPanel;
-    }
+		// determine, which overviewPanel to set
+		ConfigPanel configPanel = EFrame.getInstance().getConfigPanel();
+		if (configPanel != null) {
+			_ovPanel = new OVPanel();
+			_ovPanel.init();
+			setContentPane(_ovPanel);
+		}
+		// layout
+		pack();
+	}
 
-    /**
-     * @param oldVal
-     * @param newVal
-     * @see eniac.LifecycleListener#mainChanged(short, short)
-     */
-    public void runLevelChanged(short oldVal, short newVal) {
-        if (newVal == Manager.STATE_DESTROYED) {
-            instance = null;
-        }
-    }
+	public OVPanel getOVPanel() {
+		return _ovPanel;
+	}
+
+	/**
+	 * @param oldVal
+	 * @param newVal
+	 * @see eniac.LifecycleListener#mainChanged(short, short)
+	 */
+	public void runLevelChanged(short oldVal, short newVal) {
+		if (newVal == Manager.STATE_DESTROYED) {
+			instance = null;
+		}
+	}
 }

@@ -22,43 +22,41 @@ import eniac.io.XMLUtil;
  */
 public class Slider extends EData {
 
-    private float _value;
+	private float _value;
 
-    //============================= lifecycle //===============================
+	// ============================= lifecycle //===============================
 
-    public Slider() {
-        // empty
-    }
+	public Slider() {
+		// empty
+	}
 
-    public void setAttributes(Attributes attrs) {
-        super.setAttributes(attrs);
-        _value = XMLUtil.parseFloat(attrs, Tag.VALUE);
-    }
+	public void setAttributes(Attributes attrs) {
+		super.setAttributes(attrs);
+		_value = XMLUtil.parseFloat(attrs, Tag.VALUE);
+	}
 
-    //============================== methods //================================
+	// ============================== methods //================================
 
-    public void setValue(float value) {
-        if (_value != value) {
-            _value = value;
-            setChanged();
-            notifyObservers(EData.REPAINT);
-        }
-    }
+	public void setValue(float value) {
+		if (_value != value) {
+			_value = value;
+			setChanged();
+			notifyObservers(EData.REPAINT);
+		}
+	}
 
-    public float getValue() {
-        return _value;
-    }
+	public float getValue() {
+		return _value;
+	}
 
-    protected EData.Tag getAttributeName() {
-        return EData.Tag.VALUE;
-    }
+	protected EData.Tag getAttributeName() {
+		return EData.Tag.VALUE;
+	}
 
-    /**
-     * @return a string representation of
-     */
-    public String getAttributes() {
-        return super.getAttributes()
-                + XMLUtil.wrapAttribute(getAttributeName(), Float
-                        .toString(_value));
-    }
+	/**
+	 * @return a string representation of
+	 */
+	public String getAttributes() {
+		return super.getAttributes() + XMLUtil.wrapAttribute(getAttributeName(), Float.toString(_value));
+	}
 }

@@ -39,176 +39,175 @@ import eniac.window.EFrame;
 /**
  * @author zoppke
  */
-public class Progressor extends JDialog implements Runnable, LifecycleListener,
-        StatusListener {
+public class Progressor extends JDialog implements Runnable, LifecycleListener, StatusListener {
 
-    // jpanel as contentpane
-    private JPanel _panel = new JPanel(new BorderLayout());
+	// jpanel as contentpane
+	private JPanel _panel = new JPanel(new BorderLayout());
 
-    // a separate thread is startet in order to show the dialog whith blocking
-    // all other gui but without blocking the initialization process.
-    private Thread _thread = null;
+	// a separate thread is startet in order to show the dialog whith blocking
+	// all other gui but without blocking the initialization process.
+	private Thread _thread = null;
 
-    // cancel button
-    private JButton _button = new JButton();
+	// cancel button
+	private JButton _button = new JButton();
 
-    // label to display the current task, its progress we are showing
-    private JLabel _label = new JLabel(Dictionary.INITIALIZING.getText());
+	// label to display the current task, its progress we are showing
+	private JLabel _label = new JLabel(Dictionary.INITIALIZING.getText());
 
-    // progressbar to show progress of our
-    private JProgressBar _progressBar = new JProgressBar();
+	// progressbar to show progress of our
+	private JProgressBar _progressBar = new JProgressBar();
 
-    //============================ singleton stuff
-    // =============================
+	// ============================ singleton stuff
+	// =============================
 
-    // singleton self reference
-    private static Progressor instance;
+	// singleton self reference
+	private static Progressor instance;
 
-    private Progressor() {
+	private Progressor() {
 
-        // create progressor as modal dialog with eframe as owner
-        super(EFrame.getInstance(), Dictionary.PLEASE_WAIT.getText(), true);
+		// create progressor as modal dialog with eframe as owner
+		super(EFrame.getInstance(), Dictionary.PLEASE_WAIT.getText(), true);
 
-        // add as main listener
-        Manager.getInstance().addMainListener(this);
+		// add as main listener
+		Manager.getInstance().addMainListener(this);
 
-        // add as status listener to be notified when language changes
-        StatusMap.getInstance().addListener(Status.LANGUAGE, this);
+		// add as status listener to be notified when language changes
+		StatusMap.getInstance().addListener(Status.LANGUAGE, this);
 
-        // init components
-        //_progressBar.setIndeterminate(true);
-        setAction(null);
-        _panel.add(_label, BorderLayout.NORTH);
-        _panel.add(_progressBar, BorderLayout.CENTER);
-        _panel.add(_button, BorderLayout.SOUTH);
-        setContentPane(_panel);
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		// init components
+		// _progressBar.setIndeterminate(true);
+		setAction(null);
+		_panel.add(_label, BorderLayout.NORTH);
+		_panel.add(_progressBar, BorderLayout.CENTER);
+		_panel.add(_button, BorderLayout.SOUTH);
+		setContentPane(_panel);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
-        // bring it to the screen.
-        pack();
-        setLocationRelativeTo(EFrame.getInstance());
+		// bring it to the screen.
+		pack();
+		setLocationRelativeTo(EFrame.getInstance());
 
-        // start thread that controlles visibility
-        _thread = new Thread(this);
-        _thread.start();
-    }
+		// start thread that controlles visibility
+		_thread = new Thread(this);
+		_thread.start();
+	}
 
-    public static Progressor getInstance() {
-        if (instance == null) {
-            instance = new Progressor();
-        }
-        return instance;
-    }
+	public static Progressor getInstance() {
+		if (instance == null) {
+			instance = new Progressor();
+		}
+		return instance;
+	}
 
-    //=============================== methods
-    // ==================================
+	// =============================== methods
+	// ==================================
 
-    public void setAction(Action a) {
+	public void setAction(Action a) {
 
-        // if no action wanted, disable button.
-        if (a == null) {
-            a = new AbstractAction(Dictionary.CANCEL.getText()) {
-                public void actionPerformed(ActionEvent e) {
-                    // empty
-                }
+		// if no action wanted, disable button.
+		if (a == null) {
+			a = new AbstractAction(Dictionary.CANCEL.getText()) {
+				public void actionPerformed(ActionEvent e) {
+					// empty
+				}
 
-                public boolean isEnabled() {
-                    return false;
-                }
-            };
-        }
+				public boolean isEnabled() {
+					return false;
+				}
+			};
+		}
 
-        // create and add action
-        _panel.getActionMap().put(a.getValue(Action.NAME), a);
+		// create and add action
+		_panel.getActionMap().put(a.getValue(Action.NAME), a);
 
-        // map action to button
-        _button.setAction(a);
-        _button.setEnabled(true);
+		// map action to button
+		_button.setAction(a);
+		_button.setEnabled(true);
 
-        // fill actionMap
-        _panel.getActionMap().put(Dictionary.CANCEL, a);
+		// fill actionMap
+		_panel.getActionMap().put(Dictionary.CANCEL, a);
 
-        // fill inputMap
-        _panel.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
-                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-                Dictionary.CANCEL);
+		// fill inputMap
+		_panel.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), Dictionary.CANCEL);
 
-        // adjust inputMaps of buttons
-        _button.getActionMap().setParent(_panel.getActionMap());
-        _button.getInputMap(JComponent.WHEN_FOCUSED)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
-                        Dictionary.CANCEL);
-    }
+		// adjust inputMaps of buttons
+		_button.getActionMap().setParent(_panel.getActionMap());
+		_button.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
+				Dictionary.CANCEL);
+	}
 
-    public void setText(String text) {
-        _label.setText(text);
-    }
+	public void setText(String text) {
+		_label.setText(text);
+	}
 
-    public void clear() {
-        setText(Dictionary.INITIALIZING.getText());
-        _progressBar.setIndeterminate(true);
-    }
+	public void clear() {
+		setText(Dictionary.INITIALIZING.getText());
+		_progressBar.setIndeterminate(true);
+	}
 
-    public void incrementValue() {
-        _progressBar.setValue(_progressBar.getValue() + 1);
-    }
+	public void incrementValue() {
+		_progressBar.setValue(_progressBar.getValue() + 1);
+	}
 
-    public void setProgress(int value, int max) {
-        _progressBar.setIndeterminate(false);
-        _progressBar.setValue(value);
-        _progressBar.setMaximum(max);
-    }
+	public void setProgress(int value, int max) {
+		_progressBar.setIndeterminate(false);
+		_progressBar.setValue(value);
+		_progressBar.setMaximum(max);
+	}
 
-    public void run() {
+	public void run() {
 
-        // run this thread until applet is shutting down.
-        while (Manager.getInstance().getLifecycleState() < Manager.STATE_STOPPED) {
+		// run this thread until applet is shutting down.
+		while (Manager.getInstance().getLifecycleState() < Manager.STATE_STOPPED) {
 
-            // show progressor, if applet is busy
-            short runlevel = Manager.getInstance().getLifecycleState();
-            if (runlevel != Manager.STATE_RUNNING) {
-                setVisible(true);
-            }
+			// show progressor, if applet is busy
+			short runlevel = Manager.getInstance().getLifecycleState();
+			if (runlevel != Manager.STATE_RUNNING) {
+				setVisible(true);
+			}
 
-            // check, if we are shuting down.
-            if (Manager.getInstance().getLifecycleState() >= Manager.STATE_STOPPED) {
-                break;
-            }
+			// check, if we are shuting down.
+			if (Manager.getInstance().getLifecycleState() >= Manager.STATE_STOPPED) {
+				break;
+			}
 
-            // wait until the runlevel changes
-            synchronized (this) {
-            	if (Manager.getInstance().getLifecycleState() == Manager.STATE_BLOCKED) {
-	                try {
-	                    wait();
-	                } catch (InterruptedException e) {
-	                    e.printStackTrace();
-	                }
-                }
-            }
-        }
-        // applet is shutting down. Hide and dispose progressor.
-        setVisible(false);
-        _thread = null;
-        instance = null;
-        dispose();
-    }
+			// wait until the runlevel changes
+			synchronized (this) {
+				if (Manager.getInstance().getLifecycleState() == Manager.STATE_BLOCKED) {
+					try {
+						wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		// applet is shutting down. Hide and dispose progressor.
+		setVisible(false);
+		_thread = null;
+		instance = null;
+		dispose();
+	}
 
-    public synchronized void runLevelChanged(short oldVal, short newVal) {
+	public synchronized void runLevelChanged(short oldVal, short newVal) {
 
-        // main status changed. If applet is idling, hide progressor.
-        // otherwise notify thread to show it.
-        if (newVal == Manager.STATE_RUNNING) {
-            setVisible(false);
-        } else if (newVal == Manager.STATE_STOPPED) {
-            setVisible(false);
-            notifyAll();
-        } else {
-            notifyAll();
-        }
-    }
+		// main status changed. If applet is idling, hide progressor.
+		// otherwise notify thread to show it.
+		if (newVal == Manager.STATE_RUNNING) {
+			setVisible(false);
+		}
+		else if (newVal == Manager.STATE_STOPPED) {
+			setVisible(false);
+			notifyAll();
+		}
+		else {
+			notifyAll();
+		}
+	}
 
-    public void statusChanged(Status status, Object newValue) {
-        _button.setText(Dictionary.CANCEL.getText());
-        setTitle(Dictionary.PLEASE_WAIT.getText());
-    }
+	public void statusChanged(Status status, Object newValue) {
+		_button.setText(Dictionary.CANCEL.getText());
+		setTitle(Dictionary.PLEASE_WAIT.getText());
+	}
 }

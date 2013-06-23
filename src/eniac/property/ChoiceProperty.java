@@ -24,36 +24,36 @@ import javax.swing.JComponent;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public class ChoiceProperty extends Property {
 
-    private String[] _values;
+	private String[] _values;
 
-    private JComboBox<String> _box;
+	private JComboBox<String> _box;
 
-    public ChoiceProperty(String name, String[] values, int selection) {
-        _name = name;
-        _values = values;
-        _box = new JComboBox<>(_values);
-        _box.setSelectedIndex(selection);
-    }
+	public ChoiceProperty(String name, String[] values, int selection) {
+		_name = name;
+		_values = values;
+		_box = new JComboBox<>(_values);
+		_box.setSelectedIndex(selection);
+	}
 
-    public ChoiceProperty(Enum<?> name, String[] values, int selection) {
-    	this(name.name(), Arrays.copyOf(values, values.length, String[].class), selection);
-    }
-    
-    /*
-     * (non-Javadoc)
-     * 
-     * @see eniac.data.property.AbstractProperty#getValueComponent()
-     */
-    public JComponent getValueComponent() {
-        return _box;
-    }
+	public ChoiceProperty(Enum<?> name, String[] values, int selection) {
+		this(name.name(), Arrays.copyOf(values, values.length, String[].class), selection);
+	}
 
-    public int getSelection() {
-        return _box.getSelectedIndex();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see eniac.data.property.AbstractProperty#getValueComponent()
+	 */
+	public JComponent getValueComponent() {
+		return _box;
+	}
+
+	public int getSelection() {
+		return _box.getSelectedIndex();
+	}
 }

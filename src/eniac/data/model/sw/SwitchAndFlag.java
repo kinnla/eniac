@@ -29,72 +29,71 @@ public class SwitchAndFlag extends Switch {
 
 	private static String[] FALSE_TRUE = {EData.Tag.FALSE.name().toLowerCase(), EData.Tag.TRUE.name().toLowerCase()};
 
-    private boolean _flag;
+	private boolean _flag;
 
-    /**
-     * @param type
-     */
-    public SwitchAndFlag() {
-        // empty
-    }
+	/**
+	 * @param type
+	 */
+	public SwitchAndFlag() {
+		// empty
+	}
 
-    public void setAttributes(Attributes attrs) {
-        super.setAttributes(attrs);
+	public void setAttributes(Attributes attrs) {
+		super.setAttributes(attrs);
 
-        // parse clearCorrect from attributes
-        //TODO: maybe include name of flag to etype
-        _flag = XMLUtil.parseBoolean(attrs, Tag.FLAG);
-    }
+		// parse clearCorrect from attributes
+		// TODO: maybe include name of flag to etype
+		_flag = XMLUtil.parseBoolean(attrs, Tag.FLAG);
+	}
 
-    public void rotateValue() {
-        //		System.out.println("rotate value: " + _value + " -> " + (_value +
-        // 1));
-        _value = (_value + 1) % _type.getCodes().length;
-        if (_value == 0) {
-            _flag = true;
-        }
-        setChanged();
-        notifyObservers(EData.REPAINT);
-    }
+	public void rotateValue() {
+		// System.out.println("rotate value: " + _value + " -> " + (_value +
+		// 1));
+		_value = (_value + 1) % _type.getCodes().length;
+		if (_value == 0) {
+			_flag = true;
+		}
+		setChanged();
+		notifyObservers(EData.REPAINT);
+	}
 
-    public void toggleFlag() {
-        _flag = !_flag;
-        setChanged();
-        notifyObservers(EData.REPAINT);
-    }
+	public void toggleFlag() {
+		_flag = !_flag;
+		setChanged();
+		notifyObservers(EData.REPAINT);
+	}
 
-    public boolean isFlag() {
-        //System.out.println("flag is checked. Result=" + _flag);
-        return _flag;
-    }
+	public boolean isFlag() {
+		// System.out.println("flag is checked. Result=" + _flag);
+		return _flag;
+	}
 
-    public void setFlag(boolean b) {
-        if (_flag != b) {
-            _flag = b;
-            setChanged();
-            notifyObservers(EData.REPAINT);
-        }
-    }
+	public void setFlag(boolean b) {
+		if (_flag != b) {
+			_flag = b;
+			setChanged();
+			notifyObservers(EData.REPAINT);
+		}
+	}
 
-    public String getAttributes() {
-        return super.getAttributes()
-                + XMLUtil.wrapAttribute(Tag.FLAG, Boolean.toString(_flag));
-    }
+	public String getAttributes() {
+		return super.getAttributes() + XMLUtil.wrapAttribute(Tag.FLAG, Boolean.toString(_flag));
+	}
 
-    public List<Property> getProperties() {
-        List<Property> l = super.getProperties();
-        l.add(new ChoiceProperty(Tag.FLAG.name(), FALSE_TRUE, _flag ? 1 : 0));
-        return l;
-    }
+	public List<Property> getProperties() {
+		List<Property> l = super.getProperties();
+		l.add(new ChoiceProperty(Tag.FLAG.name(), FALSE_TRUE, _flag ? 1 : 0));
+		return l;
+	}
 
-    public void setProperties(List<Property> l) {
-        for (Property p : l) {
-            if (p.getName().equalsIgnoreCase(Tag.FLAG.name())) {
-                setFlag(((ChoiceProperty) p).getSelection() == 1);
-//                it.remove(); ===> need to remove from list ???
-            }
-        }
-        super.setProperties(l);
-    }
+	public void setProperties(List<Property> l) {
+		for (Property p : l) {
+			if (p.getName().equalsIgnoreCase(Tag.FLAG.name())) {
+				setFlag(((ChoiceProperty) p).getSelection() == 1);
+// it.remove(); ===> need to remove from list ???
+			}
+		}
+		super.setProperties(l);
+	}
 
 }

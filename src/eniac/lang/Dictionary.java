@@ -32,7 +32,7 @@ import java.util.EnumMap;
  * @author zoppke
  */
 public enum Dictionary {
-	
+
 	/**
 	 * Name of the "Open-Skin" command.
 	 */
@@ -382,7 +382,7 @@ public enum Dictionary {
 	private EnumMap<Dictionary, String> _map = null;
 
 	public void checkInit() {
-		
+
 		// if already initialized, just return.
 		if (_map != null) {
 			return;
@@ -403,13 +403,13 @@ public enum Dictionary {
 		checkInit();
 		return _map.get(this);
 	}
-	
+
 	public void setText(String text) {
 		checkInit();
 		_map.put(this, text);
 	}
 
-	public enum Tag{
+	public enum Tag {
 		ENTRY, KEY
 	}
 

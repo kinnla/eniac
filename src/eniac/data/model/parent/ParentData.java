@@ -30,139 +30,138 @@ import eniac.io.XMLUtil;
 /**
  * @author zoppke
  * 
- * Class Unit is the superclass of all units that the eniac consists of. So over
- * here methods and fields are defined that are necessary for them to work
- * together and to display them in several perspectives.
+ *         Class Unit is the superclass of all units that the eniac consists of.
+ *         So over here methods and fields are defined that are necessary for
+ *         them to work together and to display them in several perspectives.
  */
 public class ParentData extends EData {
 
-    // object garten to store children
-    private KinderGarten _garten = null;
+	// object garten to store children
+	private KinderGarten _garten = null;
 
-    // list of children to collect them during initialization.
-    // When initialization finished, they will moved to the garten.
-    protected List<EData> _childList = new LinkedList<>();
+	// list of children to collect them during initialization.
+	// When initialization finished, they will moved to the garten.
+	protected List<EData> _childList = new LinkedList<>();
 
-    //============================= lifecycle
-    // ==================================
+	// ============================= lifecycle
+	// ==================================
 
-    public ParentData() {
-        // empty
-    }
+	public ParentData() {
+		// empty
+	}
 
-    public void init() {
-        super.init();
-        getGarten();
-    }
+	public void init() {
+		super.init();
+		getGarten();
+	}
 
-    public void dispose() {
-        super.dispose();
+	public void dispose() {
+		super.dispose();
 
-        // recursively call dispose on all children
-        EData[] children = getGarten().getAllKinder();
-        for (int i = 0; i < children.length; ++i) {
-            children[i].dispose();
-        }
+		// recursively call dispose on all children
+		EData[] children = getGarten().getAllKinder();
+		for (int i = 0; i < children.length; ++i) {
+			children[i].dispose();
+		}
 
-        // remove all children
-        removeAllChildren();
-    }
+		// remove all children
+		removeAllChildren();
+	}
 
-    //============================= methods
-    // ====================================
+	// ============================= methods
+	// ====================================
 
-    public boolean hasPower() {
-        // default status for trunks, trays, configuration
-        return true;
-    }
+	public boolean hasPower() {
+		// default status for trunks, trays, configuration
+		return true;
+	}
 
-    /**
-     * Adds a child dataObject to this dataObject
-     */
-    public void addChild(EData child) {
-        // add child to collector and set parent reference
-        _childList.add(child);
-        child.setParent(this);
-    }
+	/**
+	 * Adds a child dataObject to this dataObject
+	 */
+	public void addChild(EData child) {
+		// add child to collector and set parent reference
+		_childList.add(child);
+		child.setParent(this);
+	}
 
-    public KinderGarten getGarten() {
-        if (_garten == null) {
+	public KinderGarten getGarten() {
+		if (_garten == null) {
 
-        	// convert list to garten
-            _garten = new KinderGarten(_childList);
-            _childList = null;
+			// convert list to garten
+			_garten = new KinderGarten(_childList);
+			_childList = null;
 
-            // recurse on children and init
-            for (EData child : _garten.getAllKinder()) {
-            	assertInit(child);
-            }
-        }
-        return _garten;
-    }
+			// recurse on children and init
+			for (EData child : _garten.getAllKinder()) {
+				assertInit(child);
+			}
+		}
+		return _garten;
+	}
 
-    public void removeAllChildren() {
-        _childList = null;
-        _garten = null;
-    }
+	public void removeAllChildren() {
+		_childList = null;
+		_garten = null;
+	}
 
-    public EData getChild(int gridx, int gridy) {
+	public EData getChild(int gridx, int gridy) {
 
-        // recurse on all children and check their location in grid
-        EData[] children = _garten.getAllKinder();
-        for (int i = 0; i < children.length; ++i) {
-            int[] numbers = children[i].getGridNumbers();
-            if (numbers[0] <= gridx && numbers[2] > gridx
-                    && numbers[1] <= gridy && numbers[3] > gridy) {
+		// recurse on all children and check their location in grid
+		EData[] children = _garten.getAllKinder();
+		for (int i = 0; i < children.length; ++i) {
+			int[] numbers = children[i].getGridNumbers();
+			if (numbers[0] <= gridx && numbers[2] > gridx && numbers[1] <= gridy && numbers[3] > gridy) {
 
-                // return child
-                return children[i];
-            }
-        }
-        return null;
-    }
+				// return child
+				return children[i];
+			}
+		}
+		return null;
+	}
 
-    public Unit getUnit(int gridx) {
-        return (Unit) getChild(gridx, 2);
-    }
+	public Unit getUnit(int gridx) {
+		return (Unit) getChild(gridx, 2);
+	}
 
-    public void addObserverToTree(Observer o) {
-        addObserver(o);
-        EData[] children = getGarten().getAllKinder();
-        for (int i = 0; i < children.length; ++i) {
-            children[i].addObserverToTree(o);
-        }
-    }
+	public void addObserverToTree(Observer o) {
+		addObserver(o);
+		EData[] children = getGarten().getAllKinder();
+		for (int i = 0; i < children.length; ++i) {
+			children[i].addObserverToTree(o);
+		}
+	}
 
-    //============================== xml methods
-    // ===============================
+	// ============================== xml methods
+	// ===============================
 
-    /**
-     * Returns a list containing all Tag and child-Tag of this dataObject.
-     * 
-     * @return a <code>List</code> containing all tags.
-     */
-    public void appendTags(List<String> l, int indent) {
+	/**
+	 * Returns a list containing all Tag and child-Tag of this dataObject.
+	 * 
+	 * @return a <code>List</code> containing all tags.
+	 */
+	public void appendTags(List<String> l, int indent) {
 
-        // if low indentation level, write comment line and increment progressor
-        if (indent <= 2) {
-            XMLUtil.appendCommentLine(l, indent, getName());
-            Progressor.getInstance().incrementValue();
-        }
-        // append open tag, child tags and the close tag
-        l.add(getOpenTag(indent));
-        appendChildTags(l, indent);
-        l.add(getCloseTag(indent));
-    }
+		// if low indentation level, write comment line and increment progressor
+		if (indent <= 2) {
+			XMLUtil.appendCommentLine(l, indent, getName());
+			Progressor.getInstance().incrementValue();
+		}
+		// append open tag, child tags and the close tag
+		l.add(getOpenTag(indent));
+		appendChildTags(l, indent);
+		l.add(getCloseTag(indent));
+	}
 
-    protected void appendChildTags(List<String> l, int indent) {
+	protected void appendChildTags(List<String> l, int indent) {
 
-        // increase indentation level
-        indent++;
+		// increase indentation level
+		indent++;
 
-        // recurse over all children and append tag lists
-        EData[] children = getGarten().getAllKinder();
-        for (int i = 0; i < children.length; ++i) {
-            children[i].appendTags(l, indent);
-        }
-    }
+		// recurse over all children and append tag lists
+		EData[] children = getGarten().getAllKinder();
+		for (int i = 0; i < children.length; ++i) {
+			children[i].appendTags(l, indent);
+		}
+	}
 }

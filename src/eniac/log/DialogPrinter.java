@@ -22,24 +22,24 @@ import eniac.io.Progressor;
  */
 public class DialogPrinter implements LogListener {
 
-    /**
-     * @param message
-     * @see eniac.log.LogListener#incomingMessage(eniac.log.LogMessage)
-     */
-    public void incomingMessage(LogMessage message) {
-        if (message.isForUser()) {
+	/**
+	 * @param message
+	 * @see eniac.log.LogListener#incomingMessage(eniac.log.LogMessage)
+	 */
+	public void incomingMessage(LogMessage message) {
+		if (message.isForUser()) {
 
-            // show dialog
-            JOptionPane.showMessageDialog(Progressor.getInstance(), message
-                    .getMessage(), message.getTitle(), message.getType());
-        }
-    }
+			// show dialog
+			JOptionPane.showMessageDialog(Progressor.getInstance(), message.getMessage(), message.getTitle(),
+					message.getType());
+		}
+	}
 
-    /**
-     * 
-     * @see eniac.log.LogListener#cleared()
-     */
-    public void cleared() {
-        //nop
-    }
+	/**
+	 * 
+	 * @see eniac.log.LogListener#cleared()
+	 */
+	public void cleared() {
+		// nop
+	}
 }

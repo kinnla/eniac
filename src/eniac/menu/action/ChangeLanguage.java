@@ -27,31 +27,31 @@ import eniac.menu.action.gui.ChangeLanguagePanel;
  */
 public class ChangeLanguage extends EAction implements Runnable {
 
-    public void actionPerformed(ActionEvent evt) {
-        Thread t = new Thread(this);
-        t.start();
-    }
+	public void actionPerformed(ActionEvent evt) {
+		Thread t = new Thread(this);
+		t.start();
+	}
 
-    public void run() {
+	public void run() {
 
-        // announce that work is started
-        Manager.getInstance().block();
+		// announce that work is started
+		Manager.getInstance().block();
 
-        // scan for proxies
-        List<Proxy> proxies = DictionaryIO.loadProxies();
+		// scan for proxies
+		List<Proxy> proxies = DictionaryIO.loadProxies();
 
-        // create dialog that user can choose a configDescriptor
-        ChangeLanguagePanel panel = new ChangeLanguagePanel(proxies);
-        panel.init();
-        Manager.getInstance().makeDialog(panel, Dictionary.CHANGE_LANGUAGE_NAME.getText());
+		// create dialog that user can choose a configDescriptor
+		ChangeLanguagePanel panel = new ChangeLanguagePanel(proxies);
+		panel.init();
+		Manager.getInstance().makeDialog(panel, Dictionary.CHANGE_LANGUAGE_NAME.getText());
 
-        // get selected proxy and load language.
-        Proxy proxy = panel.getSelectedProxy();
-        if (proxy != null) {
-            DictionaryIO.loadLanguage(proxy);
-        }
+		// get selected proxy and load language.
+		Proxy proxy = panel.getSelectedProxy();
+		if (proxy != null) {
+			DictionaryIO.loadLanguage(proxy);
+		}
 
-        // announce that work is done
-        Manager.getInstance().unblock();
-    }
+		// announce that work is done
+		Manager.getInstance().unblock();
+	}
 }

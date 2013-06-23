@@ -18,6 +18,6 @@ package eniac.simulation;
  */
 public interface EEventListener {
 
-    public void process(EEvent e);
+	public void process(EEvent e);
 
 }

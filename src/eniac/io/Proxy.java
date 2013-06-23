@@ -20,102 +20,104 @@ import java.util.Map;
 /**
  * @author zoppke
  */
-public class Proxy extends EnumMap<Proxy.Tag, String>  {
+public class Proxy extends EnumMap<Proxy.Tag, String> {
 
 	/**
 	 * Enumeration of all tags that are understood by the proxy handler
+	 * 
 	 * @author till
-	 *
-	 * TODO
+	 * 
+	 *         TODO
 	 */
-	public enum Tag{
-		
+	public enum Tag {
+
 		/**
-		 * the proxy tag. data outside this section will be ignored. Any tag 
+		 * the proxy tag. data outside this section will be ignored. Any tag
 		 * inside this section shall be registered as enum constant in Proxy.Tag
 		 */
-		PROXY, 
-		
+		PROXY,
+
 		/**
 		 * the author of a skin
 		 */
-		AUTHOR, 
-		
+		AUTHOR,
+
 		/**
 		 * the email address of the author of a skin
 		 */
-		EMAIL, 
-		
+		EMAIL,
+
 		/**
-		 * number of LODs in a skin (should be 2) TODO: refactor, we don't need it
+		 * number of LODs in a skin (should be 2) TODO: refactor, we don't need
+		 * it
 		 */
-		NUMBER_OF_LODS, 
-		
+		NUMBER_OF_LODS,
+
 		/**
 		 * the number of descriptors in a skin TODO: do we need this any more?
 		 */
-		NUMBER_OF_DESCRIPTORS, 
-		
+		NUMBER_OF_DESCRIPTORS,
+
 		/**
 		 * zoom steps for the user to zoom in & out
 		 */
-		ZOOM_STEPS, 
-		
+		ZOOM_STEPS,
+
 		/**
 		 * path to a preview image of the skin
 		 */
-		PREVIEW, 
-		
+		PREVIEW,
+
 		/**
 		 * name of a configuration or language
 		 */
 		NAME,
-		
+
 		/**
 		 * description of the configuration or language
 		 */
 		DESCRIPTION,
-		
+
 		/**
 		 * string-key of the language, as the 2-letter locale
 		 */
 		KEY,
 	}
-	
+
 	private String _path;
-	
-    public Proxy() {
+
+	public Proxy() {
 		super(Proxy.Tag.class);
 	}
 
-    @Override
+	@Override
 	public String toString() {
-        return get(Tag.NAME); // need this to be displayed in a jlist
-    }
-    
-    public void setPath(String path) {
-    	_path=path;
-    }
+		return get(Tag.NAME); // need this to be displayed in a jlist
+	}
 
-    public String getPath() {
-    	return _path;
-    }
-    
-    public void appendTags(List<String> l, int indent) {
+	public void setPath(String path) {
+		_path = path;
+	}
 
-        // append comment line and open tag
-        XMLUtil.appendCommentLine(l, indent, Tag.PROXY.toString());
-        l.add(XMLUtil.TABS[indent] + XMLUtil.wrapOpenTag(Tag.PROXY.toString()));
+	public String getPath() {
+		return _path;
+	}
 
-        // append child tags
-        String tabs = XMLUtil.TABS[indent + 1];
-        for (Map.Entry<Proxy.Tag, String> entry : entrySet()) {
-            String open = XMLUtil.wrapOpenTag(entry.getKey().toString().toLowerCase());
-            String close = XMLUtil.wrapCloseTag(entry.getKey().toString().toLowerCase());
-            l.add(tabs + open + entry.getValue() + close);
-        }
+	public void appendTags(List<String> l, int indent) {
 
-        // append close tags
-        l.add(XMLUtil.TABS[indent] + XMLUtil.wrapCloseTag(Tag.PROXY.toString()));
-    }
+		// append comment line and open tag
+		XMLUtil.appendCommentLine(l, indent, Tag.PROXY.toString());
+		l.add(XMLUtil.TABS[indent] + XMLUtil.wrapOpenTag(Tag.PROXY.toString()));
+
+		// append child tags
+		String tabs = XMLUtil.TABS[indent + 1];
+		for (Map.Entry<Proxy.Tag, String> entry : entrySet()) {
+			String open = XMLUtil.wrapOpenTag(entry.getKey().toString().toLowerCase());
+			String close = XMLUtil.wrapCloseTag(entry.getKey().toString().toLowerCase());
+			l.add(tabs + open + entry.getValue() + close);
+		}
+
+		// append close tags
+		l.add(XMLUtil.TABS[indent] + XMLUtil.wrapCloseTag(Tag.PROXY.toString()));
+	}
 }

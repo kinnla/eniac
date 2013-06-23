@@ -49,253 +49,250 @@ import eniac.util.StringConverter;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public class OVPanel extends JPanel implements ChangeListener, Observer, StatusListener {
 
-    // rectangle to store the bounds of the xored area
-    private Rectangle _xorBounds = new Rectangle();
+	// rectangle to store the bounds of the xored area
+	private Rectangle _xorBounds = new Rectangle();
 
-    // bufferedImage on which we draw the configuration.
-    // if we are just moving the xored image, we can unxor at the old position,
-    // than xor at the new position without refreshing the bufferedimage.
-    private BufferedImage _bufferImage;
+	// bufferedImage on which we draw the configuration.
+	// if we are just moving the xored image, we can unxor at the old position,
+	// than xor at the new position without refreshing the bufferedimage.
+	private BufferedImage _bufferImage;
 
-    // flag indicating, whether the bufferedImage should be refreshed
-    private boolean _dirty = true;
-    
-    /*
-     * ============================== lifecycle ================================
-     */
+	// flag indicating, whether the bufferedImage should be refreshed
+	private boolean _dirty = true;
 
-    public OVPanel() {
-        super(null);
-    }
+	/*
+	 * ============================== lifecycle ================================
+	 */
 
-    public void init() {
-        // System.out.println("ovinit");
-        // we don't need a buffer, because our image is already buffered.
-        setDoubleBuffered(false);
+	public OVPanel() {
+		super(null);
+	}
 
-        // add ChangeListener to the configurationsPanels viewPort
-        EFrame.getInstance().addChangeListener(this);
-        
-        // enable mouse and mouse modtion events
-        enableEvents(AWTEvent.MOUSE_EVENT_MASK);
-        enableEvents(AWTEvent.MOUSE_MOTION_EVENT_MASK);
+	public void init() {
+		// System.out.println("ovinit");
+		// we don't need a buffer, because our image is already buffered.
+		setDoubleBuffered(false);
 
-        // observe configuration
-        Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
-        if (config != null) {
-            config.addObserverToTree(this);
-        }
+		// add ChangeListener to the configurationsPanels viewPort
+		EFrame.getInstance().addChangeListener(this);
 
-        // add as propertychanglistener to status for get notified
-        // when skin changes or configuration changes
-        StatusMap.getInstance().addListener(Status.SKIN, this);
+		// enable mouse and mouse modtion events
+		enableEvents(AWTEvent.MOUSE_EVENT_MASK);
+		enableEvents(AWTEvent.MOUSE_MOTION_EVENT_MASK);
 
-        // add as componentlistener to get notified when we are resized.
-        addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                update((Configuration) StatusMap.get(Status.CONFIGURATION), null);
-            }
-        });
-    }
+		// observe configuration
+		Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+		if (config != null) {
+			config.addObserverToTree(this);
+		}
 
-    public void dispose() {
-        StatusMap.getInstance().removeListener(Status.SKIN, this);
-        // TODO: do we need to unregister as observer?
-    }
+		// add as propertychanglistener to status for get notified
+		// when skin changes or configuration changes
+		StatusMap.getInstance().addListener(Status.SKIN, this);
 
-    /*
-     * ============================= methods ===================================
-     */
-    
-    @Override
-    protected void processMouseEvent(MouseEvent e) {
-    		if (e.getID() == MouseEvent.MOUSE_PRESSED) {
-    			centerConfigurationPanel(e.getX(), e.getY());
-    		}
-    }
-    
-    @Override
-    protected void processMouseMotionEvent(MouseEvent e) {
+		// add as componentlistener to get notified when we are resized.
+		addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				update((Configuration) StatusMap.get(Status.CONFIGURATION), null);
+			}
+		});
+	}
+
+	public void dispose() {
+		StatusMap.getInstance().removeListener(Status.SKIN, this);
+		// TODO: do we need to unregister as observer?
+	}
+
+	/*
+	 * ============================= methods ===================================
+	 */
+
+	@Override
+	protected void processMouseEvent(MouseEvent e) {
+		if (e.getID() == MouseEvent.MOUSE_PRESSED) {
+			centerConfigurationPanel(e.getX(), e.getY());
+		}
+	}
+
+	@Override
+	protected void processMouseMotionEvent(MouseEvent e) {
 		if (e.getID() == MouseEvent.MOUSE_DRAGGED) {
 			centerConfigurationPanel(e.getX(), e.getY());
 		}
-    }
-    
-    // centers the configuration panel 
-    private void centerConfigurationPanel(int x, int y) {
-        ConfigPanel configPanel = EFrame.getInstance().getConfigPanel();
-        float dx = (float) configPanel.getWidth() / (float) getWidth();
-        float dy = (float) configPanel.getHeight() / (float) getHeight();
-        
-        // determine viewport, init helpers
+	}
+
+	// centers the configuration panel
+	private void centerConfigurationPanel(int x, int y) {
+		ConfigPanel configPanel = EFrame.getInstance().getConfigPanel();
+		float dx = (float) configPanel.getWidth() / (float) getWidth();
+		float dy = (float) configPanel.getHeight() / (float) getHeight();
+
+		// determine viewport, init helpers
 		JViewport viewPort = ((JViewport) configPanel.getParent());
 		Point p = viewPort.getViewPosition();
-		
+
 		// compute x-coordinate
 		if (viewPort.getWidth() <= configPanel.getWidth()) {
 			p.x = ((int) (x * dx)) - viewPort.getWidth() / 2;
 			if (p.x < 0) {
 				p.x = 0;
-			} else if (p.x > configPanel.getWidth() - viewPort.getWidth()) {
+			}
+			else if (p.x > configPanel.getWidth() - viewPort.getWidth()) {
 				p.x = configPanel.getWidth() - viewPort.getWidth();
 			}
 		}
-		
+
 		// compute y-coordinate
 		if (viewPort.getHeight() <= configPanel.getHeight()) {
 			p.y = ((int) (y * dy)) - viewPort.getHeight() / 2;
 			if (p.y < 0) {
 				p.y = 0;
-			} else if (p.y > configPanel.getHeight() - viewPort.getHeight()) {
+			}
+			else if (p.y > configPanel.getHeight() - viewPort.getHeight()) {
 				p.y = configPanel.getHeight() - viewPort.getHeight();
 			}
 		}
 		// set view position
 		viewPort.setViewPosition(p);
-    }
+	}
 
-    /**
-     * Returns the preferred Size for this ovPanel. This method will be called
-     * during initializing the related ovWindow.
-     */
-    public Dimension getPreferredSize() {
+	/**
+	 * Returns the preferred Size for this ovPanel. This method will be called
+	 * during initializing the related ovWindow.
+	 */
+	public Dimension getPreferredSize() {
 
-        // multiply the DV preferred size by the initial ov zoom
-        int height = StringConverter.toInt(EProperties.getInstance().getProperty(
-                "INITIAL_OV_HEIGHT"));
-        Skin skin = (Skin) StatusMap.get(Status.SKIN);
-        int lod = skin.getLodByHeight(height);
-        Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+		// multiply the DV preferred size by the initial ov zoom
+		int height = StringConverter.toInt(EProperties.getInstance().getProperty("INITIAL_OV_HEIGHT"));
+		Skin skin = (Skin) StatusMap.get(Status.SKIN);
+		int lod = skin.getLodByHeight(height);
+		Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
 
-        // if no configuration, return empty dimension
-        if (config == null) {
-            return new Dimension(0, 0);
-        }
-        Descriptor descriptor = config.getType().getDescriptor(lod);
+		// if no configuration, return empty dimension
+		if (config == null) {
+			return new Dimension(0, 0);
+		}
+		Descriptor descriptor = config.getType().getDescriptor(lod);
 
-        // if no descriptor, return empty dimension
-        if (descriptor == null) {
-            return new Dimension(0, 0);
-        }
+		// if no descriptor, return empty dimension
+		if (descriptor == null) {
+			return new Dimension(0, 0);
+		}
 
-        // compute wanted width by rule of three and return
-        int width = height * descriptor.getWidth() / descriptor.getHeight();
-        return new Dimension(width, height);
-    }
+		// compute wanted width by rule of three and return
+		int width = height * descriptor.getWidth() / descriptor.getHeight();
+		return new Dimension(width, height);
+	}
 
-    /**
-     * Paints this ovPanel.
-     */
-    public void paintComponent(Graphics g) {
+	/**
+	 * Paints this ovPanel.
+	 */
+	public void paintComponent(Graphics g) {
 
-        // if configuration is null, just paint background
-        if (StatusMap.get(Status.CONFIGURATION) == null) {
-            g.setColor(StringConverter.toColor(EProperties.getInstance().getProperty(
-                    "BACKGROUND_COLOR")));
-            g.fillRect(0, 0, getWidth(), getHeight());
-            return;
-        }
+		// if configuration is null, just paint background
+		if (StatusMap.get(Status.CONFIGURATION) == null) {
+			g.setColor(StringConverter.toColor(EProperties.getInstance().getProperty("BACKGROUND_COLOR")));
+			g.fillRect(0, 0, getWidth(), getHeight());
+			return;
+		}
 
-        // compute zoom and appropriate lod
-        Skin skin = (Skin) StatusMap.get(Status.SKIN);
-        int lod = skin.getLodByHeight(getHeight());
+		// compute zoom and appropriate lod
+		Skin skin = (Skin) StatusMap.get(Status.SKIN);
+		int lod = skin.getLodByHeight(getHeight());
 
-        // check that we have a valid lod
-        if (lod < 0) {
-            return;
-        }
+		// check that we have a valid lod
+		if (lod < 0) {
+			return;
+		}
 
-        // check Image
-        if (_dirty) {
-            // create new buffered image
-            _bufferImage = (BufferedImage) createImage(getWidth(), getHeight());
+		// check Image
+		if (_dirty) {
+			// create new buffered image
+			_bufferImage = (BufferedImage) createImage(getWidth(), getHeight());
 
-            // determine configurationPanel and paint as icon
-            ConfigPanel configPanel = EFrame.getInstance().getConfigPanel();
-            configPanel.paintAsIcon(_bufferImage.getGraphics(), 0, 0,
-                    getWidth(), getHeight(), lod);
-        } else {
+			// determine configurationPanel and paint as icon
+			ConfigPanel configPanel = EFrame.getInstance().getConfigPanel();
+			configPanel.paintAsIcon(_bufferImage.getGraphics(), 0, 0, getWidth(), getHeight(), lod);
+		}
+		else {
 
-            // image is not dirty, so unxor the rectangle
-            paintXORedRectangle(_bufferImage.getGraphics(), lod);
-        }
+			// image is not dirty, so unxor the rectangle
+			paintXORedRectangle(_bufferImage.getGraphics(), lod);
+		}
 
-        // compute and paint the xored rectangle
-        // for highlighting the visible area
-        updateXORedRectangle();
-        paintXORedRectangle(_bufferImage.getGraphics(), lod);
+		// compute and paint the xored rectangle
+		// for highlighting the visible area
+		updateXORedRectangle();
+		paintXORedRectangle(_bufferImage.getGraphics(), lod);
 
-        // paint buffer image to screen
-        g.drawImage(_bufferImage, 0, 0, getWidth(), getHeight(), this);
+		// paint buffer image to screen
+		g.drawImage(_bufferImage, 0, 0, getWidth(), getHeight(), this);
 
-        // reset dirty flag
-        _dirty = false;
-    }
+		// reset dirty flag
+		_dirty = false;
+	}
 
-    /**
-     * ChangeListener method. This is called, when the user scrolled the
-     * detailview frame
-     * 
-     * @param e
-     */
-    public void stateChanged(ChangeEvent e) {
-        repaint();
-    }
+	/**
+	 * ChangeListener method. This is called, when the user scrolled the
+	 * detailview frame
+	 * 
+	 * @param e
+	 */
+	public void stateChanged(ChangeEvent e) {
+		repaint();
+	}
 
-    private void updateXORedRectangle() {
-        ConfigPanel configPanel = EFrame.getInstance().getConfigPanel();
-        Rectangle r = configPanel.getVisibleRect();
-        float dx = (float) getWidth() / (float) configPanel.getWidth();
-        float dy = (float) getHeight() / (float) configPanel.getHeight();
-        _xorBounds.setBounds((int) (r.x * dx), (int) (r.y * dy),
-                (int) (r.width * dx), (int) (r.height * dy));
-    }
+	private void updateXORedRectangle() {
+		ConfigPanel configPanel = EFrame.getInstance().getConfigPanel();
+		Rectangle r = configPanel.getVisibleRect();
+		float dx = (float) getWidth() / (float) configPanel.getWidth();
+		float dy = (float) getHeight() / (float) configPanel.getHeight();
+		_xorBounds.setBounds((int) (r.x * dx), (int) (r.y * dy), (int) (r.width * dx), (int) (r.height * dy));
+	}
 
-    private void paintXORedRectangle(Graphics g, int lod) {
-        // if image covers the whole dataPanel, we don't need to draw an image
-        // note: +1 is nice, because for some reason the xorbounds are smaller
-        // than the panel's width, even when this should not be.
-        if (_xorBounds.width + 1 >= getWidth()
-                && _xorBounds.height + 1 >= getHeight()) {
-            return;
-        }
+	private void paintXORedRectangle(Graphics g, int lod) {
+		// if image covers the whole dataPanel, we don't need to draw an image
+		// note: +1 is nice, because for some reason the xorbounds are smaller
+		// than the panel's width, even when this should not be.
+		if (_xorBounds.width + 1 >= getWidth() && _xorBounds.height + 1 >= getHeight()) {
+			return;
+		}
 
-        // get xor image and color
-        Descriptor d = EType.XOR_IMAGE.getDescriptor(lod);
-        Image img = (Image) d.get(Descriptor.Key.BACK_IMAGE);
-        Color color = (Color) d.get(Descriptor.Key.COLOR);
+		// get xor image and color
+		Descriptor d = EType.XOR_IMAGE.getDescriptor(lod);
+		Image img = (Image) d.get(Descriptor.Key.BACK_IMAGE);
+		Color color = (Color) d.get(Descriptor.Key.COLOR);
 
-        // set xore mode and paint xor image
-        g.setXORMode(color);
-        g.drawImage(img, _xorBounds.x, _xorBounds.y, _xorBounds.width,
-                _xorBounds.height, this);
-        g.setPaintMode();
-    }
+		// set xore mode and paint xor image
+		g.setXORMode(color);
+		g.drawImage(img, _xorBounds.x, _xorBounds.y, _xorBounds.width, _xorBounds.height, this);
+		g.setPaintMode();
+	}
 
-    // ============================ listener stuff
-    // ==============================
+	// ============================ listener stuff
+	// ==============================
 
-    /**
-     * @param o
-     * @param arg
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    public void update(Observable o, Object arg) {
-        // TODO: translate bounds of the calling observable to ovbounds
-        // and do a partial repaint.
-        _dirty = true;
-        repaint();
-    }
-    
+	/**
+	 * @param o
+	 * @param arg
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
+	public void update(Observable o, Object arg) {
+		// TODO: translate bounds of the calling observable to ovbounds
+		// and do a partial repaint.
+		_dirty = true;
+		repaint();
+	}
+
 	@Override
 	public void statusChanged(Status status, Object newValue) {
-        // new skin loaded. Repaint.
-        update((Configuration) StatusMap.get(Status.CONFIGURATION), null);
+		// new skin loaded. Repaint.
+		update((Configuration) StatusMap.get(Status.CONFIGURATION), null);
 	}
 
 }

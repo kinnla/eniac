@@ -22,20 +22,20 @@ import javax.swing.JLabel;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public abstract class Property {
 
-    protected String _name;
+	protected String _name;
 
-    public String getName() {
-        return _name;
-    }
+	public String getName() {
+		return _name;
+	}
 
-    public JLabel getNameLabel() {
-        return new JLabel(_name.toString());
-    }
+	public JLabel getNameLabel() {
+		return new JLabel(_name.toString());
+	}
 
-    public abstract JComponent getValueComponent();
+	public abstract JComponent getValueComponent();
 }

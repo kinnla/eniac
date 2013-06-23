@@ -51,13 +51,13 @@ public class ActionManager extends DefaultHandler {
 		PROPERTY, CLASS, ACTION, ACTIONS, NAME, VALUE, KEY;
 	}
 
-	//=============================== fields //================================
+	// =============================== fields //================================
 
 	private EAction _currentAction = null;
 
 	private Hashtable<String, Action> _actionsTable = null;
 
-	//========================== singleton stuff //============================
+	// ========================== singleton stuff //============================
 
 	private static ActionManager instance = null;
 
@@ -84,28 +84,28 @@ public class ActionManager extends DefaultHandler {
 		}
 	}
 
-	//========================== defaultHandler methods //=====================
+	// ========================== defaultHandler methods //=====================
 
-	public void startElement(String uri, String localName, String qName,
-			Attributes attrs) throws SAXException {
-		//System.out.println(qName);
+	public void startElement(String uri, String localName, String qName, Attributes attrs) throws SAXException {
+		// System.out.println(qName);
 		try {
 			if (qName.equalsIgnoreCase(Tag.ACTIONS.toString())) {
 				// create hashtable to store actions
 				_actionsTable = new Hashtable<>();
 
-			} else if (qName.equalsIgnoreCase(Tag.ACTION.toString())) {
+			}
+			else if (qName.equalsIgnoreCase(Tag.ACTION.toString())) {
 				// parse action class and name
 				String key = XMLUtil.parseString(attrs, Tag.KEY);
 				String className = XMLUtil.parseString(attrs, Tag.CLASS);
 				// create action and put its key as property
-				_currentAction = (EAction) Class.forName(className)
-						.newInstance();
+				_currentAction = (EAction) Class.forName(className).newInstance();
 				_currentAction.putValue(EAction.KEY, key);
 				// add to action hashtable
 				_actionsTable.put(key, _currentAction);
 
-			} else if (qName.equalsIgnoreCase(Tag.PROPERTY.toString())) {
+			}
+			else if (qName.equalsIgnoreCase(Tag.PROPERTY.toString())) {
 				// parse property name and value
 				String name = XMLUtil.parseString(attrs, Tag.NAME);
 				String value = XMLUtil.parseString(attrs, Tag.VALUE);
@@ -122,7 +122,7 @@ public class ActionManager extends DefaultHandler {
 		}
 	}
 
-	//=========================== other methods //=============================
+	// =========================== other methods //=============================
 
 	public EAction getAction(String key) {
 		return (EAction) _actionsTable.get(key);
@@ -130,33 +130,34 @@ public class ActionManager extends DefaultHandler {
 
 	private Object convertProperty(String name, String value) {
 		if (name.equals(Action.SMALL_ICON)) {
-					
-	        // tell progressor, that new image loaded
-	        Progressor.getInstance().incrementValue();
 
-	        // load image. If image cannot be loaded, load default image.
-	        Image img = EFrame.getInstance().getResourceAsImage(value);
-	        if (img == null) {
-	            Log.log(LogWords.IMAGE_NOT_FOUND, JOptionPane.ERROR_MESSAGE, value);
-	            img = Skin.DEFAULT_IMAGE;
-	        }
+			// tell progressor, that new image loaded
+			Progressor.getInstance().incrementValue();
 
-	        // scale image in case it does not fit to the icon size
-	        Dimension d = StringConverter.toDimension(EProperties.getInstance()
-	                .getProperty("ICON_SIZE"));
-	        ImageObserver o = EFrame.getInstance();
-	        if (d.width != img.getWidth(o) && d.height != img.getHeight(o)) {
-	            img = img.getScaledInstance(d.width, d.height, Image.SCALE_DEFAULT);
-	        }
+			// load image. If image cannot be loaded, load default image.
+			Image img = EFrame.getInstance().getResourceAsImage(value);
+			if (img == null) {
+				Log.log(LogWords.IMAGE_NOT_FOUND, JOptionPane.ERROR_MESSAGE, value);
+				img = Skin.DEFAULT_IMAGE;
+			}
 
-	        // return icon
-	        return new ImageIcon(img);
-		} else if(name.equals(EAction.STATUS_PROPERTY)) {
+			// scale image in case it does not fit to the icon size
+			Dimension d = StringConverter.toDimension(EProperties.getInstance().getProperty("ICON_SIZE"));
+			ImageObserver o = EFrame.getInstance();
+			if (d.width != img.getWidth(o) && d.height != img.getHeight(o)) {
+				img = img.getScaledInstance(d.width, d.height, Image.SCALE_DEFAULT);
+			}
+
+			// return icon
+			return new ImageIcon(img);
+		}
+		else if (name.equals(EAction.STATUS_PROPERTY)) {
 			try {
 				return Enum.valueOf(Status.class, value);
-			}catch (IllegalArgumentException exc) {
-				System.out.println("unknown status property: "+value);
-				return null; //TODO: this will cause a nullpointer exception later. any better handling?
+			} catch (IllegalArgumentException exc) {
+				System.out.println("unknown status property: " + value);
+				return null; // TODO: this will cause a nullpointer exception
+// later. any better handling?
 			}
 		}
 		// property doesn't need to be converted

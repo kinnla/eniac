@@ -29,158 +29,156 @@ public class StatusMap implements LifecycleListener {
 	/*
 	 * ============================= fields ==================================
 	 */
-	
-    // for handling the listeners
-    private PropertyChangeSupport _pcs = null;
 
-    // containing all properties as key - value pairs
-    private EnumMap<Status, Object> _map;
+	// for handling the listeners
+	private PropertyChangeSupport _pcs = null;
 
-    private EnumMap<Status, List<StatusListener>> _listenerMap;
-    
-    /*
+	// containing all properties as key - value pairs
+	private EnumMap<Status, Object> _map;
+
+	private EnumMap<Status, List<StatusListener>> _listenerMap;
+
+	/*
 	 * ========================= singleton stuff =======================
 	 */
 
-    // singleton self reference
-    private static StatusMap instance;
+	// singleton self reference
+	private static StatusMap instance;
 
-    // singleton private constructor
-    private StatusMap() {
-        _map = new EnumMap<>(Status.class);
-        _listenerMap = new EnumMap<>(Status.class);
-    }
+	// singleton private constructor
+	private StatusMap() {
+		_map = new EnumMap<>(Status.class);
+		_listenerMap = new EnumMap<>(Status.class);
+	}
 
-    // note: this method has to be synchronized, because during loading a skin
-    // or scanning for proxies there are separate threads started.
-    // So we have to make sure, that the new StatusMap object is created AND
-    // it is initialized, befor another thread can enter this method and
-    // can find a non-null reference.
-    public synchronized static StatusMap getInstance() {
-        if (instance == null) {
-            instance = new StatusMap();
-            instance.init();
-        }
-        return instance;
-    }
+	// note: this method has to be synchronized, because during loading a skin
+	// or scanning for proxies there are separate threads started.
+	// So we have to make sure, that the new StatusMap object is created AND
+	// it is initialized, befor another thread can enter this method and
+	// can find a non-null reference.
+	public synchronized static StatusMap getInstance() {
+		if (instance == null) {
+			instance = new StatusMap();
+			instance.init();
+		}
+		return instance;
+	}
 
-    private void init() {
+	private void init() {
 
-        // add as singleton to starter
-        Manager.getInstance().addMainListener(this);
+		// add as singleton to starter
+		Manager.getInstance().addMainListener(this);
 
-        // property change support for fireing property change events
-        _pcs = new PropertyChangeSupport(this);
+		// property change support for fireing property change events
+		_pcs = new PropertyChangeSupport(this);
 
-        // helper variables
-        int i;
-        boolean b;
+		// helper variables
+		int i;
+		boolean b;
 
-        // configuration
-        _map.put(Status.CONFIGURATION, null);
+		// configuration
+		_map.put(Status.CONFIGURATION, null);
 
-        // show_overview
-        b = StringConverter.toBoolean(EProperties.getInstance().getProperty(
-                Status.SHOW_OVERVIEW));
-        _map.put(Status.SHOW_OVERVIEW, b);
+		// show_overview
+		b = StringConverter.toBoolean(EProperties.getInstance().getProperty(Status.SHOW_OVERVIEW));
+		_map.put(Status.SHOW_OVERVIEW, b);
 
-        // zoomed_height
-        i = StringConverter.toInt(EProperties.getInstance().getProperty(
-                Status.BASIC_CONFIGURATION_HEIGHT));
-        _map.put(Status.ZOOMED_HEIGHT, i);
+		// zoomed_height
+		i = StringConverter.toInt(EProperties.getInstance().getProperty(Status.BASIC_CONFIGURATION_HEIGHT));
+		_map.put(Status.ZOOMED_HEIGHT, i);
 
-        // show_log
-        b = StringConverter.toBoolean(EProperties.getInstance()
-                .getProperty("SHOW_LOG"));
-        _map.put(Status.SHOW_LOG, b);
+		// show_log
+		b = StringConverter.toBoolean(EProperties.getInstance().getProperty("SHOW_LOG"));
+		_map.put(Status.SHOW_LOG, b);
 
-        // skin
-        _map.put(Status.SKIN, null);
+		// skin
+		_map.put(Status.SKIN, null);
 
-        // lifecycle
-        // _map.put(Tag.LIFECYCLE, new Short(Starter.INIT));
+		// lifecycle
+		// _map.put(Tag.LIFECYCLE, new Short(Starter.INIT));
 
-        // language
-        _map.put(Status.LANGUAGE, null);
+		// language
+		_map.put(Status.LANGUAGE, null);
 
-        // highlight_pulse
-        b = StringConverter.toBoolean(EProperties.getInstance().getProperty(
-                Status.HIGHLIGHT_PULSE));
-        _map.put(Status.HIGHLIGHT_PULSE, b);
+		// highlight_pulse
+		b = StringConverter.toBoolean(EProperties.getInstance().getProperty(Status.HIGHLIGHT_PULSE));
+		_map.put(Status.HIGHLIGHT_PULSE, b);
 
-        // simulation_time
-        _map.put(Status.SIMULATION_TIME, -1);
-    }
+		// simulation_time
+		_map.put(Status.SIMULATION_TIME, -1);
+	}
 
-    // =========================== getter and setter
-    // ============================
+	// =========================== getter and setter
+	// ============================
 
-    public static void set(Status key, Object value) {
+	public static void set(Status key, Object value) {
 
-        // make sure that we are initialized
-        getInstance();
+		// make sure that we are initialized
+		getInstance();
 
-        // set value
-        Object oldValue = get(key);
-        if (oldValue == null) {
-            if (value != null) {
-                instance._map.put(key, value);
-                instance._pcs.firePropertyChange(key.toString(), oldValue, value);
-            }
-        } else {
-            if (value == null) {
-                instance._map.put(key, value);
-                instance._pcs.firePropertyChange(key.toString(), oldValue, value);
-            } else if (!oldValue.equals(value)) {
-                instance._map.put(key, value);
-                instance._pcs.firePropertyChange(key.toString(), oldValue, value);
-            }
-        }
-    }
+		// set value
+		Object oldValue = get(key);
+		if (oldValue == null) {
+			if (value != null) {
+				instance._map.put(key, value);
+				instance._pcs.firePropertyChange(key.toString(), oldValue, value);
+			}
+		}
+		else {
+			if (value == null) {
+				instance._map.put(key, value);
+				instance._pcs.firePropertyChange(key.toString(), oldValue, value);
+			}
+			else if (!oldValue.equals(value)) {
+				instance._map.put(key, value);
+				instance._pcs.firePropertyChange(key.toString(), oldValue, value);
+			}
+		}
+	}
 
-    public static boolean toggle(Status key) {
-        boolean newValue = !((Boolean)get(key));
-        set(key, newValue);
-        return newValue;
-    }
+	public static boolean toggle(Status key) {
+		boolean newValue = !((Boolean) get(key));
+		set(key, newValue);
+		return newValue;
+	}
 
-    public static Object get(Status key) {
-        return getInstance()._map.get(key);
-    }
+	public static Object get(Status key) {
+		return getInstance()._map.get(key);
+	}
 
-    public static int getInt(Status key) {
-        return ((Integer) get(key)).intValue();
-    }
+	public static int getInt(Status key) {
+		return ((Integer) get(key)).intValue();
+	}
 
-    public static long getLong(Status key) {
-        return ((Long) get(key)).longValue();
-    }
+	public static long getLong(Status key) {
+		return ((Long) get(key)).longValue();
+	}
 
-    /*
+	/*
 	 * ========================= listener stuff =======================
 	 */
 
-    public void addListener(Status status, StatusListener listener) {
-    	List<StatusListener> listenerList = _listenerMap.get(status);
-    	if (listenerList == null) {
-    		listenerList = new LinkedList<>();
-    		_listenerMap.put(status, listenerList);
-    	}
-        listenerList.add(listener);
-    }
+	public void addListener(Status status, StatusListener listener) {
+		List<StatusListener> listenerList = _listenerMap.get(status);
+		if (listenerList == null) {
+			listenerList = new LinkedList<>();
+			_listenerMap.put(status, listenerList);
+		}
+		listenerList.add(listener);
+	}
 
-    public void removeListener(Status status, StatusListener listener) {
-    	_listenerMap.get(status).remove(listener);
-    }
+	public void removeListener(Status status, StatusListener listener) {
+		_listenerMap.get(status).remove(listener);
+	}
 
-    /**
-     * @param oldVal
-     * @param newVal
-     * @see eniac.LifecycleListener#mainChanged(short, short)
-     */
-    public void runLevelChanged(short oldVal, short newVal) {
-        if (newVal == Manager.STATE_DESTROYED) {
-            instance = null;
-        }
-    }
+	/**
+	 * @param oldVal
+	 * @param newVal
+	 * @see eniac.LifecycleListener#mainChanged(short, short)
+	 */
+	public void runLevelChanged(short oldVal, short newVal) {
+		if (newVal == Manager.STATE_DESTROYED) {
+			instance = null;
+		}
+	}
 }

@@ -28,58 +28,56 @@ import eniac.menu.action.gui.OpenConfigurationPanel;
 /**
  * @author zoppke
  * 
- * To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Generation - Code and Comments
+ *         To change the template for this generated type comment go to Window -
+ *         Preferences - Java - Code Generation - Code and Comments
  */
 public class OpenConfiguration extends EAction implements Runnable {
 
-    public void actionPerformed(ActionEvent evt) {
-        Thread t = new Thread(this);
-        t.start();
-    }
+	public void actionPerformed(ActionEvent evt) {
+		Thread t = new Thread(this);
+		t.start();
+	}
 
-    public void run() {
+	public void run() {
 
-        // announce that we are busy now
-        Manager.getInstance().block();
+		// announce that we are busy now
+		Manager.getInstance().block();
 
-        // scan for proxies
-        List<Proxy> proxies = ConfigIO.loadProxies();
+		// scan for proxies
+		List<Proxy> proxies = ConfigIO.loadProxies();
 
-        // create dialog that user can choose a configDescriptor
-        OpenConfigurationPanel panel = new OpenConfigurationPanel(proxies);
-        panel.init();
-        //Main.getInstance().setOpenConfigurationPanel(panel);
-        Manager.getInstance()
-                .makeDialog(panel, Dictionary.OPEN_CONFIGURATION_NAME.getText());
+		// create dialog that user can choose a configDescriptor
+		OpenConfigurationPanel panel = new OpenConfigurationPanel(proxies);
+		panel.init();
+		// Main.getInstance().setOpenConfigurationPanel(panel);
+		Manager.getInstance().makeDialog(panel, Dictionary.OPEN_CONFIGURATION_NAME.getText());
 
-        // if we are already stopping, we don't need to load a configuration.
-        if (Manager.getInstance() == null
-                || Manager.getInstance().getLifecycleState() >= Manager.STATE_STOPPED) {
-            return;
-        }
+		// if we are already stopping, we don't need to load a configuration.
+		if (Manager.getInstance() == null || Manager.getInstance().getLifecycleState() >= Manager.STATE_STOPPED) {
+			return;
+		}
 
-        // switch on input result
-        switch (panel.getConfiguraionType()) {
+		// switch on input result
+		switch (panel.getConfiguraionType()) {
 
-        // load basic configuration
-        case OpenConfigurationPanel.BASIC:
-            Proxy proxy = panel.getProxy();
-            ConfigIO.loadConfiguration(proxy);
-            break;
+		// load basic configuration
+			case OpenConfigurationPanel.BASIC :
+				Proxy proxy = panel.getProxy();
+				ConfigIO.loadConfiguration(proxy);
+				break;
 
-        // load local configuration
-        case OpenConfigurationPanel.LOCAL:
-            String path = panel.getCanonicalPath();
-            ConfigIO.loadConfiguration(path);
-            break;
+			// load local configuration
+			case OpenConfigurationPanel.LOCAL :
+				String path = panel.getCanonicalPath();
+				ConfigIO.loadConfiguration(path);
+				break;
 
-        // don't load any configuration
-        case OpenConfigurationPanel.NO_CONFIGURATION:
-            break;
-        }
+			// don't load any configuration
+			case OpenConfigurationPanel.NO_CONFIGURATION :
+				break;
+		}
 
-        // announce that job is done.
-        Manager.getInstance().unblock();
-    }
+		// announce that job is done.
+		Manager.getInstance().unblock();
+	}
 }

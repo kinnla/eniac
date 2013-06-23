@@ -56,283 +56,278 @@ import eniac.window.EFrame;
  */
 public class Manager {
 
-    /*
-     * ========================= applet lifecycle states =======================
-     */
+	/*
+	 * ========================= applet lifecycle states =======================
+	 */
 
-	
-    /**
-     * Default lifecycle state on startup
-     */
-    public static final short STATE_DEFAULT = 0;
+	/**
+	 * Default lifecycle state on startup
+	 */
+	public static final short STATE_DEFAULT = 0;
 
-    /**
-     * Livecycle state indicating a successful initialization
-     */
-    public static final short STATE_INITIALIZED = 1;
+	/**
+	 * Livecycle state indicating a successful initialization
+	 */
+	public static final short STATE_INITIALIZED = 1;
 
-    /**
-     * Lifecycle state indicating that the application is running and the gui
-     * expects input.
-     */
-    public static final short STATE_RUNNING = 2;
+	/**
+	 * Lifecycle state indicating that the application is running and the gui
+	 * expects input.
+	 */
+	public static final short STATE_RUNNING = 2;
 
-    /**
-     * Lifecycle state indicating that the application is running but the gui is
-     * blocked.
-     */
-    public static final short STATE_BLOCKED = 3;
+	/**
+	 * Lifecycle state indicating that the application is running but the gui is
+	 * blocked.
+	 */
+	public static final short STATE_BLOCKED = 3;
 
-    /**
-     * Lifecycle state indicating that the application is stopped.
-     */
-    public static final short STATE_STOPPED = 4;
+	/**
+	 * Lifecycle state indicating that the application is stopped.
+	 */
+	public static final short STATE_STOPPED = 4;
 
-    /**
-     * Lifecycle state indicating that the application is destroyed.
-     */
-    public static final short STATE_DESTROYED = 5;
+	/**
+	 * Lifecycle state indicating that the application is destroyed.
+	 */
+	public static final short STATE_DESTROYED = 5;
 
-    // START_UP = 0, // default state on startup
-    // INITIALIZING = 1, // singleton instance is set
-    // IDLE = 2, // applet is running in idle mode
-    // BUSY = 3, // applet is running but busy
-    // STOPPING = 4, // applet is shutting down
-    // DESTROYING = 5, // applet is getting destroyed
-    // DESTROYED = 6; // applet is destroyed
+	// START_UP = 0, // default state on startup
+	// INITIALIZING = 1, // singleton instance is set
+	// IDLE = 2, // applet is running in idle mode
+	// BUSY = 3, // applet is running but busy
+	// STOPPING = 4, // applet is shutting down
+	// DESTROYING = 5, // applet is getting destroyed
+	// DESTROYED = 6; // applet is destroyed
 
-    /*
-     * =============================== fields ==================================
-     */
+	/*
+	 * =============================== fields ==================================
+	 */
 
-    // flag indicating, whether we have privileged local file access
-    private boolean _ioAccess;
-    
-    // reference to the applet. Stays null, if started as application. 
-    private Applet _applet = null;
+	// flag indicating, whether we have privileged local file access
+	private boolean _ioAccess;
 
-    // list of mainListeners to be informed when run level changes
-    private List<LifecycleListener> _lifecycleListeners = new LinkedList<>();
+	// reference to the applet. Stays null, if started as application.
+	private Applet _applet = null;
 
-    // encoding the current lifecycle state
-    short _lifecycleState = STATE_DEFAULT;
+	// list of mainListeners to be informed when run level changes
+	private List<LifecycleListener> _lifecycleListeners = new LinkedList<>();
 
-    /*
-     * ========================== singleton stuff ==============================
-     */
+	// encoding the current lifecycle state
+	short _lifecycleState = STATE_DEFAULT;
 
-    private Manager() {
-        // empty constructor
-    }
+	/*
+	 * ========================== singleton stuff ==============================
+	 */
 
-    // singleton self reference
-    private static Manager instance = null;
+	private Manager() {
+		// empty constructor
+	}
 
-    public static Manager getInstance() {
-        if (instance == null) {
-            instance = new Manager();
-        }
-        return instance;
-    }
+	// singleton self reference
+	private static Manager instance = null;
 
-    /*
-     * =================== lifecycle state transitions =========================
-     */
+	public static Manager getInstance() {
+		if (instance == null) {
+			instance = new Manager();
+		}
+		return instance;
+	}
 
-    /**
-     * creates and initializes all instances
-     */
-    public void init() {
+	/*
+	 * =================== lifecycle state transitions =========================
+	 */
 
-        // check lifecycle state
-        if (_lifecycleState != STATE_DEFAULT) {
-            System.out.println("unallowed call of init() at state "
-                    + _lifecycleState);
-            return;
-        }
+	/**
+	 * creates and initializes all instances
+	 */
+	public void init() {
 
-        // init defaults
-        DictionaryIO.loadDefaultLanguage();
-        SkinIO.loadDefaultSkin();
+		// check lifecycle state
+		if (_lifecycleState != STATE_DEFAULT) {
+			System.out.println("unallowed call of init() at state " + _lifecycleState);
+			return;
+		}
 
-        setLifecycleState(STATE_INITIALIZED);
-    }
+		// init defaults
+		DictionaryIO.loadDefaultLanguage();
+		SkinIO.loadDefaultSkin();
 
-    public void start() {
+		setLifecycleState(STATE_INITIALIZED);
+	}
 
-        // check lifecycle state
-        if (_lifecycleState != STATE_INITIALIZED) {
-            System.out.println("illegal call of start() at state "
-                    + _lifecycleState);
-            return;
-        }
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
+	public void start() {
 
-            	// load types
-            	TypeHandler.loadTypes();
-            	
-                // load default configuration
-                ConfigIO.loadDefaultConfiguration();
+		// check lifecycle state
+		if (_lifecycleState != STATE_INITIALIZED) {
+			System.out.println("illegal call of start() at state " + _lifecycleState);
+			return;
+		}
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
 
-                // check, if we haven't been interrupted
-                if (_lifecycleState == STATE_INITIALIZED) {
+				// load types
+				TypeHandler.loadTypes();
 
-                    // open eframe and adjust runlevel
-                    EFrame.getInstance().toScreen();
-                    LogWindow.getInstance();
-                    setLifecycleState(STATE_RUNNING);
-                }
-            }
-        });
-    }
+				// load default configuration
+				ConfigIO.loadDefaultConfiguration();
 
-    public void stop() {
+				// check, if we haven't been interrupted
+				if (_lifecycleState == STATE_INITIALIZED) {
 
-        // check lifecycle state
-        if (_lifecycleState != STATE_RUNNING) {
-            System.out.println("illegal call of start() at state "
-                    + _lifecycleState);
-            return;
-        }
+					// open eframe and adjust runlevel
+					EFrame.getInstance().toScreen();
+					LogWindow.getInstance();
+					setLifecycleState(STATE_RUNNING);
+				}
+			}
+		});
+	}
 
-        // TODO: check, if we need to block first
+	public void stop() {
 
-        // dispose configuration
-        Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
-        if (config != null) {
-            config.dispose();
-        }
-        StatusMap.set(Status.CONFIGURATION, null);
+		// check lifecycle state
+		if (_lifecycleState != STATE_RUNNING) {
+			System.out.println("illegal call of start() at state " + _lifecycleState);
+			return;
+		}
 
-        // announce that applet is shutting down
-        setLifecycleState(STATE_STOPPED);
-    }
+		// TODO: check, if we need to block first
 
-    public void destroy() {
+		// dispose configuration
+		Configuration config = (Configuration) StatusMap.get(Status.CONFIGURATION);
+		if (config != null) {
+			config.dispose();
+		}
+		StatusMap.set(Status.CONFIGURATION, null);
 
-        // check that we haven't been destroyed before
-        if (_lifecycleState != STATE_STOPPED) {
-            return;
-        }
+		// announce that applet is shutting down
+		setLifecycleState(STATE_STOPPED);
+	}
 
-        // dispose Main
-        _lifecycleListeners.clear();
+	public void destroy() {
 
-        // run finalization.
-        // Though it probably has no effect, the purpose provides good fortune.
-        System.runFinalization();
+		// check that we haven't been destroyed before
+		if (_lifecycleState != STATE_STOPPED) {
+			return;
+		}
 
-        // announce that applet is destroyed
-        setLifecycleState(STATE_DESTROYED);
-    }
+		// dispose Main
+		_lifecycleListeners.clear();
 
-    /*
-     * ============================== methods ==================================
-     */
+		// run finalization.
+		// Though it probably has no effect, the purpose provides good fortune.
+		System.runFinalization();
 
-    public void setApplet(Applet applet) {
-    	_applet = applet;
-    }
-    
-    public void addMainListener(LifecycleListener listener) {
-        _lifecycleListeners.add(listener);
-    }
+		// announce that applet is destroyed
+		setLifecycleState(STATE_DESTROYED);
+	}
 
-    public short getLifecycleState() {
-        return _lifecycleState;
-    }
+	/*
+	 * ============================== methods ==================================
+	 */
 
-    public void makeDialog(DialogPanel content, String title) {
-        // create dialog. Add listener and set content pane
-        final JDialog dialog = new JDialog(Progressor.getInstance(), title,
-                true);
-        dialog.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                ((DialogPanel) dialog.getContentPane()).performCancelAction();
-            }
-        });
-        dialog.setContentPane(content);
+	public void setApplet(Applet applet) {
+		_applet = applet;
+	}
 
-        // bring it to the screen.
-        dialog.pack();
-        dialog.setLocationRelativeTo(Progressor.getInstance());
-        content.setWindow(dialog);
-        dialog.setVisible(true);
-    }
+	public void addMainListener(LifecycleListener listener) {
+		_lifecycleListeners.add(listener);
+	}
 
-    /*
-     * public boolean isPrivileged() { // if we are started as an application,
-     * we have all privileges if (!isApplet()) { return true; } // check, if we
-     * already tried to set our SecurityManager if (_privileged != null) {
-     * return _privileged.booleanValue(); } // This is an applet. Ask for
-     * priviliges. try { // anonymous security manager granting any permission
-     * new SecurityManager() { public void checkPermission(Permission
-     * permission) { // grant any permission }
-     * 
-     * public void checkPermission(Permission permission, Object obj) { // grant
-     * any permission } }; // user allowed the signed applet. Set flag.
-     * _privileged = new Boolean(true); return true; } catch
-     * (AccessControlException ace) { // User didn't allow the signed applet. //
-     * Reset flag and display message. // ace.printStackTrace();
-     * Log.log(LogWords.NO_PRIVILEGES_GRANTED, JOptionPane.INFORMATION_MESSAGE,
-     * ace.getMessage(), true); _privileged = new Boolean(false); return false; } }
-     */
-    // indicates whether this program is started as applet or as application.
-    // private boolean isApplet() {
-    // return getAppletContext() == null;
-    // }
-    public void block() {
+	public short getLifecycleState() {
+		return _lifecycleState;
+	}
 
-        // check lifecycle state
-        if (_lifecycleState == STATE_RUNNING) {
-            setLifecycleState(STATE_BLOCKED);
-        }
-    }
+	public void makeDialog(DialogPanel content, String title) {
+		// create dialog. Add listener and set content pane
+		final JDialog dialog = new JDialog(Progressor.getInstance(), title, true);
+		dialog.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				((DialogPanel) dialog.getContentPane()).performCancelAction();
+			}
+		});
+		dialog.setContentPane(content);
 
-    public void unblock() {
+		// bring it to the screen.
+		dialog.pack();
+		dialog.setLocationRelativeTo(Progressor.getInstance());
+		content.setWindow(dialog);
+		dialog.setVisible(true);
+	}
 
-        // check lifecycle state
-        if (_lifecycleState == STATE_BLOCKED) {
-            setLifecycleState(STATE_RUNNING);
-        }
-    }
+	/*
+	 * public boolean isPrivileged() { // if we are started as an application,
+	 * we have all privileges if (!isApplet()) { return true; } // check, if we
+	 * already tried to set our SecurityManager if (_privileged != null) {
+	 * return _privileged.booleanValue(); } // This is an applet. Ask for
+	 * priviliges. try { // anonymous security manager granting any permission
+	 * new SecurityManager() { public void checkPermission(Permission
+	 * permission) { // grant any permission }
+	 * 
+	 * public void checkPermission(Permission permission, Object obj) { // grant
+	 * any permission } }; // user allowed the signed applet. Set flag.
+	 * _privileged = new Boolean(true); return true; } catch
+	 * (AccessControlException ace) { // User didn't allow the signed applet. //
+	 * Reset flag and display message. // ace.printStackTrace();
+	 * Log.log(LogWords.NO_PRIVILEGES_GRANTED, JOptionPane.INFORMATION_MESSAGE,
+	 * ace.getMessage(), true); _privileged = new Boolean(false); return false;
+	 * } }
+	 */
+	// indicates whether this program is started as applet or as application.
+	// private boolean isApplet() {
+	// return getAppletContext() == null;
+	// }
+	public void block() {
 
-    public void setLifecycleState(short newVal) {
-        // System.out.println("switching to runlevel " + newVal);
-        if (_lifecycleState != newVal) {
-            short oldVal = _lifecycleState;
-            _lifecycleState = newVal;
+		// check lifecycle state
+		if (_lifecycleState == STATE_RUNNING) {
+			setLifecycleState(STATE_BLOCKED);
+		}
+	}
 
-            // inform lifecycle listeners
-            for (LifecycleListener l : _lifecycleListeners) {
-                // System.out.println(listener);
-                l.runLevelChanged(oldVal, newVal);
-            }
-        }
-        // System.out.println("reached runlevel " + newVal);
-    }
+	public void unblock() {
 
-    // ============================ io methods //===============================
+		// check lifecycle state
+		if (_lifecycleState == STATE_BLOCKED) {
+			setLifecycleState(STATE_RUNNING);
+		}
+	}
 
-    /**
-     * Opens an <code>inputStream</code> to the specified resource.
-     * 
-     * @param name
-     *            a <code>string</code> specifying the resource to load
-     * @return an <code>inputStream</code> if the resource could be found,
-     *         <br>
-     *         or <code>null</code> otherwise
-     */
-    public InputStream getResourceAsStream(String name) {
-        return Manager.class.getClassLoader().getResourceAsStream(name);
-    }
+	public void setLifecycleState(short newVal) {
+		// System.out.println("switching to runlevel " + newVal);
+		if (_lifecycleState != newVal) {
+			short oldVal = _lifecycleState;
+			_lifecycleState = newVal;
 
-    public void setIOAccess(boolean ioAccess) {
-        _ioAccess = ioAccess;
-    }
+			// inform lifecycle listeners
+			for (LifecycleListener l : _lifecycleListeners) {
+				// System.out.println(listener);
+				l.runLevelChanged(oldVal, newVal);
+			}
+		}
+		// System.out.println("reached runlevel " + newVal);
+	}
 
-    public boolean hasIOAccess() {
-        return _ioAccess;
-    }
+	// ============================ io methods //===============================
+
+	/**
+	 * Opens an <code>inputStream</code> to the specified resource.
+	 * 
+	 * @param name
+	 *            a <code>string</code> specifying the resource to load
+	 * @return an <code>inputStream</code> if the resource could be found, <br>
+	 *         or <code>null</code> otherwise
+	 */
+	public InputStream getResourceAsStream(String name) {
+		return Manager.class.getClassLoader().getResourceAsStream(name);
+	}
+
+	public void setIOAccess(boolean ioAccess) {
+		_ioAccess = ioAccess;
+	}
+
+	public boolean hasIOAccess() {
+		return _ioAccess;
+	}
 }

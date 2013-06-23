@@ -18,12 +18,12 @@ package eniac.data.type;
  */
 public class Grid {
 
-    public int width;
+	public int width;
 
-    public int height;
+	public int height;
 
-    public Grid(int w, int h) {
-        width = w;
-        height = h;
-    }
+	public Grid(int w, int h) {
+		width = w;
+		height = h;
+	}
 }

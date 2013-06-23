@@ -24,16 +24,16 @@ import eniac.menu.action.gui.TextPanel;
  */
 public class About extends EAction {
 
-    /**
-     * @param e
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
+	/**
+	 * @param e
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
 
-        // create dialog that displays information
-        TextPanel panel = new TextPanel(Dictionary.ABOUT_TEXT.getText());
-        panel.init();
-        Manager.getInstance().makeDialog(panel, Dictionary.ABOUT_NAME.getText());
-        // dialog closed. Nothing to do any more
-    }
+		// create dialog that displays information
+		TextPanel panel = new TextPanel(Dictionary.ABOUT_TEXT.getText());
+		panel.init();
+		Manager.getInstance().makeDialog(panel, Dictionary.ABOUT_NAME.getText());
+		// dialog closed. Nothing to do any more
+	}
 }

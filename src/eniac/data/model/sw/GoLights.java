@@ -27,38 +27,38 @@ import eniac.data.view.EPanel;
  */
 public class GoLights extends Switch implements Observer {
 
-    /**
-     * @param type
-     */
-    public GoLights() {
-        // empty
-    }
+	/**
+	 * @param type
+	 */
+	public GoLights() {
+		// empty
+	}
 
-    public EPanel makePanel() {
+	public EPanel makePanel() {
 
-        // create golightsPanel
-        EPanel goLightsPanel = super.makePanel();
+		// create golightsPanel
+		EPanel goLightsPanel = super.makePanel();
 
-        // register golightspanel as observer at corresponding heaters
-        Configuration config = (Configuration) getParent();
-        Unit unit = config.getUnit(_gridNumbers[0]);
-        unit.getHeaters().addObserver(goLightsPanel);
+		// register golightspanel as observer at corresponding heaters
+		Configuration config = (Configuration) getParent();
+		Unit unit = config.getUnit(_gridNumbers[0]);
+		unit.getHeaters().addObserver(goLightsPanel);
 
-        // register this as observer at gobutton
-        EData goButton = unit.getGarten().getKind(EType.GO_BUTTON, 0);
-        goButton.addObserver(this);
+		// register this as observer at gobutton
+		EData goButton = unit.getGarten().getKind(EType.GO_BUTTON, 0);
+		goButton.addObserver(this);
 
-        // return goLightspanel
-        return goLightsPanel;
-    }
+		// return goLightspanel
+		return goLightsPanel;
+	}
 
-    /**
-     * @param o
-     * @param arg
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    public void update(Observable o, Object arg) {
-        toggleValue();
-    }
+	/**
+	 * @param o
+	 * @param arg
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
+	public void update(Observable o, Object arg) {
+		toggleValue();
+	}
 
 }
