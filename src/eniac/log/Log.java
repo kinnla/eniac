@@ -32,7 +32,7 @@ import eniac.util.StatusListener;
 public class Log implements StatusListener {
 
 	// containing all text that was passed to this logger
-	private StringBuffer _stringBuffer = new StringBuffer();
+	private StringBuilder _stringBuilder = new StringBuilder();
 
 	// vector containing all registered logListeners
 	private List<LogListener> _logListeners = new LinkedList<>();
@@ -71,7 +71,7 @@ public class Log implements StatusListener {
 	 * @return
 	 */
 	public String getText() {
-		return _stringBuffer.toString();
+		return _stringBuilder.toString();
 	}
 
 	/**
@@ -81,8 +81,8 @@ public class Log implements StatusListener {
 	 *            A string to be added to this logger
 	 */
 	private void addMessage(LogMessage message) {
-		_stringBuffer.append(message);
-		_stringBuffer.append('\n');
+		_stringBuilder.append(message);
+		_stringBuilder.append('\n');
 
 		// inform listeners
 		for (LogListener listener : _logListeners) {
@@ -94,7 +94,7 @@ public class Log implements StatusListener {
 	 * empties the Logger.
 	 */
 	public void clear() {
-		_stringBuffer = new StringBuffer();
+		_stringBuilder = new StringBuilder();
 
 		// inform listeners
 		for (LogListener listener : _logListeners) {

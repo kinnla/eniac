@@ -89,15 +89,15 @@ public class ConfigIO {
 		list.add(XMLUtil.wrapCloseTag(EData.Tag.ENIAC.name().toLowerCase()));
 
 		// convert list to stringbuffer
-		StringBuffer buf = new StringBuffer();
+		StringBuilder stringBuilder = new StringBuilder();
 		for (String s : list) {
-			buf.append(s);
-			buf.append('\n');
+			stringBuilder.append(s);
+			stringBuilder.append('\n');
 		}
 
 		// write stringbuffer to file.
 		Writer writer = IOUtil.openWriter(file);
-		writer.write(buf.toString());
+		writer.write(stringBuilder.toString());
 		writer.flush();
 		writer.close();
 	}
