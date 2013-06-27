@@ -87,7 +87,7 @@ public class XMLUtil {
 	}
 
 	public static String wrapAttribute(Enum<?> tag, String value) {
-		return " " + tag + "=\"" + value + "\""; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+		return " " + tag.name().toLowerCase() + "=\"" + value + "\""; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	public static String wrapOpenCloseTag(String tag) {
