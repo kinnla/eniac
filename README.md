@@ -2,8 +2,8 @@ eniac
 =====
 <p>
 A Java Simulation of the ENIAC, first universal digital electronic computer built 1944-1946.<br>
-You can run the simulation here: http://kinnla.github.io/eniac<br>
-A stable version can be found at: http://zuse-z1.zib.de/simulations/eniac/
+You can run the simulation here: https://kinnla.github.io/eniac<br>
+A stable version can be found at: https://zuse-z1.zib.de/simulations/eniac/
 </p>
 
 Copyright 2004-2013 Till Zoppke
@@ -19,4 +19,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
